@@ -33,9 +33,12 @@ const Dashboard = () => {
       <div className="w-full px-[40px] pt-10">
         <span className="text-titleColor font-bold text-3xl">Dashboard</span>
         <div className="grid xl:lg:grid-cols-3 md:grid-cols-2 gap-4 items-center pt-10">
-          {cardsData.map((card) => {
+          {cardsData.map((card, index) => {
             return (
-              <div className="bg-white h-full rounded-[12px] p-4 flex flex-row items-center justify-between font-[300]">
+              <div
+                key={index}
+                className="bg-white h-full rounded-[12px] p-4 flex flex-row items-center justify-between font-[300]"
+              >
                 <div className="flex flex-row items-center gap-6">
                   <Image src={card.icon} alt="" height={60} width={60} />
                   <div className="flex flex-col">
@@ -59,11 +62,11 @@ const Dashboard = () => {
         <div className="flex flex-row items-center justify-between gap-6 mt-10">
           <div className="border-b-[2px] flex-1 border-b-titleColor opacity-50" />
           <div className="w-[100px]">
-          <Select defaultValue={"All time"} size="small">
-            <MenuItem value="All time">All time</MenuItem>
-            <MenuItem value="last 7 day">last 7 days</MenuItem>
-            <MenuItem value="last month">last month</MenuItem>
-          </Select>
+            <Select defaultValue={"All time"} size="small">
+              <MenuItem value="All time">All time</MenuItem>
+              <MenuItem value="last 7 day">last 7 days</MenuItem>
+              <MenuItem value="last month">last month</MenuItem>
+            </Select>
           </div>
         </div>
       </div>
