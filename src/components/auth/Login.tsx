@@ -35,7 +35,7 @@ const Login = () => {
     <div>
       <form
         onSubmit={handleSubmit(handleLogin)}
-        className="text-fadeTextColor flex flex-col  my-2 min-w-[300px]"
+        className=" flex flex-col  my-2 min-w-[300px]"
       >
         <div className="flex flex-col gap-2 w-full items-center mb-2">
           <span className="font-extrabold text-3xl text-green-500 ">
