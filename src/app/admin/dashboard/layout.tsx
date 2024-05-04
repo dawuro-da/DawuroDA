@@ -11,14 +11,14 @@ export default async function AdminLayout({
 }>) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user.id) {
-    redirect("/admin/login");
+    redirect("/login");
   }
 
   return (
     <div className="flex flex-row h-screen w-screen relative">
       <Notifications />
       <Sidebar />
-      <div className="flex-1 max-w-full">{children}</div>
+      <div className="flex-1 max-w-full bg-[#f5f5f5]">{children}</div>
     </div>
   );
 }

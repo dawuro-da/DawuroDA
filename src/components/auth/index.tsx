@@ -3,18 +3,9 @@
 import { useState } from "react";
 import Login from "./Login";
 import SignUp from "./Signup";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 
 const Auth = () => {
-  const session = useSession();
   const [isLogin, setIsLogin] = useState(true);
-
-  if (session.data?.user?.role === "Member") {
-    redirect("members/dashboard");
-  } else if (session.data?.user?.id) {
-    redirect("/admin/dashboard");
-  }
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center bg-white h-screen w-screen">
