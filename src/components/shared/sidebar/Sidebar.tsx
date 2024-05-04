@@ -20,19 +20,19 @@ const menuItems = [
   },
   {
     name: "General Donation",
-    link: "/admin/dashboard/events",
+    link: "/admin/dashboard/donations",
     activeIcon: "/icons/donationactive.svg",
     icon: "/icons/donation.svg",
   },
   {
     name: "CMS",
-    link: "/admin/dashboard/customers",
+    link: "/admin/dashboard/cms",
     activeIcon: "/icons/cmsactive.svg",
     icon: "/icons/cms.svg",
   },
   {
     name: "SMS",
-    link: "/admin/dashboard/contact-us",
+    link: "/admin/dashboard/sms",
     activeIcon: "/icons/smsactive.svg",
     icon: "/icons/sms.svg",
   },
@@ -52,7 +52,7 @@ const Sidebar = () => {
         />
       )}
       <div
-        className="xl:lg:md:hidden absolute z-20 top-0 left-0 bg-[rgb(255,255,255,0.4)] text-white p-2 rounded-br-[16px]"
+        className="xl:lg:md:hidden absolute z-20 top-0 left-0 bg-primaryColor text-white p-2 rounded-br-[16px]"
         onClick={() => setMenuOpen(!menuOpen)}
       >
         <Menu />
@@ -96,7 +96,7 @@ const Sidebar = () => {
                         hover:bg-[rgb(255,255,255,0.4)]
                           ${
                             isActive
-                              ? "bg-[rgb(255,255,255,0.4)] text-[white] border-l-8 border-l-[white]"
+                              ? "bg-[rgb(255,255,255,0.4)] text-[white] border-l-8 border-l-[#fff]"
                               : "text-[#A7DEB8] "
                           }`}
               >

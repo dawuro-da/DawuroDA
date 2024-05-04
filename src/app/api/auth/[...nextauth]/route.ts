@@ -59,7 +59,7 @@ export const OPTIONS: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/admin/login",
+    signIn: "/login",
   },
   callbacks: {
     signIn({ user, account }) {
@@ -77,7 +77,7 @@ export const OPTIONS: NextAuthOptions = {
       }
     },
     redirect({ baseUrl }) {
-      return `${baseUrl}/admin/login`;
+      return `${baseUrl}/login`;
     },
     session({ session, token }) {
       const authUser = token as unknown as User;
