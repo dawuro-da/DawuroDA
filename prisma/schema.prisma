@@ -13,35 +13,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
 enum Gender {
-    Male
-    Female
+  Male
+  Female
 }
 
 enum UserRole {
-    SuperAdmin
-    Admin
+  SuperAdmin //this means owner
+  Admin
+  Member
 }
 
 model User {
-    id            String   @id @default(uuid())
-    firstName     String
-    lastName      String
-    userName      String
-    email         String   @unique
-    phone         String?  @unique
-    role          UserRole @default(Admin)
-    gender        Gender?
-    isApproved    Boolean
-    approvedBy    String?
-    password_salt String
-    password_hash String
+  id            String   @id @default(uuid())
+  firstName     String
+  lastName      String
+  userName      String
+  email         String   @unique
+  phone         String?  @unique
+  role          UserRole @default(Member)
+  gender        Gender?
+  isApproved    Boolean
+  approvedBy    String?
+  password_salt String
+  password_hash String
 
-    created_at   DateTime       @default(now())
-    updated_at   DateTime       @default(now()) @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
 
-    @@map(name: "users")
+  @@map(name: "users")
 }
 
+model ContactUs {
+  id       Int     @id @default(autoincrement())
+  fullName String
+  email    String
+  message  String
+  phone    String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+}
+
+model Subscriber {
+  id    Int    @id @default(autoincrement())
+  email String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+}
