@@ -1,5 +1,5 @@
-import WorkingOnPage from "@/components/shared/WorkingOnPage";
+import Donation from "@/components/donation/Donation";
 
 export default function DonationPage() {
-  return <WorkingOnPage />;
+  return <Donation />;
 }
