@@ -83,7 +83,7 @@ const Sidebar = () => {
               menu.name === menuItems[0].name //this check is necessary since the dashboard menu link is in all menu link
                 ? Boolean(path === menu.link)
                 : Boolean(path.includes(menu.link));
-
+            console.log({isActive})
             return (
               <div
                 key={menu.name}
@@ -92,12 +92,12 @@ const Sidebar = () => {
                   setMenuOpen(false);
                 }}
                 className={`flex flex-row items-center gap-6 w-full cursor-pointer text-[#A7DEB8]
-                        border-l-8 border-l-primaryColor py-3 px-6 mt-4 hover:text-white 
+                         py-3 px-6 mt-4 hover:text-white 
                         hover:bg-[rgb(255,255,255,0.4)]
                           ${
                             isActive
                               ? "bg-[rgb(255,255,255,0.4)] text-[white] border-l-8 border-l-[#fff]"
-                              : "text-[#A7DEB8] "
+                              : "text-[#A7DEB8] border-l-8 border-l-primaryColor"
                           }`}
               >
                 <Image
@@ -120,12 +120,12 @@ const Sidebar = () => {
                 setMenuOpen(false);
               }}
               className={`flex flex-row items-center gap-6 cursor-pointer mr-6
-                       border-l-8 border-l-primaryColor py-3 px-6 mt-4 hover:text-white
+                        py-3 px-6 mt-4 hover:text-white
                         hover:bg-[rgb(255,255,255,0.4)] text-[#A7DEB8]
                        ${
                          Boolean(path.includes("/admin/dashboard/setting"))
                            ? "bg-[rgb(255,255,255,0.4)] text-[white] border-l-8 border-l-[white]"
-                           : "text-[#A7DEB8] "
+                           : "text-[#A7DEB8] border-l-8 border-l-primaryColor "
                        }
                           `}
             >
