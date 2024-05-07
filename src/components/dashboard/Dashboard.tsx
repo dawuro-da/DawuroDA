@@ -7,8 +7,11 @@ import LineChartGraph from "./LineChartGraph";
 import PieChartGraph from "./PieChartGraph";
 import { useState } from "react";
 import StyledMenu from "../shared/StyledMenu";
+import RecentMembers from "./RecentMembers";
+import { useRouter } from "next/navigation";
 
 const Dashboard = () => {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const open = Boolean(anchorEl);
 
@@ -87,8 +90,8 @@ const Dashboard = () => {
           </div>
           <div className="flex flex-row items-center justify-between gap-6 mt-10">
             <div className="border-b-[1px] flex-1 border-b-titleColor opacity-50" />
-            <div className="w-[100px]">
-              <Select defaultValue={"All time"} size="small">
+            <div className="w-[130px]">
+              <Select className="w-full" defaultValue={"All time"} size="small">
                 <MenuItem value="All time">All time</MenuItem>
                 <MenuItem value="last 7 day">last 7 days</MenuItem>
                 <MenuItem value="last month">last month</MenuItem>
@@ -102,8 +105,12 @@ const Dashboard = () => {
                   Membership Growth Analytics
                 </span>
                 <div className="flex flex-row items-center gap-4">
-                  <div className="w-[100px]">
-                    <Select defaultValue={"All time"} size="small">
+                  <div className="w-[130px]">
+                    <Select
+                      className="w-full"
+                      defaultValue={"All time"}
+                      size="small"
+                    >
                       <MenuItem value="All time">All time</MenuItem>
                       <MenuItem value="last 7 day">last 7 days</MenuItem>
                       <MenuItem value="last month">last month</MenuItem>
@@ -127,8 +134,12 @@ const Dashboard = () => {
                   Members Payment Status
                 </span>
                 <div className="flex flex-row items-center gap-4">
-                  <div className="w-[100px]">
-                    <Select defaultValue={"All time"} size="small">
+                  <div className="w-[130px]">
+                    <Select
+                      className="w-full"
+                      defaultValue={"All time"}
+                      size="small"
+                    >
                       <MenuItem value="All time">All time</MenuItem>
                       <MenuItem value="last 7 day">last 7 days</MenuItem>
                       <MenuItem value="last month">last month</MenuItem>
@@ -154,13 +165,16 @@ const Dashboard = () => {
               Recently Registered Members
             </span>
             <Button
+              onClick={() => router.push("/admin/dashboard/members")}
               variant={"outlined"}
               className="text-titleColor capitalize border-[1px] border-titleColor font-bold min-w-[130px]"
             >
               All Members
             </Button>
           </div>
-          <div className="h-32"></div>
+          <div className="mt-6 w-full h-auto">
+            <RecentMembers />
+          </div>
         </div>
       </div>
     </>
