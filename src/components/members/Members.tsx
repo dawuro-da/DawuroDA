@@ -461,4 +461,5 @@ const selectStyle = {
   ".MuiOutlinedInput-notchedOutline": {
     border: 0,
   },
+  color: "#555555",
 };
