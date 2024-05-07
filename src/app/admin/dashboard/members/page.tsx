@@ -1,5 +1,5 @@
-import WorkingOnPage from "@/components/shared/WorkingOnPage";
+import Members from "@/components/members/Members";
 
 export default function MembersPage() {
-  return <WorkingOnPage />;
+  return <Members />;
 }
