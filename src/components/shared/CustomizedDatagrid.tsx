@@ -143,7 +143,7 @@ const paginationBtnStyle = {
   flexDirection: "row",
   alignItems: "center",
   border: "1px solid",
-  padding: 1,
+  padding: 0.4,
 };
 
 /**
@@ -188,7 +188,7 @@ const CustomizedDatagrid = ({
 
   function CustomPagination(paginProps: any) {
     return (
-      <div className="flex flex-row items-center justify-between w-full py-6">
+      <div className="flex lg:flex-row md:flex-row xl:flex-row flex-col-reverse lg:items-center xl:items-center md:items-center gap-4 justify-between w-full py-6">
         <Button
           variant="contained"
           className="bg-primaryColor text-white px-10 py-2 font-bold min-w-64"

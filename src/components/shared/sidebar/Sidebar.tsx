@@ -69,6 +69,7 @@ const Sidebar = () => {
           >
             <Image
               src={"/icons/logo.svg"}
+              priority
               alt="logo"
               height={100}
               width={160}
@@ -83,7 +84,6 @@ const Sidebar = () => {
               menu.name === menuItems[0].name //this check is necessary since the dashboard menu link is in all menu link
                 ? Boolean(path === menu.link)
                 : Boolean(path.includes(menu.link));
-            console.log({isActive})
             return (
               <div
                 key={menu.name}

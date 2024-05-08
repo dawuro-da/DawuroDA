@@ -44,6 +44,64 @@ model User {
   @@map(name: "users")
 }
 
+enum MembershipLevel {
+  Premium
+  Diamond
+  Gold
+  Siliver
+  Bronze
+  Standard
+}
+
+enum ContributionSystem {
+  Monthly
+  Quarterly
+  Yearly
+}
+
+enum MembershipType {
+  Individual
+  Company
+}
+
+model Member {
+  id                 String             @id @default(uuid())
+  memberId           String             @unique
+  phone              String             @unique
+  email              String             @unique
+  membershipLevel    MembershipLevel    @default(Siliver)
+  contributionAmount Int
+  contributionSystem ContributionSystem @default(Monthly)
+  lastPaidAt         DateTime
+  nextDueDate        DateTime
+  hasPaid            Boolean
+  membershipType     MembershipType
+
+  password_salt String
+  password_hash String
+
+  region String
+  zone   String
+  city   String
+
+  companyName  String?
+  kebele       String?
+  registeredBy String? //admin id that registred this member or null
+  firstName    String?
+  lastName     String?
+
+  gender         Gender?
+  educationLevel String?
+  expertise      String?
+  positionAtWork String?
+  dateOfBirth    String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "members")
+}
+
 model ContactUs {
   id       Int     @id @default(autoincrement())
   fullName String

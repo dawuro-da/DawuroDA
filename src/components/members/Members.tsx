@@ -17,6 +17,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import { getFormattedDateFromTimestamp } from "@/util/date";
 import { useRouter } from "next/navigation";
 import { Close, SearchOutlined } from "@mui/icons-material";
+import { MembershipLevel } from "@prisma/client";
 
 const Members = () => {
   const router = useRouter();
@@ -35,7 +36,7 @@ const Members = () => {
   };
 
   useEffect(() => {
-    // fetchMembers();
+    fetchMembers();
     if (window.innerWidth < 900) {
       setIsSmScreen(true);
     }
@@ -46,8 +47,8 @@ const Members = () => {
   return (
     <div className="h-full w-full overflow-y-auto">
       <PageHeader />
-      <div className="px-[40px] py-10 w-full flex flex-col flex-1 ">
-        <div className="flex flex-row items-center justify-between">
+      <div className="lg:px-[40px] md:px-[40px] px-[20px] py-10 w-full flex flex-col flex-1 ">
+        <div className="flex xl:lg:flex-row md:flex-row flex-col xl:lg:items-center md:items-center justify-between gap-2">
           <span className="text-titleColor font-bold text-3xl">
             Members List
           </span>
@@ -76,8 +77,8 @@ const Members = () => {
         </div>
         <div className="mt-10 w-full flex flex-col gap-2">
           <small className="text-[#B3B3B3]">Filter by:</small>
-          <div className="flex flex-row items-center justify-between w-full">
-            <div className="grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2 gap-2">
+          <div className="flex xl:lg:flex-row md:flex-row flex-col items-center xl:lg:justify-between md:justify-between w-full">
+            <div className="grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2  gap-2">
               <div className="w-[190px] bg-white">
                 <Select
                   className="w-full"
@@ -129,7 +130,7 @@ const Members = () => {
                 </Select>
               </div>
             </div>
-            <div>
+            <div className="xl:lg:md:mt-0 mt-2">
               <TextField
                 fullWidth
                 id="navbar-searchfield"
@@ -140,7 +141,6 @@ const Members = () => {
                 onChange={(e) => setSearchValue(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    console.log(e);
                   }
                 }}
                 hiddenLabel
@@ -171,7 +171,7 @@ const Members = () => {
           </div>
           <div className="border-b-[1px] flex-1 border-b-titleColor opacity-25 mt-2" />
           <small className="text-[#B3B3B3]">Applied filters:</small>
-          <div className="flex flex-row gap-2 italic text-[#555555]">
+          <div className="xl:flex xl:flex-row lg:flex lg:flex-row md:flex md:flex-row grid grid-cols-2 gap-2 italic text-[#555555]">
             <small className="bg-white px-4 py-1 w-fit flex flex-row items-center gap-2">
               <Close style={{ height: "80%" }} />
               <span>
@@ -201,8 +201,8 @@ const Members = () => {
         <div className="mt-10 w-full h-[510px]">
           <CustomizedDatagrid
             columns={getColumnDefinition({ onConfirm, isSmScreen: isSmScreen })}
-            rows={rows ?? []}
-            loading={false}
+            rows={members ?? []}
+            loading={loading}
             onRowClick={() => {}}
             totalCount={10}
             onPageChange={() => {}}
@@ -233,7 +233,7 @@ const getColumnDefinition = ({
           headerAlign: "center",
         },
         {
-          field: "fullName",
+          field: "firstName",
           headerName: "Full Name",
           flex: 1,
           minWidth: 110,
@@ -242,14 +242,16 @@ const getColumnDefinition = ({
             return (
               <span className="flex flex-row items-center gap-2 ">
                 <Avatar sizes="small" src="" />
-                <span>{params.value}</span>
+                <span>
+                  {params.row.firstName} {params.row.lastName}
+                </span>
               </span>
             );
           },
         },
         {
-          field: "memberLevel",
-          headerName: "Member Level",
+          field: "membershipLevel",
+          headerName: "Membership Level",
           flex: 1,
           minWidth: 110,
           headerAlign: "center",
@@ -258,10 +260,12 @@ const getColumnDefinition = ({
               <div className="flex flex-row items-center gap-2 justify-center h-full">
                 <span
                   className={`flex flex-row items-center justify-center w-fit ${
-                    params.value === "Gold"
+                    params.value === MembershipLevel.Premium
                       ? "bg-green-500"
-                      : params.value === "Silver"
-                      ? "bg-slate-500"
+                      : params.value === MembershipLevel.Diamond
+                      ? "bg-indigo-400"
+                      : params.value === MembershipLevel.Gold
+                      ? "bg-orange-400"
                       : "bg-red-950"
                   } text-white rounded-[8px] min-w-20 text-center px-4 h-8 `}
                 >
@@ -282,10 +286,10 @@ const getColumnDefinition = ({
               <div className="flex flex-row items-center gap-2 justify-center h-full">
                 <span
                   className={`flex flex-row items-center justify-center w-fit ${
-                    params.value === "Paid" ? "bg-[#34A858B2]" : "bg-red-200"
+                    params.value ? "bg-[#34A858B2]" : "bg-red-200"
                   } text-white rounded-[8px] min-w-20 text-center px-4 h-8 `}
                 >
-                  {params.value}
+                  {params.value ? "Paid" : "Unpaid"}
                 </span>
               </div>
             );
@@ -293,7 +297,7 @@ const getColumnDefinition = ({
         },
 
         {
-          field: "timestamp",
+          field: "lastPaidAt",
           headerName: "Timestamp",
           flex: 1,
           minWidth: 110,
@@ -306,8 +310,8 @@ const getColumnDefinition = ({
           headerName: "Actions",
           flex: 1,
           align: "center",
-          maxWidth: 80,
-          minWidth: 80,
+          maxWidth: 120,
+          minWidth: 120,
           renderCell: (params) => {
             return (
               <div className="flex flex-row h-full w-full justify-center">
@@ -324,16 +328,26 @@ const getColumnDefinition = ({
       ]
     : [
         {
-          field: "fullName",
+          field: "memberId",
+          headerName: "MemberId",
+          flex: 1,
+          minWidth: 110,
+          align: "center",
+          headerAlign: "center",
+        },
+        {
+          field: "firstName",
           headerName: "Full Name",
           flex: 1,
           minWidth: 110,
-          headerAlign: "center",
+
           renderCell: (params) => {
             return (
               <span className="flex flex-row items-center gap-2 ">
                 <Avatar sizes="small" src="" />
-                <span>{params.value}</span>
+                <span>
+                  {params.row.firstName} {params.row.lastName}
+                </span>
               </span>
             );
           },
@@ -343,13 +357,18 @@ const getColumnDefinition = ({
           headerName: "Paid",
           flex: 1,
           minWidth: 110,
+          headerAlign: "center",
           renderCell: (params) => {
             return (
-              <span className="flex flex-row items-center gap-2">
-                <span className="w-fit bg-[#34A858B2] text-white rounded-[8px] min-w-12 text-center h-fit">
-                  {params.value}
+              <div className="flex flex-row items-center gap-2 justify-center h-full">
+                <span
+                  className={`flex flex-row items-center justify-center w-fit ${
+                    params.value ? "bg-[#34A858B2]" : "bg-red-200"
+                  } text-white rounded-[8px] min-w-20 text-center px-4 h-8 `}
+                >
+                  {params.value ? "Paid" : "Unpaid"}
                 </span>
-              </span>
+              </div>
             );
           },
         },
@@ -374,89 +393,6 @@ const getColumnDefinition = ({
           },
         },
       ];
-
-const rows = [
-  {
-    id: 1,
-    memberId: 1001,
-    fullName: "John Doe",
-    memberLevel: "Gold",
-    hasPaid: "Paid",
-    timestamp: "2023-12-25T12:30:00Z",
-  },
-  {
-    id: 2,
-    memberId: 1002,
-    fullName: "Jane Smith",
-    memberLevel: "Silver",
-    hasPaid: "Unpaid",
-    timestamp: "2023-12-26T09:45:00Z",
-  },
-  {
-    id: 3,
-    memberId: 1003,
-    fullName: "Michael Johnson",
-    memberLevel: "Gold",
-    hasPaid: "Paid",
-    timestamp: "2023-12-27T15:20:00Z",
-  },
-  {
-    id: 4,
-    memberId: 1004,
-    fullName: "Emily Wilson",
-    memberLevel: "Bronze",
-    hasPaid: "Paid",
-    timestamp: "2023-12-28T11:10:00Z",
-  },
-  {
-    id: 5,
-    memberId: 1005,
-    fullName: "David Brown",
-    memberLevel: "Silver",
-    hasPaid: "Unpaid",
-    timestamp: "2023-12-29T14:55:00Z",
-  },
-  {
-    id: 6,
-    memberId: 1006,
-    fullName: "Olivia Martinez",
-    memberLevel: "Gold",
-    hasPaid: "Paid",
-    timestamp: "2023-12-30T17:40:00Z",
-  },
-  {
-    id: 7,
-    memberId: 1007,
-    fullName: "William Rodriguez",
-    memberLevel: "Gold",
-    hasPaid: "Paid",
-    timestamp: "2023-12-31T10:25:00Z",
-  },
-  {
-    id: 8,
-    memberId: 1008,
-    fullName: "Emma Taylor",
-    memberLevel: "Silver",
-    hasPaid: "Unpaid",
-    timestamp: "2024-01-01T13:15:00Z",
-  },
-  {
-    id: 9,
-    memberId: 1009,
-    fullName: "James Wilson",
-    memberLevel: "Gold",
-    hasPaid: "Paid",
-    timestamp: "2024-01-02T16:05:00Z",
-  },
-  {
-    id: 10,
-    memberId: 1010,
-    fullName: "Sophia Brown",
-    memberLevel: "Bronze",
-    hasPaid: "Unpaid",
-    timestamp: "2024-01-03T19:00:00Z",
-  },
-];
 
 const selectStyle = {
   ".MuiOutlinedInput-notchedOutline": {

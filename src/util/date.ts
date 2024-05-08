@@ -12,3 +12,36 @@ export function getFormattedDateFromTimestamp(dateString: string) {
 
   return timestamp;
 }
+
+export function calculateNextDueDate({
+  fromDate,
+  contributionSystem,
+}: {
+  fromDate: string|Date;
+  contributionSystem: string;
+}) {
+  const fromDateObj = new Date(fromDate);
+
+  // Calculate the next due date based on the contribution system
+  switch (contributionSystem.toLowerCase()) {
+    case "monthly":
+      // Calculate next month's due date
+      const nextMonthDate = new Date(fromDateObj);
+      nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
+      return nextMonthDate;
+    case "quarterly":
+      // Calculate next quarter's due date
+      const nextQuarterDate = new Date(fromDateObj);
+      nextQuarterDate.setMonth(nextQuarterDate.getMonth() + 3);
+      return nextQuarterDate;
+    case "yearly":
+      // Calculate next year's due date
+      const nextYearDate = new Date(fromDateObj);
+      nextYearDate.setFullYear(nextYearDate.getFullYear() + 1);
+      return nextYearDate;
+    default:
+      throw new Error(
+        "Invalid contribution system. Supported values are 'monthly', 'quarterly', and 'yearly'."
+      );
+  }
+}

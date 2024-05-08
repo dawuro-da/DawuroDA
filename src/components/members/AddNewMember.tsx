@@ -1,15 +1,25 @@
 "use client";
 
-import { Button, MenuItem, Select, Switch, TextField } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  MenuItem,
+  Select,
+  Switch,
+  TextField,
+} from "@mui/material";
 import PageHeader from "../shared/PageHeader";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { showToastAction } from "@/redux/actions";
+import { ContributionSystem, MembershipLevel } from "@prisma/client";
 
 const AddNewMember = () => {
   const router = useRouter();
-  const [registrationError, setRegistrationError] = useState<string>("");
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
@@ -18,17 +28,21 @@ const AddNewMember = () => {
   } = useForm();
 
   const handleRegister = async (values: FieldValues) => {
-    const { email, password } = values;
     setLoading(true);
     try {
-      const res = await axios.post("/api/members/register", values);
+      const res = await axios.post("/api/member/register", values);
 
       if (res?.status === 200) {
         router.push("/admin/dashboard/members");
       }
     } catch (err: any) {
       console.error(err);
-      setRegistrationError(err?.response?.data?.error);
+      dispatch(
+        showToastAction({
+          message: err?.response?.data?.error ?? "something went wrong",
+          type: "error",
+        })
+      );
     }
     setLoading(false);
   };
@@ -85,8 +99,21 @@ const AddNewMember = () => {
               </span>
               <TextField
                 size="small"
-                {...register("phoneNumber", {
+                {...register("phone", {
                   required: "Phone Number is required",
+                })}
+                type="text"
+                placeholder=""
+                className="border-2 rounded-[16px] py-2"
+                inputProps={{ style: { padding: 10 } }}
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-titleColor text-sm font-bold">Email</span>
+              <TextField
+                size="small"
+                {...register("email", {
+                  required: "Email is required",
                 })}
                 type="text"
                 placeholder=""
@@ -173,13 +200,28 @@ const AddNewMember = () => {
               </span>
               <div className="min-w-[130px]">
                 <Select
+                  {...register("membershipLevel", {
+                    required: "Membership Level is required",
+                  })}
                   className="w-full p-[1px]"
                   defaultValue={""}
                   size="small"
                 >
-                  <MenuItem value="membershipLevel">premium</MenuItem>
-                  <MenuItem value="last 7 day">last 7 days</MenuItem>
-                  <MenuItem value="last month">last month</MenuItem>
+                  <MenuItem value={MembershipLevel?.Premium}>
+                    {MembershipLevel?.Premium}
+                  </MenuItem>
+                  <MenuItem value={MembershipLevel?.Diamond}>
+                    {MembershipLevel?.Diamond}
+                  </MenuItem>
+                  <MenuItem value={MembershipLevel?.Gold}>
+                    {MembershipLevel?.Gold}
+                  </MenuItem>
+                  <MenuItem value={MembershipLevel?.Siliver}>
+                    {MembershipLevel?.Siliver}
+                  </MenuItem>
+                  <MenuItem value={MembershipLevel?.Bronze}>
+                    {MembershipLevel?.Bronze}
+                  </MenuItem>
                 </Select>
               </div>
             </div>
@@ -192,10 +234,19 @@ const AddNewMember = () => {
                   className="w-full p-[1px]"
                   defaultValue={""}
                   size="small"
+                  {...register("contributionSystem", {
+                    required: "Contribution System is required",
+                  })}
                 >
-                  <MenuItem value="membershipLevel">premium</MenuItem>
-                  <MenuItem value="last 7 day">last 7 days</MenuItem>
-                  <MenuItem value="last month">last month</MenuItem>
+                  <MenuItem value={ContributionSystem?.Yearly}>
+                    {ContributionSystem?.Yearly}
+                  </MenuItem>
+                  <MenuItem value={ContributionSystem?.Quarterly}>
+                    {ContributionSystem?.Quarterly}
+                  </MenuItem>
+                  <MenuItem value={ContributionSystem?.Monthly}>
+                    {ContributionSystem?.Monthly}
+                  </MenuItem>
                 </Select>
               </div>
             </div>
@@ -218,21 +269,19 @@ const AddNewMember = () => {
               <span className="text-titleColor text-sm font-bold">
                 Contribution Amount
               </span>
-              <div className="min-w-[130px]">
-                <TextField
-                  select
-                  className="w-full p-[1px]"
-                  defaultValue={""}
-                  size="small"
-                  helperText={
-                    "As per your Premium Level membership, the contribution amount is >=100"
-                  }
-                >
-                  <MenuItem value="membershipLevel">premium</MenuItem>
-                  <MenuItem value="last 7 day">last 7 days</MenuItem>
-                  <MenuItem value="last month">last month</MenuItem>
-                </TextField>
-              </div>
+              <TextField
+                size="small"
+                {...register("contributionAmount", {
+                  required: "Contribution Amount is required",
+                })}
+                type="number"
+                placeholder=""
+                className="border-2 rounded-[16px] "
+                inputProps={{ style: { padding: 10 } }}
+                helperText={
+                  "As per your Premium Level membership, the contribution amount is >=100"
+                }
+              />
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-titleColor text-sm font-bold">
@@ -268,16 +317,21 @@ const AddNewMember = () => {
           <div className="flex flex-row items-center justify-between gap-6 my-6">
             <span className="font-bold flex flex-row items-center gap-6">
               <span>Payment</span>
-              <Switch defaultChecked={false} {...register("paymentStatus")} />
+              <Switch defaultChecked={false} {...register("hasPaid")} />
             </span>
             <div className="border-b-[1px] flex-1 border-b-titleColor opacity-25" />
           </div>
           <div className="mt-6">
             <Button
+              type="submit"
               variant="contained"
-              className="bg-primaryColor text-white px-10 py-4 font-bold min-w-64"
+              className="bg-primaryColor text-white px-10 py-4 font-bold w-[250px] h-[60px]"
             >
-              Register
+              {loading ? (
+                <CircularProgress className="text-white" />
+              ) : (
+                "Register"
+              )}
             </Button>
           </div>
         </form>
