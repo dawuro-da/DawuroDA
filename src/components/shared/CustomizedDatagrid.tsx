@@ -189,7 +189,10 @@ const CustomizedDatagrid = ({
   function CustomPagination(paginProps: any) {
     return (
       <div className="flex flex-row items-center justify-between w-full py-6">
-        <Button variant="contained" className="bg-primaryColor text-white">
+        <Button
+          variant="contained"
+          className="bg-primaryColor text-white px-10 py-2 font-bold min-w-64"
+        >
           Generate Report
         </Button>
         <Pagination
@@ -316,7 +319,6 @@ export const datagridStyle = {
     background: "#DCF5E4",
     borderBottom: "none",
     borderRadius: "none",
-   
   },
   "& .MuiDataGrid-cell": {
     color: "#757575",

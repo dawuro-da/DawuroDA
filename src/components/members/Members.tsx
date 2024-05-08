@@ -60,8 +60,9 @@ const Members = () => {
               </Select>
             </div>
             <Button
+              onClick={() => router.push("/admin/dashboard/members/add-member")}
               variant="contained"
-              className="border-none bg-primaryColor text-white capitalize flex flex-row items-center gap-2 shadow-none"
+              className=" font-bold border-none bg-primaryColor text-white capitalize flex flex-row items-center gap-2 shadow-none"
             >
               <span>Add Member</span>
               <Image
