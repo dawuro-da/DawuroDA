@@ -276,7 +276,7 @@ const CustomizedDatagrid = ({
           />
         ),
       }}
-      onRowClick={(params) => {
+      onRowClick={(params, event) => {
         if (onRowClick) onRowClick(params.row);
       }}
       disableDensitySelector

@@ -4,7 +4,8 @@ import { getServerSession } from "next-auth";
 import { OPTIONS } from "../../auth/[...nextauth]/route";
 import { MembershipType, UserRole } from "@prisma/client";
 import {
-  createMember,
+  createIndividualMember,
+  createInstitutionMember,
   findMemberByEmail,
   findMemberByPhone,
 } from "@/db/member";
@@ -26,24 +27,33 @@ async function hashPassword(
 
 export async function POST(req: Request) {
   const {
-    firstName,
-    lastName,
-    gender,
     email,
     phone,
-    zone,
-    city,
+    membershipLevel,
     contributionAmount,
     contributionSystem,
     hasPaid,
-    membershipLevel,
-    membershipType,
     region,
-    companyName,
-    dateOfBirth,
-    expertise,
+    city,
+    zone,
     kebele,
     positionAtWork,
+    paymentMeans,
+    membershipType,
+    firstName,
+    lastName,
+    gender,
+    expertise,
+    dateOfBirth,
+    institutionName,
+    headOrRepresentative,
+    fieldOfWork,
+    partnershipIdea,
+    educationLevel,
+    workPlace,
+    profileImage,
+    idNumber,
+    branch,
   } = await req.json();
 
   const session = await getServerSession(OPTIONS);
@@ -88,38 +98,62 @@ export async function POST(req: Request) {
       );
 
     try {
-      const memberId = await generateMemberId();
+      const memberId = generateMemberId();
       const date = new Date(Date.now());
-      const memberData = {
-        memberId,
-        firstName,
-        lastName,
-        gender,
-        registeredBy: session.user.id,
+
+      const sharedMember = {
         email,
         phone,
-        zone,
-        city,
-        contributionAmount: parseInt(contributionAmount),
+        membershipLevel,
         contributionSystem,
         hasPaid,
+        region,
+        city,
+        zone,
+        kebele,
+        positionAtWork,
+        paymentMeans,
+        memberId,
+        registeredBy: session.user.id,
+        contributionAmount: parseInt(contributionAmount),
         lastPaidAt: date.toISOString(),
-        membershipType: MembershipType.Individual,
-        membershipLevel,
+        membershipType,
         nextDueDate: calculateNextDueDate({
           fromDate: date,
           contributionSystem,
         })?.toISOString(),
-        region,
-        companyName,
-        dateOfBirth,
-        expertise,
-        kebele,
-        positionAtWork,
         password_hash: hashedPassword,
         password_salt: salt,
       };
-      const result = await createMember(memberData);
+
+      let result;
+      if (membershipType === MembershipType.Individual) {
+        result = await createIndividualMember({
+          individualData: {
+            ...sharedMember,
+            firstName,
+            lastName,
+            gender,
+            educationLevel,
+            expertise,
+            dateOfBirth,
+            workPlace,
+            profileImage:'/icons/cms.svg',
+            idNumber,
+            branch,
+          },
+        });
+      } else if (membershipType === MembershipType.Company) {
+        result = await createInstitutionMember({
+          institutionData: {
+            ...sharedMember,
+            institutionName,
+            headOrRepresentative,
+            fieldOfWork,
+            partnershipIdea,
+          },
+        });
+      }
 
       if (result) {
         return NextResponse.json(
