@@ -1,3 +1,5 @@
+import EditMember from "@/components/members/editMember/EditMember";
+
 export default function EditMembers() {
-  return <div>member edit page</div>;
+  return <EditMember />;
 }

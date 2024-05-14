@@ -11,38 +11,68 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import PageHeader from "../shared/PageHeader";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import PageHeader from "../../shared/PageHeader";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
 import IndividualMember from "./IndividualMember";
 import InstitutionMember from "./InstitutionMember";
-import { MembershipType } from "@prisma/client";
+import { Member, MembershipType } from "@prisma/client";
 
-const AddNewMember = () => {
+const EditMember = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
+  const [member, setMember] = useState<Member>();
   const [membershipType, setMembershipType] = useState<string>(
-    MembershipType.Individual
+    member?.membershipType ? member.membershipType : MembershipType.Individual
   );
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    watch,
-  } = useForm();
+  const { register, handleSubmit, watch } = useForm({
+    defaultValues: async () => {
+      const res = await axios.get(`/api/member/fetch/${id}`);
 
+      if (res?.status === 200) {
+        setMember(res.data.value);
+      }
+      return res.data.value;
+    },
+  });
+
+  // const fetchSingleMember = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const res = await axios.get(`/api/member/fetch/${id}`);
+
+  //     if (res?.status === 200) {
+  //       setMember(res.data.value);
+  //     }
+  //   } catch (err: any) {
+  //     console.error(err);
+  //     dispatch(
+  //       showToastAction({
+  //         message: err?.response?.data?.error ?? "something went wrong",
+  //         type: "error",
+  //       })
+  //     );
+  //   }
+  //   setLoading(false);
+  // };
+
+  useEffect(() => {
+    if (member?.membershipType) {
+      setMembershipType(member?.membershipType);
+    }
+  }, [member]);
+  // console.log("hap++++++++++++++++++++++", watch("hasPaid"));
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
     try {
       const res = await axios.post("/api/member/register", {
         ...values,
-        membershipType: membershipType,
       });
 
       if (res?.status === 200) {
@@ -65,16 +95,12 @@ const AddNewMember = () => {
       <PageHeader />
       <div className="px-[40px] w-full flex flex-col mt-10">
         <span className="text-titleColor font-bold text-3xl">
-          New Member Registration Form
+          Edit Member Registration Form
         </span>
         <form onSubmit={handleSubmit(handleRegister)} className="mb-12">
           <div className="flex flex-col w-full my-10">
             <RadioGroup
               value={membershipType}
-              onChange={(e) => {
-                setMembershipType(e.target.value);
-                reset();
-              }}
               className="flex flex-row items-center gap-6 mb-6"
             >
               <span className="font-bold">Membership Type</span>
@@ -91,7 +117,7 @@ const AddNewMember = () => {
                 className="text-titleColor"
               />
             </RadioGroup>
-            {membershipType === MembershipType.Individual ? (
+            {member?.membershipType === MembershipType.Individual ? (
               <IndividualMember register={register} watch={watch} />
             ) : (
               <InstitutionMember register={register} watch={watch} />
@@ -99,7 +125,10 @@ const AddNewMember = () => {
             <div className="flex flex-row items-center justify-between gap-6 my-4">
               <span className="font-bold flex flex-row items-center gap-6">
                 <span>Payment</span>
-                <Switch defaultChecked={false} {...register("hasPaid")} />
+                <Switch
+                  defaultChecked={watch("hasPaid") === "true" ? true : false}
+                  {...register("hasPaid")}
+                />
               </span>
               <div className="border-b-[1px] flex-1 border-b-titleColor opacity-25" />
             </div>
@@ -117,11 +146,7 @@ const AddNewMember = () => {
               variant="contained"
               className="bg-primaryColor text-white px-10 py-4 font-bold w-[250px] h-[60px]"
             >
-              {loading ? (
-                <CircularProgress className="text-white" />
-              ) : (
-                "Register"
-              )}
+              {loading ? <CircularProgress className="text-white" /> : "Save"}
             </Button>
           </div>
         </form>
@@ -130,4 +155,4 @@ const AddNewMember = () => {
   );
 };
 
-export default AddNewMember;
+export default EditMember;

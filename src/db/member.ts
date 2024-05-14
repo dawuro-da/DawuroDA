@@ -6,6 +6,7 @@ import {
   MembershipLevel,
   ContributionSystem,
   MembershipType,
+  PaymentMeans,
 } from "@prisma/client";
 
 export async function findMemberByEmail(email: string): Promise<Member | null> {
@@ -13,6 +14,19 @@ export async function findMemberByEmail(email: string): Promise<Member | null> {
     return await prisma.member.findUnique({
       where: {
         email,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+export async function findById(id: string): Promise<Member | null> {
+  try {
+    return await prisma.member.findUnique({
+      where: {
+        id,
       },
     });
   } catch (err) {
@@ -42,8 +56,8 @@ export async function findMemberById(id: string): Promise<Member | null> {
   });
 }
 
-export interface MemberDataType {
-  email: string;
+export interface MemberSharedDataType {
+  email?: string;
   phone: string;
   membershipLevel: MembershipLevel;
   contributionAmount: number;
@@ -56,74 +70,33 @@ export interface MemberDataType {
   city: string;
   zone: string;
   kebele?: string;
-  companyName?: string;
-  firstName?: string;
-  lastName?: string;
-  gender?: Gender;
-  expertise?: string;
-  positionAtWork?: string;
-  dateOfBirth?: string;
-  registeredBy?: string;
-}
-
-export async function createMember({
-  firstName,
-  lastName,
-  gender,
-  registeredBy,
-  email,
-  phone,
-  zone,
-  city,
-  contributionAmount,
-  contributionSystem,
-  hasPaid,
-  lastPaidAt,
-  membershipLevel,
-  membershipType,
-  nextDueDate,
-  region,
-  companyName,
-  dateOfBirth,
-  expertise,
-  kebele,
-  positionAtWork,
-  password_hash,
-  password_salt,
-  memberId,
-}: MemberDataType & {
+  positionAtWork: string;
+  registeredBy: string;
+  paymentMeans: PaymentMeans;
   memberId: string;
   password_hash: string;
   password_salt: string;
+}
+
+export async function createIndividualMember({
+  individualData,
+}: {
+  individualData: MemberSharedDataType & {
+    firstName: string;
+    lastName: string;
+    gender: Gender;
+    educationLevel: string;
+    expertise: string;
+    dateOfBirth: string;
+    workPlace: string;
+    profileImage: string;
+    idNumber: string;
+    branch: string;
+  };
 }) {
   try {
     const member = await prisma.member.create({
-      data: {
-        memberId,
-        firstName,
-        lastName,
-        gender,
-        registeredBy,
-        email,
-        phone,
-        zone,
-        city,
-        contributionAmount,
-        contributionSystem,
-        hasPaid,
-        lastPaidAt,
-        membershipLevel,
-        membershipType,
-        nextDueDate,
-        region,
-        companyName,
-        dateOfBirth,
-        expertise,
-        kebele,
-        positionAtWork,
-        password_hash,
-        password_salt,
-      },
+      data: { ...individualData },
     });
 
     return member;
@@ -136,9 +109,73 @@ export async function createMember({
   }
 }
 
-export async function updateMember(
-  memberData: MemberDataType & { id: string }
-) {
+export async function createInstitutionMember({
+  institutionData,
+}: {
+  institutionData: MemberSharedDataType & {
+    institutionName: string;
+    headOrRepresentative: string;
+    fieldOfWork: string;
+    partnershipIdea: string;
+  };
+}) {
+  try {
+    const member = await prisma.member.create({
+      data: { ...institutionData },
+    });
+
+    return member;
+  } catch (error) {
+    console.error(error);
+
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      throw error;
+    }
+  }
+}
+
+export async function updateIndividualMember({
+  memberData,
+}: {
+  memberData: MemberSharedDataType & {
+    id: string;
+    firstName: string;
+    lastName: string;
+    gender: Gender;
+    educationLevel: string;
+    expertise: string;
+    dateOfBirth: string;
+    workPlace: string;
+    profileImage: string;
+    idNumber: string;
+    branch: string;
+  };
+}) {
+  try {
+    const member = await prisma.member.update({
+      where: { id: memberData.id },
+      data: memberData,
+    });
+
+    return member;
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      throw error;
+    }
+  }
+}
+
+export async function updateInstitutionMember({
+  memberData,
+}: {
+  memberData: MemberSharedDataType & {
+    id: string;
+    institutionName: string;
+    headOrRepresentative: string;
+    fieldOfWork: string;
+    partnershipIdea: string;
+  };
+}) {
   try {
     const member = await prisma.member.update({
       where: { id: memberData.id },
@@ -197,7 +234,7 @@ export async function searchMembers({
         },
       },
       {
-        companyName: {
+        institutionName: {
           contains: searchText,
           mode: "insensitive",
         },

@@ -3,6 +3,7 @@
 import {
   Avatar,
   Button,
+  Dialog,
   IconButton,
   MenuItem,
   Select,
@@ -20,6 +21,8 @@ import { Close, SearchOutlined } from "@mui/icons-material";
 import { Member, MembershipLevel } from "@prisma/client";
 import StyledMenu from "../shared/StyledMenu";
 import { useSession } from "next-auth/react";
+import MemberDetail from "./MemberDetail";
+import { Session } from "next-auth";
 
 const Members = () => {
   const router = useRouter();
@@ -28,7 +31,8 @@ const Members = () => {
   const [members, setMembers] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isSmScreen, setIsSmScreen] = useState<boolean>(false);
-  const [selectedMember, setSelecterdMember] = useState<Member>();
+  const [selectedMember, setSelectedMember] = useState<Member>();
+  const [showDetailDrawer, setShowDetailDrawer] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const open = Boolean(anchorEl);
 
@@ -54,9 +58,17 @@ const Members = () => {
 
   const onOption = async (customer: any, e: any) => {
     setAnchorEl(e.currentTarget);
-    setSelecterdMember(customer);
+    setSelectedMember(customer);
   };
 
+  const onRowClick = (data: Member) => {
+    setShowDetailDrawer(true);
+    setSelectedMember(data);
+  };
+
+  const onCloseDrawer = () => {
+    setShowDetailDrawer(false);
+  };
   return (
     <>
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
@@ -77,6 +89,14 @@ const Members = () => {
           <MenuItem onClick={() => {}}>Delete</MenuItem>
         </div>
       </StyledMenu>
+      {selectedMember && (
+        <MemberDetail
+          member={selectedMember}
+          open={showDetailDrawer}
+          onClose={onCloseDrawer}
+        />
+      )}
+
       <div className="h-full w-full overflow-y-auto">
         <PageHeader />
         <div className="lg:px-[40px] md:px-[40px] px-[20px] py-10 w-full flex flex-col flex-1 ">
@@ -210,31 +230,10 @@ const Members = () => {
               </div>
             </div>
             <div className="border-b-[1px] flex-1 border-b-titleColor opacity-25 mt-2" />
-            <small className="text-[#B3B3B3]">Applied filters:</small>
-            <div className="xl:flex xl:flex-row lg:flex lg:flex-row md:flex md:flex-row grid grid-cols-2 gap-2 italic text-[#555555]">
-              <small className="bg-white px-4 py-1 w-fit flex flex-row items-center gap-2">
-                <Close style={{ height: "80%" }} />
-                <span>
-                  Premium Members: <strong>120</strong>
-                </span>
-              </small>
-              <small className="bg-white px-4 py-1 w-fit flex flex-row items-center gap-2">
-                <Close style={{ height: "80%" }} />
-                <span>
-                  Monthly Contributors: <strong>120</strong>
-                </span>
-              </small>
-              <small className="bg-white px-4 py-1 w-fit flex flex-row items-center gap-2">
-                <Close style={{ height: "80%" }} />
-                <span>
-                  Corporate Members: <strong>120</strong>
-                </span>
-              </small>
-              <small className="bg-white px-4 py-1 w-fit flex flex-row items-center gap-2">
-                <Close style={{ height: "80%" }} />
-                <span>
-                  Search: <strong>Chino Yala</strong>
-                </span>
+            <div className="flex flex-row gap-4 text-[#555555]">
+              <small className="text-[#B3B3B3]">Total Count:</small>
+              <small>
+                <strong>120</strong>
               </small>
             </div>
           </div>
@@ -243,10 +242,11 @@ const Members = () => {
               columns={getColumnDefinition({
                 onOption,
                 isSmScreen: isSmScreen,
+                adminId: session?.data?.user?.id,
               })}
               rows={members ?? []}
               loading={loading}
-              onRowClick={() => {}}
+              onRowClick={onRowClick}
               totalCount={10}
               onPageChange={() => {}}
             />
@@ -262,9 +262,11 @@ export default Members;
 const getColumnDefinition = ({
   onOption,
   isSmScreen,
+  adminId,
 }: {
   onOption: (customer: any, e: any) => Promise<void>;
   isSmScreen: boolean;
+  adminId?: string;
 }): GridColDef[] =>
   !isSmScreen
     ? [
@@ -286,9 +288,14 @@ const getColumnDefinition = ({
             return (
               <span className="flex flex-row items-center gap-2 ">
                 <Avatar sizes="small" src="" />
-                <span>
-                  {params.row.firstName} {params.row.lastName}
-                </span>
+                {params.row.firstName && (
+                  <span>
+                    {params.row.firstName} {params.row.lastName}
+                  </span>
+                )}
+                {params.row.institutionName && (
+                  <span>{params.row.institutionName}</span>
+                )}
               </span>
             );
           },
@@ -303,14 +310,16 @@ const getColumnDefinition = ({
             return (
               <div className="flex flex-row items-center gap-2 justify-center h-full">
                 <span
-                  className={`flex flex-row items-center justify-center w-fit ${
-                    params.value === MembershipLevel.Premium
-                      ? "bg-green-500"
+                  className={`flex text-black flex-row items-center justify-center w-fit ${
+                    params.value === MembershipLevel.Platinium
+                      ? "bg-[#34A8A8]"
                       : params.value === MembershipLevel.Diamond
-                      ? "bg-indigo-400"
+                      ? "bg-[#B0E0E62E]"
                       : params.value === MembershipLevel.Gold
-                      ? "bg-orange-400"
-                      : "bg-red-950"
+                      ? "bg-[#FFD7002E]"
+                      : params.value === MembershipLevel.Siliver
+                      ? "bg-[#C0C0C02E]"
+                      : "bg-transparent"
                   } text-white rounded-[8px] min-w-20 text-center px-4 h-8 `}
                 >
                   {params.value}
@@ -330,7 +339,9 @@ const getColumnDefinition = ({
               <div className="flex flex-row items-center gap-2 justify-center h-full">
                 <span
                   className={`flex flex-row items-center justify-center w-fit ${
-                    params.value ? "bg-[#34A858B2]" : "bg-red-200"
+                    params.value
+                      ? "bg-[#34A858B2]"
+                      : "bg-[#C83A272E] text-black"
                   } text-white rounded-[8px] min-w-20 text-center px-4 h-8 `}
                 >
                   {params.value ? "Paid" : "Unpaid"}
@@ -358,12 +369,14 @@ const getColumnDefinition = ({
           minWidth: 120,
           renderCell: (params) => {
             return (
-              <div className="flex flex-row h-full w-full justify-center">
+              <div className="flex flex-row h-full w-full justify-center z-50">
                 <span
                   className="rotate-90 font-bold cursor-pointer hover:scale-125"
                   onClick={(e) => {
-                    e.isPropagationStopped();
-                    onOption(params.row, e);
+                    e.stopPropagation();
+                    if (adminId === params.row.registeredBy) {
+                      onOption(params.row, e);
+                    }
                   }}
                 >
                   ...
@@ -392,9 +405,14 @@ const getColumnDefinition = ({
             return (
               <span className="flex flex-row items-center gap-2 ">
                 <Avatar sizes="small" src="" />
-                <span>
-                  {params.row.firstName} {params.row.lastName}
-                </span>
+                {params.row.firstName && (
+                  <span>
+                    {params.row.firstName} {params.row.lastName}
+                  </span>
+                )}
+                {params.row.institutionName && (
+                  <span>{params.row.institutionName}</span>
+                )}
               </span>
             );
           },
@@ -410,7 +428,9 @@ const getColumnDefinition = ({
               <div className="flex flex-row items-center gap-2 justify-center h-full">
                 <span
                   className={`flex flex-row items-center justify-center w-fit ${
-                    params.value ? "bg-[#34A858B2]" : "bg-red-200"
+                    params.value
+                      ? "bg-[#34A858B2]"
+                      : "bg-[#C83A272E] text-black"
                   } text-white rounded-[8px] min-w-20 text-center px-4 h-8 `}
                 >
                   {params.value ? "Paid" : "Unpaid"}
@@ -428,10 +448,15 @@ const getColumnDefinition = ({
           minWidth: 80,
           renderCell: (params) => {
             return (
-              <div className="flex flex-row h-full w-full justify-center">
+              <div className="flex flex-row h-full w-full justify-center z-50">
                 <span
                   className="rotate-90 font-bold cursor-pointer hover:scale-125"
-                  onClick={() => {}}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (adminId === params.row.registeredBy) {
+                      onOption(params.row, e);
+                    }
+                  }}
                 >
                   ...
                 </span>

@@ -31,6 +31,12 @@ const menuItems = [
     icon: "/icons/cms.svg",
   },
   {
+    name: "Auction",
+    link: "/admin/dashboard/auction",
+    activeIcon: "/icons/auctionactive.svg",
+    icon: "/icons/auction.svg",
+  },
+  {
     name: "SMS",
     link: "/admin/dashboard/sms",
     activeIcon: "/icons/smsactive.svg",

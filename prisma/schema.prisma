@@ -45,7 +45,7 @@ model User {
 }
 
 enum MembershipLevel {
-  Premium
+  Platinium
   Diamond
   Gold
   Siliver
@@ -64,11 +64,20 @@ enum MembershipType {
   Company
 }
 
+enum PaymentMeans {
+  Office
+  Kebele
+  Bank
+  Edir
+  Personal
+  Other
+}
+
 model Member {
   id                 String             @id @default(uuid())
   memberId           String             @unique
   phone              String             @unique
-  email              String             @unique
+  email              String?            @unique
   membershipLevel    MembershipLevel    @default(Siliver)
   contributionAmount Int
   contributionSystem ContributionSystem @default(Monthly)
@@ -76,25 +85,35 @@ model Member {
   nextDueDate        DateTime
   hasPaid            Boolean
   membershipType     MembershipType
+  positionAtWork     String?
+  paymentMeans       PaymentMeans
 
   password_salt String
   password_hash String
 
-  region String
-  zone   String
-  city   String
-
-  companyName  String?
+  region       String
+  zone         String
+  city         String
   kebele       String?
   registeredBy String? //admin id that registred this member or null
-  firstName    String?
-  lastName     String?
 
+  // individual only
+  firstName      String?
+  lastName       String?
   gender         Gender?
   educationLevel String?
   expertise      String?
-  positionAtWork String?
   dateOfBirth    String?
+  workPlace      String?
+  profileImage   String?
+  branch         String?
+  idNumber       String?
+
+  // company only
+  institutionName      String?
+  headOrRepresentative String?
+  fieldOfWork          String?
+  partnershipIdea      String?
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
