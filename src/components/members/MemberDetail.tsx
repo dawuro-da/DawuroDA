@@ -2,8 +2,6 @@ import {
   Call,
   Close,
   EditNoteOutlined,
-  LocationCity,
-  LocationCityOutlined,
   LocationOnOutlined,
 } from "@mui/icons-material";
 import { Avatar, Button, Drawer } from "@mui/material";
@@ -32,8 +30,6 @@ const MemberDetail = ({ member, open, onClose }: MemberDetailProps) => {
       minute: "2-digit",
     }
   );
-
-  const hour12 = formattedTime.slice(0, 2);
 
   const formattedTimestamp = formattedDate + " " + formattedTime;
   const router = useRouter();
@@ -91,17 +87,17 @@ const MemberDetail = ({ member, open, onClose }: MemberDetailProps) => {
           <div className="flex flex-row items-center gap-4">
             <span className="font-bold">Subscription: </span>
             <span
-              className={`flex text-black flex-row items-center justify-center w-fit py-2 ${
+              className={`flex  flex-row items-center justify-center w-fit py-2 ${
                 member.membershipLevel === MembershipLevel.Platinium
-                  ? "bg-[#34A8A8]"
+                  ? "bg-[#34A8A8] text-white"
                   : member.membershipLevel === MembershipLevel.Diamond
-                  ? "bg-[#B0E0E62E]"
+                  ? "bg-[#B0E0E62E] text-white"
                   : member.membershipLevel === MembershipLevel.Gold
                   ? "bg-[#FFD7002E]"
                   : member.membershipLevel === MembershipLevel.Siliver
                   ? "bg-[#C0C0C02E]"
                   : "bg-transparent"
-              } text-white rounded-[8px] min-w-20 text-center px-4 h-8 `}
+              }  rounded-[8px] min-w-20 text-center px-4 h-8 `}
             >
               {member.membershipLevel}
             </span>
@@ -173,6 +169,21 @@ const MemberDetail = ({ member, open, onClose }: MemberDetailProps) => {
           </Button>
         </div>
         <div className="flex flex-row w-full border-b-2 text-[#CFCFCF] my-6" />
+        <div className="flex flex-col w-full mt-4 pb-10">
+          {["september", "November", "December", "October"].map((item) => {
+            return (
+              <div className="flex flex-row items-center shadow-md p-2 py-6 justify-around">
+                <span className="font-bold capitalize min-w-[120px]">
+                  {item}
+                </span>
+                <small>{formattedTimestamp}</small>
+                <span className="bg-primaryColor text-white px-3 py-1 rounded-[22px]">
+                  Paid
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </Drawer>
   );

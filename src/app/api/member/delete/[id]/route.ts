@@ -1,29 +1,12 @@
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
-import {
-  createUser,
-  deleteUser,
-  findByEmail,
-  findByPhone,
-  findUserById,
-  updateUser,
-} from "@/db/user";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/app/api/auth/[...nextauth]/route";
+import { deleteMember, findMemberById } from "@/db/member";
 
-async function hashPassword(
-  password: string,
-  salt: string
-): Promise<string | null> {
-  try {
-    return await bcrypt.hash(password, salt);
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
-
-export async function Put(req: Request, context: { id: string }) {
+export async function DELETE(
+  req: Request,
+  context: { params: { id: string } }
+) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user.id) {
     return NextResponse.json(
@@ -32,21 +15,21 @@ export async function Put(req: Request, context: { id: string }) {
     );
   }
 
-  const userId = context.id;
+  const memberId = context.params.id;
 
-  const user = await findUserById(userId);
+  const member = await findMemberById(memberId);
 
-  if (!user) {
+  if (!member) {
     return NextResponse.json(
       {
         success: false,
-        error: "User doesn't exist",
+        error: "member doesn't exist",
       },
       { status: 409 }
     );
   } else {
     try {
-      const result = await deleteUser({ id: userId });
+      const result = await deleteMember({ id: memberId });
 
       if (result) {
         return NextResponse.json(
@@ -59,7 +42,7 @@ export async function Put(req: Request, context: { id: string }) {
       return NextResponse.json(
         {
           success: false,
-          error: "Unable to delete user",
+          error: "Unable to delete member",
         },
         { status: 500 }
       );

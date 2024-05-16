@@ -3,7 +3,6 @@
 import {
   Avatar,
   Button,
-  Dialog,
   IconButton,
   MenuItem,
   Select,
@@ -11,46 +10,68 @@ import {
 } from "@mui/material";
 import PageHeader from "../shared/PageHeader";
 import Image from "next/image";
-import CustomizedDatagrid from "../shared/CustomizedDatagrid";
+import CustomizedDatagrid, { PageState } from "../shared/CustomizedDatagrid";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { GridColDef } from "@mui/x-data-grid";
 import { getFormattedDateFromTimestamp } from "@/util/date";
 import { useRouter } from "next/navigation";
-import { Close, SearchOutlined } from "@mui/icons-material";
-import { Member, MembershipLevel } from "@prisma/client";
+import { SearchOutlined } from "@mui/icons-material";
+import {
+  ContributionSystem,
+  Member,
+  MembershipLevel,
+  MembershipType,
+} from "@prisma/client";
 import StyledMenu from "../shared/StyledMenu";
 import { useSession } from "next-auth/react";
 import MemberDetail from "./MemberDetail";
-import { Session } from "next-auth";
 
 const Members = () => {
   const router = useRouter();
   const session = useSession();
-  const [searchValue, setSearchValue] = useState<string>("");
+  const [searchText, setSearchText] = useState<string>("");
   const [members, setMembers] = useState<any[]>([]);
+  const [filters, setFilters] = useState({
+    membershipLevel: "",
+    contributionSystem: "",
+    membershipType: "",
+    paymentStatus: "",
+  });
   const [loading, setLoading] = useState<boolean>(false);
   const [isSmScreen, setIsSmScreen] = useState<boolean>(false);
   const [selectedMember, setSelectedMember] = useState<Member>();
   const [showDetailDrawer, setShowDetailDrawer] = useState<boolean>(false);
+  const [searching, setSearching] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
+  const [totalCount, setTotalCount] = useState(0);
   const open = Boolean(anchorEl);
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const fetchMembers = async () => {
+  const fetchMembers = async ({ page, pageSize }: PageState) => {
     setLoading(true);
-    const result = await axios.get("/api/member/fetch");
+    const result = await axios.post("/api/member/fetch", {
+      page,
+      pageSize,
+      filters,
+      searchText,
+    });
+
     if (result.data.success) {
-      setMembers(result.data.value);
+      setMembers(result.data.value.members);
+      setTotalCount(result.data.value.total);
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchMembers();
+    fetchMembers({ page: 1, pageSize: 5 });
+  }, [filters, searching]);
+
+  useEffect(() => {
     if (window.innerWidth < 900) {
       setIsSmScreen(true);
     }
@@ -69,6 +90,11 @@ const Members = () => {
   const onCloseDrawer = () => {
     setShowDetailDrawer(false);
   };
+
+  const onPageChange = async ({ page, pageSize }: PageState) => {
+    await fetchMembers({ page, pageSize });
+  };
+
   return (
     <>
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
@@ -140,53 +166,101 @@ const Members = () => {
                 <div className="w-[190px] bg-white">
                   <Select
                     className="w-full"
-                    defaultValue={"membership-level"}
+                    defaultValue={" "}
                     size="small"
                     sx={selectStyle}
+                    onChange={(e) => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        membershipLevel:
+                          e.target.value !== " " ? e.target.value : "",
+                      }));
+                    }}
                   >
-                    <MenuItem value="membership-level">
-                      Membership Level
+                    <MenuItem value=" ">Membership Level</MenuItem>
+                    <MenuItem value={MembershipLevel?.Platinium}>
+                      {MembershipLevel?.Platinium}
                     </MenuItem>
-                    <MenuItem value="last 7 day">last 7 days</MenuItem>
-                    <MenuItem value="last month">last month</MenuItem>
-                  </Select>
-                </div>
-                <div className="w-[190px] bg-white">
-                  <Select
-                    className="w-full border-none"
-                    defaultValue={"contribution-system"}
-                    size="small"
-                    sx={selectStyle}
-                  >
-                    <MenuItem value="contribution-system">
-                      Constribution System
+                    <MenuItem value={MembershipLevel?.Diamond}>
+                      {MembershipLevel?.Diamond}
                     </MenuItem>
-                    <MenuItem value="last 7 day">last 7 days</MenuItem>
-                    <MenuItem value="last month">last month</MenuItem>
+                    <MenuItem value={MembershipLevel?.Gold}>
+                      {MembershipLevel?.Gold}
+                    </MenuItem>
+                    <MenuItem value={MembershipLevel?.Siliver}>
+                      {MembershipLevel?.Siliver}
+                    </MenuItem>
+                    <MenuItem value={MembershipLevel?.Bronze}>
+                      {MembershipLevel?.Bronze}
+                    </MenuItem>
                   </Select>
                 </div>
                 <div className="w-[190px] bg-white">
                   <Select
                     className="w-full border-none"
-                    defaultValue={"membership-type"}
+                    defaultValue={" "}
                     size="small"
                     sx={selectStyle}
+                    onChange={(e) => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        contributionSystem:
+                          e.target.value !== " " ? e.target.value : "",
+                      }));
+                    }}
                   >
-                    <MenuItem value="membership-type">Membership Type</MenuItem>
-                    <MenuItem value="last 7 day">last 7 days</MenuItem>
-                    <MenuItem value="last month">last month</MenuItem>
+                    <MenuItem value=" ">Constribution System</MenuItem>
+                    <MenuItem value={ContributionSystem?.Yearly}>
+                      {ContributionSystem?.Yearly}
+                    </MenuItem>
+                    <MenuItem value={ContributionSystem?.Quarterly}>
+                      {ContributionSystem?.Quarterly}
+                    </MenuItem>
+                    <MenuItem value={ContributionSystem?.Monthly}>
+                      {ContributionSystem?.Monthly}
+                    </MenuItem>
                   </Select>
                 </div>
                 <div className="w-[190px] bg-white">
                   <Select
                     className="w-full border-none"
-                    defaultValue={"payment-status"}
+                    defaultValue={" "}
                     size="small"
                     sx={selectStyle}
+                    onChange={(e) => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        membershipType:
+                          e.target.value !== " " ? e.target.value : "",
+                      }));
+                    }}
                   >
-                    <MenuItem value="payment-status">Payment Status</MenuItem>
-                    <MenuItem value="last 7 day">last 7 days</MenuItem>
-                    <MenuItem value="last month">last month</MenuItem>
+                    <MenuItem value=" ">Membership Type</MenuItem>
+                    <MenuItem value={MembershipType.Individual}>
+                      {MembershipType.Individual}
+                    </MenuItem>
+                    <MenuItem value={MembershipType.Company}>
+                      {MembershipType.Company}
+                    </MenuItem>
+                  </Select>
+                </div>
+                <div className="w-[190px] bg-white">
+                  <Select
+                    className="w-full border-none"
+                    defaultValue={" "}
+                    size="small"
+                    sx={selectStyle}
+                    onChange={(e) => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        paymentStatus:
+                          e.target.value !== " " ? e.target.value : "",
+                      }));
+                    }}
+                  >
+                    <MenuItem value=" ">Payment Status</MenuItem>
+                    <MenuItem value={"paid"}>Paid</MenuItem>
+                    <MenuItem value={"notPaid"}>notPaid</MenuItem>
                   </Select>
                 </div>
               </div>
@@ -197,10 +271,16 @@ const Members = () => {
                   size="small"
                   name="searchText"
                   variant="filled"
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
+                  value={searchText}
+                  onChange={(e) => {
+                    if (e.target.value === "") {
+                      setSearching(!searching);
+                    }
+                    setSearchText(e.target.value);
+                  }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
+                      setSearching(!searching);
                     }
                   }}
                   hiddenLabel
@@ -211,6 +291,9 @@ const Members = () => {
                         style={{
                           borderRadius: "16px",
                           borderLeft: 20,
+                        }}
+                        onClick={() => {
+                          setSearching(!searching);
                         }}
                       >
                         <SearchOutlined style={{ color: "#555555" }} />
@@ -233,7 +316,7 @@ const Members = () => {
             <div className="flex flex-row gap-4 text-[#555555]">
               <small className="text-[#B3B3B3]">Total Count:</small>
               <small>
-                <strong>120</strong>
+                <strong>{totalCount}</strong>
               </small>
             </div>
           </div>
@@ -247,8 +330,8 @@ const Members = () => {
               rows={members ?? []}
               loading={loading}
               onRowClick={onRowClick}
-              totalCount={10}
-              onPageChange={() => {}}
+              totalCount={totalCount}
+              onPageChange={onPageChange}
             />
           </div>
         </div>
@@ -310,17 +393,17 @@ const getColumnDefinition = ({
             return (
               <div className="flex flex-row items-center gap-2 justify-center h-full">
                 <span
-                  className={`flex text-black flex-row items-center justify-center w-fit ${
+                  className={`flex  flex-row items-center justify-center w-fit ${
                     params.value === MembershipLevel.Platinium
-                      ? "bg-[#34A8A8]"
+                      ? "bg-[#34A8A8] text-white"
                       : params.value === MembershipLevel.Diamond
-                      ? "bg-[#B0E0E62E]"
+                      ? "bg-[#B0E0E62E] text-titleColor"
                       : params.value === MembershipLevel.Gold
                       ? "bg-[#FFD7002E]"
                       : params.value === MembershipLevel.Siliver
                       ? "bg-[#C0C0C02E]"
                       : "bg-transparent"
-                  } text-white rounded-[8px] min-w-20 text-center px-4 h-8 `}
+                  }  rounded-[8px] min-w-20 text-center px-4 h-8 `}
                 >
                   {params.value}
                 </span>

@@ -1,1 +1,1 @@
-export const PAGINITATION_PAGE_SIZE = 5
+export const PAGINITATION_PAGE_SIZE = 2

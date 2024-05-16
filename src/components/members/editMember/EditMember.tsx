@@ -4,12 +4,9 @@ import {
   Button,
   CircularProgress,
   FormControlLabel,
-  MenuItem,
   Radio,
   RadioGroup,
-  Select,
   Switch,
-  TextField,
 } from "@mui/material";
 import PageHeader from "../../shared/PageHeader";
 import { useParams, useRouter } from "next/navigation";
@@ -67,11 +64,11 @@ const EditMember = () => {
       setMembershipType(member?.membershipType);
     }
   }, [member]);
-  // console.log("hap++++++++++++++++++++++", watch("hasPaid"));
-  const handleRegister = async (values: FieldValues) => {
+
+  const handleEditMember = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const res = await axios.post("/api/member/register", {
+      const res = await axios.post(`/api/member/edit/${member?.id}`, {
         ...values,
       });
 
@@ -97,7 +94,7 @@ const EditMember = () => {
         <span className="text-titleColor font-bold text-3xl">
           Edit Member Registration Form
         </span>
-        <form onSubmit={handleSubmit(handleRegister)} className="mb-12">
+        <form onSubmit={handleSubmit(handleEditMember)} className="mb-12">
           <div className="flex flex-col w-full my-10">
             <RadioGroup
               value={membershipType}
@@ -134,13 +131,6 @@ const EditMember = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 ">
-            <span className="text-titleColor text-sm">
-              <strong>NB:</strong> I endorse that{" "}
-              {watch("firstName")
-                ? watch("firstName")
-                : watch("institutionName")}{" "}
-              has paid his monthly contribution.
-            </span>
             <Button
               type="submit"
               variant="contained"
