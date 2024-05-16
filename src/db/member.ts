@@ -62,8 +62,6 @@ export interface MemberSharedDataType {
   membershipLevel: MembershipLevel;
   contributionAmount: number;
   contributionSystem: ContributionSystem;
-  lastPaidAt: string;
-  nextDueDate: string;
   hasPaid: boolean;
   membershipType: MembershipType;
   region: string;
@@ -71,11 +69,7 @@ export interface MemberSharedDataType {
   zone: string;
   kebele?: string;
   positionAtWork: string;
-  registeredBy: string;
   paymentMeans: PaymentMeans;
-  memberId: string;
-  password_hash: string;
-  password_salt: string;
 }
 
 export async function createIndividualMember({
@@ -92,6 +86,12 @@ export async function createIndividualMember({
     profileImage: string;
     idNumber: string;
     branch: string;
+    lastPaidAt: string;
+    nextDueDate: string;
+    registeredBy: string;
+    password_hash: string;
+    password_salt: string;
+    memberId: string;
   };
 }) {
   try {
@@ -117,6 +117,12 @@ export async function createInstitutionMember({
     headOrRepresentative: string;
     fieldOfWork: string;
     partnershipIdea: string;
+    lastPaidAt: string;
+    nextDueDate: string;
+    registeredBy: string;
+    password_hash: string;
+    password_salt: string;
+    memberId: string;
   };
 }) {
   try {
@@ -136,9 +142,10 @@ export async function createInstitutionMember({
 
 export async function updateIndividualMember({
   memberData,
+  id,
 }: {
+  id: string;
   memberData: MemberSharedDataType & {
-    id: string;
     firstName: string;
     lastName: string;
     gender: Gender;
@@ -153,12 +160,13 @@ export async function updateIndividualMember({
 }) {
   try {
     const member = await prisma.member.update({
-      where: { id: memberData.id },
+      where: { id: id },
       data: memberData,
     });
 
     return member;
   } catch (error) {
+    console.error(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       throw error;
     }
@@ -167,9 +175,10 @@ export async function updateIndividualMember({
 
 export async function updateInstitutionMember({
   memberData,
+  id,
 }: {
+  id: string;
   memberData: MemberSharedDataType & {
-    id: string;
     institutionName: string;
     headOrRepresentative: string;
     fieldOfWork: string;
@@ -178,34 +187,99 @@ export async function updateInstitutionMember({
 }) {
   try {
     const member = await prisma.member.update({
-      where: { id: memberData.id },
+      where: { id: id },
       data: memberData,
     });
 
     return member;
   } catch (error) {
+    console.error(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       throw error;
     }
   }
 }
 
+type Filters = {
+  membershipLevel?: MembershipLevel;
+  contributionSystem?: ContributionSystem;
+  membershipType?: MembershipType;
+  paymentStatus?: string;
+};
 export async function fetchMembers({
   page,
   pageSize,
+  filters,
+  searchText,
 }: {
   page: number;
   pageSize: number;
-}): Promise<Member[] | undefined> {
-  return await prisma.member.findMany({
-    where: {},
+  filters: Filters;
+  searchText?: string;
+}): Promise<{ members: Member[] | undefined; total: number }> {
+  const whereClause: Prisma.MemberWhereInput = {
+    ...(filters.contributionSystem && {
+      contributionSystem: filters.contributionSystem,
+    }),
+    ...(filters.membershipLevel && {
+      membershipLevel: filters.membershipLevel,
+    }),
+    ...(filters.membershipType && {
+      membershipType: filters.membershipType,
+    }),
+    ...(filters.paymentStatus && {
+      hasPaid: filters.paymentStatus === "paid" ? true : false,
+    }),
+    ...(searchText && {
+      OR: [
+        {
+          firstName: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          institutionName: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          lastName: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          email: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          phone: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+      ],
+    }),
+  };
 
+  const members = await prisma.member.findMany({
+    where: whereClause,
     orderBy: {
       created_at: "desc",
     },
     skip: (page - 1) * pageSize,
     take: pageSize,
   });
+
+  const total = await prisma.member.count({
+    where: whereClause,
+  });
+
+  return { members, total };
 }
 
 /**

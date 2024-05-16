@@ -4,7 +4,7 @@ import { OPTIONS } from "../../auth/[...nextauth]/route";
 import { fetchMembers } from "@/db/member";
 import { UserRole } from "@prisma/client";
 
-export async function GET(req: Request) {
+export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user.id || session.user.role === UserRole.Member) {
     return NextResponse.json(
@@ -13,8 +13,10 @@ export async function GET(req: Request) {
     );
   }
 
+  const { page, pageSize, filters, searchText } = await req.json();
+
   try {
-    const result = await fetchMembers({ page: 1, pageSize: 5 });
+    const result = await fetchMembers({ page, pageSize, filters, searchText });
 
     if (result) {
       return NextResponse.json(
