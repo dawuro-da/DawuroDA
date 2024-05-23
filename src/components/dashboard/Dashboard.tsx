@@ -9,14 +9,21 @@ import { useState } from "react";
 import StyledMenu from "../shared/StyledMenu";
 import RecentMembers from "./RecentMembers";
 import { useRouter } from "next/navigation";
+import DateRangeSelector from "../shared/DateRangeSelector";
 
 const Dashboard = () => {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
+  const [dateAnchor, setDateAnchor] = useState<null | Element>(null);
   const open = Boolean(anchorEl);
+  const opendate = Boolean(dateAnchor);
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDateClose = () => {
+    setDateAnchor(null);
   };
 
   const cardsData = [
@@ -49,6 +56,16 @@ const Dashboard = () => {
         <div>
           <MenuItem onClick={() => {}}>{"Download card data(.csv)"}</MenuItem>
           <MenuItem onClick={() => {}}>{"Download card data(.png)"}</MenuItem>
+        </div>
+      </StyledMenu>
+
+      <StyledMenu
+        anchorEl={dateAnchor}
+        open={opendate}
+        onClose={handleDateClose}
+      >
+        <div>
+          <DateRangeSelector />
         </div>
       </StyledMenu>
 
@@ -91,11 +108,7 @@ const Dashboard = () => {
           <div className="flex flex-row items-center justify-between gap-6 mt-10">
             <div className="border-b-[1px] flex-1 border-b-titleColor opacity-50" />
             <div className="w-[130px]">
-              <Select className="w-full" defaultValue={"All time"} size="small">
-                <MenuItem value="All time">All time</MenuItem>
-                <MenuItem value="last 7 day">last 7 days</MenuItem>
-                <MenuItem value="last month">last month</MenuItem>
-              </Select>
+              <Button onClick={(e)=>setDateAnchor(e.currentTarget)}>All Time</Button>
             </div>
           </div>
           <div className="grid xl:lg:grid-cols-2 xl:gap-12 lg:gap-8  mt-6">
