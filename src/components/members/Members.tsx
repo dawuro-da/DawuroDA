@@ -22,6 +22,7 @@ import {
   Member,
   MembershipLevel,
   MembershipType,
+  PaymentMeans,
 } from "@prisma/client";
 import StyledMenu from "../shared/StyledMenu";
 import { useSession } from "next-auth/react";
@@ -178,7 +179,7 @@ const Members = () => {
                   }}
                 />
               </div>
-            </div>  
+            </div>
             <div className="flex flex-row items-center gap-6">
               <div className="w-[130px]">
                 <Select
@@ -258,7 +259,7 @@ const Members = () => {
                       }));
                     }}
                   >
-                    <MenuItem value=" ">Constribution System</MenuItem>
+                    <MenuItem value=" ">Contribution System</MenuItem>
                     <MenuItem value={ContributionSystem?.Yearly}>
                       {ContributionSystem?.Yearly}
                     </MenuItem>
@@ -327,8 +328,24 @@ const Members = () => {
                     }}
                   >
                     <MenuItem value=" ">Payment Means</MenuItem>
-                    <MenuItem value={"edir"}>Edir</MenuItem>
-                    <MenuItem value={"office"}>Office</MenuItem>
+                    <MenuItem value={PaymentMeans.Office}>
+                      {PaymentMeans.Office}
+                    </MenuItem>
+                    <MenuItem value={PaymentMeans.Edir}>
+                      {PaymentMeans.Edir}
+                    </MenuItem>
+                    <MenuItem value={PaymentMeans.Bank}>
+                      {PaymentMeans.Bank}
+                    </MenuItem>
+                    <MenuItem value={PaymentMeans.Kebele}>
+                      {PaymentMeans.Kebele}
+                    </MenuItem>
+                    <MenuItem value={PaymentMeans.Personal}>
+                      {PaymentMeans.Personal}
+                    </MenuItem>
+                    <MenuItem value={PaymentMeans.Other}>
+                      {PaymentMeans.Other}
+                    </MenuItem>
                   </Select>
                 </div>
               </div>

@@ -205,7 +205,9 @@ type Filters = {
   contributionSystem?: ContributionSystem;
   membershipType?: MembershipType;
   paymentStatus?: string;
+  paymentMeans?: PaymentMeans;
 };
+
 export async function fetchMembers({
   page,
   pageSize,
@@ -226,6 +228,9 @@ export async function fetchMembers({
     }),
     ...(filters.membershipType && {
       membershipType: filters.membershipType,
+    }),
+    ...(filters.paymentMeans && {
+      paymentMeans: filters.paymentMeans,
     }),
     ...(filters.paymentStatus && {
       hasPaid: filters.paymentStatus === "paid" ? true : false,
