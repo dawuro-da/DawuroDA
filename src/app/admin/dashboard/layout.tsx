@@ -1,6 +1,7 @@
 import { OPTIONS } from "@/app/api/auth/[...nextauth]/route";
 import Notifications from "@/components/shared/Notifications";
 import Sidebar from "@/components/shared/sidebar/Sidebar";
+import { UserRole } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -10,7 +11,7 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user.id) {
+  if (!session?.user.id || session?.user?.role===UserRole.Member) {
     redirect("/login");
   }
 

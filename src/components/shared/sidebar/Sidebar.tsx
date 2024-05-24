@@ -99,10 +99,10 @@ const Sidebar = () => {
                 }}
                 className={`flex flex-row items-center gap-6 w-full cursor-pointer text-[#A7DEB8]
                          py-3 px-6 mt-4 hover:text-white 
-                        hover:bg-[rgb(255,255,255,0.4)]
+                        hover:bg-[rgb(255,255,255,0.2)]
                           ${
                             isActive
-                              ? "bg-[rgb(255,255,255,0.4)] text-[white] border-l-8 border-l-[#fff]"
+                              ? "bg-[rgb(255,255,255,0.2)] text-[white] border-l-8 border-l-[#fff]"
                               : "text-[#A7DEB8] border-l-8 border-l-primaryColor"
                           }`}
               >
