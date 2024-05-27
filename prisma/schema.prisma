@@ -115,10 +115,24 @@ model Member {
   fieldOfWork          String?
   partnershipIdea      String?
 
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @default(now()) @updatedAt
+  contributions Contribution[]
 
   @@map(name: "members")
+}
+
+model Contribution {
+  id                 String             @id @default(uuid())
+  contributionSystem ContributionSystem
+  contributorId      String
+  contributor        Member           @relation(fields: [contributorId], references: [id])
+  amount             String
+  
+  created_at         DateTime           @default(now())
+  updated_at         DateTime           @default(now()) @updatedAt
+
+  @@map(name: "contribution")
 }
 
 model ContactUs {

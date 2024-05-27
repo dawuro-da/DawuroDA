@@ -12,7 +12,6 @@ const InstitutionMember = ({
   register: any;
   watch: any;
 }) => {
-  console.log("hello there", watch("paymentMeans"));
   return (
     <>
       <div className="flex flex-row items-center justify-between gap-6">

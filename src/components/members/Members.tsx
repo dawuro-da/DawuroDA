@@ -46,6 +46,7 @@ const Members = () => {
   const [searching, setSearching] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const [totalCount, setTotalCount] = useState(0);
+  const [refresh, setRefresh] = useState<boolean>(false);
   const open = Boolean(anchorEl);
 
   const handleClose = () => {
@@ -70,7 +71,7 @@ const Members = () => {
 
   useEffect(() => {
     fetchMembers({ page: 1, pageSize: 5 });
-  }, [filters, searching]);
+  }, [filters, searching, refresh]);
 
   useEffect(() => {
     if (window.innerWidth < 900) {
@@ -96,13 +97,16 @@ const Members = () => {
     await fetchMembers({ page, pageSize });
   };
 
+  const onRefresh = () => {
+    setRefresh(!refresh);
+  };
+
   return (
     <>
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <div>
           <MenuItem
             onClick={() => {
-              console.log({ selectedMember });
               if (
                 selectedMember &&
                 session?.data?.user.id === selectedMember?.registeredBy
@@ -121,6 +125,7 @@ const Members = () => {
           member={selectedMember}
           open={showDetailDrawer}
           onClose={onCloseDrawer}
+          onRefresh={onRefresh}
         />
       )}
 

@@ -12,6 +12,7 @@ import {
 import prisma from "@/lib/prisma";
 import { calculateNextDueDate } from "@/util/date";
 import { generateMemberId } from "@/util/helper";
+import { createContribution } from "@/db/contribution";
 
 async function hashPassword(
   password: string,
@@ -138,7 +139,7 @@ export async function POST(req: Request) {
             expertise,
             dateOfBirth,
             workPlace,
-            profileImage:'/icons/cms.svg',
+            profileImage: "/icons/cms.svg",
             idNumber,
             branch,
           },
@@ -156,6 +157,11 @@ export async function POST(req: Request) {
       }
 
       if (result) {
+        await createContribution({
+          contributionSystem: result.contributionSystem,
+          contributorId: result.id,
+          amount: contributionAmount,
+        });
         return NextResponse.json(
           { success: true, value: result },
           { status: 200 }
