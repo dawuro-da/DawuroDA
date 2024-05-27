@@ -1,3 +1,9 @@
+import {
+  ContributionSystem,
+  MembershipLevel,
+  MembershipType,
+} from "@prisma/client";
+
 export function generateRandomString(length: number) {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -13,4 +19,103 @@ export function generateMemberId() {
   const randomString = generateRandomString(6);
   const memberId = `${prefix}${randomString}`;
   return memberId;
+}
+
+interface ContributionLevels {
+  [level: string]: number;
+}
+
+const contributionLevels: Record<MembershipType, ContributionLevels> = {
+  Individual: {
+    Platinum: 100,
+    Diamond: 80,
+    Gold: 50,
+    SilIver: 30,
+    Bronze: 10,
+  },
+  Company: {
+    Platinum: 100000,
+    Diamond: 80000,
+    Gold: 50000,
+    Silver: 30000,
+    Bronze: 10000,
+    Standard: 0,
+  },
+};
+
+export function getMinimumContribution({
+  membershipType,
+  contributionSystem,
+  membershipLevel,
+}: {
+  membershipType: MembershipType;
+  contributionSystem: ContributionSystem;
+  membershipLevel: MembershipLevel;
+}): number {
+  let baseContribution: number;
+
+  // Determine the base contribution using a switch statement
+  switch (membershipType) {
+    case "Individual":
+      switch (membershipLevel) {
+        case "Platinium":
+          baseContribution = contributionLevels.Individual.Platinum;
+          break;
+        case "Diamond":
+          baseContribution = contributionLevels.Individual.Diamond;
+          break;
+        case "Gold":
+          baseContribution = contributionLevels.Individual.Gold;
+          break;
+        case "Siliver":
+          baseContribution = contributionLevels.Individual.Silver;
+          break;
+        case "Bronze":
+          baseContribution = contributionLevels.Individual.Bronze;
+          break;
+        case "Standard":
+          baseContribution = contributionLevels.Individual.Standard;
+          break;
+        default:
+          throw new Error(`Invalid membership level: ${membershipLevel}`);
+      }
+      break;
+    case "Company":
+      switch (membershipLevel) {
+        case "Platinium":
+          baseContribution = contributionLevels.Company.Platinum;
+          break;
+        case "Diamond":
+          baseContribution = contributionLevels.Company.Diamond;
+          break;
+        case "Gold":
+          baseContribution = contributionLevels.Company.Gold;
+          break;
+        case "Siliver":
+          baseContribution = contributionLevels.Company.Silver;
+          break;
+        case "Bronze":
+          baseContribution = contributionLevels.Company.Bronze;
+          break;
+        case "Standard":
+          baseContribution = contributionLevels.Company.Standard;
+          break;
+        default:
+          throw new Error(`Invalid membership level: ${membershipLevel}`);
+      }
+      break;
+    default:
+      throw new Error(
+        "Invalid membership type. Choose 'Individual' or 'Company'."
+      );
+  }
+
+  switch (contributionSystem) {
+    case "Yearly":
+      return baseContribution * 12;
+    case "Quarterly":
+      return baseContribution * 3;
+    default:
+      return baseContribution;
+  }
 }
