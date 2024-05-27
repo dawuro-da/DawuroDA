@@ -190,7 +190,7 @@ const InstitutionMember = ({
           <div className="min-w-[130px]">
             <Select
               className="w-full p-[1px]"
-              defaultValue={watch("contributionSystem")}
+              value={watch("contributionSystem")}
               size="small"
               {...register("contributionSystem", {
                 required: "Contribution System is required",
@@ -250,7 +250,7 @@ const InstitutionMember = ({
           <div className="min-w-[130px]">
             <Select
               className="w-full p-[1px]"
-              defaultValue={watch("paymentMeans")}
+              value={watch("paymentMeans")}
               size="small"
               {...register("paymentMeans", {
                 required: "Payment Means is required",
@@ -273,6 +273,16 @@ const InstitutionMember = ({
             </Select>
           </div>
         </div>
+      </div>
+      <div className="flex flex-row items-center justify-between gap-6 my-4">
+        <span className="font-bold flex flex-row items-center gap-6">
+          <span>Payment</span>
+          <Switch
+            checked={watch("hasPaid") === true}
+            {...register("hasPaid")}
+          />
+        </span>
+        <div className="border-b-[1px] flex-1 border-b-titleColor opacity-25" />
       </div>
     </>
   );

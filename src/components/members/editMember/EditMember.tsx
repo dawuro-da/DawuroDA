@@ -28,7 +28,7 @@ const EditMember = () => {
   const [membershipType, setMembershipType] = useState<string>(
     member?.membershipType ? member.membershipType : MembershipType.Individual
   );
-  const { register, handleSubmit, watch } = useForm({
+  const { register, handleSubmit, watch, formState } = useForm({
     defaultValues: async () => {
       const res = await axios.get(`/api/member/fetch/${id}`);
 
@@ -119,16 +119,6 @@ const EditMember = () => {
             ) : (
               <InstitutionMember register={register} watch={watch} />
             )}
-            <div className="flex flex-row items-center justify-between gap-6 my-4">
-              <span className="font-bold flex flex-row items-center gap-6">
-                <span>Payment</span>
-                <Switch
-                  defaultChecked={watch("hasPaid") === "true" ? true : false}
-                  {...register("hasPaid")}
-                />
-              </span>
-              <div className="border-b-[1px] flex-1 border-b-titleColor opacity-25" />
-            </div>
           </div>
           <div className="flex flex-col gap-2 ">
             <Button
