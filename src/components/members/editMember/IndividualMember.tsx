@@ -202,6 +202,17 @@ const IndividualMember = ({
               id="profileImage"
               {...register("profileImage", {
                 required: "profileImage is required",
+                validate: {
+                  fileSize: (value:any) => {
+                    if (value && value[0]) {
+                      return (
+                        value[0].size < 1048576 ||
+                        "File size must be less than 1MB"
+                      );
+                    }
+                    return true;
+                  },
+                },
               })}
               type="file"
               placeholder=""
@@ -374,6 +385,16 @@ const IndividualMember = ({
             </Select>
           </div>
         </div>
+      </div>
+      <div className="flex flex-row items-center justify-between gap-6 my-4">
+        <span className="font-bold flex flex-row items-center gap-6">
+          <span>Payment</span>
+          <Switch
+            checked={watch("hasPaid") === true}
+            {...register("hasPaid")}
+          />
+        </span>
+        <div className="border-b-[1px] flex-1 border-b-titleColor opacity-25" />
       </div>
     </>
   );

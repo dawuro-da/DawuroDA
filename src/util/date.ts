@@ -17,7 +17,7 @@ export function calculateNextDueDate({
   fromDate,
   contributionSystem,
 }: {
-  fromDate: string|Date;
+  fromDate: string | Date;
   contributionSystem: string;
 }) {
   const fromDateObj = new Date(fromDate);
@@ -45,3 +45,25 @@ export function calculateNextDueDate({
       );
   }
 }
+
+export const checkMemberThreeMonth = ({
+  createdAt,
+  nextDueDate,
+}: {
+  createdAt: Date;
+  nextDueDate: Date;
+}) => {
+  // Convert the dates to milliseconds
+  const createdAtTime = new Date(createdAt).getTime();
+  const nextDueDateTime = new Date(nextDueDate).getTime();
+
+  // Calculate the difference in milliseconds
+  const differenceInMilliseconds = nextDueDateTime - createdAtTime;
+
+  // Calculate the difference in months (approx)
+  const differenceInMonths =
+    differenceInMilliseconds / (1000 * 60 * 60 * 24 * 30.44); // 30.44 is the average days in a month
+
+  // Check if the difference is more than or equal to 3 months
+  return differenceInMonths >= 3;
+};

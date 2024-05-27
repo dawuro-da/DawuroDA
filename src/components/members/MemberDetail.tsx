@@ -1,4 +1,7 @@
-import { getFormattedDateFromTimestamp } from "@/util/date";
+import {
+  checkMemberThreeMonth,
+  getFormattedDateFromTimestamp,
+} from "@/util/date";
 import {
   Call,
   Close,
@@ -158,7 +161,7 @@ const MemberDetail = ({
         </div>
         <div className="flex flex-row w-full border-b-2 text-[#CFCFCF] my-6" />
         <div className="flex flex-row w-full gap-2 px-2">
-          <div className="grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 items-center gap-4">
+          <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 items-center gap-4">
             {member.educationLevel && (
               <div className="flex flex-row items-center gap-2">
                 <span className="text-titleColor text-sm">
@@ -167,14 +170,14 @@ const MemberDetail = ({
                 <span className="font-bold text-[#555555] text-sm">{`${member.educationLevel}`}</span>
               </div>
             )}
-            <div className="flex flex-row items-center gap-2 xl:col-span-2 lg:col-span-2">
+            <div className="flex flex-row items-center gap-2 ">
               <span className="text-titleColor text-sm">
                 Work responsibility:{" "}
               </span>
               <span className="font-bold text-[#555555] text-sm">{`${member.positionAtWork}`}</span>
             </div>
             {member.positionAtWork && (
-              <div className="flex flex-row items-center gap-2 xl:col-span-2 lg:col-span-2">
+              <div className="flex flex-row items-center gap-2 ">
                 <span className="text-titleColor text-sm">
                   Position at work:{" "}
                 </span>
@@ -182,12 +185,12 @@ const MemberDetail = ({
               </div>
             )}
             {member.fieldOfWork && (
-              <div className="flex flex-row items-center gap-2 xl:col-span-2 lg:col-span-2">
+              <div className="flex flex-row items-center gap-2 ">
                 <span className="text-titleColor text-sm">Field of work: </span>
                 <span className="font-bold text-[#555555] text-sm">{`${member.fieldOfWork}`}</span>
               </div>
             )}
-            <div className="flex flex-row items-center gap-2 xl:col-span-2 lg:col-span-2">
+            <div className="flex flex-row items-center gap-2 ">
               <span className="text-titleColor text-sm">Payment Means: </span>
               <span className="font-bold text-[#555555] text-sm">{`${member.paymentMeans}`}</span>
             </div>
@@ -251,14 +254,19 @@ const MemberDetail = ({
           </span>
         </div>
         <div className="flex flex-col mt-6 pb-6 w-full gap-6">
-          <div className="flex flex-row items-center justify-start border-[1px] border-[#F1CD89] bg-[#F6EDDA] p-4 gap-6 rounded-[5px]">
-            <InfoOutlined className="text-[#F1CD89] h-[40px] w-[40px] rotate-180" />
-            <span className="text-titleColor">
-              This member has to pay at least <strong>three</strong> months be
-              considered a real member so please consider paying your
-              contributions to be eligible for IDs.
-            </span>
-          </div>
+          {!checkMemberThreeMonth({
+            createdAt: member.created_at,
+            nextDueDate: member.nextDueDate,
+          }) && (
+            <div className="flex flex-row items-center justify-start border-[1px] border-[#F1CD89] bg-[#F6EDDA] p-4 gap-6 rounded-[5px]">
+              <InfoOutlined className="text-[#F1CD89] h-[40px] w-[40px] rotate-180" />
+              <span className="text-titleColor">
+                This member has to pay at least <strong>three</strong> months be
+                considered a real member so please consider paying your
+                contributions to be eligible for IDs.
+              </span>
+            </div>
+          )}
           <div className="relative flex flex-row p-2 h-[200px] w-full bg-[#EBEBEB] rounded-[5px]">
             <Button
               variant="outlined"

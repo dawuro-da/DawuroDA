@@ -204,6 +204,17 @@ const IndividualMember = ({
               id="profileImage"
               {...register("profileImage", {
                 required: "profileImage is required",
+                validate: {
+                  fileSize: (value:any) => {
+                    if (value && value[0]) {
+                      return (
+                        value[0].size < 1048576 ||
+                        "File size must be less than 1MB"
+                      );
+                    }
+                    return true;
+                  },
+                },
               })}
               type="file"
               placeholder=""
