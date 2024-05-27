@@ -1,5 +1,5 @@
-import WorkingOnPage from "@/components/shared/WorkingOnPage";
+import CMS from "@/components/cms/CMS";
 
 export default function CMSPage() {
-  return <WorkingOnPage />;
+  return <CMS />;
 }
