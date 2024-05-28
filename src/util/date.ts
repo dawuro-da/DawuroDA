@@ -13,6 +13,20 @@ export function getFormattedDateFromTimestamp(dateString: string) {
   return timestamp;
 }
 
+export function getFormattedDate(dateString: Date) {
+  // Create a Date object from the provided date string
+  const date = new Date(dateString);
+
+  // Format the date using toLocaleDateString with the specified options
+  const formattedDate = date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  return formattedDate;
+}
+
 export function calculateNextDueDate({
   fromDate,
   contributionSystem,
