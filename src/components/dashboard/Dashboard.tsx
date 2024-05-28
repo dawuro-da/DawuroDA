@@ -5,16 +5,22 @@ import PageHeader from "../shared/PageHeader";
 import { Button, MenuItem, Select } from "@mui/material";
 import LineChartGraph from "./LineChartGraph";
 import PieChartGraph from "./PieChartGraph";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StyledMenu from "../shared/StyledMenu";
 import RecentMembers from "./RecentMembers";
 import { useRouter } from "next/navigation";
 import DateRangeSelector from "../shared/DateRangeSelector";
+import { getFormattedDate } from "@/util/date";
 
 const Dashboard = () => {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const [dateAnchor, setDateAnchor] = useState<null | Element>(null);
+  const [dateFilter, setDateFilter] = useState<{
+    startDate: Date;
+    endDate: Date;
+  }>();
+
   const open = Boolean(anchorEl);
   const opendate = Boolean(dateAnchor);
 
@@ -49,7 +55,6 @@ const Dashboard = () => {
       increased: true,
     },
   ];
-
   return (
     <>
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
@@ -65,7 +70,10 @@ const Dashboard = () => {
         onClose={handleDateClose}
       >
         <div>
-          <DateRangeSelector />
+          <DateRangeSelector
+            dateFilter={dateFilter}
+            setDateFilter={setDateFilter}
+          />
         </div>
       </StyledMenu>
 
@@ -107,8 +115,14 @@ const Dashboard = () => {
           </div>
           <div className="flex flex-row items-center justify-between gap-6 mt-10">
             <div className="border-b-[1px] flex-1 border-b-titleColor opacity-50" />
-            <div className="w-[130px]">
-              <Button onClick={(e)=>setDateAnchor(e.currentTarget)}>All Time</Button>
+            <div className="min-w-[130px]">
+              <Button onClick={(e) => setDateAnchor(e.currentTarget)}>
+                {dateFilter?.startDate && dateFilter?.endDate
+                  ? `${getFormattedDate(
+                      dateFilter?.startDate
+                    )} - ${getFormattedDate(dateFilter?.endDate)}`
+                  : "All Time"}
+              </Button>
             </div>
           </div>
           <div className="grid xl:lg:grid-cols-2 xl:gap-12 lg:gap-8  mt-6">
@@ -118,17 +132,6 @@ const Dashboard = () => {
                   Membership Growth Analytics
                 </span>
                 <div className="flex flex-row items-center gap-4">
-                  <div className="w-[130px]">
-                    <Select
-                      className="w-full"
-                      defaultValue={"All time"}
-                      size="small"
-                    >
-                      <MenuItem value="All time">All time</MenuItem>
-                      <MenuItem value="last 7 day">last 7 days</MenuItem>
-                      <MenuItem value="last month">last month</MenuItem>
-                    </Select>
-                  </div>
                   <span
                     className="rotate-90 font-bold cursor-pointer hover:scale-125"
                     onClick={(e) => setAnchorEl(e.currentTarget)}
@@ -147,17 +150,6 @@ const Dashboard = () => {
                   Members Payment Status
                 </span>
                 <div className="flex flex-row items-center gap-4">
-                  <div className="w-[130px]">
-                    <Select
-                      className="w-full"
-                      defaultValue={"All time"}
-                      size="small"
-                    >
-                      <MenuItem value="All time">All time</MenuItem>
-                      <MenuItem value="last 7 day">last 7 days</MenuItem>
-                      <MenuItem value="last month">last month</MenuItem>
-                    </Select>
-                  </div>
                   <span
                     className="rotate-90 font-bold cursor-pointer hover:scale-125"
                     onClick={(e) => setAnchorEl(e.currentTarget)}
