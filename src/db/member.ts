@@ -206,6 +206,8 @@ type Filters = {
   membershipType?: MembershipType;
   paymentStatus?: string;
   paymentMeans?: PaymentMeans;
+  startDate?: Date;
+  endDate?: Date;
 };
 
 export async function fetchMembers({
@@ -223,6 +225,25 @@ export async function fetchMembers({
     ...(filters.contributionSystem && {
       contributionSystem: filters.contributionSystem,
     }),
+    ...(filters.startDate &&
+      filters.endDate && {
+        created_at: {
+          gte: filters.startDate,
+          lte: filters.endDate,
+        },
+      }),
+    ...(filters.startDate &&
+      !filters.endDate && {
+        created_at: {
+          gte: filters.startDate,
+        },
+      }),
+    ...(!filters.startDate &&
+      filters.endDate && {
+        created_at: {
+          lte: filters.endDate,
+        },
+      }),
     ...(filters.membershipLevel && {
       membershipLevel: filters.membershipLevel,
     }),

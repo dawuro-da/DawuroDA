@@ -14,9 +14,13 @@ import CustomizedDatagrid, { PageState } from "../shared/CustomizedDatagrid";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { GridColDef } from "@mui/x-data-grid";
-import { getFormattedDateFromTimestamp } from "@/util/date";
+import { getFormattedDate, getFormattedDateFromTimestamp } from "@/util/date";
 import { useRouter } from "next/navigation";
-import { SearchOutlined } from "@mui/icons-material";
+import {
+  ArrowDownwardOutlined,
+  ArrowDropDown,
+  SearchOutlined,
+} from "@mui/icons-material";
 import {
   ContributionSystem,
   Member,
@@ -27,6 +31,7 @@ import {
 import StyledMenu from "../shared/StyledMenu";
 import { useSession } from "next-auth/react";
 import MemberDetail from "./MemberDetail";
+import DateRangeSelector from "../shared/DateRangeSelector";
 
 const Members = () => {
   const router = useRouter();
@@ -47,7 +52,13 @@ const Members = () => {
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const [totalCount, setTotalCount] = useState(0);
   const [refresh, setRefresh] = useState<boolean>(false);
+  const [dateAnchor, setDateAnchor] = useState<null | Element>(null);
+  const [dateFilter, setDateFilter] = useState<{
+    startDate: Date;
+    endDate: Date;
+  }>();
   const open = Boolean(anchorEl);
+  const opendate = Boolean(dateAnchor);
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -58,7 +69,11 @@ const Members = () => {
     const result = await axios.post("/api/member/fetch", {
       page,
       pageSize,
-      filters,
+      filters: {
+        ...filters,
+        startDate: dateFilter?.startDate,
+        endDate: dateFilter?.endDate,
+      },
       searchText,
     });
 
@@ -71,7 +86,7 @@ const Members = () => {
 
   useEffect(() => {
     fetchMembers({ page: 1, pageSize: 5 });
-  }, [filters, searching, refresh]);
+  }, [filters, searching, refresh, dateFilter]);
 
   useEffect(() => {
     if (window.innerWidth < 900) {
@@ -101,6 +116,10 @@ const Members = () => {
     setRefresh(!refresh);
   };
 
+  const handleDateClose = () => {
+    setDateAnchor(null);
+  };
+
   return (
     <>
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
@@ -120,6 +139,19 @@ const Members = () => {
           <MenuItem onClick={() => {}}>Delete</MenuItem>
         </div>
       </StyledMenu>
+      <StyledMenu
+        anchorEl={dateAnchor}
+        open={opendate}
+        onClose={handleDateClose}
+      >
+        <div>
+          <DateRangeSelector
+            dateFilter={dateFilter}
+            setDateFilter={setDateFilter}
+          />
+        </div>
+      </StyledMenu>
+
       {selectedMember && (
         <MemberDetail
           member={selectedMember}
@@ -186,16 +218,19 @@ const Members = () => {
               </div>
             </div>
             <div className="flex flex-row items-center gap-6">
-              <div className="w-[130px]">
-                <Select
-                  className="w-full"
+              <div className="min-w-[130px]">
+                <div
+                  className="w-full border-[1px] h-full border-titleColor text-titleColor p-2 relative pr-8 text-center cursor-pointer rounded-[5px]"
                   defaultValue={"All time"}
-                  size="small"
+                  onClick={(e) => setDateAnchor(e.currentTarget)}
                 >
-                  <MenuItem value="All time">All time</MenuItem>
-                  <MenuItem value="last 7 day">last 7 days</MenuItem>
-                  <MenuItem value="last month">last month</MenuItem>
-                </Select>
+                  {dateFilter?.startDate && dateFilter?.endDate
+                    ? `${getFormattedDate(
+                        dateFilter?.startDate
+                      )} - ${getFormattedDate(dateFilter?.endDate)}`
+                    : "All Time"}
+                  <ArrowDropDown className="absolute right-2 top-2"/>
+                </div>
               </div>
               <Button
                 onClick={() =>
