@@ -11,6 +11,7 @@ import RecentMembers from "./RecentMembers";
 import { useRouter } from "next/navigation";
 import DateRangeSelector from "../shared/DateRangeSelector";
 import { getFormattedDate } from "@/util/date";
+import { ArrowDropDown } from "@mui/icons-material";
 
 const Dashboard = () => {
   const router = useRouter();
@@ -116,13 +117,18 @@ const Dashboard = () => {
           <div className="flex flex-row items-center justify-between gap-6 mt-10">
             <div className="border-b-[1px] flex-1 border-b-titleColor opacity-50" />
             <div className="min-w-[130px]">
-              <Button onClick={(e) => setDateAnchor(e.currentTarget)}>
+              <div
+                className="w-full border-[1px] h-full border-titleColor text-titleColor p-2 relative pr-8 text-center cursor-pointer rounded-[5px]"
+                defaultValue={"All time"}
+                onClick={(e) => setDateAnchor(e.currentTarget)}
+              >
                 {dateFilter?.startDate && dateFilter?.endDate
                   ? `${getFormattedDate(
                       dateFilter?.startDate
                     )} - ${getFormattedDate(dateFilter?.endDate)}`
                   : "All Time"}
-              </Button>
+                <ArrowDropDown className="absolute right-2 top-2" />
+              </div>
             </div>
           </div>
           <div className="grid xl:lg:grid-cols-2 xl:gap-12 lg:gap-8  mt-6">
