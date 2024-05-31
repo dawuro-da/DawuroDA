@@ -1,5 +1,5 @@
-import WorkingOnPage from "@/components/shared/WorkingOnPage";
+import Auction from "@/components/auctions/Auction";
 
 export default function AuctionPage() {
-  return <WorkingOnPage />;
+  return <Auction />;
 }

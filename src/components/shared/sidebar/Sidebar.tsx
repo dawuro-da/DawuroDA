@@ -71,7 +71,7 @@ const Sidebar = () => {
         <div className="w-full h-full flex flex-col items-center p-6 pl-0 pt-0 relative">
           <div
             onClick={() => router.push("/admin/dashboard")}
-            className="pl-6 flex flex-col items-center justify-center gap-2 w-full mb-6 select-none cursor-pointer"
+            className="pl-6 flex flex-col items-center justify-center gap-2 w-full mb-2 select-none cursor-pointer"
           >
             <Image
               src={"/icons/logo.svg"}
@@ -98,7 +98,7 @@ const Sidebar = () => {
                   setMenuOpen(false);
                 }}
                 className={`flex flex-row items-center gap-6 w-full cursor-pointer text-[#A7DEB8]
-                         py-3 px-6 mt-4 hover:text-white 
+                         py-3 px-6 mt-2 hover:text-white 
                         hover:bg-[rgb(255,255,255,0.2)]
                           ${
                             isActive
@@ -119,17 +119,17 @@ const Sidebar = () => {
             );
           })}
 
-          <div className="absolute bottom-8 w-full left-0">
+          <div className="absolute bottom-6 w-full left-0">
             <div
               onClick={() => {
-                router.push("/admin/dashboard/setting");
+                router.push("/admin/setting");
                 setMenuOpen(false);
               }}
               className={`flex flex-row items-center gap-6 cursor-pointer mr-6
                         py-3 px-6 mt-4 hover:text-white
                         hover:bg-[rgb(255,255,255,0.4)] text-[#A7DEB8]
                        ${
-                         Boolean(path.includes("/admin/dashboard/setting"))
+                         Boolean(path.includes("/admin/setting"))
                            ? "bg-[rgb(255,255,255,0.4)] text-[white] border-l-8 border-l-[white]"
                            : "text-[#A7DEB8] border-l-8 border-l-primaryColor "
                        }
@@ -137,7 +137,7 @@ const Sidebar = () => {
             >
               <Image
                 src={
-                  Boolean(path.includes("/admin/dashboard/setting"))
+                  Boolean(path.includes("/admin/setting"))
                     ? "/icons/settingsactive.svg"
                     : "/icons/settings.svg"
                 }
