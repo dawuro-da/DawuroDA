@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { initGammodaState } from "@/redux/store";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { NextFont } from "next/dist/compiled/@next/font";
+import Notifications from "@/components/shared/Notifications";
 
 type Props = {
   children?: React.ReactNode;
@@ -33,7 +34,10 @@ export const NextAuthAndStoreProvider = ({
   return (
     <SessionProvider session={session}>
       <Provider store={store}>
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <Notifications />
+          {children}
+        </ThemeProvider>
       </Provider>
     </SessionProvider>
   );

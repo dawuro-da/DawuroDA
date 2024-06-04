@@ -14,11 +14,11 @@ const AdminSettingHeader = () => {
         className="w-fit flex flex-row items-center gap-2 cursor-pointer"
       >
         <Image src={"/icons/dashboardGrey.svg"} alt="" height={30} width={30} />
-        <span className="text-[30px] text-titleColor capitalize">
+        <span className="xl:text-[30px] lg:text-[30px] text-[20px] text-titleColor capitalize">
           Dashboard
         </span>
       </div>
-      <span className="text-4xl text-titleColor">Admin Settings</span>
+      <span className="text-4xl text-titleColor xl:lg:block md:block hidden">Admin Settings</span>
       <div>
         <Button
           onClick={() => router.push("/api/auth/signout")}

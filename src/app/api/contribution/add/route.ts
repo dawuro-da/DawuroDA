@@ -45,7 +45,6 @@ export async function POST(req: Request) {
         },
         data: { ...member, nextDueDate },
       });
-      console.log({ res });
 
       return NextResponse.json(
         { success: true, value: result },

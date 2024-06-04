@@ -11,7 +11,7 @@ import { OPTIONS } from "@/app/api/auth/[...nextauth]/route";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
-  if (session?.user.role === UserRole.Member || !session?.user.id) {
+  if (!session?.user.id || session?.user.role === UserRole.Member ) {
     return NextResponse.json(
       { success: false, error: "Unauthorized user" },
       { status: 401 }

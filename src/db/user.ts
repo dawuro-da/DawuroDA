@@ -75,7 +75,7 @@ export async function createUser({
         email,
         password_hash: password,
         password_salt,
-        phone
+        phone,
       },
     });
     return user;
@@ -117,11 +117,7 @@ export async function approveUser({
 export async function updateUser({
   firstName,
   lastName,
-  role,
   gender,
-  userName,
-  isApproved,
-  approvedBy,
   email,
   phone,
   userId,
@@ -129,11 +125,7 @@ export async function updateUser({
   userId: string;
   firstName?: string;
   lastName?: string;
-  role?: UserRole;
   gender?: Gender;
-  userName?: string;
-  isApproved?: boolean;
-  approvedBy?: string;
   email?: string;
   phone?: string;
 }) {
@@ -143,11 +135,7 @@ export async function updateUser({
       data: {
         firstName,
         lastName,
-        role,
         gender,
-        userName,
-        isApproved,
-        approvedBy,
         email,
         phone,
       },
@@ -155,6 +143,7 @@ export async function updateUser({
 
     return user;
   } catch (error) {
+    console.error(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       throw error;
     }

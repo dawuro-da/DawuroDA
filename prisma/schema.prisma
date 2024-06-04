@@ -19,7 +19,8 @@ enum Gender {
 }
 
 enum UserRole {
-  SuperAdmin //this means owner
+  Owner
+  SuperAdmin 
   Admin
   Member
 }
