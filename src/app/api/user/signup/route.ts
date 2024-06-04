@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { createUser, findByEmail, findByPhone } from "@/db/user";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "../../auth/[...nextauth]/route";
+import { UserRole } from "@prisma/client";
 
 async function hashPassword(
   password: string,
@@ -17,11 +18,13 @@ async function hashPassword(
 }
 
 export async function POST(req: Request) {
-  const { firstName, lastName, role, gender, email, phone, password } =
+  const { firstName, lastName, gender, email, phone, password } =
     await req.json();
 
+  const ownerEmails = process.env.OWNER_EMAILS?.split(",");
+
   const session = await getServerSession(OPTIONS);
-  if (!session?.user.id) {
+  if (!session?.user.id && !ownerEmails?.includes(email.toString())) {
     return NextResponse.json(
       { success: false, error: "Unauthorized user" },
       { status: 401 }
@@ -50,10 +53,7 @@ export async function POST(req: Request) {
   } else {
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
-    const hashedPassword = await hashPassword(
-      password ? password : "dummypassword",
-      salt
-    );
+    const hashedPassword = await hashPassword(password, salt);
 
     if (!hashedPassword)
       return NextResponse.json(
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
       const userData = {
         firstName,
         lastName,
-        role,
+        role: UserRole.Owner,
         gender,
         phone,
         password: hashedPassword,

@@ -45,23 +45,19 @@ export async function createUser({
   lastName,
   role,
   gender,
-  userName,
   email,
   phone,
   password,
   password_salt,
-  isApproved = false,
 }: {
   firstName: string;
   lastName: string;
   role: UserRole;
   gender?: Gender;
-  userName: string;
   email: string;
   phone?: string;
   password: string;
   password_salt: string;
-  isApproved?: boolean;
 }) {
   try {
     const user = await prisma.user.create({
@@ -70,8 +66,6 @@ export async function createUser({
         lastName,
         role,
         gender,
-        userName,
-        isApproved,
         email,
         password_hash: password,
         password_salt,
@@ -81,33 +75,6 @@ export async function createUser({
     return user;
   } catch (error) {
     console.error({ error });
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
-  }
-}
-
-export async function approveUser({
-  isApproved,
-  approvedBy,
-  userId,
-}: {
-  userId: string;
-  isApproved: boolean;
-  approvedBy: string;
-}) {
-  try {
-    const user = await prisma.user.update({
-      where: { id: userId },
-      data: {
-        isApproved,
-        approvedBy,
-      },
-    });
-
-    return user;
-  } catch (error) {
-    console.error(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       throw error;
     }
@@ -194,12 +161,6 @@ export async function searchUsers({
       },
       {
         lastName: {
-          contains: searchText,
-          mode: "insensitive",
-        },
-      },
-      {
-        userName: {
           contains: searchText,
           mode: "insensitive",
         },

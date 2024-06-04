@@ -1,5 +1,4 @@
 import { showToastAction } from "@/redux/actions";
-import { Recycling, RecyclingOutlined } from "@mui/icons-material";
 import {
   Avatar,
   Button,
@@ -182,7 +181,7 @@ const ProfileManagement = ({ user }: { user: User | null }) => {
           className="gap-2 font-bold h-[40px] text-lg mt-6 text-white capitalize p-2 bg-primaryColor shadow-none px-10"
         >
           {loading ? (
-            <CircularProgress className="h-[90%]" />
+            <CircularProgress className="text-white" />
           ) : (
             <>
               {" "}

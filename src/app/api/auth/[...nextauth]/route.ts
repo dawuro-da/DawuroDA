@@ -39,9 +39,6 @@ export const OPTIONS: NextAuthOptions = {
 
         const user = await findByEmail(email);
         if (user) {
-          if (!user.isApproved) {
-            throw Error("Contact admins to approve your account");
-          }
           const result = await comparePasswords(
             password,
             user?.password_hash ?? ""
