@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "../../auth/[...nextauth]/route";
 import { fetchUsers } from "@/db/user";
+import { UserRole } from "@prisma/client";
 
 export async function GET(req: Request) {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user.id) {
+  if (!session?.user.id || !(session?.user.role === UserRole.Owner)) {
     return NextResponse.json(
       { success: false, error: "Unauthorized user" },
       { status: 401 }
@@ -13,7 +14,7 @@ export async function GET(req: Request) {
   }
 
   try {
-    const result = await fetchUsers({ page: 1, pageSize: 5 });
+    const result = await fetchUsers({ page: 1, pageSize: 30 });
 
     if (result) {
       return NextResponse.json(

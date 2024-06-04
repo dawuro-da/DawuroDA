@@ -17,16 +17,14 @@ const SignUp = () => {
   } = useForm();
 
   const handleRegister = async (values: FieldValues) => {
-    const { firstName, lastName, gender, userName, email, phone, password } =
-      values;
+    const { firstName, lastName, gender, email, phone, password } = values;
     setLoading(true);
     try {
-      const res = await axios.post("/api/user/register/", {
+      const res = await axios.post("/api/user/signup/", {
         firstName,
         lastName,
         role: UserRole.SuperAdmin,
         gender,
-        userName,
         email,
         phone,
         password,
@@ -67,97 +65,127 @@ const SignUp = () => {
           </span>
         </div>
 
-        <div className="grid grid-cols-2">
-          <TextField
-            size="small"
-            {...register("firstName", { required: "First name is required" })}
-            type="text"
-            placeholder="First Name"
-            className="border-2 rounded-[16px] p-2"
-            sx={{ backgroundColor: "white" }}
-            inputProps={{ style: { padding: 10 } }}
-          />
-          <TextField
-            size="small"
-            {...register("lastName", { required: "Last name is required" })}
-            type="text"
-            placeholder="Last Name"
-            className="border-2 rounded-[16px] p-2"
-            sx={{ backgroundColor: "white" }}
-            inputProps={{ style: { padding: 10 } }}
-          />
-          <TextField
-            size="small"
-            {...register("userName", { required: "userName is required" })}
-            type="text"
-            placeholder="Username"
-            className="border-2 rounded-[16px] p-2"
-            sx={{ backgroundColor: "white" }}
-            inputProps={{ style: { padding: 10 } }}
-          />
-          <TextField
-            size="small"
-            {...register("gender", {
-              required: "Gender is required",
-            })}
-            select
-            className="border-2 rounded-[16px] p-2"
-            sx={{ backgroundColor: "white" }}
-            inputProps={{ style: { padding: 12 } }}
+        <div className="flex flex-col items-center justify-center">
+          <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 gap-6 ">
+            <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
+              <label>First Name</label>
+              <TextField
+                {...register("firstName", {
+                  required: "First Name is required",
+                })}
+                variant="outlined"
+                error={Boolean(!!errors.firstName)}
+                helperText={
+                  !!errors.firstName && errors.firstName.message?.toString()
+                }
+                inputProps={{
+                  style: {
+                    padding: 10,
+                    borderRadius: "6px",
+                  },
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
+              <label>Last Name</label>
+              <TextField
+                {...register("lastName", { required: "Last Name is required" })}
+                variant="outlined"
+                error={Boolean(!!errors.lastName)}
+                helperText={
+                  !!errors.lastName && errors.lastName.message?.toString()
+                }
+                inputProps={{
+                  style: {
+                    padding: 10,
+                    borderRadius: "6px",
+                  },
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
+              <label>Phone Number</label>
+              <TextField
+                {...register("phone", { required: "Phone is required" })}
+                variant="outlined"
+                error={Boolean(!!errors.phone)}
+                helperText={!!errors.phone && errors.phone.message?.toString()}
+                inputProps={{
+                  style: {
+                    padding: 10,
+                    borderRadius: "6px",
+                  },
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
+              <label>Email Address</label>
+              <TextField
+                {...register("email", { required: "Email is required" })}
+                variant="outlined"
+                error={Boolean(!!errors.email)}
+                helperText={!!errors.email && errors.email.message?.toString()}
+                inputProps={{
+                  style: {
+                    padding: 10,
+                    borderRadius: "6px",
+                  },
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
+              <label>Gender</label>
+              <TextField
+                size="small"
+                {...register("gender", {
+                  required: "Gender is required",
+                })}
+                select
+                variant="outlined"
+                error={Boolean(!!errors.gender)}
+                helperText={
+                  !!errors.gender && errors.gender.message?.toString()
+                }
+                inputProps={{
+                  style: {
+                    padding: 10,
+                    borderRadius: "6px",
+                  },
+                }}
+              >
+                <MenuItem value={Gender.Male}>Male</MenuItem>
+                <MenuItem value={Gender.Female}>Female</MenuItem>
+              </TextField>
+            </div>
+            <div className="flex flex-col gap-[7px] text-[#555555] h-full w-[300px]">
+              <label>Password</label>
+              <TextField
+                {...register("password", { required: "Password is required" })}
+                variant="outlined"
+                error={Boolean(!!errors.password)}
+                helperText={
+                  !!errors.password && errors.password.message?.toString()
+                }
+                inputProps={{
+                  style: {
+                    padding: 9,
+                    borderRadius: "6px",
+                  },
+                }}
+              />
+            </div>
+          </div>
+          <Button
+            type="submit"
+            className="bg-primaryColor w-full mt-10 text-white hover:bg-primaryColor border-2 rounded-[16px] p-3 h-[48px]"
           >
-            <MenuItem value={Gender.Male}>Male</MenuItem>
-            <MenuItem value={Gender.Female}>Female</MenuItem>
-          </TextField>
-
-          <TextField
-            size="small"
-            {...register("phone")}
-            type="text"
-            placeholder="phone number (optional)"
-            className="border-2 rounded-[16px] p-2"
-            sx={{ backgroundColor: "white" }}
-            inputProps={{ style: { padding: 10 } }}
-          />
-          <TextField
-            size="small"
-            {...register("email", { required: "Email is required" })}
-            type="email"
-            placeholder="email"
-            className="border-2 rounded-[16px] p-2"
-            sx={{ backgroundColor: "white" }}
-            inputProps={{ style: { padding: 10 } }}
-          />
-          <TextField
-            size="small"
-            {...register("password", { required: "password is required" })}
-            type="password"
-            placeholder="password"
-            className="border-2 rounded-[16px] p-2"
-            sx={{ backgroundColor: "white" }}
-            inputProps={{ style: { padding: 10 } }}
-          />
+            {loading ? (
+              <CircularProgress style={{ color: "white" }} />
+            ) : (
+              "Register"
+            )}
+          </Button>
         </div>
-        <span className="my-2 text-red-500 px-3">
-          {errors.name?.message
-            ? errors.name?.message.toString()
-            : errors.email?.message
-            ? errors.email?.message.toString()
-            : errors.password?.message
-            ? errors.password?.message.toString()
-            : signupError
-            ? signupError
-            : ""}
-        </span>
-        <Button
-          type="submit"
-          className="bg-green-500 text-white hover:bg-green-500 border-2 rounded-[16px] p-3 h-[48px]"
-        >
-          {loading ? (
-            <CircularProgress style={{ color: "white" }} />
-          ) : (
-            "Register"
-          )}
-        </Button>
       </form>
     </div>
   );

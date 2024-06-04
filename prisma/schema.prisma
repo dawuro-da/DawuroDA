@@ -29,13 +29,10 @@ model User {
   id            String   @id @default(uuid())
   firstName     String
   lastName      String
-  userName      String
   email         String   @unique
   phone         String?  @unique
   role          UserRole @default(Member)
   gender        Gender?
-  isApproved    Boolean
-  approvedBy    String?
   password_salt String
   password_hash String
 

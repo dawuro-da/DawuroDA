@@ -1,38 +1,22 @@
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
-import {
-  createUser,
-  deleteUser,
-  findByEmail,
-  findByPhone,
-  findUserById,
-  updateUser,
-} from "@/db/user";
+import { deleteUser, findUserById } from "@/db/user";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/app/api/auth/[...nextauth]/route";
+import { UserRole } from "@prisma/client";
 
-async function hashPassword(
-  password: string,
-  salt: string
-): Promise<string | null> {
-  try {
-    return await bcrypt.hash(password, salt);
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
-
-export async function Put(req: Request, context: { id: string }) {
+export async function DELETE(
+  req: Request,
+  context: { params: { id: string } }
+) {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user.id) {
+  if (!session?.user.id || !(session.user.role === UserRole.Owner)) {
     return NextResponse.json(
       { success: false, error: "Unauthorized user" },
       { status: 401 }
     );
   }
 
-  const userId = context.id;
+  const userId = context.params.id;
 
   const user = await findUserById(userId);
 
