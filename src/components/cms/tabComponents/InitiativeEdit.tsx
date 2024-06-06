@@ -9,23 +9,23 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
-import { News } from "@prisma/client";
+import { Initiative } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
-const NewsEdit = ({
-  selectedNews,
+const InitiativeEdit = ({
+  selectedInitiative,
   refetch,
   setRefetch,
-  setSelectedNews,
+  setSelectedInitiative,
 }: {
-  selectedNews: News;
+  selectedInitiative: Initiative;
   refetch: boolean;
   setRefetch: (value: boolean) => void;
-  setSelectedNews: (value: News | undefined) => void;
+  setSelectedInitiative: (value: Initiative | undefined) => void;
 }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -40,21 +40,27 @@ const NewsEdit = ({
   } = useForm();
 
   useEffect(() => {
-    setValue("headline", selectedNews?.headline);
-    setValue("headlineAmharic", selectedNews?.headlineAmharic);
-    setValue("body", selectedNews?.body);
-    setValue("bodyAmharic", selectedNews?.bodyAmharic);
-    setValue("profileImage", selectedNews?.profileImage);
-    // setValue("isDraft", selectedNews?.isDraft);
-  }, [selectedNews]);
+    setValue("nameOfInitiative", selectedInitiative?.nameOfInitiative);
+    setValue(
+      "nameOfInitiativeAmharic",
+      selectedInitiative?.nameOfInitiativeAmharic
+    );
+    setValue("body", selectedInitiative?.body);
+    setValue("bodyAmharic", selectedInitiative?.bodyAmharic);
+    setValue("featuredImages", selectedInitiative?.featuredImages);
+    // setValue("isDraft", selectedInitiative?.isDraft);
+  }, [selectedInitiative]);
 
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const res = await axios.post(`/api/cms/news/edit/${selectedNews?.id}`, {
-        ...values,
-        profileImage: "/mike/new",
-      });
+      const res = await axios.post(
+        `/api/cms/initiative/edit/${selectedInitiative?.id}`,
+        {
+          ...values,
+          featuredImages: ["/mike/new"],
+        }
+      );
 
       if (res?.status === 200) {
         dispatch(
@@ -64,7 +70,7 @@ const NewsEdit = ({
           })
         );
         reset();
-        setSelectedNews(undefined);
+        setSelectedInitiative(undefined);
         setRefetch(!refetch);
       }
     } catch (err: any) {
@@ -82,7 +88,7 @@ const NewsEdit = ({
   const handleDelete = async (id: string) => {
     try {
       const res = await axios.delete(
-        `/api/cms/news/delete/${selectedNews?.id}`
+        `/api/cms/initiative/delete/${selectedInitiative?.id}`
       );
 
       if (res?.status === 200) {
@@ -93,7 +99,7 @@ const NewsEdit = ({
           })
         );
         reset();
-        setSelectedNews(undefined);
+        setSelectedInitiative(undefined);
         setRefetch(!refetch);
       }
     } catch (err: any) {
@@ -110,8 +116,8 @@ const NewsEdit = ({
   return (
     <div className="border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
       <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center justify-between">
-        <span>Editing {selectedNews?.headline}</span>
-        <IconButton onClick={() => setSelectedNews(undefined)}>
+        <span>Editing {selectedInitiative?.nameOfInitiative}</span>
+        <IconButton onClick={() => setSelectedInitiative(undefined)}>
           <Close />
         </IconButton>
       </div>
@@ -120,26 +126,27 @@ const NewsEdit = ({
         className="relative flex-1 flex flex-col h-full p-10"
       >
         <div className="flex flex-col gap-4 text-fadeTextColor h-full">
-          <label>Headline</label>
+          <label>Name of the intiative</label>
           <TextField
-            {...register("headline")}
+            {...register("nameOfInitiative")}
             variant="outlined"
-            error={Boolean(!!errors.headline)}
+            error={Boolean(!!errors.nameOfInitiative)}
             helperText={
-              !!errors.headline && errors.headline.message?.toString()
+              !!errors.nameOfInitiative &&
+              errors.nameOfInitiative.message?.toString()
             }
             sx={{ backgroundColor: "white" }}
             inputProps={{ style: { padding: 10 } }}
           />
           <div className="flex flex-col gap-1 text-fadeTextColor">
-            <label>Headline in Amharic</label>
+            <label>Name of the intiative in Amharic</label>
             <TextField
-              {...register("headlineAmharic")}
+              {...register("nameOfInitiativeAmharic")}
               variant="outlined"
-              error={Boolean(!!errors.headlineAmharic)}
+              error={Boolean(!!errors.nameOfInitiativeAmharic)}
               helperText={
-                !!errors.headlineAmharic &&
-                errors.headlineAmharic.message?.toString()
+                !!errors.nameOfInitiativeAmharic &&
+                errors.nameOfInitiativeAmharic.message?.toString()
               }
               sx={{ backgroundColor: "white" }}
               inputProps={{ style: { padding: 10 } }}
@@ -147,7 +154,7 @@ const NewsEdit = ({
           </div>
           <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
             <span className="text-titleColor text-sm font-bold">
-              Profile Image
+              Featured Images
             </span>
             <span className="relative flex flex-row items-center px-6 border-2 border-dashed rounded-[3px] py-2 cursor-pointer h-[65px]">
               <span className="flex flex-row items-center px-2 gap-2 text-titleColor cursor-pointer">
@@ -158,15 +165,27 @@ const NewsEdit = ({
                   width={20}
                 />
                 <span>
-                  {typeof watch("profileImage") === "string" &&
-                  watch("profileImage")
-                    ? watch("profileImage")
+                  {watch("featuredImage") && watch("featuredImage")[0]?.name
+                    ? watch("featuredImage")[0]?.name
                     : "Upload"}
                 </span>
               </span>
               <input
-                id="profileImage"
-                {...register("profileImage")}
+                id="featuredImage"
+                {...register("featuredImage", {
+                  required: "featuredImage is required",
+                  validate: {
+                    fileSize: (value: any) => {
+                      if (value && value[0]) {
+                        return (
+                          value[0].size < 1048576 ||
+                          "File size must be less than 1MB"
+                        );
+                      }
+                      return true;
+                    },
+                  },
+                })}
                 type="file"
                 placeholder=""
                 className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -185,6 +204,12 @@ const NewsEdit = ({
             Image size must be 600*600 File size must be less than 1MB
           </span> */}
           </div>
+          <Button
+            variant="outlined"
+            className="border-gray-500 w-full text-gray-500 capitalize"
+          >
+            + Add Items
+          </Button>
           <div className="flex flex-col gap-1 text-fadeTextColor">
             <label>Body</label>
             <TextField
@@ -258,10 +283,10 @@ const NewsEdit = ({
           </div>
           <div className="flex flex-col items-center gap-6 px-12 py-6">
             <span className="font-bold text-3xl">
-              Are you sure you want to remove this News?
+              Are you sure you want to remove this Initiative?
             </span>
             <span className="capitalize flex flex-row items-center gap-2">
-              <span>{selectedNews.headline}</span>
+              <span>{selectedInitiative.nameOfInitiative}</span>
             </span>
             <div className="flex flex-row gap-6 items-center mt-10">
               <Button
@@ -275,7 +300,7 @@ const NewsEdit = ({
                 variant="outlined"
                 className="bg-red-700 border-red-700 hover:bg-red-700 hover:border-red-700 text-white"
                 onClick={async () => {
-                  await handleDelete(selectedNews.id);
+                  await handleDelete(selectedInitiative.id);
                 }}
               >
                 Remove
@@ -288,4 +313,4 @@ const NewsEdit = ({
   );
 };
 
-export default NewsEdit;
+export default InitiativeEdit;

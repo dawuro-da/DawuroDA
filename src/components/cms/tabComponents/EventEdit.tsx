@@ -9,23 +9,23 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
-import { News } from "@prisma/client";
+import { Event } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
-const NewsEdit = ({
-  selectedNews,
+const EventEdit = ({
+  selectedEvent,
   refetch,
   setRefetch,
-  setSelectedNews,
+  setSelectedEvent,
 }: {
-  selectedNews: News;
+  selectedEvent: Event;
   refetch: boolean;
   setRefetch: (value: boolean) => void;
-  setSelectedNews: (value: News | undefined) => void;
+  setSelectedEvent: (value: Event | undefined) => void;
 }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -40,18 +40,18 @@ const NewsEdit = ({
   } = useForm();
 
   useEffect(() => {
-    setValue("headline", selectedNews?.headline);
-    setValue("headlineAmharic", selectedNews?.headlineAmharic);
-    setValue("body", selectedNews?.body);
-    setValue("bodyAmharic", selectedNews?.bodyAmharic);
-    setValue("profileImage", selectedNews?.profileImage);
-    // setValue("isDraft", selectedNews?.isDraft);
-  }, [selectedNews]);
+    setValue("headline", selectedEvent?.headline);
+    setValue("headlineAmharic", selectedEvent?.headlineAmharic);
+    setValue("body", selectedEvent?.body);
+    setValue("bodyAmharic", selectedEvent?.bodyAmharic);
+    setValue("profileImage", selectedEvent?.profileImage);
+    // setValue("isDraft", selectedEvent?.isDraft);
+  }, [selectedEvent]);
 
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const res = await axios.post(`/api/cms/news/edit/${selectedNews?.id}`, {
+      const res = await axios.post(`/api/cms/event/edit/${selectedEvent?.id}`, {
         ...values,
         profileImage: "/mike/new",
       });
@@ -64,7 +64,7 @@ const NewsEdit = ({
           })
         );
         reset();
-        setSelectedNews(undefined);
+        setSelectedEvent(undefined);
         setRefetch(!refetch);
       }
     } catch (err: any) {
@@ -82,7 +82,7 @@ const NewsEdit = ({
   const handleDelete = async (id: string) => {
     try {
       const res = await axios.delete(
-        `/api/cms/news/delete/${selectedNews?.id}`
+        `/api/cms/event/delete/${selectedEvent?.id}`
       );
 
       if (res?.status === 200) {
@@ -93,7 +93,7 @@ const NewsEdit = ({
           })
         );
         reset();
-        setSelectedNews(undefined);
+        setSelectedEvent(undefined);
         setRefetch(!refetch);
       }
     } catch (err: any) {
@@ -110,8 +110,8 @@ const NewsEdit = ({
   return (
     <div className="border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
       <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center justify-between">
-        <span>Editing {selectedNews?.headline}</span>
-        <IconButton onClick={() => setSelectedNews(undefined)}>
+        <span>Editing {selectedEvent?.headline}</span>
+        <IconButton onClick={() => setSelectedEvent(undefined)}>
           <Close />
         </IconButton>
       </div>
@@ -258,10 +258,10 @@ const NewsEdit = ({
           </div>
           <div className="flex flex-col items-center gap-6 px-12 py-6">
             <span className="font-bold text-3xl">
-              Are you sure you want to remove this News?
+              Are you sure you want to remove this Event?
             </span>
             <span className="capitalize flex flex-row items-center gap-2">
-              <span>{selectedNews.headline}</span>
+              <span>{selectedEvent.headline}</span>
             </span>
             <div className="flex flex-row gap-6 items-center mt-10">
               <Button
@@ -275,7 +275,7 @@ const NewsEdit = ({
                 variant="outlined"
                 className="bg-red-700 border-red-700 hover:bg-red-700 hover:border-red-700 text-white"
                 onClick={async () => {
-                  await handleDelete(selectedNews.id);
+                  await handleDelete(selectedEvent.id);
                 }}
               >
                 Remove
@@ -288,4 +288,4 @@ const NewsEdit = ({
   );
 };
 
-export default NewsEdit;
+export default EventEdit;

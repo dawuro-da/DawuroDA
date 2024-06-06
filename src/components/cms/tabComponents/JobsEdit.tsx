@@ -9,23 +9,23 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
-import { News } from "@prisma/client";
+import { Job } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
-const NewsEdit = ({
-  selectedNews,
+const JobEdit = ({
+  selectedJob,
   refetch,
   setRefetch,
-  setSelectedNews,
+  setSelectedJob,
 }: {
-  selectedNews: News;
+  selectedJob: Job;
   refetch: boolean;
   setRefetch: (value: boolean) => void;
-  setSelectedNews: (value: News | undefined) => void;
+  setSelectedJob: (value: Job | undefined) => void;
 }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -40,18 +40,17 @@ const NewsEdit = ({
   } = useForm();
 
   useEffect(() => {
-    setValue("headline", selectedNews?.headline);
-    setValue("headlineAmharic", selectedNews?.headlineAmharic);
-    setValue("body", selectedNews?.body);
-    setValue("bodyAmharic", selectedNews?.bodyAmharic);
-    setValue("profileImage", selectedNews?.profileImage);
-    // setValue("isDraft", selectedNews?.isDraft);
-  }, [selectedNews]);
+    setValue("jobTitle", selectedJob?.jobTitle);
+    setValue("jobTitleAmharic", selectedJob?.jobTitleAmharic);
+    setValue("jobDescription", selectedJob?.jobDescription);
+    setValue("jobDescriptionAmharic", selectedJob?.jobDescriptionAmharic);
+    // setValue("isDraft", selectedJob?.isDraft);
+  }, [selectedJob]);
 
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const res = await axios.post(`/api/cms/news/edit/${selectedNews?.id}`, {
+      const res = await axios.post(`/api/cms/event/edit/${selectedJob?.id}`, {
         ...values,
         profileImage: "/mike/new",
       });
@@ -64,7 +63,7 @@ const NewsEdit = ({
           })
         );
         reset();
-        setSelectedNews(undefined);
+        setSelectedJob(undefined);
         setRefetch(!refetch);
       }
     } catch (err: any) {
@@ -82,7 +81,7 @@ const NewsEdit = ({
   const handleDelete = async (id: string) => {
     try {
       const res = await axios.delete(
-        `/api/cms/news/delete/${selectedNews?.id}`
+        `/api/cms/event/delete/${selectedJob?.id}`
       );
 
       if (res?.status === 200) {
@@ -93,7 +92,7 @@ const NewsEdit = ({
           })
         );
         reset();
-        setSelectedNews(undefined);
+        setSelectedJob(undefined);
         setRefetch(!refetch);
       }
     } catch (err: any) {
@@ -110,8 +109,8 @@ const NewsEdit = ({
   return (
     <div className="border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
       <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center justify-between">
-        <span>Editing {selectedNews?.headline}</span>
-        <IconButton onClick={() => setSelectedNews(undefined)}>
+        <span>Editing {selectedJob?.jobTitle}</span>
+        <IconButton onClick={() => setSelectedJob(undefined)}>
           <Close />
         </IconButton>
       </div>
@@ -120,94 +119,59 @@ const NewsEdit = ({
         className="relative flex-1 flex flex-col h-full p-10"
       >
         <div className="flex flex-col gap-4 text-fadeTextColor h-full">
-          <label>Headline</label>
+          <label>Job Title</label>
           <TextField
-            {...register("headline")}
+            {...register("jobTitle")}
             variant="outlined"
-            error={Boolean(!!errors.headline)}
+            error={Boolean(!!errors.jobTitle)}
             helperText={
-              !!errors.headline && errors.headline.message?.toString()
+              !!errors.jobTitle && errors.jobTitle.message?.toString()
             }
             sx={{ backgroundColor: "white" }}
             inputProps={{ style: { padding: 10 } }}
           />
           <div className="flex flex-col gap-1 text-fadeTextColor">
-            <label>Headline in Amharic</label>
+            <label>Job Title in Amharic</label>
             <TextField
-              {...register("headlineAmharic")}
+              {...register("jobTitleAmharic")}
               variant="outlined"
-              error={Boolean(!!errors.headlineAmharic)}
+              error={Boolean(!!errors.jobTitleAmharic)}
               helperText={
-                !!errors.headlineAmharic &&
-                errors.headlineAmharic.message?.toString()
+                !!errors.jobTitleAmharic &&
+                errors.jobTitleAmharic.message?.toString()
               }
               sx={{ backgroundColor: "white" }}
               inputProps={{ style: { padding: 10 } }}
             />
           </div>
-          <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
-            <span className="text-titleColor text-sm font-bold">
-              Profile Image
-            </span>
-            <span className="relative flex flex-row items-center px-6 border-2 border-dashed rounded-[3px] py-2 cursor-pointer h-[65px]">
-              <span className="flex flex-row items-center px-2 gap-2 text-titleColor cursor-pointer">
-                <Image
-                  src={"/icons/greyGallery.svg"}
-                  alt=""
-                  height={20}
-                  width={20}
-                />
-                <span>
-                  {typeof watch("profileImage") === "string" &&
-                  watch("profileImage")
-                    ? watch("profileImage")
-                    : "Upload"}
-                </span>
-              </span>
-              <input
-                id="profileImage"
-                {...register("profileImage")}
-                type="file"
-                placeholder=""
-                className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              />
-              <Button className="flex flex-row items-center justify-center outline-none z-0 gap-2 absolute bg-white text-titleColor right-4 px-4 py-2 cursor-pointer">
-                <Image
-                  src={"/icons/uploadIcon.svg"}
-                  alt=""
-                  height={20}
-                  width={20}
-                />
-                <span>Upload</span>
-              </Button>
-            </span>
-            {/* <span className="text-[10px] text-titleColor">
-            Image size must be 600*600 File size must be less than 1MB
-          </span> */}
-          </div>
+
           <div className="flex flex-col gap-1 text-fadeTextColor">
-            <label>Body</label>
+            <label>Job Description</label>
             <TextField
-              {...register("body")}
+              {...register("jobDescription")}
               variant="outlined"
               multiline
               rows={4}
-              error={Boolean(!!errors.body)}
-              helperText={!!errors.body && errors.body.message?.toString()}
+              error={Boolean(!!errors.jobDescription)}
+              helperText={
+                !!errors.jobDescription &&
+                errors.jobDescription.message?.toString()
+              }
               sx={{ backgroundColor: "white" }}
               inputProps={{ style: { padding: 0 } }}
             />
           </div>
           <div className="flex flex-col gap-1 text-fadeTextColor">
-            <label>Body in Amharic</label>
+            <label>Job Description in Amharic</label>
             <TextField
-              {...register("bodyAmharic")}
+              {...register("jobDescriptionAmharic")}
               variant="outlined"
               multiline
               rows={4}
-              error={Boolean(!!errors.bodyAmharic)}
+              error={Boolean(!!errors.jobDescriptionAmharic)}
               helperText={
-                !!errors.bodyAmharic && errors.bodyAmharic.message?.toString()
+                !!errors.jobDescriptionAmharic &&
+                errors.jobDescriptionAmharic.message?.toString()
               }
               sx={{ backgroundColor: "white" }}
               inputProps={{ style: { padding: 0 } }}
@@ -258,10 +222,10 @@ const NewsEdit = ({
           </div>
           <div className="flex flex-col items-center gap-6 px-12 py-6">
             <span className="font-bold text-3xl">
-              Are you sure you want to remove this News?
+              Are you sure you want to remove this Job?
             </span>
             <span className="capitalize flex flex-row items-center gap-2">
-              <span>{selectedNews.headline}</span>
+              <span>{selectedJob.jobTitle}</span>
             </span>
             <div className="flex flex-row gap-6 items-center mt-10">
               <Button
@@ -275,7 +239,7 @@ const NewsEdit = ({
                 variant="outlined"
                 className="bg-red-700 border-red-700 hover:bg-red-700 hover:border-red-700 text-white"
                 onClick={async () => {
-                  await handleDelete(selectedNews.id);
+                  await handleDelete(selectedJob.id);
                 }}
               >
                 Remove
@@ -288,4 +252,4 @@ const NewsEdit = ({
   );
 };
 
-export default NewsEdit;
+export default JobEdit;
