@@ -193,9 +193,9 @@ const Events = () => {
                   <span>Upload</span>
                 </Button>
               </span>
-              <span className="text-[10px] text-titleColor">
+              {/* <span className="text-[10px] text-titleColor">
                 Image size must be 600*600 File size must be less than 1MB
-              </span>
+              </span> */}
             </div>
             <div className="flex flex-col gap-1 text-fadeTextColor">
               <label>Body</label>

@@ -80,7 +80,7 @@ const Partnership = () => {
           />
         </div>
         <div className="flex-1 px-4 mt-6 flex flex-col gap-4">
-        {[1, 2, 3, 4].map((item, index) => {
+          {[1, 2, 3, 4].map((item, index) => {
             return (
               <div
                 key={item}
@@ -115,40 +115,36 @@ const Partnership = () => {
         </div>
       </div>
       <div className="border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
-        <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center">
-          Charitable Donations to boost productivity as a whole
-        </div>
+        <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center"></div>
         <form className="relative flex-1 flex flex-col h-full p-10">
           <div className="flex flex-col gap-4 text-fadeTextColor h-full">
-            <label>Headline</label>
+            <label>Partner Name</label>
             <TextField
-              {...register("headline")}
+              {...register("partnerName")}
               variant="outlined"
-              error={Boolean(!!errors.headline)}
+              error={Boolean(!!errors.partnerName)}
               helperText={
-                !!errors.headline && errors.headline.message?.toString()
+                !!errors.partnerName && errors.partnerName.message?.toString()
               }
               sx={{ backgroundColor: "white" }}
               inputProps={{ style: { padding: 10 } }}
             />
             <div className="flex flex-col gap-1 text-fadeTextColor">
-              <label>Headline in Amharic</label>
+              <label>Partner Name in Amharic</label>
               <TextField
-                {...register("headlineAmharic")}
+                {...register("partnerNameAmharic")}
                 variant="outlined"
-                error={Boolean(!!errors.headlineAmharic)}
+                error={Boolean(!!errors.partnerNameAmharic)}
                 helperText={
-                  !!errors.headlineAmharic &&
-                  errors.headlineAmharic.message?.toString()
+                  !!errors.partnerNameAmharic &&
+                  errors.partnerNameAmharic.message?.toString()
                 }
                 sx={{ backgroundColor: "white" }}
                 inputProps={{ style: { padding: 10 } }}
               />
             </div>
             <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
-              <span className="text-titleColor text-sm font-bold">
-                Profile Image
-              </span>
+              <span className="text-titleColor text-sm font-bold">Logo</span>
               <span className="relative flex flex-row items-center px-6 border-2 border-dashed rounded-[3px] py-2 cursor-pointer h-[65px]">
                 <span className="flex flex-row items-center px-2 gap-2 text-titleColor cursor-pointer">
                   <Image
@@ -158,15 +154,15 @@ const Partnership = () => {
                     width={20}
                   />
                   <span>
-                    {watch("profileImage") && watch("profileImage")[0]?.name
-                      ? watch("profileImage")[0]?.name
+                    {watch("logo") && watch("logo")[0]?.name
+                      ? watch("logo")[0]?.name
                       : "Upload"}
                   </span>
                 </span>
                 <input
-                  id="profileImage"
-                  {...register("profileImage", {
-                    required: "profileImage is required",
+                  id="logo"
+                  {...register("logo", {
+                    required: "logo is required",
                     validate: {
                       fileSize: (value: any) => {
                         if (value && value[0]) {
@@ -193,33 +189,33 @@ const Partnership = () => {
                   <span>Upload</span>
                 </Button>
               </span>
-              <span className="text-[10px] text-titleColor">
+              {/* <span className="text-[10px] text-titleColor">
                 Image size must be 600*600 File size must be less than 1MB
-              </span>
+              </span> */}
             </div>
             <div className="flex flex-col gap-1 text-fadeTextColor">
-              <label>Body</label>
+              <label>Bio</label>
               <TextField
-                {...register("body")}
+                {...register("bio")}
                 variant="outlined"
                 multiline
                 rows={4}
-                error={Boolean(!!errors.body)}
-                helperText={!!errors.body && errors.body.message?.toString()}
+                error={Boolean(!!errors.bio)}
+                helperText={!!errors.bio && errors.bio.message?.toString()}
                 sx={{ backgroundColor: "white" }}
                 inputProps={{ style: { padding: 0 } }}
               />
             </div>
             <div className="flex flex-col gap-1 text-fadeTextColor">
-              <label>Body in Amharic</label>
+              <label>Bio in Amharic</label>
               <TextField
-                {...register("bodyAmharic")}
+                {...register("bioAmharic")}
                 variant="outlined"
                 multiline
                 rows={4}
-                error={Boolean(!!errors.bodyAmharic)}
+                error={Boolean(!!errors.bioAmharic)}
                 helperText={
-                  !!errors.bodyAmharic && errors.bodyAmharic.message?.toString()
+                  !!errors.bioAmharic && errors.bioAmharic.message?.toString()
                 }
                 sx={{ backgroundColor: "white" }}
                 inputProps={{ style: { padding: 0 } }}
