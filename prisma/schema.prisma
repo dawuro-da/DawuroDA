@@ -194,6 +194,18 @@ model Event {
   @@map(name: "event")
 }
 
+model Resource {
+  id          String @id @default(uuid())
+  name        String
+  description String
+  document    String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "resource")
+}
+
 model Initiative {
   id                      String   @id @default(uuid())
   nameOfInitiative        String

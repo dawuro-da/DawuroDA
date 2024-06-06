@@ -1,13 +1,31 @@
+import { PageState } from "@/components/shared/CustomizedDatagrid";
+import { showToastAction } from "@/redux/actions";
 import { Delete, Edit, SearchOutlined, Upload } from "@mui/icons-material";
-import { Button, IconButton, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  CircularProgress,
+  IconButton,
+  TextField,
+} from "@mui/material";
+import { Job } from "@prisma/client";
+import axios from "axios";
 import Image from "next/image";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import JobEdit from "./JobsEdit";
 
 const Jobs = () => {
-  const [searching, setSearching] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const [refetch, setRefetch] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [fetchLoading, setfetchLoading] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
-
+  const [jobs, setJobs] = useState<Job[]>();
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [selectedJob, setSelectedJob] = useState<Job>();
+  const [createJobForm, setCreateJobForm] = useState(false);
   const {
     register,
     handleSubmit,
@@ -16,9 +34,60 @@ const Jobs = () => {
     watch,
   } = useForm();
 
+  const fetchjob = async ({ page, pageSize }: PageState) => {
+    setfetchLoading(true);
+    const result = await axios.post("/api/cms/job/fetch", {
+      page,
+      pageSize,
+      searchText,
+    });
+
+    if (result.data.success) {
+      setJobs(result.data.value.jobs);
+      setTotalCount(result.data.value.total);
+    }
+    setfetchLoading(false);
+  };
+
+  useEffect(() => {
+    fetchjob({ page: 1, pageSize: 30 });
+  }, [refetch]);
+
+  useEffect(() => {}, [selectedJob]);
+
+  const handleRegister = async (values: FieldValues) => {
+    setLoading(true);
+    try {
+      const res = await axios.post("/api/cms/job/create", {
+        ...values,
+        profileImage: "/mike/new",
+      });
+
+      if (res?.status === 200) {
+        dispatch(
+          showToastAction({
+            message: "Successfully Done",
+            type: "success",
+          })
+        );
+        setRefetch(!refetch);
+        reset();
+      }
+    } catch (err: any) {
+      console.error(err);
+      dispatch(
+        showToastAction({
+          message: err?.response?.data?.error ?? "something went wrong",
+          type: "error",
+        })
+      );
+    }
+    setLoading(false);
+  };
+
   return (
     <div className="flex flex-row flex-1 mt-2 text-[#7C7C7C] h-full">
-      <div className="h-full flex flex-col">
+      <div className="h-full flex flex-col max-w-[400px] border-r-[1px] border-[#d1d1d1]">
         <div className="lg:pl-[40px] md:pl-[40px] pl-[20px] py-4 pr-6 flex flex-col border-[1px] gap-4 border-[#d1d1d1] border-r-0 h-[140px]">
           <div className="flex flex-row justify-between items-center">
             <span className="font-bold text-xl">Jobs</span>
@@ -28,7 +97,11 @@ const Jobs = () => {
                 alt=""
                 width={20}
                 height={20}
-                className=""
+                className="cursor-pointer"
+                onClick={() => {
+                  setSelectedJob(undefined);
+                  setCreateJobForm(true);
+                }}
               />
               <span className="rotate-90 font-bold text-xl">...</span>
             </span>
@@ -42,13 +115,13 @@ const Jobs = () => {
             value={searchText}
             onChange={(e) => {
               if (e.target.value === "") {
-                setSearching(!searching);
+                setRefetch(!refetch);
               }
               setSearchText(e.target.value);
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                setSearching(!searching);
+                setRefetch(!refetch);
               }
             }}
             hiddenLabel
@@ -61,7 +134,7 @@ const Jobs = () => {
                     borderLeft: 20,
                   }}
                   onClick={() => {
-                    setSearching(!searching);
+                    setRefetch(!refetch);
                   }}
                 >
                   <SearchOutlined style={{ color: "#555555" }} />
@@ -80,118 +153,147 @@ const Jobs = () => {
           />
         </div>
         <div className="flex-1 px-4 mt-6 flex flex-col gap-4">
-          {[1, 2, 3, 4].map((item, index) => {
-            return (
-              <div
-                key={item}
-                className="relative w-full h-[50px] flex flex-row items-center gap-2 hover:bg-[#e5e5e6] cursor-pointer"
-              >
-                <Image
-                  src={"/icons/list.png"}
-                  alt=""
-                  height={50}
-                  width={50}
-                  className="h-full"
-                />
-                <span className=" overflow-clip text-ellipsis text-nowrap flex-1 max-w-[70%]">
-                  Charitable Donations to this foasdfsklajf asdflj fas
-                </span>
-                <IconButton className="absolute right-0 ">
+          {fetchLoading ? (
+            <CircularProgress />
+          ) : (
+            jobs?.map((item, index) => {
+              return (
+                <div
+                  key={item.id}
+                  onClick={() => setSelectedJob(item)}
+                  className={`relative w-full h-[50px] flex flex-row items-center ${
+                    selectedJob?.id === item.id && "bg-[#e5e5e6]"
+                  } gap-2 hover:bg-[#e5e5e6] cursor-pointer`}
+                >
                   <Image
-                    src={
-                      index % 2 === 0
-                        ? "/icons/uploadGreen.svg"
-                        : "/icons/draft.svg"
-                    }
+                    src={"/icons/list.png"}
                     alt=""
-                    width={20}
-                    height={20}
-                    className=""
+                    height={50}
+                    width={50}
+                    className="h-full"
                   />
-                </IconButton>
-              </div>
-            );
-          })}
+                  <span className=" overflow-clip text-ellipsis text-nowrap flex-1 max-w-[70%]">
+                    {item.jobTitle}
+                  </span>
+                  <IconButton className="absolute right-0 ">
+                    <Image
+                      src={
+                        index % 2 === 0
+                          ? "/icons/uploadGreen.svg"
+                          : "/icons/draft.svg"
+                      }
+                      alt=""
+                      width={20}
+                      height={20}
+                      className=""
+                    />
+                  </IconButton>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
-      <div className="border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
-        <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center"></div>
-        <form className="relative flex-1 flex flex-col h-full p-10">
-          <div className="flex flex-col gap-4 text-fadeTextColor h-full">
-            <label>Job Title</label>
-            <TextField
-              {...register("jobTitle")}
-              variant="outlined"
-              error={Boolean(!!errors.jobTitle)}
-              helperText={
-                !!errors.jobTitle && errors.jobTitle.message?.toString()
-              }
-              sx={{ backgroundColor: "white" }}
-              inputProps={{ style: { padding: 10 } }}
-            />
-            <div className="flex flex-col gap-1 text-fadeTextColor">
-              <label>Job Title in Amharic</label>
+      {selectedJob ? (
+        <JobEdit
+          selectedJob={selectedJob}
+          refetch={refetch}
+          setRefetch={setRefetch}
+          setSelectedJob={setSelectedJob}
+        />
+      ) : createJobForm ? (
+        <div className="border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
+          <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center"></div>
+          <form
+            onSubmit={handleSubmit(handleRegister)}
+            className="relative flex-1 flex flex-col h-full p-10"
+          >
+            <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+              <label>Job Title</label>
               <TextField
-                {...register("jobTitleAmharic")}
+                {...register("jobTitle")}
                 variant="outlined"
-                error={Boolean(!!errors.jobTitleAmharic)}
+                error={Boolean(!!errors.jobTitle)}
                 helperText={
-                  !!errors.jobTitleAmharic &&
-                  errors.jobTitleAmharic.message?.toString()
+                  !!errors.jobTitle && errors.jobTitle.message?.toString()
                 }
                 sx={{ backgroundColor: "white" }}
                 inputProps={{ style: { padding: 10 } }}
               />
-            </div>
+              <div className="flex flex-col gap-1 text-fadeTextColor">
+                <label>Job Title in Amharic</label>
+                <TextField
+                  {...register("jobTitleAmharic")}
+                  variant="outlined"
+                  error={Boolean(!!errors.jobTitleAmharic)}
+                  helperText={
+                    !!errors.jobTitleAmharic &&
+                    errors.jobTitleAmharic.message?.toString()
+                  }
+                  sx={{ backgroundColor: "white" }}
+                  inputProps={{ style: { padding: 10 } }}
+                />
+              </div>
 
-            <div className="flex flex-col gap-1 text-fadeTextColor">
-              <label>Job Description</label>
-              <TextField
-                {...register("jobDescription")}
-                variant="outlined"
-                multiline
-                rows={4}
-                error={Boolean(!!errors.jobDescription)}
-                helperText={
-                  !!errors.jobDescription &&
-                  errors.jobDescription.message?.toString()
-                }
-                sx={{ backgroundColor: "white" }}
-                inputProps={{ style: { padding: 0 } }}
-              />
-            </div>
-            <div className="flex flex-col gap-1 text-fadeTextColor">
-              <label>Job Description in Amharic</label>
-              <TextField
-                {...register("jobDescriptionAmharic")}
-                variant="outlined"
-                multiline
-                rows={4}
-                error={Boolean(!!errors.jobDescriptionAmharic)}
-                helperText={
-                  !!errors.jobDescriptionAmharic && errors.jobDescriptionAmharic.message?.toString()
-                }
-                sx={{ backgroundColor: "white" }}
-                inputProps={{ style: { padding: 0 } }}
-              />
-            </div>
-            <div className="py-4 border-t-[1px] flex-row flex items-center justify-end gap-2 w-full">
-              <Button
-                variant="contained"
-                type="submit"
-                className="flex flex-row items-center justify-center gap-2 shadow-none"
-              >
-                <Upload /> <span>Publish</span>
-              </Button>
-              <div className="border-l-[2px] ">
-                <IconButton>
-                  <Delete />
-                </IconButton>
+              <div className="flex flex-col gap-1 text-fadeTextColor">
+                <label>Job Description</label>
+                <TextField
+                  {...register("jobDescription")}
+                  variant="outlined"
+                  multiline
+                  rows={4}
+                  error={Boolean(!!errors.jobDescription)}
+                  helperText={
+                    !!errors.jobDescription &&
+                    errors.jobDescription.message?.toString()
+                  }
+                  sx={{ backgroundColor: "white" }}
+                  inputProps={{ style: { padding: 0 } }}
+                />
+              </div>
+              <div className="flex flex-col gap-1 text-fadeTextColor">
+                <label>Job Description in Amharic</label>
+                <TextField
+                  {...register("jobDescriptionAmharic")}
+                  variant="outlined"
+                  multiline
+                  rows={4}
+                  error={Boolean(!!errors.jobDescriptionAmharic)}
+                  helperText={
+                    !!errors.jobDescriptionAmharic &&
+                    errors.jobDescriptionAmharic.message?.toString()
+                  }
+                  sx={{ backgroundColor: "white" }}
+                  inputProps={{ style: { padding: 0 } }}
+                />
+              </div>
+              <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
+                <div className="flex flex-row items-center gap-1">
+                  <Checkbox {...register("isDraft")} />
+                  <span>Save as Draft</span>
+                </div>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  className="flex flex-row items-center justify-center gap-2 shadow-none capitalize text-lg h-[48px]"
+                >
+                  {loading ? (
+                    <CircularProgress />
+                  ) : watch("isDraft") ? (
+                    <span>Save Draft</span>
+                  ) : (
+                    <>
+                      <Upload /> <span>Publish</span>
+                    </>
+                  )}
+                </Button>
               </div>
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

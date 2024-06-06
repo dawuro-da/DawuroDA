@@ -10,6 +10,7 @@ import Partnerships from "./tabComponents/Partnership";
 import Jobs from "./tabComponents/Jobs";
 import Managements from "./tabComponents/Managements";
 import Faq from "./tabComponents/Faq";
+import Resource from "./tabComponents/Resource";
 
 const menues = [
   {
@@ -54,6 +55,12 @@ const menues = [
     iconActive: "/icons/cms/faqActive.svg",
     icon: "/icons/cms/faq.svg",
   },
+  {
+    id: "resources",
+    name: "Resources",
+    iconActive: "/icons/cms/newsActive.svg",
+    icon: "/icons/cms/news.svg",
+  },
 ];
 
 const CMS = () => {
@@ -74,6 +81,8 @@ const CMS = () => {
         return <Managements />;
       case "faqs":
         return <Faq />;
+      case "resources":
+        return <Resource />;
       default:
         return <News />;
     }

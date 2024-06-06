@@ -1,13 +1,31 @@
+import { PageState } from "@/components/shared/CustomizedDatagrid";
+import { showToastAction } from "@/redux/actions";
 import { Delete, Edit, SearchOutlined, Upload } from "@mui/icons-material";
-import { Button, IconButton, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  CircularProgress,
+  IconButton,
+  TextField,
+} from "@mui/material";
+import { Initiative } from "@prisma/client";
+import axios from "axios";
 import Image from "next/image";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import InitiativeEdit from "./InitiativeEdit";
 
 const Initiatives = () => {
-  const [searching, setSearching] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const [refetch, setRefetch] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [fetchLoading, setfetchLoading] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
-
+  const [initiatives, setInitiatives] = useState<Initiative[]>();
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [selectedInitiative, setSelectedInitiative] = useState<Initiative>();
+  const [createInitiativeForm, setCreateInitiativeForm] = useState(false);
   const {
     register,
     handleSubmit,
@@ -16,9 +34,59 @@ const Initiatives = () => {
     watch,
   } = useForm();
 
+  const fetchInitiative = async ({ page, pageSize }: PageState) => {
+    setfetchLoading(true);
+    const result = await axios.post("/api/cms/initiative/fetch", {
+      page,
+      pageSize,
+      searchText,
+    });
+
+    if (result.data.success) {
+      setInitiatives(result.data.value.initiatives);
+      setTotalCount(result.data.value.total);
+    }
+    setfetchLoading(false);
+  };
+
+  useEffect(() => {
+    fetchInitiative({ page: 1, pageSize: 30 });
+  }, [refetch]);
+
+  useEffect(() => {}, [selectedInitiative]);
+
+  const handleRegister = async (values: FieldValues) => {
+    setLoading(true);
+    try {
+      const res = await axios.post("/api/cms/initiative/create", {
+        ...values,
+        profileImage: "/mike/new",
+      });
+
+      if (res?.status === 200) {
+        dispatch(
+          showToastAction({
+            message: "Successfully Done",
+            type: "success",
+          })
+        );
+        setRefetch(!refetch);
+        reset();
+      }
+    } catch (err: any) {
+      console.error(err);
+      dispatch(
+        showToastAction({
+          message: err?.response?.data?.error ?? "something went wrong",
+          type: "error",
+        })
+      );
+    }
+    setLoading(false);
+  };
   return (
     <div className="flex flex-row flex-1 mt-2 text-[#7C7C7C] h-full">
-      <div className="h-full flex flex-col">
+      <div className="h-full flex flex-col max-w-[400px] border-r-[1px] border-[#d1d1d1]">
         <div className="lg:pl-[40px] md:pl-[40px] pl-[20px] py-4 pr-6 flex flex-col border-[1px] gap-4 border-[#d1d1d1] border-r-0 h-[140px]">
           <div className="flex flex-row justify-between items-center">
             <span className="font-bold text-xl">Initiatives</span>
@@ -28,7 +96,11 @@ const Initiatives = () => {
                 alt=""
                 width={20}
                 height={20}
-                className=""
+                className="cursor-pointer"
+                onClick={() => {
+                  setSelectedInitiative(undefined);
+                  setCreateInitiativeForm(true);
+                }}
               />
               <span className="rotate-90 font-bold text-xl">...</span>
             </span>
@@ -42,13 +114,13 @@ const Initiatives = () => {
             value={searchText}
             onChange={(e) => {
               if (e.target.value === "") {
-                setSearching(!searching);
+                setRefetch(!refetch);
               }
               setSearchText(e.target.value);
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                setSearching(!searching);
+                setRefetch(!refetch);
               }
             }}
             hiddenLabel
@@ -61,7 +133,7 @@ const Initiatives = () => {
                     borderLeft: 20,
                   }}
                   onClick={() => {
-                    setSearching(!searching);
+                    setRefetch(!refetch);
                   }}
                 >
                   <SearchOutlined style={{ color: "#555555" }} />
@@ -80,177 +152,207 @@ const Initiatives = () => {
           />
         </div>
         <div className="flex-1 px-4 mt-6 flex flex-col gap-4">
-        {[1, 2, 3, 4].map((item, index) => {
-            return (
-              <div
-                key={item}
-                className="relative w-full h-[50px] flex flex-row items-center gap-2 hover:bg-[#e5e5e6] cursor-pointer"
-              >
-                <Image
-                  src={"/icons/list.png"}
-                  alt=""
-                  height={50}
-                  width={50}
-                  className="h-full"
-                />
-                <span className=" overflow-clip text-ellipsis text-nowrap flex-1 max-w-[70%]">
-                  Charitable Donations to this foasdfsklajf asdflj fas
-                </span>
-                <IconButton className="absolute right-0 ">
+          {fetchLoading ? (
+            <CircularProgress />
+          ) : (
+            initiatives?.map((item, index) => {
+              return (
+                <div
+                  key={item.id}
+                  onClick={() => setSelectedInitiative(item)}
+                  className={`relative w-full h-[50px] flex flex-row items-center ${
+                    selectedInitiative?.id === item.id && "bg-[#e5e5e6]"
+                  } gap-2 hover:bg-[#e5e5e6] cursor-pointer`}
+                >
                   <Image
-                    src={
-                      index % 2 === 0
-                        ? "/icons/uploadGreen.svg"
-                        : "/icons/draft.svg"
-                    }
+                    src={"/icons/list.png"}
                     alt=""
-                    width={20}
-                    height={20}
-                    className=""
+                    height={50}
+                    width={50}
+                    className="h-full"
                   />
-                </IconButton>
-              </div>
-            );
-          })}
+                  <span className=" overflow-clip text-ellipsis text-nowrap flex-1 max-w-[70%]">
+                    {item.nameOfInitiative}
+                  </span>
+                  <IconButton className="absolute right-0 ">
+                    <Image
+                      src={
+                        index % 2 === 0
+                          ? "/icons/uploadGreen.svg"
+                          : "/icons/draft.svg"
+                      }
+                      alt=""
+                      width={20}
+                      height={20}
+                      className=""
+                    />
+                  </IconButton>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
-      <div className="border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
-        <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center">
-          Increasing Productivity and Production
-        </div>
-        <form className="relative flex-1 flex flex-col h-full p-10">
-          <div className="flex flex-col gap-4 text-fadeTextColor h-full">
-            <label>Name of the intiative</label>
-            <TextField
-              {...register("nameOfInitiative")}
-              variant="outlined"
-              error={Boolean(!!errors.nameOfInitiative)}
-              helperText={
-                !!errors.nameOfInitiative &&
-                errors.nameOfInitiative.message?.toString()
-              }
-              sx={{ backgroundColor: "white" }}
-              inputProps={{ style: { padding: 10 } }}
-            />
-            <div className="flex flex-col gap-1 text-fadeTextColor">
-              <label>Name of the intiative in Amharic</label>
+      {selectedInitiative ? (
+        <InitiativeEdit
+          selectedInitiative={selectedInitiative}
+          refetch={refetch}
+          setRefetch={setRefetch}
+          setSelectedInitiative={setSelectedInitiative}
+        />
+      ) : createInitiativeForm ? (
+        <div className="border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
+          <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center">
+            Increasing Productivity and Production
+          </div>
+          <form
+            onSubmit={handleSubmit(handleRegister)}
+            className="relative flex-1 flex flex-col h-full p-10"
+          >
+            <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+              <label>Name of the intiative</label>
               <TextField
-                {...register("nameOfInitiativeAmharic")}
+                {...register("nameOfInitiative")}
                 variant="outlined"
-                error={Boolean(!!errors.nameOfInitiativeAmharic)}
+                error={Boolean(!!errors.nameOfInitiative)}
                 helperText={
-                  !!errors.nameOfInitiativeAmharic &&
-                  errors.nameOfInitiativeAmharic.message?.toString()
+                  !!errors.nameOfInitiative &&
+                  errors.nameOfInitiative.message?.toString()
                 }
                 sx={{ backgroundColor: "white" }}
                 inputProps={{ style: { padding: 10 } }}
               />
-            </div>
-            <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
-              <span className="text-titleColor text-sm font-bold">
-                Featured Images
-              </span>
-              <span className="relative flex flex-row items-center px-6 border-2 border-dashed rounded-[3px] py-2 cursor-pointer h-[65px]">
-                <span className="flex flex-row items-center px-2 gap-2 text-titleColor cursor-pointer">
-                  <Image
-                    src={"/icons/greyGallery.svg"}
-                    alt=""
-                    height={20}
-                    width={20}
-                  />
-                  <span>
-                    {watch("featuredImage") && watch("featuredImage")[0]?.name
-                      ? watch("featuredImage")[0]?.name
-                      : "Upload"}
-                  </span>
-                </span>
-                <input
-                  id="featuredImage"
-                  {...register("featuredImage", {
-                    required: "featuredImage is required",
-                    validate: {
-                      fileSize: (value: any) => {
-                        if (value && value[0]) {
-                          return (
-                            value[0].size < 1048576 ||
-                            "File size must be less than 1MB"
-                          );
-                        }
-                        return true;
-                      },
-                    },
-                  })}
-                  type="file"
-                  placeholder=""
-                  className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              <div className="flex flex-col gap-1 text-fadeTextColor">
+                <label>Name of the intiative in Amharic</label>
+                <TextField
+                  {...register("nameOfInitiativeAmharic")}
+                  variant="outlined"
+                  error={Boolean(!!errors.nameOfInitiativeAmharic)}
+                  helperText={
+                    !!errors.nameOfInitiativeAmharic &&
+                    errors.nameOfInitiativeAmharic.message?.toString()
+                  }
+                  sx={{ backgroundColor: "white" }}
+                  inputProps={{ style: { padding: 10 } }}
                 />
-                <Button className="flex flex-row items-center justify-center outline-none z-0 gap-2 absolute bg-white text-titleColor right-4 px-4 py-2 cursor-pointer">
-                  <Image
-                    src={"/icons/uploadIcon.svg"}
-                    alt=""
-                    height={20}
-                    width={20}
-                  />
-                  <span>Upload</span>
-                </Button>
-              </span>
-              {false && (
-                <span className="text-[10px] text-titleColor">
-                  Image size must be 600*600 File size must be less than 1MB
+              </div>
+              <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
+                <span className="text-titleColor text-sm font-bold">
+                  Featured Images
                 </span>
-              )}
-            </div>
-            <Button
-              variant="outlined"
-              className="border-gray-500 w-full text-gray-500 capitalize"
-            >
-              + Add Items
-            </Button>
-            <div className="flex flex-col gap-1 text-fadeTextColor">
-              <label>Body</label>
-              <TextField
-                {...register("body")}
-                variant="outlined"
-                multiline
-                rows={4}
-                error={Boolean(!!errors.body)}
-                helperText={!!errors.body && errors.body.message?.toString()}
-                sx={{ backgroundColor: "white" }}
-                inputProps={{ style: { padding: 0 } }}
-              />
-            </div>
-            <div className="flex flex-col gap-1 text-fadeTextColor">
-              <label>Body in Amharic</label>
-              <TextField
-                {...register("bodyAmharic")}
-                variant="outlined"
-                multiline
-                rows={4}
-                error={Boolean(!!errors.bodyAmharic)}
-                helperText={
-                  !!errors.bodyAmharic && errors.bodyAmharic.message?.toString()
-                }
-                sx={{ backgroundColor: "white" }}
-                inputProps={{ style: { padding: 0 } }}
-              />
-            </div>
-            <div className="py-4 border-t-[1px] flex-row flex items-center justify-end gap-2 w-full">
+                <span className="relative flex flex-row items-center px-6 border-2 border-dashed rounded-[3px] py-2 cursor-pointer h-[65px]">
+                  <span className="flex flex-row items-center px-2 gap-2 text-titleColor cursor-pointer">
+                    <Image
+                      src={"/icons/greyGallery.svg"}
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
+                    <span>
+                      {watch("featuredImage") && watch("featuredImage")[0]?.name
+                        ? watch("featuredImage")[0]?.name
+                        : "Upload"}
+                    </span>
+                  </span>
+                  <input
+                    id="featuredImage"
+                    {...register(
+                      "featuredImage"
+                      // {
+                      //   required: "featuredImage is required",
+                      //   validate: {
+                      //     fileSize: (value: any) => {
+                      //       if (value && value[0]) {
+                      //         return (
+                      //           value[0].size < 1048576 ||
+                      //           "File size must be less than 1MB"
+                      //         );
+                      //       }
+                      //       return true;
+                      //     },
+                      //   },
+                      // }
+                    )}
+                    type="file"
+                    placeholder=""
+                    className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  />
+                  <Button className="flex flex-row items-center justify-center outline-none z-0 gap-2 absolute bg-white text-titleColor right-4 px-4 py-2 cursor-pointer">
+                    <Image
+                      src={"/icons/uploadIcon.svg"}
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
+                    <span>Upload</span>
+                  </Button>
+                </span>
+                {/* <span className="text-[10px] text-titleColor">
+                  Image size must be 600*600 File size must be less than 1MB
+                </span> */}
+              </div>
               <Button
-                variant="contained"
-                type="submit"
-                className="flex flex-row items-center justify-center gap-2 shadow-none"
+                variant="outlined"
+                className="border-gray-500 w-full text-gray-500 capitalize"
               >
-                <Upload /> <span>Publish</span>
+                + Add Items
               </Button>
-              <div className="border-l-[2px] ">
-                <IconButton>
-                  <Delete />
-                </IconButton>
+              <div className="flex flex-col gap-1 text-fadeTextColor">
+                <label>Body</label>
+                <TextField
+                  {...register("body")}
+                  variant="outlined"
+                  multiline
+                  rows={4}
+                  error={Boolean(!!errors.body)}
+                  helperText={!!errors.body && errors.body.message?.toString()}
+                  sx={{ backgroundColor: "white" }}
+                  inputProps={{ style: { padding: 0 } }}
+                />
+              </div>
+              <div className="flex flex-col gap-1 text-fadeTextColor">
+                <label>Body in Amharic</label>
+                <TextField
+                  {...register("bodyAmharic")}
+                  variant="outlined"
+                  multiline
+                  rows={4}
+                  error={Boolean(!!errors.bodyAmharic)}
+                  helperText={
+                    !!errors.bodyAmharic &&
+                    errors.bodyAmharic.message?.toString()
+                  }
+                  sx={{ backgroundColor: "white" }}
+                  inputProps={{ style: { padding: 0 } }}
+                />
+              </div>
+              <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
+                <div className="flex flex-row items-center gap-1">
+                  <Checkbox {...register("isDraft")} />
+                  <span>Save as Draft</span>
+                </div>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  className="flex flex-row items-center justify-center gap-2 shadow-none capitalize text-lg h-[48px]"
+                >
+                  {loading ? (
+                    <CircularProgress />
+                  ) : watch("isDraft") ? (
+                    <span>Save Draft</span>
+                  ) : (
+                    <>
+                      <Upload /> <span>Publish</span>
+                    </>
+                  )}
+                </Button>
               </div>
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
