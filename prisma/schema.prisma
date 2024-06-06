@@ -20,7 +20,7 @@ enum Gender {
 
 enum UserRole {
   Owner
-  SuperAdmin 
+  SuperAdmin
   Admin
   Member
 }
@@ -164,4 +164,100 @@ model Subscriber {
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
+}
+
+model News {
+  id              String @id @default(uuid())
+  headline        String
+  headlineAmharic String
+  profileImage    String
+  body            String
+  bodyAmharic     String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "news")
+}
+
+model Event {
+  id              String @id @default(uuid())
+  headline        String
+  headlineAmharic String
+  profileImage    String
+  body            String
+  bodyAmharic     String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "event")
+}
+
+model Initiative {
+  id                      String   @id @default(uuid())
+  nameOfInitiative        String
+  nameOfInitiativeAmharic String
+  featuredImages          String[]
+  body                    String
+  bodyAmharic             String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "initiative")
+}
+
+model Management {
+  id                 String @id @default(uuid())
+  managerName        String
+  managerNameAmharic String
+  photo              String
+  job                String
+  jobAmharic         String
+  bio                String
+  bioAmharic         String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "management")
+}
+
+model Partnership {
+  id                 String @id @default(uuid())
+  partnerName        String
+  partnerNameAmharic String
+  logo               String
+  bio                String
+  bioAmharic         String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "partnership")
+}
+
+model Job {
+  id                    String @id @default(uuid())
+  jobTitle              String
+  jobTitleAmharic       String
+  jobDescription        String
+  jobDescriptionAmharic String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "job")
+}
+
+model Faq {
+  id       String @id @default(uuid())
+  question String
+  answer   String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "faq")
 }
