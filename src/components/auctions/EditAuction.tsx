@@ -1,10 +1,14 @@
 "use client";
 
-import { Button, CircularProgress, TextField } from "@mui/material";
-import PageHeader from "../shared/PageHeader";
+import {
+  Button,
+  CircularProgress,
+  Drawer,
+  IconButton,
+  TextField,
+} from "@mui/material";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { ArrowBack } from "@mui/icons-material";
 import { FieldValues, useForm } from "react-hook-form";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -12,8 +16,23 @@ import { useState } from "react";
 import { showToastAction } from "@/redux/actions";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { Auction } from "@prisma/client";
+import dayjs from "dayjs";
+import { Close } from "@mui/icons-material";
 
-const AddNewAuction = () => {
+interface EditAuctionProps {
+  auction: Auction;
+  open: boolean;
+  onClose: () => void;
+  onRefresh: () => void;
+}
+
+const EditAuction = ({
+  auction,
+  open,
+  onClose,
+  onRefresh,
+}: EditAuctionProps) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -23,23 +42,23 @@ const AddNewAuction = () => {
     formState: { errors },
     setValue,
     watch,
-  } = useForm();
+  } = useForm({ defaultValues: auction });
 
-  const handleRegister = async (values: FieldValues) => {
+  const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const res = await axios.post("/api/auction/create", {
+      const res = await axios.post(`/api/auction/edit/${auction.id}`, {
         ...values,
       });
 
       if (res?.status === 200) {
+        onRefresh();
         dispatch(
           showToastAction({
             message: "Successfully Created",
             type: "success",
           })
         );
-        router.push("/admin/dashboard/auction");
       }
     } catch (err: any) {
       console.error(err);
@@ -54,27 +73,21 @@ const AddNewAuction = () => {
   };
 
   return (
-    <div className="h-full w-full overflow-y-auto text-titleColor">
-      <PageHeader />
-      <div className="lg:px-[40px] md:px-[40px] px-[20px] py-10 w-full flex flex-col flex-1 ">
-        <div className="flex xl:lg:flex-row md:flex-row flex-col xl:lg:items-center md:items-center justify-between gap-2">
-          <div
-            onClick={() => {
-              router.push("/admin/dashboard/auction");
-            }}
-            className="flex flex-row items-center gap-2 cursor-pointer"
-          >
-            <ArrowBack />
-            <span className="text-titleColor text-sm">Back to Auctions</span>
-          </div>
-        </div>
+    <Drawer anchor="right" open={open} onClose={onClose}>
+      <div className="h-full xl:w-[700px] lg:w-[700px] md:w-[500px] w-screen p-8">
+        <span className="w-full max-w-[700px] flex flex-row items-center justify-between">
+          <span className="text-titleColor font-bold text-2xl">
+            Update Auction
+          </span>
+          <IconButton onClick={onClose}>
+            <Close className="text-3xl" />
+          </IconButton>
+        </span>
+
         <form
-          onSubmit={handleSubmit(handleRegister)}
+          onSubmit={handleSubmit(handleUpdate)}
           className="flex flex-col items-center justify-center mt-10"
         >
-          <span className="w-full max-w-[700px]">
-            <span className="text-titleColor font-bold text-3xl">Create New Auction</span>
-          </span>
           <div className="flex flex-col w-full gap-6 mt-3 max-w-[700px]">
             <div className="flex flex-col gap-4 text-fadeTextColor h-full">
               <label>Title</label>
@@ -94,7 +107,10 @@ const AddNewAuction = () => {
                     {...register("startDate", {
                       required: "Start Date is required",
                     })}
-                    onChange={(value) => setValue("startDate", value)}
+                    defaultValue={dayjs(watch("startDate"))}
+                    onChange={(value) =>
+                      setValue("startDate", value?.toDate() ?? new Date())
+                    }
                   />
                 </LocalizationProvider>
                 {errors.startDate && !watch("startDate") && (
@@ -110,7 +126,10 @@ const AddNewAuction = () => {
                     {...register("endDate", {
                       required: "End Date is required",
                     })}
-                    onChange={(value) => setValue("endDate", value)}
+                    defaultValue={dayjs(watch("endDate"))}
+                    onChange={(value) =>
+                      setValue("endDate", value?.toDate() ?? new Date())
+                    }
                   />
                 </LocalizationProvider>
                 {errors?.endDate && !watch("endDate") && (
@@ -143,11 +162,7 @@ const AddNewAuction = () => {
                     height={20}
                     width={20}
                   />
-                  <span>
-                    {watch("CPOFile") && watch("CPOFile")[0]?.name
-                      ? watch("CPOFile")[0]?.name
-                      : "Upload"}
-                  </span>
+                  <span>{watch("CPOFile") ? watch("CPOFile") : "Upload"}</span>
                 </span>
                 <input
                   id="CPOFile"
@@ -186,7 +201,7 @@ const AddNewAuction = () => {
                 Image size must be 600*600 File size must be less than 1MB
               </span> */}{" "}
               <div className="flex flex-col gap-4 text-fadeTextColor h-full">
-                <label>Description</label>
+                <label>Discription</label>
                 <TextField
                   {...register("description", {
                     required: "please add some description",
@@ -217,8 +232,8 @@ const AddNewAuction = () => {
           </div>
         </form>
       </div>
-    </div>
+    </Drawer>
   );
 };
 
-export default AddNewAuction;
+export default EditAuction;
