@@ -273,3 +273,32 @@ model Faq {
 
   @@map(name: "faq")
 }
+
+model Auction {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  CPO         Int
+  CPOFile     String?
+  startDate   DateTime
+  endDate     DateTime
+  Bidder      Bidder[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "auction")
+}
+
+model Bidder {
+  id        String  @id @default(uuid())
+  fullName  String
+  message   String
+  auctionId String
+  auction   Auction @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "bidder")
+}
