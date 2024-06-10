@@ -125,7 +125,7 @@ model Contribution {
   contributionSystem ContributionSystem
   contributorId      String
   contributor        Member             @relation(fields: [contributorId], references: [id])
-  amount             String
+  amount             Int
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -139,7 +139,7 @@ model GeneralDonation {
   phone               String
   donationDesignation String
   paymentMethod       String?
-  amount              String
+  amount              Int
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -292,8 +292,10 @@ model Auction {
 
 model Bidder {
   id        String  @id @default(uuid())
+  memberId  String
   fullName  String
-  message   String
+  message   String?
+  offer     Int
   auctionId String
   auction   Auction @relation(fields: [auctionId], references: [id], onDelete: Cascade)
 

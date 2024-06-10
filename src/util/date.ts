@@ -13,6 +13,16 @@ export function getFormattedDateFromTimestamp(dateString: string) {
   return timestamp;
 }
 
+export function formatNumberToKOrM(num: number) {
+  if (num >= 1_000_000) {
+    return (num / 1_000_000).toFixed(2) + "M";
+  } else if (num >= 1_000) {
+    return (num / 1_000).toFixed(2) + "K";
+  } else {
+    return num.toString();
+  }
+}
+
 export function getFormattedDate(dateString: Date) {
   // Create a Date object from the provided date string
   const date = new Date(dateString);

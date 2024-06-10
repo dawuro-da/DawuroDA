@@ -12,7 +12,7 @@ export async function createContribution({
 }) {
   try {
     const contribution = await prisma.contribution.create({
-      data: { contributionSystem, contributorId, amount },
+      data: { contributionSystem, contributorId, amount: parseFloat(amount) },
     });
 
     return contribution;
