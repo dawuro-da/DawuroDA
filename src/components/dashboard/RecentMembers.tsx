@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import DashboardDatagrid from "./DashboardDatagrid";
 import { Avatar } from "@mui/material";
 import { getFormattedDateFromTimestamp } from "@/util/date";
+import { Member, MembershipLevel } from "@prisma/client";
 
 const RecentMembers = () => {
   const router = useRouter();
@@ -12,9 +13,10 @@ const RecentMembers = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isSmScreen, setIsSmScreen] = useState<boolean>(false);
 
-  const fetchMembers = async () => {
+  const fetchRecentMembers = async () => {
     setLoading(true);
-    const result = await axios.get("/api/member/fetch");
+    const result = await axios.get("/api/member/fetch/recent");
+
     if (result.data.success) {
       setMembers(result.data.value);
     }
@@ -22,7 +24,7 @@ const RecentMembers = () => {
   };
 
   useEffect(() => {
-    // fetchMembers();
+    fetchRecentMembers();
     if (window.innerWidth < 900) {
       setIsSmScreen(true);
     }
@@ -33,8 +35,8 @@ const RecentMembers = () => {
   return (
     <div className=" h-[820px] w-full">
       <DashboardDatagrid
-        columns={getColumnDefinition({ onConfirm, isSmScreen: isSmScreen })}
-        rows={rows ?? []}
+        columns={getColumnDefinition({ isSmScreen: isSmScreen })}
+        rows={members ?? []}
         loading={loading}
       />
     </div>
@@ -44,10 +46,8 @@ const RecentMembers = () => {
 export default RecentMembers;
 
 const getColumnDefinition = ({
-  onConfirm,
   isSmScreen,
 }: {
-  onConfirm: (customer: any) => Promise<void>;
   isSmScreen: boolean;
 }): GridColDef[] =>
   !isSmScreen
@@ -58,37 +58,51 @@ const getColumnDefinition = ({
           flex: 1,
           minWidth: 110,
           align: "center",
+          headerAlign: "center",
         },
         {
-          field: "fullName",
+          field: "firstName",
           headerName: "Full Name",
           flex: 1,
           minWidth: 110,
+
           renderCell: (params) => {
             return (
               <span className="flex flex-row items-center gap-2 ">
                 <Avatar sizes="small" src="" />
-                <span>{params.value}</span>
+                {params.row.firstName && (
+                  <span>
+                    {params.row.firstName} {params.row.lastName}
+                  </span>
+                )}
+                {params.row.institutionName && (
+                  <span>{params.row.institutionName}</span>
+                )}
               </span>
             );
           },
         },
         {
-          field: "memberLevel",
-          headerName: "Member Level",
+          field: "membershipLevel",
+          headerName: "Membership Level",
           flex: 1,
           minWidth: 110,
+          headerAlign: "center",
           renderCell: (params) => {
             return (
               <div className="flex flex-row items-center gap-2 justify-center h-full">
                 <span
-                  className={`flex flex-row items-center justify-center w-fit ${
-                    params.value === "Gold"
-                      ? "bg-green-500"
-                      : params.value === "Silver"
-                      ? "bg-slate-500"
-                      : "bg-red-950"
-                  } text-white rounded-[8px] min-w-20 text-center px-4 h-8 `}
+                  className={`flex  flex-row items-center justify-center w-fit ${
+                    params.value === MembershipLevel.Platinium
+                      ? "bg-[#34A8A8] text-white"
+                      : params.value === MembershipLevel.Diamond
+                      ? "bg-[#B0E0E62E] text-titleColor"
+                      : params.value === MembershipLevel.Gold
+                      ? "bg-[#FFD7002E]"
+                      : params.value === MembershipLevel.Siliver
+                      ? "bg-[#C0C0C02E]"
+                      : "bg-transparent"
+                  }  rounded-[8px] min-w-20 text-center px-4 h-8 `}
                 >
                   {params.value}
                 </span>
@@ -101,15 +115,18 @@ const getColumnDefinition = ({
           headerName: "Paid",
           flex: 1,
           minWidth: 110,
+          headerAlign: "center",
           renderCell: (params) => {
             return (
               <div className="flex flex-row items-center gap-2 justify-center h-full">
                 <span
                   className={`flex flex-row items-center justify-center w-fit ${
-                    params.value === "Paid" ? "bg-[#34A858B2]" : "bg-red-200"
+                    params.value
+                      ? "bg-[#34A858B2]"
+                      : "bg-[#C83A272E] text-black"
                   } text-white rounded-[8px] min-w-20 text-center px-4 h-8 `}
                 >
-                  {params.value}
+                  {params.value ? "Paid" : "Unpaid"}
                 </span>
               </div>
             );
@@ -117,7 +134,7 @@ const getColumnDefinition = ({
         },
 
         {
-          field: "timestamp",
+          field: "lastPaidAt",
           headerName: "Timestamp",
           flex: 1,
           minWidth: 110,
@@ -125,38 +142,56 @@ const getColumnDefinition = ({
             return <span>{getFormattedDateFromTimestamp(params.value)}</span>;
           },
         },
-        {
-          field: "action",
-          headerName: "Actions",
-          flex: 1,
-          align: "center",
-          maxWidth: 80,
-          minWidth: 80,
-          renderCell: (params) => {
-            return (
-              <div className="flex flex-row h-full w-full justify-center">
-                <span
-                  className="rotate-90 font-bold cursor-pointer hover:scale-125"
-                  onClick={() => {}}
-                >
-                  ...
-                </span>
-              </div>
-            );
-          },
-        },
+        // {
+        //   field: "action",
+        //   headerName: "Actions",
+        //   flex: 1,
+        //   align: "center",
+        //   maxWidth: 120,
+        //   minWidth: 120,
+        //   renderCell: (params) => {
+        //     return (
+        //       <div className="flex flex-row h-full w-full justify-center z-50">
+        //         <span
+        //           className="rotate-90 font-bold cursor-pointer hover:scale-125"
+        //           onClick={(e) => {
+        //             e.stopPropagation();
+        //           }}
+        //         >
+        //           ...
+        //         </span>
+        //       </div>
+        //     );
+        //   },
+        // },
       ]
     : [
         {
-          field: "fullName",
+          field: "memberId",
+          headerName: "MemberId",
+          flex: 1,
+          minWidth: 110,
+          align: "center",
+          headerAlign: "center",
+        },
+        {
+          field: "firstName",
           headerName: "Full Name",
           flex: 1,
           minWidth: 110,
+
           renderCell: (params) => {
             return (
               <span className="flex flex-row items-center gap-2 ">
                 <Avatar sizes="small" src="" />
-                <span>{params.value}</span>
+                {params.row.firstName && (
+                  <span>
+                    {params.row.firstName} {params.row.lastName}
+                  </span>
+                )}
+                {params.row.institutionName && (
+                  <span>{params.row.institutionName}</span>
+                )}
               </span>
             );
           },
@@ -166,118 +201,53 @@ const getColumnDefinition = ({
           headerName: "Paid",
           flex: 1,
           minWidth: 110,
+          headerAlign: "center",
           renderCell: (params) => {
             return (
-              <span className="flex flex-row items-center gap-2">
-                <span className="w-fit bg-[#34A858B2] text-white rounded-[8px] min-w-12 text-center h-fit">
-                  {params.value}
-                </span>
-              </span>
-            );
-          },
-        },
-        {
-          field: "action",
-          headerName: "Actions",
-          flex: 1,
-          align: "center",
-          maxWidth: 80,
-          minWidth: 80,
-          renderCell: (params) => {
-            return (
-              <div className="flex flex-row h-full w-full justify-center">
+              <div className="flex flex-row items-center gap-2 justify-center h-full">
                 <span
-                  className="rotate-90 font-bold cursor-pointer hover:scale-125"
-                  onClick={() => {}}
+                  className={`flex flex-row items-center justify-center w-fit ${
+                    params.value
+                      ? "bg-[#34A858B2]"
+                      : "bg-[#C83A272E] text-black"
+                  } text-white rounded-[8px] min-w-20 text-center px-4 h-8 `}
                 >
-                  ...
+                  {params.value ? "Paid" : "Unpaid"}
                 </span>
               </div>
             );
           },
         },
+        // {
+        //   field: "action",
+        //   headerName: "Actions",
+        //   flex: 1,
+        //   align: "center",
+        //   maxWidth: 80,
+        //   minWidth: 80,
+        //   renderCell: (params) => {
+        //     return (
+        //       <div className="flex flex-row h-full w-full justify-center z-50">
+        //         <span
+        //           className="rotate-90 font-bold cursor-pointer hover:scale-125"
+        //           onClick={(e) => {
+        //             e.stopPropagation();
+        //             if (adminId === params.row.registeredBy) {
+        //               onOption(params.row, e);
+        //             }
+        //           }}
+        //         >
+        //           ...
+        //         </span>
+        //       </div>
+        //     );
+        //   },
+        // },
       ];
 
-
-const rows = [
-  {
-    id: 1,
-    memberId: 1001,
-    fullName: "John Doe",
-    memberLevel: "Gold",
-    hasPaid: "Paid",
-    timestamp: "2023-12-25T12:30:00Z",
+const selectStyle = {
+  ".MuiOutlinedInput-notchedOutline": {
+    border: 0,
   },
-  {
-    id: 2,
-    memberId: 1002,
-    fullName: "Jane Smith",
-    memberLevel: "Silver",
-    hasPaid: "Unpaid",
-    timestamp: "2023-12-26T09:45:00Z",
-  },
-  {
-    id: 3,
-    memberId: 1003,
-    fullName: "Michael Johnson",
-    memberLevel: "Gold",
-    hasPaid: "Paid",
-    timestamp: "2023-12-27T15:20:00Z",
-  },
-  {
-    id: 4,
-    memberId: 1004,
-    fullName: "Emily Wilson",
-    memberLevel: "Bronze",
-    hasPaid: "Paid",
-    timestamp: "2023-12-28T11:10:00Z",
-  },
-  {
-    id: 5,
-    memberId: 1005,
-    fullName: "David Brown",
-    memberLevel: "Silver",
-    hasPaid: "Unpaid",
-    timestamp: "2023-12-29T14:55:00Z",
-  },
-  {
-    id: 6,
-    memberId: 1006,
-    fullName: "Olivia Martinez",
-    memberLevel: "Gold",
-    hasPaid: "Paid",
-    timestamp: "2023-12-30T17:40:00Z",
-  },
-  {
-    id: 7,
-    memberId: 1007,
-    fullName: "William Rodriguez",
-    memberLevel: "Gold",
-    hasPaid: "Paid",
-    timestamp: "2023-12-31T10:25:00Z",
-  },
-  {
-    id: 8,
-    memberId: 1008,
-    fullName: "Emma Taylor",
-    memberLevel: "Silver",
-    hasPaid: "Unpaid",
-    timestamp: "2024-01-01T13:15:00Z",
-  },
-  {
-    id: 9,
-    memberId: 1009,
-    fullName: "James Wilson",
-    memberLevel: "Gold",
-    hasPaid: "Paid",
-    timestamp: "2024-01-02T16:05:00Z",
-  },
-  {
-    id: 10,
-    memberId: 1010,
-    fullName: "Sophia Brown",
-    memberLevel: "Bronze",
-    hasPaid: "Unpaid",
-    timestamp: "2024-01-03T19:00:00Z",
-  },
-];
+  color: "#555555",
+};

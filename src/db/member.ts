@@ -308,6 +308,17 @@ export async function fetchMembers({
   return { members, total };
 }
 
+export async function fetchRecentMembers(): Promise<Member[] | undefined> {
+  const members = await prisma.member.findMany({
+    orderBy: {
+      created_at: "desc",
+    },
+    take: 10,
+  });
+
+  return members;
+}
+
 /**
  *
  * @param searchText @param page @param pageSize are the props recieved and then

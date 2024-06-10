@@ -10,71 +10,88 @@ import StyledMenu from "../shared/StyledMenu";
 import RecentMembers from "./RecentMembers";
 import { useRouter } from "next/navigation";
 import DateRangeSelector from "../shared/DateRangeSelector";
-import { getFormattedDate } from "@/util/date";
+import { formatNumberToKOrM, getFormattedDate } from "@/util/date";
 import { ArrowDropDown } from "@mui/icons-material";
+import axios from "axios";
+
+interface DashboardData {
+  contributionStatus: {
+    isIncreased: boolean;
+    percentage: boolean;
+  };
+  donations: number;
+  donationsSinceLastWeek: number;
+  memberSinceLastWeek: number;
+  totalContributions: number;
+  totalMember: number;
+}
 
 const Dashboard = () => {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
-  const [dateAnchor, setDateAnchor] = useState<null | Element>(null);
-  const [dateFilter, setDateFilter] = useState<{
-    startDate: Date;
-    endDate: Date;
-  }>();
+  const [dashboardData, setDashboardData] = useState<DashboardData>();
 
   const open = Boolean(anchorEl);
-  const opendate = Boolean(dateAnchor);
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleDateClose = () => {
-    setDateAnchor(null);
+  const fetchDashboardData = async () => {
+    const result = await axios.get("/api/dashboard");
+
+    if (result.status === 200) {
+      setDashboardData(result.data.value);
+    }
   };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
 
   const cardsData = [
     {
       name: "Members",
       icon: "/icons/cardsUser.svg",
-      amount: "3200",
-      increment: "+2.5%",
+      amount: `${dashboardData?.totalMember.toLocaleString() ?? 0}`,
+      increment: `${dashboardData?.memberSinceLastWeek ?? 0} members`,
       increased: true,
+      since: "Since Last week",
     },
     {
       name: "Donation",
       icon: "/icons/cardsDonation.svg",
-      amount: "35.1K ETB",
-      increment: "10 people donated",
-      increased: false,
+      amount: `${
+        dashboardData?.donations
+          ? formatNumberToKOrM(dashboardData?.donations)
+          : "0"
+      } ETB`,
+      increment: `${dashboardData?.donationsSinceLastWeek ?? 0} people donated`,
+      since: "Since Last week",
+      increased: true,
     },
     {
       name: "Contribution",
       icon: "/icons/cardsContribution.svg",
-      amount: "2700 ETB",
-      increment: "+3.5%",
-      increased: true,
+      amount: `${
+        dashboardData?.totalContributions
+          ? formatNumberToKOrM(dashboardData?.totalContributions)
+          : 0
+      } ETB`,
+      increment: `${
+        dashboardData?.contributionStatus.isIncreased ? " + " : " - "
+      } ${dashboardData?.contributionStatus.percentage ?? 0}%`,
+      since: "Since Last month",
+      increased: dashboardData?.contributionStatus.isIncreased,
     },
   ];
+
   return (
     <>
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <div>
           <MenuItem onClick={() => {}}>{"Download card data(.csv)"}</MenuItem>
           <MenuItem onClick={() => {}}>{"Download card data(.png)"}</MenuItem>
-        </div>
-      </StyledMenu>
-
-      <StyledMenu
-        anchorEl={dateAnchor}
-        open={opendate}
-        onClose={handleDateClose}
-      >
-        <div>
-          <DateRangeSelector
-            dateFilter={dateFilter}
-            setDateFilter={setDateFilter}
-          />
         </div>
       </StyledMenu>
 
@@ -96,11 +113,15 @@ const Dashboard = () => {
                       <span className="text-2xl font-bold">{card.amount}</span>
                       <span>
                         <span
-                          className={`${card.increased && "text-primaryColor"}`}
+                          className={`${
+                            card.increased
+                              ? "text-primaryColor"
+                              : "text-red-500"
+                          }`}
                         >
                           {card.increment}{" "}
                         </span>
-                        since last week
+                        {card.since}
                       </span>
                     </div>
                   </div>
@@ -116,20 +137,6 @@ const Dashboard = () => {
           </div>
           <div className="flex flex-row items-center justify-between gap-6 mt-10">
             <div className="border-b-[1px] flex-1 border-b-titleColor opacity-50" />
-            <div className="min-w-[130px]">
-              <div
-                className="w-full border-[1px] h-full border-titleColor text-titleColor p-2 relative pr-8 text-center cursor-pointer rounded-[5px]"
-                defaultValue={"All time"}
-                onClick={(e) => setDateAnchor(e.currentTarget)}
-              >
-                {dateFilter?.startDate && dateFilter?.endDate
-                  ? `${getFormattedDate(
-                      dateFilter?.startDate
-                    )} - ${getFormattedDate(dateFilter?.endDate)}`
-                  : "All Time"}
-                <ArrowDropDown className="absolute right-2 top-2" />
-              </div>
-            </div>
           </div>
           <div className="grid xl:lg:grid-cols-2 xl:gap-12 lg:gap-8  mt-6">
             <div className="bg-white py-6 rounded-[8px] flex flex-col xl:min-h-[400px] lg:min-h-[400px] min-h-[300px] xl:lg:px-8 md:px-4 px-2">
