@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
 import "./globals.css";
 import { getServerSession } from "next-auth";
-import { OPTIONS } from "./api/auth/[...nextauth]/route";
 import { NextAuthAndStoreProvider } from "./NextAuthAndStoreProvider";
+import { OPTIONS } from "@/util/authOptions";
 
 const lexend = Lexend({ subsets: ["latin"] });
 

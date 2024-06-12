@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { OPTIONS } from "../../auth/[...nextauth]/route";
+import { OPTIONS } from "@/util/authOptions";
 import { createContribution } from "@/db/contribution";
 import { findMemberById } from "@/db/member";
 import { calculateNextDueDate } from "@/util/date";

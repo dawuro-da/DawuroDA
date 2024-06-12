@@ -61,7 +61,7 @@ const SignUp = () => {
             Sign Up
           </span>
           <span className="mb-6">
-            Welcome, It's great getting you as a user
+            {"Welcome, It's great getting you as a user"}
           </span>
         </div>
 

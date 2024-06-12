@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth";
-import { OPTIONS } from "../../auth/[...nextauth]/route";
+import { OPTIONS } from "@/util/authOptions";
 import { MembershipType, UserRole } from "@prisma/client";
 import {
   createIndividualMember,

@@ -16,7 +16,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import NewsEdit from "./NewsEdit";
 
-const News = () => {
+const NewsPage = () => {
   const dispatch = useDispatch();
   const [refetch, setRefetch] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -348,4 +348,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default NewsPage;

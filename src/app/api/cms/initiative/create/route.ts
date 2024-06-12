@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { OPTIONS } from "@/app/api/auth/[...nextauth]/route";
+import { OPTIONS } from "@/util/authOptions";
 import { createInitiative } from "@/db/initiative";
 
 export async function POST(req: Request) {
