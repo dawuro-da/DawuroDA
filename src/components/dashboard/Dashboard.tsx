@@ -84,7 +84,11 @@ const Dashboard = () => {
           : 0
       } ETB`,
       increment: `${
-        dashboardData?.contributionStatus.isIncreased ? " + " : " - "
+        dashboardData?.totalContributions
+          ? dashboardData?.contributionStatus.isIncreased
+            ? " + "
+            : " - "
+          : ""
       } ${dashboardData?.contributionStatus.percentage ?? 0}%`,
       since: "Since Last month",
       increased: dashboardData?.contributionStatus.isIncreased,
