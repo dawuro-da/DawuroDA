@@ -31,7 +31,7 @@ const AdminManagement = () => {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
+    reset,
   } = useForm();
 
   const handleRegister = async (values: FieldValues) => {
@@ -49,6 +49,8 @@ const AdminManagement = () => {
           })
         );
         setRefetch(!refetch);
+        reset();
+        setShowForm(false);
       }
     } catch (err: any) {
       console.error(err);
@@ -122,134 +124,140 @@ const AdminManagement = () => {
           <span>Add New Admin</span>
         </Button>
       </div>
-      {showForm && <form
-        onSubmit={handleSubmit(handleRegister)}
-        className="flex flex-col items-center justify-center"
-      >
-        <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 gap-6 ">
-          <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
-            <label>First Name</label>
-            <TextField
-              {...register("firstName", { required: "First Name is required" })}
-              variant="outlined"
-              error={Boolean(!!errors.firstName)}
-              helperText={
-                !!errors.firstName && errors.firstName.message?.toString()
-              }
-              inputProps={{
-                style: {
-                  padding: 10,
-                  borderRadius: "6px",
-                },
-              }}
-            />
-          </div>
-          <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
-            <label>Last Name</label>
-            <TextField
-              {...register("lastName", { required: "Last Name is required" })}
-              variant="outlined"
-              error={Boolean(!!errors.lastName)}
-              helperText={
-                !!errors.lastName && errors.lastName.message?.toString()
-              }
-              inputProps={{
-                style: {
-                  padding: 10,
-                  borderRadius: "6px",
-                },
-              }}
-            />
-          </div>
-          <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
-            <label>Phone Number</label>
-            <TextField
-              {...register("phone", { required: "Phone is required" })}
-              variant="outlined"
-              error={Boolean(!!errors.phone)}
-              helperText={!!errors.phone && errors.phone.message?.toString()}
-              inputProps={{
-                style: {
-                  padding: 10,
-                  borderRadius: "6px",
-                },
-              }}
-            />
-          </div>
-          <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
-            <label>Email Address</label>
-            <TextField
-              {...register("email", { required: "Email is required" })}
-              variant="outlined"
-              error={Boolean(!!errors.email)}
-              helperText={!!errors.email && errors.email.message?.toString()}
-              inputProps={{
-                style: {
-                  padding: 10,
-                  borderRadius: "6px",
-                },
-              }}
-            />
-          </div>
-          <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
-            <label>Gender</label>
-            <TextField
-              size="small"
-              {...register("gender", {
-                required: "Gender is required",
-              })}
-              select
-              variant="outlined"
-              error={Boolean(!!errors.gender)}
-              helperText={!!errors.gender && errors.gender.message?.toString()}
-              inputProps={{
-                style: {
-                  padding: 10,
-                  borderRadius: "6px",
-                },
-              }}
-            >
-              <MenuItem value={Gender.Male}>Male</MenuItem>
-              <MenuItem value={Gender.Female}>Female</MenuItem>
-            </TextField>
-          </div>
-          <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
-            <label>Role</label>
-            <TextField
-              size="small"
-              {...register("role", {
-                required: "Role is required",
-              })}
-              select
-              defaultValue={UserRole.Admin}
-              variant="outlined"
-              error={Boolean(!!errors.role)}
-              helperText={!!errors.role && errors.role.message?.toString()}
-              inputProps={{
-                style: {
-                  padding: 10,
-                  borderRadius: "6px",
-                },
-              }}
-            >
-              <MenuItem value={UserRole.Owner}>Owner</MenuItem>
-              <MenuItem value={UserRole.SuperAdmin}>Super Admin</MenuItem>
-              <MenuItem value={UserRole.Admin}>Admin</MenuItem>
-            </TextField>
-          </div>
-        </div>
-        <Button
-          type="submit"
-          variant="contained"
-          className="w-full gap-2 font-bold h-[40px] text-lg mt-6 text-white capitalize p-2 bg-primaryColor shadow-none px-10"
+      {showForm && (
+        <form
+          onSubmit={handleSubmit(handleRegister)}
+          className="flex flex-col items-center justify-center"
         >
-          {loading ? (
-            <CircularProgress className="h-[80%] text-white" />
-          ) : (
-            <>Register</>
-          )}
-        </Button>
-      </form>}
+          <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 gap-6 ">
+            <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
+              <label>First Name</label>
+              <TextField
+                {...register("firstName", {
+                  required: "First Name is required",
+                })}
+                variant="outlined"
+                error={Boolean(!!errors.firstName)}
+                helperText={
+                  !!errors.firstName && errors.firstName.message?.toString()
+                }
+                inputProps={{
+                  style: {
+                    padding: 10,
+                    borderRadius: "6px",
+                  },
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
+              <label>Last Name</label>
+              <TextField
+                {...register("lastName", { required: "Last Name is required" })}
+                variant="outlined"
+                error={Boolean(!!errors.lastName)}
+                helperText={
+                  !!errors.lastName && errors.lastName.message?.toString()
+                }
+                inputProps={{
+                  style: {
+                    padding: 10,
+                    borderRadius: "6px",
+                  },
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
+              <label>Phone Number</label>
+              <TextField
+                {...register("phone", { required: "Phone is required" })}
+                variant="outlined"
+                error={Boolean(!!errors.phone)}
+                helperText={!!errors.phone && errors.phone.message?.toString()}
+                inputProps={{
+                  style: {
+                    padding: 10,
+                    borderRadius: "6px",
+                  },
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
+              <label>Email Address</label>
+              <TextField
+                {...register("email", { required: "Email is required" })}
+                variant="outlined"
+                error={Boolean(!!errors.email)}
+                helperText={!!errors.email && errors.email.message?.toString()}
+                inputProps={{
+                  style: {
+                    padding: 10,
+                    borderRadius: "6px",
+                  },
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
+              <label>Gender</label>
+              <TextField
+                size="small"
+                {...register("gender", {
+                  required: "Gender is required",
+                })}
+                select
+                variant="outlined"
+                error={Boolean(!!errors.gender)}
+                helperText={
+                  !!errors.gender && errors.gender.message?.toString()
+                }
+                inputProps={{
+                  style: {
+                    padding: 10,
+                    borderRadius: "6px",
+                  },
+                }}
+              >
+                <MenuItem value={Gender.Male}>Male</MenuItem>
+                <MenuItem value={Gender.Female}>Female</MenuItem>
+              </TextField>
+            </div>
+            <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
+              <label>Role</label>
+              <TextField
+                size="small"
+                {...register("role", {
+                  required: "Role is required",
+                })}
+                select
+                defaultValue={UserRole.Admin}
+                variant="outlined"
+                error={Boolean(!!errors.role)}
+                helperText={!!errors.role && errors.role.message?.toString()}
+                inputProps={{
+                  style: {
+                    padding: 10,
+                    borderRadius: "6px",
+                  },
+                }}
+              >
+                <MenuItem value={UserRole.Owner}>Owner</MenuItem>
+                <MenuItem value={UserRole.SuperAdmin}>Super Admin</MenuItem>
+                <MenuItem value={UserRole.Admin}>Admin</MenuItem>
+              </TextField>
+            </div>
+          </div>
+          <Button
+            type="submit"
+            variant="contained"
+            className="w-full gap-2 font-bold h-[40px] text-lg mt-6 text-white capitalize p-2 bg-primaryColor shadow-none px-10"
+          >
+            {loading ? (
+              <CircularProgress className="h-[80%] text-white" />
+            ) : (
+              <>Register</>
+            )}
+          </Button>
+        </form>
+      )}
       <div className="border-b-2 w-full h-1 my-6" />
       <div className="flex flex-col gap-2 w-full">
         {fetchLoading ? (
@@ -296,7 +304,9 @@ const AdminManagement = () => {
                     />
                   )}
                   <span>
-                    {session.data?.user.id === admin.id ? "current admin" : "Remove"}
+                    {session.data?.user.id === admin.id
+                      ? "current admin"
+                      : "Remove"}
                   </span>
                 </span>
               </div>

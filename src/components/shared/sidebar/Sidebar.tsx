@@ -1,6 +1,7 @@
 "use client";
 import { Menu, MenuBook } from "@mui/icons-material";
-import { signOut } from "next-auth/react";
+import { UserRole } from "@prisma/client";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -45,6 +46,8 @@ const menuItems = [
 ];
 
 const Sidebar = () => {
+  const session = useSession();
+  const isAdmin = Boolean(session?.data?.user?.role === UserRole.Admin);
   const router = useRouter();
   const path = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -90,14 +93,20 @@ const Sidebar = () => {
               menu.name === menuItems[0].name //this check is necessary since the dashboard menu link is in all menu link
                 ? Boolean(path === menu.link)
                 : Boolean(path.includes(menu.link));
+
+            const isAccessible = isAdmin
+              ? Boolean(menu.name === "Members List")
+              : true;
             return (
-              <div
-                key={menu.name}
-                onClick={() => {
-                  router.push(menu.link);
-                  setMenuOpen(false);
-                }}
-                className={`flex flex-row items-center gap-6 w-full cursor-pointer text-[#A7DEB8]
+              session?.data?.user?.id &&
+              isAccessible && (
+                <div
+                  key={menu.name}
+                  onClick={() => {
+                    router.push(menu.link);
+                    setMenuOpen(false);
+                  }}
+                  className={`flex flex-row items-center gap-6 w-full cursor-pointer text-[#A7DEB8]
                          py-3 px-6 mt-2 hover:text-white 
                         hover:bg-[rgb(255,255,255,0.2)]
                           ${
@@ -105,17 +114,18 @@ const Sidebar = () => {
                               ? "bg-[rgb(255,255,255,0.2)] text-[white] border-l-8 border-l-[#fff]"
                               : "text-[#A7DEB8] border-l-8 border-l-primaryColor"
                           }`}
-              >
-                <Image
-                  src={isActive ? menu.activeIcon : menu.icon}
-                  height={22}
-                  width={22}
-                  alt="logo"
-                />
-                <span className={`font-normal text-[16px] capitalize`}>
-                  {menu.name}
-                </span>
-              </div>
+                >
+                  <Image
+                    src={isActive ? menu.activeIcon : menu.icon}
+                    height={22}
+                    width={22}
+                    alt="logo"
+                  />
+                  <span className={`font-normal text-[16px] capitalize`}>
+                    {menu.name}
+                  </span>
+                </div>
+              )
             );
           })}
 

@@ -1,15 +1,32 @@
-import { Button, CircularProgress, MenuItem, TextField } from "@mui/material";
+import { showToastAction } from "@/redux/actions";
+import {
+  PanoramaFishEye,
+  PasswordOutlined,
+  RemoveRedEyeOutlined,
+  RemoveRedEyeTwoTone,
+} from "@mui/icons-material";
+import {
+  Button,
+  CircularProgress,
+  IconButton,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 import { Gender, UserRole } from "@prisma/client";
 import axios from "axios";
 import { signIn } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 const SignUp = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [signupError, setSignUpError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -45,7 +62,8 @@ const SignUp = () => {
       }
     } catch (err: any) {
       console.error(err);
-      setSignUpError(err?.response?.data?.error);
+      await setSignUpError(err?.response?.data?.error);
+      dispatch(showToastAction({ message: signupError, type: "error" }));
     }
     setLoading(false);
   };
@@ -158,10 +176,30 @@ const SignUp = () => {
               </TextField>
             </div>
             <div className="flex flex-col gap-[7px] text-[#555555] h-full w-[300px]">
-              <label>Password</label>
+              <label className="flex flex-row items-center justify-between">
+                <span>Password</span>
+
+                {showPassword ? (
+                  <Image
+                    onClick={() => setShowPassword(!showPassword)}
+                    src={"/icons/hideEye.svg"}
+                    alt=""
+                    className="cursor-pointer"
+                    height={20}
+                    width={20}
+                  />
+                ) : (
+                  <RemoveRedEyeOutlined
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="cursor-pointer"
+                    style={{ height: 20, width: 20 }}
+                  />
+                )}
+              </label>
               <TextField
                 {...register("password", { required: "Password is required" })}
                 variant="outlined"
+                type={showPassword ? "text" : "password"}
                 error={Boolean(!!errors.password)}
                 helperText={
                   !!errors.password && errors.password.message?.toString()
