@@ -6,7 +6,6 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
-  Switch,
 } from "@mui/material";
 import PageHeader from "../../shared/PageHeader";
 import { useParams, useRouter } from "next/navigation";
@@ -28,7 +27,13 @@ const EditMember = () => {
   const [membershipType, setMembershipType] = useState<string>(
     member?.membershipType ? member.membershipType : MembershipType.Individual
   );
-  const { register, handleSubmit, watch, formState } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue,
+  } = useForm({
     defaultValues: async () => {
       const res = await axios.get(`/api/member/fetch/${id}`);
 
@@ -38,26 +43,6 @@ const EditMember = () => {
       return res.data.value;
     },
   });
-
-  // const fetchSingleMember = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const res = await axios.get(`/api/member/fetch/${id}`);
-
-  //     if (res?.status === 200) {
-  //       setMember(res.data.value);
-  //     }
-  //   } catch (err: any) {
-  //     console.error(err);
-  //     dispatch(
-  //       showToastAction({
-  //         message: err?.response?.data?.error ?? "something went wrong",
-  //         type: "error",
-  //       })
-  //     );
-  //   }
-  //   setLoading(false);
-  // };
 
   useEffect(() => {
     if (member?.membershipType) {
@@ -115,9 +100,19 @@ const EditMember = () => {
               />
             </RadioGroup>
             {member?.membershipType === MembershipType.Individual ? (
-              <IndividualMember register={register} watch={watch} />
+              <IndividualMember
+                register={register}
+                watch={watch}
+                errors={errors}
+              />
             ) : (
-              <InstitutionMember register={register} watch={watch} />
+              <InstitutionMember
+                register={register}
+                watch={watch}
+                errors={errors}
+                setValue={setValue}
+                member={member}
+              />
             )}
           </div>
           <div className="flex flex-col gap-2 ">

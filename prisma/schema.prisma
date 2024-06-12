@@ -126,7 +126,7 @@ model Contribution {
   id                 String             @id @default(uuid())
   contributionSystem ContributionSystem
   contributorId      String
-  contributor        Member             @relation(fields: [contributorId], references: [id])
+  contributor        Member             @relation(fields: [contributorId], references: [id], onDelete: Cascade)
   amount             Int
 
   created_at DateTime @default(now())

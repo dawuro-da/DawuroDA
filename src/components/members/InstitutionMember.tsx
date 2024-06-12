@@ -4,14 +4,21 @@ import {
   MembershipLevel,
   PaymentMeans,
 } from "@prisma/client";
-import { FieldValues, UseFormRegister, UseFormWatch } from "react-hook-form";
+import {
+  FieldErrors,
+  FieldValues,
+  UseFormRegister,
+  UseFormWatch,
+} from "react-hook-form";
 
 const InstitutionMember = ({
   register,
   watch,
+  errors,
 }: {
   register: UseFormRegister<FieldValues>;
   watch: UseFormWatch<FieldValues>;
+  errors: FieldErrors<FieldValues>;
 }) => {
   return (
     <>
@@ -33,6 +40,11 @@ const InstitutionMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.institutionName)}
+            helperText={
+              !!errors.institutionName &&
+              errors.institutionName.message?.toString()
+            }
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -48,6 +60,11 @@ const InstitutionMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.headOrRepresentative)}
+            helperText={
+              !!errors.headOrRepresentative &&
+              errors.headOrRepresentative.message?.toString()
+            }
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -63,6 +80,10 @@ const InstitutionMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.fieldOfWork)}
+            helperText={
+              !!errors.fieldOfWork && errors.fieldOfWork.message?.toString()
+            }
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -78,6 +99,8 @@ const InstitutionMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.phone)}
+            helperText={!!errors.phone && errors.phone.message?.toString()}
           />
         </div>
         <div className="flex flex-col gap-1 col-span-2">
@@ -93,6 +116,11 @@ const InstitutionMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.partnershipIdea)}
+            helperText={
+              !!errors.partnershipIdea &&
+              errors.partnershipIdea.message?.toString()
+            }
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -106,6 +134,8 @@ const InstitutionMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.region)}
+            helperText={!!errors.region && errors.region.message?.toString()}
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -119,6 +149,8 @@ const InstitutionMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.zone)}
+            helperText={!!errors.zone && errors.zone.message?.toString()}
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -132,6 +164,8 @@ const InstitutionMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.city)}
+            helperText={!!errors.city && errors.city.message?.toString()}
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -145,6 +179,8 @@ const InstitutionMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.kebele)}
+            helperText={!!errors.kebele && errors.kebele.message?.toString()}
           />
         </div>
       </div>
@@ -158,13 +194,19 @@ const InstitutionMember = ({
             Membership Level
           </span>
           <div className="min-w-[130px]">
-            <Select
+            <TextField
+              select
               {...register("membershipLevel", {
                 required: "Membership Level is required",
               })}
               className="w-full p-[1px]"
               defaultValue={""}
               size="small"
+              error={Boolean(!!errors.membershipLevel)}
+              helperText={
+                !!errors.membershipLevel &&
+                errors.membershipLevel.message?.toString()
+              }
             >
               <MenuItem value={MembershipLevel?.Platinium}>
                 {MembershipLevel?.Platinium}
@@ -181,7 +223,7 @@ const InstitutionMember = ({
               <MenuItem value={MembershipLevel?.Bronze}>
                 {MembershipLevel?.Bronze}
               </MenuItem>
-            </Select>
+            </TextField>
           </div>
         </div>
         <div className="flex flex-col gap-2">
@@ -189,13 +231,19 @@ const InstitutionMember = ({
             Contribution system
           </span>
           <div className="min-w-[130px]">
-            <Select
+            <TextField
+              select
               className="w-full p-[1px]"
               defaultValue={""}
               size="small"
               {...register("contributionSystem", {
                 required: "Contribution System is required",
               })}
+              error={Boolean(!!errors.contributionSystem)}
+              helperText={
+                !!errors.contributionSystem &&
+                errors.contributionSystem.message?.toString()
+              }
             >
               <MenuItem value={ContributionSystem?.Yearly}>
                 {ContributionSystem?.Yearly}
@@ -206,7 +254,7 @@ const InstitutionMember = ({
               <MenuItem value={ContributionSystem?.Monthly}>
                 {ContributionSystem?.Monthly}
               </MenuItem>
-            </Select>
+            </TextField>
           </div>
         </div>
         <div className="flex flex-col gap-2">
@@ -222,8 +270,10 @@ const InstitutionMember = ({
             placeholder=""
             className="border-2 rounded-[16px] "
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.contributionAmount)}
             helperText={
-              "As per your Platinium Level membership, the contribution amount is >=100"
+              !!errors.contributionAmount &&
+              errors.contributionAmount.message?.toString()
             }
           />
         </div>
@@ -239,8 +289,13 @@ const InstitutionMember = ({
             })}
             type="text"
             placeholder=""
-            className="border-2 rounded-[16px] py-2"
+            className="border-2 rounded-[16px] py-1"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.positionAtWork)}
+            helperText={
+              !!errors.positionAtWork &&
+              errors.positionAtWork.message?.toString()
+            }
           />
         </div>
 
@@ -249,13 +304,18 @@ const InstitutionMember = ({
             Payment Means
           </span>
           <div className="min-w-[130px]">
-            <Select
+            <TextField
+              select
               className="w-full p-[1px]"
               defaultValue={""}
               size="small"
               {...register("paymentMeans", {
                 required: "Payment Means is required",
               })}
+              error={Boolean(!!errors.paymentMeans)}
+              helperText={
+                !!errors.paymentMeans && errors.paymentMeans.message?.toString()
+              }
             >
               <MenuItem value={PaymentMeans.Office}>
                 {PaymentMeans.Office}
@@ -271,7 +331,7 @@ const InstitutionMember = ({
               <MenuItem value={PaymentMeans.Other}>
                 {PaymentMeans.Other}
               </MenuItem>
-            </Select>
+            </TextField>
           </div>
         </div>
       </div>
