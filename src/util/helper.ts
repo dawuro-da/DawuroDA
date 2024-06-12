@@ -3,6 +3,8 @@ import {
   MembershipLevel,
   MembershipType,
 } from "@prisma/client";
+import * as XLSX from "xlsx";
+import saveAs from 'file-saver'
 
 export function generateRandomString(length: number) {
   const characters =
@@ -119,3 +121,26 @@ export function getMinimumContribution({
       return baseContribution;
   }
 }
+
+export const downloadExcel = (data: any) => {
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+  //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+  XLSX.writeFile(workbook, "DataSheet.csv");
+};
+
+export const exportToCSV = (csvData: any[], fileName: string, head: any) => {
+  const newValue = csvData.map((data) =>
+    head.reduce((obj:any, key:any) => ({ ...obj, [key]: data[key] }), {})
+  );
+  const fileType =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+  const fileExtension = ".xlsx";
+  const ws = XLSX.utils.json_to_sheet(newValue);
+  const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+  const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+  const data = new Blob([excelBuffer], { type: fileType });
+  saveAs(data, fileName + fileExtension);
+};

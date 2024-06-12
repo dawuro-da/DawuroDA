@@ -33,7 +33,7 @@ const RecentMembers = () => {
   const onConfirm = async (customer: any) => {};
 
   return (
-    <div className=" h-[820px] w-full">
+    <div className=" h-[620px] w-full">
       <DashboardDatagrid
         columns={getColumnDefinition({ isSmScreen: isSmScreen })}
         rows={members ?? []}
