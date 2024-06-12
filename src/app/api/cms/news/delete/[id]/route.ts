@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { OPTIONS } from "@/app/api/auth/[...nextauth]/route";
+import { OPTIONS } from "@/util/authOptions";
 import { deleteNews, findNewsById } from "@/db/news";
 
 export async function DELETE(

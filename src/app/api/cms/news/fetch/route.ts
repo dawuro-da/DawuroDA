@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { UserRole } from "@prisma/client";
-import { OPTIONS } from "@/app/api/auth/[...nextauth]/route";
+import { OPTIONS } from "@/util/authOptions";
 import { fetchNewss } from "@/db/news";
 
 export async function POST(req: Request) {

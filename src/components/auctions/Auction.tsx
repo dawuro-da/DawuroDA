@@ -15,7 +15,7 @@ import { PageState } from "../shared/CustomizedDatagrid";
 import { SearchOutlined } from "@mui/icons-material";
 import EditAuction from "./EditAuction";
 
-const Auction = () => {
+const AuctionPage = () => {
   const router = useRouter();
   const [refetch, setRefetch] = useState<boolean>(false);
   const [fetchLoading, setfetchLoading] = useState<boolean>(false);
@@ -118,7 +118,10 @@ const Auction = () => {
           ) : auctions?.length ? (
             auctions.map((item, index) => {
               return (
-                <div className=" relative bg-white w-full rounded-2xl p-10 flex xl:flex-row lg:flex-row md:flex-row flex-col items-center gap-6">
+                <div
+                  key={item.id}
+                  className=" relative bg-white w-full rounded-2xl p-10 flex xl:flex-row lg:flex-row md:flex-row flex-col items-center gap-6"
+                >
                   <div className="flex flex-col w-full">
                     <small>{item.title}</small>
                     <span>{item.description}</span>
@@ -183,4 +186,4 @@ const Auction = () => {
   );
 };
 
-export default Auction;
+export default AuctionPage;

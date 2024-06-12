@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { createUser, findByEmail, findByPhone } from "@/db/user";
 import { getServerSession } from "next-auth";
-import { OPTIONS } from "../../auth/[...nextauth]/route";
+import { OPTIONS } from "@/util/authOptions";
 import { UserRole } from "@prisma/client";
 
 async function hashPassword(

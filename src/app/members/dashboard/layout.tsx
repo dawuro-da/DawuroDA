@@ -1,4 +1,4 @@
-import { OPTIONS } from "@/app/api/auth/[...nextauth]/route";
+import { OPTIONS } from "@/util/authOptions";
 import Sidebar from "@/components/shared/sidebar/Sidebar";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";

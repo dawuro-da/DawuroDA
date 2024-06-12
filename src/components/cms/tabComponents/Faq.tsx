@@ -16,7 +16,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import FaqEdit from "./FaqEdit";
 
-const Faq = () => {
+const FaqPage = () => {
   const dispatch = useDispatch();
   const [refetch, setRefetch] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -265,4 +265,4 @@ const Faq = () => {
   );
 };
 
-export default Faq;
+export default FaqPage;

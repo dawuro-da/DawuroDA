@@ -1,6 +1,6 @@
 import Auth from "@/components/auth";
 import { getServerSession } from "next-auth";
-import { OPTIONS } from "../api/auth/[...nextauth]/route";
+import { OPTIONS } from "@/util/authOptions";
 import { redirect } from "next/navigation";
 
 export default async function Page() {

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { deleteUser, findUserById } from "@/db/user";
 import { getServerSession } from "next-auth";
-import { OPTIONS } from "@/app/api/auth/[...nextauth]/route";
+import { OPTIONS } from "@/util/authOptions";
 import { UserRole } from "@prisma/client";
 
 export async function DELETE(

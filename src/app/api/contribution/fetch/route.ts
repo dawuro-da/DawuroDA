@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { OPTIONS } from "../../auth/[...nextauth]/route";
+import { OPTIONS } from "@/util/authOptions";
 import { findContributionsByContributorId } from "@/db/contribution";
 
 export async function POST(req: Request) {

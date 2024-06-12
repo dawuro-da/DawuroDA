@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { OPTIONS } from "@/app/api/auth/[...nextauth]/route";
-import { createEvent } from "@/db/event";
 import { createAuction } from "@/db/auction";
+import { OPTIONS } from "@/util/authOptions";
 
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);

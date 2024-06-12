@@ -7,7 +7,7 @@ import {
   updateIndividualMember,
   updateInstitutionMember,
 } from "@/db/member";
-import { OPTIONS } from "@/app/api/auth/[...nextauth]/route";
+import { OPTIONS } from "@/util/authOptions";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
