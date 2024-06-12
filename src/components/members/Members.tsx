@@ -27,16 +27,22 @@ import {
   MembershipLevel,
   MembershipType,
   PaymentMeans,
+  UserRole,
 } from "@prisma/client";
 import StyledMenu from "../shared/StyledMenu";
 import { useSession } from "next-auth/react";
 import MemberDetail from "./MemberDetail";
 import DateRangeSelector from "../shared/DateRangeSelector";
+import DeleteModal from "../shared/DeleteModal";
+import { showToastAction } from "@/redux/actions";
+import { useDispatch } from "react-redux";
 
 const Members = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const session = useSession();
   const [searchText, setSearchText] = useState<string>("");
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [members, setMembers] = useState<any[]>([]);
   const [filters, setFilters] = useState({
     membershipLevel: "",
@@ -120,23 +126,60 @@ const Members = () => {
     setDateAnchor(null);
   };
 
+  const handleDelete = async (id?: string) => {
+    try {
+      const res = await axios.delete(`/api/member/delete/${id}`);
+
+      if (res?.status === 200) {
+        dispatch(
+          showToastAction({
+            message: "Successfully Deleted",
+            type: "success",
+          })
+        );
+        setAnchorEl(null);
+        setSelectedMember(undefined);
+        setRefresh(!refresh);
+      }
+    } catch (err: any) {
+      console.error(err);
+      dispatch(
+        showToastAction({
+          message: err?.response?.data?.error ?? "something went wrong",
+          type: "error",
+        })
+      );
+    }
+  };
+
   return (
     <>
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <div>
           <MenuItem
+            disabled={
+              (selectedMember &&
+                session?.data?.user.id !== selectedMember?.registeredBy) ||
+              session.data?.user?.role !== UserRole.Owner
+            }
             onClick={() => {
-              if (
-                selectedMember &&
-                session?.data?.user.id === selectedMember?.registeredBy
-              ) {
-                router.push(`/admin/dashboard/members/${selectedMember.id}`);
-              }
+              router.push(`/admin/dashboard/members/${selectedMember?.id}`);
             }}
           >
             Edit
           </MenuItem>
-          <MenuItem onClick={() => {}}>Delete</MenuItem>
+          <MenuItem
+            disabled={
+              (selectedMember &&
+                session?.data?.user.id !== selectedMember?.registeredBy) ||
+              session.data?.user?.role !== UserRole.Owner
+            }
+            onClick={() => {
+              setShowDeleteDialog(true);
+            }}
+          >
+            Delete
+          </MenuItem>
         </div>
       </StyledMenu>
       <StyledMenu
@@ -229,7 +272,7 @@ const Members = () => {
                         dateFilter?.startDate
                       )} - ${getFormattedDate(dateFilter?.endDate)}`
                     : "All Time"}
-                  <ArrowDropDown className="absolute right-2 top-2"/>
+                  <ArrowDropDown className="absolute right-2 top-2" />
                 </div>
               </div>
               <Button
@@ -414,6 +457,21 @@ const Members = () => {
           </div>
         </div>
       </div>
+      {selectedMember && (
+        <DeleteModal
+          open={showDeleteDialog}
+          onClose={() => setShowDeleteDialog(false)}
+          itemName="member"
+          nameTobeDeleted={`${
+            selectedMember?.firstName
+              ? selectedMember?.firstName + " " + selectedMember?.lastName
+              : selectedMember?.institutionName
+          } `}
+          onRemove={async () => {
+            await handleDelete(selectedMember?.id);
+          }}
+        />
+      )}
     </>
   );
 };
@@ -532,7 +590,7 @@ const getColumnDefinition = ({
             return (
               <div className="flex flex-row h-full w-full justify-center z-50">
                 <span
-                  className="rotate-90 font-bold cursor-pointer hover:scale-125"
+                  className="rotate-90 font-bold cursor-pointer hover:scale-125 text-[20px]"
                   onClick={(e) => {
                     e.stopPropagation();
                     if (adminId === params.row.registeredBy) {
@@ -611,7 +669,7 @@ const getColumnDefinition = ({
             return (
               <div className="flex flex-row h-full w-full justify-center z-50">
                 <span
-                  className="rotate-90 font-bold cursor-pointer hover:scale-125"
+                  className="rotate-90 font-bold cursor-pointer hover:scale-125 text-[20px]"
                   onClick={(e) => {
                     e.stopPropagation();
                     if (adminId === params.row.registeredBy) {

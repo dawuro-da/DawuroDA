@@ -1,20 +1,26 @@
-import { Button, MenuItem, Select, Switch, TextField } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { getMinimumContribution } from "@/util/helper";
+import { Button, MenuItem, TextField } from "@mui/material";
 import {
   ContributionSystem,
   MembershipLevel,
   PaymentMeans,
 } from "@prisma/client";
 import Image from "next/image";
-import { useRef } from "react";
-import { FieldValues, UseFormRegister, UseFormWatch } from "react-hook-form";
+import {
+  FieldErrors,
+  FieldValues,
+  UseFormRegister,
+  UseFormWatch,
+} from "react-hook-form";
 
 const IndividualMember = ({
   register,
   watch,
+  errors,
 }: {
   register: UseFormRegister<FieldValues>;
   watch: UseFormWatch<FieldValues>;
+  errors: FieldErrors<FieldValues>;
 }) => {
   return (
     <>
@@ -34,6 +40,10 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.firstName)}
+            helperText={
+              !!errors.firstName && errors.firstName.message?.toString()
+            }
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -47,6 +57,10 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.lastName)}
+            helperText={
+              !!errors.lastName && errors.lastName.message?.toString()
+            }
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -62,6 +76,8 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.phone)}
+            helperText={!!errors.phone && errors.phone.message?.toString()}
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -75,7 +91,31 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.email)}
+            helperText={!!errors.email && errors.email.message?.toString()}
           />
+        </div>
+        <div className="flex flex-col gap-2">
+          <span className="text-titleColor text-sm font-bold">Gender</span>
+          <div className="min-w-[130px]">
+            <TextField
+              select
+              className="w-full p-[1px]"
+              defaultValue={watch("gender")}
+              size="small"
+              {...register("gender", {
+                required: "Gender is required",
+              })}
+              error={Boolean(!!errors.gender)}
+              helperText={!!errors.gender && errors.gender.message?.toString()}
+            >
+              <MenuItem disabled value={"Gender"}>
+                {"Gender"}
+              </MenuItem>
+              <MenuItem value={"Male"}>{"Male"}</MenuItem>
+              <MenuItem value={"Female"}>{"Female"}</MenuItem>
+            </TextField>
+          </div>
         </div>
         <div className="flex flex-col gap-1">
           <span className="text-titleColor text-sm font-bold">
@@ -90,6 +130,10 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.dateOfBirth)}
+            helperText={
+              !!errors.dateOfBirth && errors.dateOfBirth.message?.toString()
+            }
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -103,6 +147,8 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.region)}
+            helperText={!!errors.region && errors.region.message?.toString()}
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -116,6 +162,8 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.zone)}
+            helperText={!!errors.zone && errors.zone.message?.toString()}
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -129,6 +177,8 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.city)}
+            helperText={!!errors.city && errors.city.message?.toString()}
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -142,6 +192,8 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.kebele)}
+            helperText={!!errors.kebele && errors.kebele.message?.toString()}
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -155,6 +207,10 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.workPlace)}
+            helperText={
+              !!errors.workPlace && errors.workPlace.message?.toString()
+            }
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -168,6 +224,10 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.idNumber)}
+            helperText={
+              !!errors.idNumber && errors.idNumber.message?.toString()
+            }
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -181,6 +241,8 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.branch)}
+            helperText={!!errors.branch && errors.branch.message?.toString()}
           />
         </div>
         <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
@@ -204,13 +266,13 @@ const IndividualMember = ({
             <input
               id="profileImage"
               {...register("profileImage", {
-                required: "profileImage is required",
+                required: "Profile Image is required",
                 validate: {
-                  fileSize: (value:any) => {
+                  fileSize: (value: any) => {
                     if (value && value[0]) {
                       return (
                         value[0].size < 1048576 ||
-                        "File size must be less than 1MB"
+                        "Image size must be 600*600 File size must be less than 1MB"
                       );
                     }
                     return true;
@@ -231,8 +293,8 @@ const IndividualMember = ({
               <span>Upload</span>
             </Button>
           </span>
-          <span className="text-[10px] text-titleColor">
-            Image size must be 600*600 File size must be less than 1MB
+          <span className="text-xs text-red-500">
+            {!!errors.profileImage && errors.profileImage.message?.toString()}
           </span>
         </div>
       </div>
@@ -246,13 +308,19 @@ const IndividualMember = ({
             Membership Level
           </span>
           <div className="min-w-[130px]">
-            <Select
+            <TextField
+              select
               {...register("membershipLevel", {
                 required: "Membership Level is required",
               })}
               className="w-full p-[1px]"
               defaultValue={""}
               size="small"
+              error={Boolean(!!errors.membershipLevel)}
+              helperText={
+                !!errors.membershipLevel &&
+                errors.membershipLevel.message?.toString()
+              }
             >
               <MenuItem value={MembershipLevel?.Platinium}>
                 {MembershipLevel?.Platinium}
@@ -269,7 +337,7 @@ const IndividualMember = ({
               <MenuItem value={MembershipLevel?.Bronze}>
                 {MembershipLevel?.Bronze}
               </MenuItem>
-            </Select>
+            </TextField>
           </div>
         </div>
         <div className="flex flex-col gap-2">
@@ -277,13 +345,19 @@ const IndividualMember = ({
             Contribution system
           </span>
           <div className="min-w-[130px]">
-            <Select
+            <TextField
+              select
               className="w-full p-[1px]"
               defaultValue={""}
               size="small"
               {...register("contributionSystem", {
                 required: "Contribution System is required",
               })}
+              error={Boolean(!!errors.contributionSystem)}
+              helperText={
+                !!errors.contributionSystem &&
+                errors.contributionSystem.message?.toString()
+              }
             >
               <MenuItem value={ContributionSystem?.Yearly}>
                 {ContributionSystem?.Yearly}
@@ -294,7 +368,7 @@ const IndividualMember = ({
               <MenuItem value={ContributionSystem?.Monthly}>
                 {ContributionSystem?.Monthly}
               </MenuItem>
-            </Select>
+            </TextField>
           </div>
         </div>
         <div className="flex flex-col gap-2">
@@ -310,6 +384,11 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] "
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.educationLevel)}
+            helperText={
+              !!errors.educationLevel &&
+              errors.educationLevel.message?.toString()
+            }
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -320,13 +399,35 @@ const IndividualMember = ({
             size="small"
             {...register("contributionAmount", {
               required: "Contribution Amount is required",
+              validate: {
+                minAmount: (value: any) => {
+                  if (
+                    value &&
+                    watch("membershipLevel") &&
+                    watch("contributionSystem")
+                  ) {
+                    const minAmount = getMinimumContribution({
+                      membershipLevel: watch("membershipLevel"),
+                      membershipType: "Individual",
+                      contributionSystem: watch("contributionSystem"),
+                    });
+                    return (
+                      value <= minAmount ||
+                      `As per your Platinium Level membership, the contribution amount is >=${minAmount}`
+                    );
+                  }
+                  return true;
+                },
+              },
             })}
             type="number"
             placeholder=""
             className="border-2 rounded-[16px] "
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.contributionAmount)}
             helperText={
-              "As per your Platinium Level membership, the contribution amount is >=100"
+              !!errors.contributionAmount &&
+              errors.contributionAmount.message?.toString()
             }
           />
         </div>
@@ -341,6 +442,10 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.expertise)}
+            helperText={
+              !!errors.expertise && errors.expertise.message?.toString()
+            }
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -356,6 +461,11 @@ const IndividualMember = ({
             placeholder=""
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.positionAtWork)}
+            helperText={
+              !!errors.positionAtWork &&
+              errors.positionAtWork.message?.toString()
+            }
           />
         </div>
         <div className="flex flex-col gap-3">
@@ -363,13 +473,18 @@ const IndividualMember = ({
             Payment Means
           </span>
           <div className="min-w-[130px]">
-            <Select
+            <TextField
+              select
               className="w-full p-[1px]"
               defaultValue={""}
               size="small"
               {...register("paymentMeans", {
                 required: "Payment Means is required",
               })}
+              error={Boolean(!!errors.paymentMeans)}
+              helperText={
+                !!errors.paymentMeans && errors.paymentMeans.message?.toString()
+              }
             >
               <MenuItem value={PaymentMeans.Office}>
                 {PaymentMeans.Office}
@@ -385,7 +500,7 @@ const IndividualMember = ({
               <MenuItem value={PaymentMeans.Other}>
                 {PaymentMeans.Other}
               </MenuItem>
-            </Select>
+            </TextField>
           </div>
         </div>
       </div>

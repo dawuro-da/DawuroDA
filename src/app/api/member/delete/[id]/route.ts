@@ -25,7 +25,7 @@ export async function DELETE(
         success: false,
         error: "member doesn't exist",
       },
-      { status: 409 }
+      { status: 400 }
     );
   } else {
     try {

@@ -95,9 +95,9 @@ const Dashboard = () => {
     },
   ];
 
-  const prepareURL = async () => {
-    const cardElement = selectedMenu.currentTarget;
-
+  const prepareURL = async (currTarget: any) => {
+    const cardElement = currTarget;
+    setAnchorEl(null);
     if (!cardElement) return;
 
     try {
@@ -123,17 +123,27 @@ const Dashboard = () => {
     }
   };
 
-  const handleGeneratePDF = useReactToPrint({
-    content: () =>
+  // const handleGeneratePDF = useReactToPrint({
+  //   content: () =>
+  //     clickedMenu === "Members"
+  //       ? divRef.current
+  //       : clickedMenu === "Donation"
+  //       ? divRef1.current
+  //       : divRef2.current,
+  //   documentTitle: "Card",
+  // });
+  const handleGeneratePDF = () => {
+    const currTarget =
       clickedMenu === "Members"
         ? divRef.current
         : clickedMenu === "Donation"
         ? divRef1.current
-        : divRef2.current,
-    documentTitle: "Goods Issue Detail",
-  });
+        : divRef2.current;
+    prepareURL(currTarget);
+  };
 
   const handleDownloadCSV = () => {
+    setAnchorEl(null);
     switch (clickedMenu) {
       case "Members":
         return downloadExcel([

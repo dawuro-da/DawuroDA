@@ -22,7 +22,6 @@ const getLastMonthStartAndEnd = () => {
   const endOfLastMonth = new Date(startOfCurrentMonth);
   endOfLastMonth.setDate(0);
 
-  console.log({ startOfLastMonth }, { endOfLastMonth });
   return {
     startOfLastMonth,
     endOfLastMonth,

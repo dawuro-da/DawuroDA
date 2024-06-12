@@ -92,9 +92,17 @@ const AddNewMember = () => {
               />
             </RadioGroup>
             {membershipType === MembershipType.Individual ? (
-              <IndividualMember register={register} watch={watch} />
+              <IndividualMember
+                register={register}
+                watch={watch}
+                errors={errors}
+              />
             ) : (
-              <InstitutionMember register={register} watch={watch} />
+              <InstitutionMember
+                register={register}
+                watch={watch}
+                errors={errors}
+              />
             )}
             <div className="flex flex-row items-center justify-between gap-6 my-4">
               <span className="font-bold flex flex-row items-center gap-6">
