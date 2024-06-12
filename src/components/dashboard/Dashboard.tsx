@@ -2,17 +2,17 @@
 
 import Image from "next/image";
 import PageHeader from "../shared/PageHeader";
-import { Button, MenuItem, Select } from "@mui/material";
+import { Button, MenuItem } from "@mui/material";
 import LineChartGraph from "./LineChartGraph";
 import PieChartGraph from "./PieChartGraph";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import StyledMenu from "../shared/StyledMenu";
 import RecentMembers from "./RecentMembers";
 import { useRouter } from "next/navigation";
-import DateRangeSelector from "../shared/DateRangeSelector";
-import { formatNumberToKOrM, getFormattedDate } from "@/util/date";
-import { ArrowDropDown } from "@mui/icons-material";
+import { formatNumberToKOrM } from "@/util/date";
 import axios from "axios";
+import { downloadExcel, exportToCSV } from "@/util/helper";
+import { useReactToPrint } from "react-to-print";
 
 interface DashboardData {
   contributionStatus: {
@@ -28,9 +28,10 @@ interface DashboardData {
 
 const Dashboard = () => {
   const router = useRouter();
+  const [selectedMenu, setSelectedMenu] = useState<any>();
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const [dashboardData, setDashboardData] = useState<DashboardData>();
-
+  const [clickedMenu, setClickedMenu] = useState<string>();
   const open = Boolean(anchorEl);
 
   const handleClose = () => {
@@ -49,6 +50,10 @@ const Dashboard = () => {
     fetchDashboardData();
   }, []);
 
+  const divRef = useRef(null);
+  const divRef1 = useRef(null);
+  const divRef2 = useRef(null);
+
   const cardsData = [
     {
       name: "Members",
@@ -66,7 +71,7 @@ const Dashboard = () => {
           ? formatNumberToKOrM(dashboardData?.donations)
           : "0"
       } ETB`,
-      increment: `${dashboardData?.donationsSinceLastWeek ?? 0} people donated`,
+      increment: `${dashboardData?.donationsSinceLastWeek ?? 0} people`,
       since: "Since Last week",
       increased: true,
     },
@@ -86,12 +91,80 @@ const Dashboard = () => {
     },
   ];
 
+  const prepareURL = async () => {
+    const cardElement = selectedMenu.currentTarget;
+
+    if (!cardElement) return;
+
+    try {
+      // lazy load this package
+      const html2canvas = await import(
+        /* webpackPrefetch: true */ "html2canvas"
+      );
+
+      const result = await html2canvas.default(cardElement);
+
+      const asURL = result.toDataURL("image/jpeg");
+      // as far as I know this is a quick and dirty solution
+      const anchor = document.createElement("a");
+      anchor.href = asURL;
+      anchor.download = "your-card.jpeg";
+      anchor.click();
+      anchor.remove();
+      // maybe this part should set state with `setURLData(asURL)`
+      // and when that's set to something you show the download button
+      // which has `href=URLData`, so that people can click on it
+    } catch (reason) {
+      console.log(reason);
+    }
+  };
+
+  const handleGeneratePDF = useReactToPrint({
+    content: () =>
+      clickedMenu === "Members"
+        ? divRef.current
+        : clickedMenu === "Donation"
+        ? divRef1.current
+        : divRef2.current,
+    documentTitle: "Goods Issue Detail",
+  });
+
+  const handleDownloadCSV = () => {
+    switch (clickedMenu) {
+      case "Members":
+        return downloadExcel([
+          {
+            name: "total member",
+            count: dashboardData?.totalMember,
+          },
+        ]);
+      case "Contribution":
+        return downloadExcel([
+          {
+            name: "total contribution",
+            count: dashboardData?.totalContributions,
+          },
+        ]);
+      case "Donation":
+        return downloadExcel([
+          { name: "total donations", count: dashboardData?.donations },
+        ]);
+      case "Members":
+        return downloadExcel([
+          { name: "total members", count: dashboardData?.totalMember },
+        ]);
+    }
+  };
   return (
     <>
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <div>
-          <MenuItem onClick={() => {}}>{"Download card data(.csv)"}</MenuItem>
-          <MenuItem onClick={() => {}}>{"Download card data(.png)"}</MenuItem>
+          <MenuItem onClick={handleDownloadCSV}>
+            {"Download card data(.csv)"}
+          </MenuItem>
+          <MenuItem onClick={handleGeneratePDF}>
+            {"Download card data(.png)"}
+          </MenuItem>
         </div>
       </StyledMenu>
 
@@ -103,6 +176,7 @@ const Dashboard = () => {
             {cardsData.map((card, index) => {
               return (
                 <div
+                  ref={index === 0 ? divRef : index === 1 ? divRef1 : divRef2}
                   key={index}
                   className="bg-white h-full rounded-[12px] p-4 flex flex-row items-center justify-between font-[300]"
                 >
@@ -127,7 +201,11 @@ const Dashboard = () => {
                   </div>
                   <span
                     className="rotate-90 font-bold cursor-pointer hover:scale-125"
-                    onClick={(e) => setAnchorEl(e.currentTarget)}
+                    onClick={(e) => {
+                      setSelectedMenu(e);
+                      setClickedMenu(card.name);
+                      setAnchorEl(e.currentTarget);
+                    }}
                   >
                     ...
                   </span>
