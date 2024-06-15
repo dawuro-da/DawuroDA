@@ -69,7 +69,10 @@ const MemberDetail = ({
           <Close onClick={onClose} className="cursor-pointer" />
         </div>
         <div className="mt-6 flex flex-col items-center gap-2">
-          <Avatar className="h-[100px] w-[100px]" />
+          <Avatar
+            src={`${member?.profileImage}`}
+            className="h-[100px] w-[100px] shadow-md"
+          />
           <span className="text-3xl text-[#555555] font-bold  text-center">
             {member.firstName
               ? `${member.firstName} ${member.lastName}`

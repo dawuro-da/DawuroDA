@@ -21,6 +21,7 @@ import { showToastAction } from "@/redux/actions";
 import IndividualMember from "./IndividualMember";
 import InstitutionMember from "./InstitutionMember";
 import { MembershipType } from "@prisma/client";
+import { getMemberFormData } from "@/util/getMemberFormData";
 
 const AddNewMember = () => {
   const router = useRouter();
@@ -39,11 +40,10 @@ const AddNewMember = () => {
 
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
+    const formData = getMemberFormData({ ...values, membershipType });
+
     try {
-      const res = await axios.post("/api/member/register", {
-        ...values,
-        membershipType: membershipType,
-      });
+      const res = await axios.post("/api/member/register", formData);
 
       if (res?.status === 200) {
         router.push("/admin/dashboard/members");
