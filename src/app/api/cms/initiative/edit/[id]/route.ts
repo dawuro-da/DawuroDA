@@ -18,6 +18,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
     featuredImages,
     body,
     bodyAmharic,
+    isDraft,
   } = await req.json();
   const initiativeId = context.params.id;
 
@@ -27,6 +28,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       nameOfInitiativeAmharic,
       featuredImages,
       body,
+      isDraft,
       bodyAmharic,
       id: initiativeId,
     });

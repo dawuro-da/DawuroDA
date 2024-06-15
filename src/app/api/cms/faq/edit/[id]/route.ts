@@ -12,7 +12,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       { status: 401 }
     );
   }
-  const { question, answer } = await req.json();
+  const { question, answer, isDraft } = await req.json();
   const faqId = context.params.id;
 
   try {
@@ -20,6 +20,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       question,
       answer,
       id: faqId,
+      isDraft,
     });
 
     if (result) {

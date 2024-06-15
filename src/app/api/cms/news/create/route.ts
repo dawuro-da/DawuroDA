@@ -12,14 +12,21 @@ export async function POST(req: Request) {
     );
   }
 
-  const { profileImage, body, bodyAmharic, headline, headlineAmharic } =
-    await req.json();
+  const {
+    profileImage,
+    isDraft,
+    body,
+    bodyAmharic,
+    headline,
+    headlineAmharic,
+  } = await req.json();
   try {
     const result = await createNews({
       profileImage,
       body,
       bodyAmharic,
       headline,
+      isDraft,
       headlineAmharic,
     });
 

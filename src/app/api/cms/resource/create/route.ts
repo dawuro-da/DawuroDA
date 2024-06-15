@@ -12,12 +12,13 @@ export async function POST(req: Request) {
     );
   }
 
-  const { name, description, document } = await req.json();
+  const { name, description, document, isDraft } = await req.json();
   try {
     const result = await createResource({
       name,
       description,
       document,
+      isDraft,
     });
 
     if (result) {

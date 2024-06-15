@@ -20,6 +20,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
     photo,
     bio,
     bioAmharic,
+    isDraft,
   } = await req.json();
   const managementId = context.params.id;
 
@@ -28,6 +29,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       managerName,
       managerNameAmharic,
       job,
+      isDraft,
       jobAmharic,
       photo,
       bio,

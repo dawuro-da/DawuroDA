@@ -12,8 +12,13 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       { status: 401 }
     );
   }
-  const { jobTitle, jobDescription, jobDescriptionAmharic, jobTitleAmharic } =
-    await req.json();
+  const {
+    jobTitle,
+    isDraft,
+    jobDescription,
+    jobDescriptionAmharic,
+    jobTitleAmharic,
+  } = await req.json();
   const jobId = context.params.id;
 
   try {
@@ -23,6 +28,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       jobDescriptionAmharic,
       jobTitleAmharic,
       id: jobId,
+      isDraft,
     });
 
     if (result) {

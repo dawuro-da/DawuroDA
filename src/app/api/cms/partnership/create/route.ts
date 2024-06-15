@@ -12,11 +12,12 @@ export async function POST(req: Request) {
     );
   }
 
-  const { partnerName, partnerNameAmharic, logo, bio, bioAmharic } =
+  const { partnerName, isDraft, partnerNameAmharic, logo, bio, bioAmharic } =
     await req.json();
   try {
     const result = await createPartnership({
       partnerName,
+      isDraft,
       partnerNameAmharic,
       logo,
       bio,

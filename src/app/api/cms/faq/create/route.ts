@@ -12,11 +12,12 @@ export async function POST(req: Request) {
     );
   }
 
-  const { question, answer } = await req.json();
+  const { question, answer, isDraft } = await req.json();
   try {
     const result = await createFaq({
       question,
       answer,
+      isDraft,
     });
 
     if (result) {

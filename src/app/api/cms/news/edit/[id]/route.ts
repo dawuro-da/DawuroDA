@@ -12,8 +12,14 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       { status: 401 }
     );
   }
-  const { headline, headlineAmharic, profileImage, body, bodyAmharic } =
-    await req.json();
+  const {
+    headline,
+    isDraft,
+    headlineAmharic,
+    profileImage,
+    body,
+    bodyAmharic,
+  } = await req.json();
   const newsId = context.params.id;
 
   try {
@@ -22,6 +28,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       headlineAmharic,
       profileImage,
       body,
+      isDraft,
       bodyAmharic,
       id: newsId,
     });

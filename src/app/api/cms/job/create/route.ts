@@ -12,14 +12,20 @@ export async function POST(req: Request) {
     );
   }
 
-  const { jobTitle, jobDescription, jobDescriptionAmharic, jobTitleAmharic } =
-    await req.json();
+  const {
+    jobTitle,
+    jobDescription,
+    isDraft,
+    jobDescriptionAmharic,
+    jobTitleAmharic,
+  } = await req.json();
   try {
     const result = await createJob({
       jobTitle,
       jobDescription,
       jobDescriptionAmharic,
       jobTitleAmharic,
+      isDraft,
     });
 
     if (result) {

@@ -12,13 +12,14 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       { status: 401 }
     );
   }
-  const { partnerName, partnerNameAmharic, logo, bio, bioAmharic } =
+  const { partnerName, isDraft, partnerNameAmharic, logo, bio, bioAmharic } =
     await req.json();
   const partnershipId = context.params.id;
 
   try {
     const result = await updatePartnership({
       partnerName,
+      isDraft,
       partnerNameAmharic,
       logo,
       bio,
