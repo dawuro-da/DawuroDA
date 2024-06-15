@@ -1,7 +1,9 @@
+import { getMinimumContribution } from "@/util/helper";
 import { MenuItem, Select, Switch, TextField } from "@mui/material";
 import {
   ContributionSystem,
   MembershipLevel,
+  MembershipType,
   PaymentMeans,
 } from "@prisma/client";
 import {
@@ -265,6 +267,29 @@ const InstitutionMember = ({
             size="small"
             {...register("contributionAmount", {
               required: "Contribution Amount is required",
+              validate: {
+                minAmount: (value: any) => {
+                  if (
+                    value &&
+                    watch("membershipLevel") &&
+                    watch("contributionSystem")
+                  ) {
+                    const minAmount = getMinimumContribution({
+                      membershipLevel: watch("membershipLevel"),
+                      membershipType: MembershipType.Company,
+                      contributionSystem: watch("contributionSystem"),
+                    });
+                    if (parseFloat(value) >= minAmount) {
+                      return true; // Value is valid
+                    } else {
+                      return `As per your ${watch(
+                        "membershipLevel"
+                      )} Level membership, the contribution amount should be >= ${minAmount}`;
+                    }
+                  }
+                  return false;
+                },
+              },
             })}
             type="number"
             placeholder=""

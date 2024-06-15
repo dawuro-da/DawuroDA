@@ -1,14 +1,13 @@
 import {
   checkMemberThreeMonth,
+  getFormattedDate,
   getFormattedDateFromTimestamp,
 } from "@/util/date";
 import {
   Call,
   Close,
-  Download,
   EditNoteOutlined,
   InfoOutlined,
-  InfoRounded,
   LocationOnOutlined,
 } from "@mui/icons-material";
 import { Avatar, Button, CircularProgress, Drawer } from "@mui/material";
@@ -25,6 +24,7 @@ interface MemberDetailProps {
   onClose: () => void;
   onRefresh: () => void;
 }
+
 const MemberDetail = ({
   member,
   open,
@@ -48,12 +48,13 @@ const MemberDetail = ({
     }
     setLoading(false);
   };
+
   useEffect(() => {
     if (member?.id) {
       fetchMemberContributions(member.id);
     }
   }, [member]);
-
+  console.log({ member });
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
       <div className="h-full xl:w-[700px] lg:w-[700px] md:w-[500px] w-screen p-8 flex flex-col items-center">
@@ -83,7 +84,7 @@ const MemberDetail = ({
           </span>
         </div>
         <div className="flex flex-row w-full border-b-2 text-[#CFCFCF] my-6" />
-        <div className="flex flex-row w-full items-center gap-6 px-2">
+        <div className="grid xl:grid-cols-3 lg:grid-cols-3 grid-cols-2 w-full items-center gap-6 px-2">
           <div className="flex flex-row items-center gap-2">
             <LocationOnOutlined className="text-titleColor" />
             <div className="flex flex-col  ">
@@ -170,12 +171,19 @@ const MemberDetail = ({
                 <span className="font-bold text-[#555555] text-sm">{`${member.educationLevel}`}</span>
               </div>
             )}
+            {member.dateOfBirth && (
+              <div className="flex flex-row items-center gap-2 ">
+                <span className="text-titleColor text-sm">Date of birth: </span>
+                <span className="font-bold text-[#555555] text-sm">{`${member.dateOfBirth}`}</span>
+              </div>
+            )}
             <div className="flex flex-row items-center gap-2 ">
               <span className="text-titleColor text-sm">
                 Work responsibility:{" "}
               </span>
               <span className="font-bold text-[#555555] text-sm">{`${member.positionAtWork}`}</span>
             </div>
+
             {member.positionAtWork && (
               <div className="flex flex-row items-center gap-2 ">
                 <span className="text-titleColor text-sm">
@@ -184,10 +192,48 @@ const MemberDetail = ({
                 <span className="font-bold text-[#555555] text-sm">{`${member.positionAtWork}`}</span>
               </div>
             )}
+            {member.expertise && (
+              <div className="flex flex-row items-center gap-2 ">
+                <span className="text-titleColor text-sm">Expertise: </span>
+                <span className="font-bold text-[#555555] text-sm">{`${member.expertise}`}</span>
+              </div>
+            )}
+            {member.headOrRepresentative && (
+              <div className="flex flex-row items-center gap-2 ">
+                <span className="text-titleColor text-sm">
+                  Head or Representative:{" "}
+                </span>
+                <span className="font-bold text-[#555555] text-sm">{`${member.headOrRepresentative}`}</span>
+              </div>
+            )}
+
+            {member.branch && (
+              <div className="flex flex-row items-center gap-2 ">
+                <span className="text-titleColor text-sm">Branch: </span>
+                <span className="font-bold text-[#555555] text-sm">{`${member.branch}`}</span>
+              </div>
+            )}
+            {member.partnershipIdea && (
+              <div className="flex flex-row items-center gap-2 ">
+                <span className="text-titleColor text-sm">
+                  Partnership idea:{" "}
+                </span>
+                <span className="font-bold text-[#555555] text-sm">{`${member.partnershipIdea}`}</span>
+              </div>
+            )}
             {member.fieldOfWork && (
               <div className="flex flex-row items-center gap-2 ">
                 <span className="text-titleColor text-sm">Field of work: </span>
                 <span className="font-bold text-[#555555] text-sm">{`${member.fieldOfWork}`}</span>
+              </div>
+            )}
+
+            {member.lastPaidAt && (
+              <div className="flex flex-row items-center gap-2 ">
+                <span className="text-titleColor text-sm">Last paid at: </span>
+                <span className="font-bold text-[#555555] text-sm">{`${getFormattedDate(
+                  member.lastPaidAt
+                )}`}</span>
               </div>
             )}
             <div className="flex flex-row items-center gap-2 ">
@@ -227,7 +273,7 @@ const MemberDetail = ({
               return (
                 <div
                   key={index}
-                  className="w-full grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2 items-center px-10 shadow-md p-2 py-6 justify-around"
+                  className="w-full grid xl:grid-cols-4 lg:grid-cols-4 grid-cols-2 items-center px-10 shadow-md p-2 py-6 justify-around"
                 >
                   <span className="font-bold capitalize min-w-[70px]">
                     {item.contributionSystem}

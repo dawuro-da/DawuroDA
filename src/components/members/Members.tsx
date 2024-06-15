@@ -16,11 +16,7 @@ import axios from "axios";
 import { GridColDef } from "@mui/x-data-grid";
 import { getFormattedDate, getFormattedDateFromTimestamp } from "@/util/date";
 import { useRouter } from "next/navigation";
-import {
-  ArrowDownwardOutlined,
-  ArrowDropDown,
-  SearchOutlined,
-} from "@mui/icons-material";
+import { ArrowDropDown, SearchOutlined } from "@mui/icons-material";
 import {
   ContributionSystem,
   Member,
@@ -36,6 +32,7 @@ import DateRangeSelector from "../shared/DateRangeSelector";
 import DeleteModal from "../shared/DeleteModal";
 import { showToastAction } from "@/redux/actions";
 import { useDispatch } from "react-redux";
+import { downloadExcel } from "@/util/helper";
 
 const Members = () => {
   const dispatch = useDispatch();
@@ -50,6 +47,7 @@ const Members = () => {
     membershipType: "",
     paymentStatus: "",
   });
+  const [generateLoading, setGenerateLoading] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [isSmScreen, setIsSmScreen] = useState<boolean>(false);
   const [selectedMember, setSelectedMember] = useState<Member>();
@@ -86,6 +84,8 @@ const Members = () => {
     if (result.data.success) {
       setMembers(result.data.value.members);
       setTotalCount(result.data.value.total);
+    } else {
+      dispatch(showToastAction({ message: result.data.error, type: "error" }));
     }
     setLoading(false);
   };
@@ -150,6 +150,28 @@ const Members = () => {
         })
       );
     }
+  };
+
+  const generateMemberReport = async () => {
+    setGenerateLoading(true);
+    const result = await axios.post("/api/member/fetch/all", {
+      filters: {
+        ...filters,
+        startDate: dateFilter?.startDate,
+        endDate: dateFilter?.endDate,
+      },
+      searchText,
+    });
+
+    if (result.data.success) {
+      downloadExcel(result.data.value.members);
+      dispatch(
+        showToastAction({ message: "Successfully generated", type: "success" })
+      );
+    } else {
+      dispatch(showToastAction({ message: result.data.error, type: "error" }));
+    }
+    setGenerateLoading(false);
   };
 
   return (
@@ -448,6 +470,8 @@ const Members = () => {
                 isSmScreen: isSmScreen,
                 adminId: session?.data?.user?.id,
               })}
+              generateReport={generateMemberReport}
+              generateLoading={generateLoading}
               rows={members ?? []}
               loading={loading}
               onRowClick={onRowClick}
