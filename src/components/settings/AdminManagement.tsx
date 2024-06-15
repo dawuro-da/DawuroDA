@@ -284,18 +284,18 @@ const AdminManagement = () => {
                 </div>
                 <span
                   onClick={() => {
-                    if (session.data?.user.id !== admin.id) {
+                    if (session.data?.user?.id !== admin.id) {
                       setSelectedUser(admin);
                     }
                   }}
                   className={`bg-[#F7DEDE] cursor-pointer text-red-500 
                     ${
-                      session.data?.user.id === admin.id &&
+                      session.data?.user?.id === admin.id &&
                       "bg-[#f7f7f7] text-[#000000]"
                     }
                     flex flex-row items-center gap-2 p-1 px-3 rounded-lg capitalize`}
                 >
-                  {session.data?.user.id !== admin.id && (
+                  {session.data?.user?.id !== admin.id && (
                     <Image
                       src={"/icons/minusOutlined.svg"}
                       alt=""
@@ -304,7 +304,7 @@ const AdminManagement = () => {
                     />
                   )}
                   <span>
-                    {session.data?.user.id === admin.id
+                    {session.data?.user?.id === admin.id
                       ? "current admin"
                       : "Remove"}
                   </span>

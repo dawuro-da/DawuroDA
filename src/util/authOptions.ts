@@ -62,7 +62,7 @@ export const OPTIONS: NextAuthOptions = {
       } else {
         return Boolean(
           user.id &&
-            typeof user.id === "string" &&
+            typeof user?.id === "string" &&
             user.email &&
             user.firstName &&
             user.role &&
@@ -92,7 +92,7 @@ export const OPTIONS: NextAuthOptions = {
       const savedUser = await findByEmail(token.email);
 
       if (savedUser) {
-        token.id = savedUser.id;
+        token.id = savedUser?.id;
         token.email = savedUser.email;
         token.firstName = savedUser.firstName;
         token.lastName = savedUser.lastName;

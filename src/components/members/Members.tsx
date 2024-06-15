@@ -181,7 +181,7 @@ const Members = () => {
           <MenuItem
             disabled={
               (selectedMember &&
-                session?.data?.user.id !== selectedMember?.registeredBy) ||
+                session?.data?.user?.id !== selectedMember?.registeredBy) ||
               session.data?.user?.role !== UserRole.Owner
             }
             onClick={() => {
@@ -193,7 +193,7 @@ const Members = () => {
           <MenuItem
             disabled={
               (selectedMember &&
-                session?.data?.user.id !== selectedMember?.registeredBy) ||
+                session?.data?.user?.id !== selectedMember?.registeredBy) ||
               session.data?.user?.role !== UserRole.Owner
             }
             onClick={() => {

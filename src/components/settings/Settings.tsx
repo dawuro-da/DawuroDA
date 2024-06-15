@@ -8,10 +8,10 @@ import UserSetting from "./UserSetting";
 
 const Settings = async () => {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user.id) {
+  if (!session?.user?.id) {
     redirect("/admin/login");
   }
-  const user = await findUserById(session.user.id);
+  const user = await findUserById(session.user?.id);
   return (
     <div className="flex flex-col w-full min-h-screen bg-[#f5f5f5] ">
       <AdminSettingHeader />
