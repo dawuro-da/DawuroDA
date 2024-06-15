@@ -363,7 +363,9 @@ const IndividualMember = ({ member }: { member: Member }) => {
                         width={20}
                       />
                       <span>
-                        {watch("profileImage")
+                        {watch("profileImage") && (watch("profileImage") as unknown as any)[0]
+                          ? (watch("profileImage") as unknown as any)[0].name
+                          : watch("profileImage")
                           ? watch("profileImage")
                           : "Upload"}
                       </span>
