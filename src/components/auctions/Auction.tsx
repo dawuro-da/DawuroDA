@@ -5,32 +5,42 @@ import PageHeader from "../shared/PageHeader";
 import { useRouter } from "next/navigation";
 import { getFormattedDate } from "@/util/date";
 import Image from "next/image";
-import { showToastAction } from "@/redux/actions";
 import axios from "axios";
-import { FieldValues } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { Auction } from "@prisma/client";
-import { PageState } from "../shared/CustomizedDatagrid";
-import { SearchOutlined } from "@mui/icons-material";
+import { ArrowDropDown, SearchOutlined } from "@mui/icons-material";
 import EditAuction from "./EditAuction";
+import StyledMenu from "../shared/StyledMenu";
+import DateRangeSelector from "../shared/DateRangeSelector";
+import { PAGINITATION_PAGE_SIZE } from "@/constants/variables";
 
 const AuctionPage = () => {
   const router = useRouter();
   const [refetch, setRefetch] = useState<boolean>(false);
   const [fetchLoading, setfetchLoading] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
+  const [dateFilter, setDateFilter] = useState<{
+    startDate: Date;
+    endDate: Date;
+  }>();
+  const [currentPage, setCurrentPage] = useState(1);
   const [auctions, setAuctions] = useState<Auction[]>();
   const [totalCount, setTotalCount] = useState<number>(0);
   const [selectedAuction, setSelectedAuction] = useState<Auction>();
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
+  const [dateAnchor, setDateAnchor] = useState<null | Element>(null);
+  const opendate = Boolean(dateAnchor);
 
-  const fetchAuction = async ({ page, pageSize }: PageState) => {
+  const fetchAuction = async ({ pageSize }: { pageSize: number }) => {
     setfetchLoading(true);
     const result = await axios.post("/api/auction/fetch", {
-      page,
+      page: currentPage,
       pageSize,
-      searchText,
+      filters: {
+        searchText,
+        startDate: dateFilter?.startDate,
+        endDate: dateFilter?.endDate,
+      },
     });
 
     if (result.data.success) {
@@ -41,11 +51,27 @@ const AuctionPage = () => {
   };
 
   useEffect(() => {
-    fetchAuction({ page: 1, pageSize: 30 });
-  }, [refetch]);
+    fetchAuction({ pageSize: 30 });
+  }, [refetch, dateFilter]);
+
+  const handleDateClose = () => {
+    setDateAnchor(null);
+  };
 
   return (
     <div className="h-full w-full overflow-y-auto">
+      <StyledMenu
+        anchorEl={dateAnchor}
+        open={opendate}
+        onClose={handleDateClose}
+      >
+        <div>
+          <DateRangeSelector
+            dateFilter={dateFilter}
+            setDateFilter={setDateFilter}
+          />
+        </div>
+      </StyledMenu>
       <PageHeader />
       <div className="lg:px-[40px] md:px-[40px] px-[20px] py-10 w-full flex flex-col flex-1 ">
         <div className="flex xl:lg:flex-row md:flex-row flex-col xl:lg:items-center md:items-center justify-between gap-2">
@@ -53,6 +79,20 @@ const AuctionPage = () => {
             <span className="text-titleColor font-bold text-3xl">
               Auctions List
             </span>
+            <div className="min-w-[130px]">
+              <div
+                className="w-full border-[1px] h-[40px] border-titleColor text-titleColor p-2 relative pr-8 text-center cursor-pointer rounded-[5px]"
+                defaultValue={"All time"}
+                onClick={(e) => setDateAnchor(e.currentTarget)}
+              >
+                {dateFilter?.startDate && dateFilter?.endDate
+                  ? `${getFormattedDate(
+                      dateFilter?.startDate
+                    )} - ${getFormattedDate(dateFilter?.endDate)}`
+                  : "All Time"}
+                <ArrowDropDown className="absolute right-2 top-2" />
+              </div>
+            </div>
           </div>
           <div className="grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 items-center justify-end gap-6">
             <TextField
@@ -112,7 +152,7 @@ const AuctionPage = () => {
             </Button>
           </div>
         </div>
-        <div className="flex flex-col w-full gap-6 mt-10">
+        <div className="flex flex-col w-full gap-6 mt-10 min-h-[600px]">
           {fetchLoading ? (
             <CircularProgress />
           ) : auctions?.length ? (
@@ -172,6 +212,32 @@ const AuctionPage = () => {
               There are no auctions
             </span>
           )}
+        </div>
+        <div className="flex flex-row justify-end items-center gap-6">
+          <Button
+            variant="outlined"
+            className="cursor-pointer"
+            style={{ border: "none" }}
+            disabled={currentPage <= 1}
+            onClick={() => {
+              setCurrentPage(currentPage - 1);
+            }}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outlined"
+            className="cursor-pointer"
+            style={{ border: "none" }}
+            disabled={Math.ceil(totalCount / 10) <= 1}
+            onClick={() => {
+              if (currentPage < Math.ceil(totalCount / 10)) {
+                setCurrentPage(currentPage + 1);
+              }
+            }}
+          >
+            Next
+          </Button>
         </div>
       </div>
       {selectedAuction && (

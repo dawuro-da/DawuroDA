@@ -88,24 +88,47 @@ export async function updateAuction({
 export async function fetchAuctions({
   page,
   pageSize,
-  searchText,
+  filters,
 }: {
   page: number;
   pageSize: number;
-  searchText?: string;
+  filters?: {
+    startDate: string;
+    endDate: string;
+    searchText: string;
+  };
 }): Promise<{ auctions: Auction[] | undefined; total: number }> {
   const whereClause: Prisma.AuctionWhereInput = {
-    ...(searchText && {
+    ...(filters?.startDate &&
+      filters?.endDate && {
+        created_at: {
+          gte: filters?.startDate,
+          lte: filters?.endDate,
+        },
+      }),
+    ...(filters?.startDate &&
+      !filters?.endDate && {
+        created_at: {
+          gte: filters?.startDate,
+        },
+      }),
+    ...(!filters?.startDate &&
+      filters?.endDate && {
+        created_at: {
+          lte: filters?.endDate,
+        },
+      }),
+    ...(filters?.searchText && {
       OR: [
         {
           title: {
-            contains: searchText,
+            contains: filters?.searchText,
             mode: "insensitive",
           },
         },
         {
           description: {
-            contains: searchText,
+            contains: filters?.searchText,
             mode: "insensitive",
           },
         },

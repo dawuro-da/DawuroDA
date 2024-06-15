@@ -13,10 +13,10 @@ export async function POST(req: Request) {
     );
   }
 
-  const { page, pageSize, searchText } = await req.json();
+  const { page, pageSize, filters } = await req.json();
 
   try {
-    const result = await fetchAuctions({ page, pageSize, searchText });
+    const result = await fetchAuctions({ page, pageSize, filters });
 
     if (result) {
       return NextResponse.json(
