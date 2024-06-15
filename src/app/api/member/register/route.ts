@@ -58,7 +58,7 @@ export async function POST(req: Request) {
   } = await req.json();
 
   const session = await getServerSession(OPTIONS);
-  if (!session?.user.id || session?.user.role === UserRole.Member ) {
+  if (!session?.user?.id || session?.user.role === UserRole.Member ) {
     return NextResponse.json(
       { success: false, error: "Unauthorized user" },
       { status: 401 }
@@ -115,7 +115,7 @@ export async function POST(req: Request) {
         positionAtWork,
         paymentMeans,
         memberId,
-        registeredBy: session.user.id,
+        registeredBy: session.user?.id,
         contributionAmount: parseInt(contributionAmount),
         lastPaidAt: date.toISOString(),
         membershipType,

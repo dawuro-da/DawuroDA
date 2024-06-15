@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   const ownerEmails = process.env.OWNER_EMAILS?.split(",");
 
   const session = await getServerSession(OPTIONS);
-  if (!session?.user.id && !ownerEmails?.includes(email.toString())) {
+  if (!session?.user?.id && !ownerEmails?.includes(email.toString())) {
     return NextResponse.json(
       { success: false, error: "Unauthorized user" },
       { status: 401 }

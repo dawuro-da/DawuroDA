@@ -1,9 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import { RemoveRedEyeOutlined } from "@mui/icons-material";
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
 const Login = () => {
@@ -35,91 +37,103 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <form
-        onSubmit={handleSubmit(handleLogin)}
-        className=" flex flex-col gap-2 my-2 min-w-[300px]"
-      >
-        <div className="flex flex-col gap-2 w-full items-center mb-6">
-          <span className="font-extrabold text-3xl text-green-500 ">
-            Gammoda
-          </span>
-          <span className="">Welcome back</span>
-        </div>
+    <div className="flex-1 flex flex-col items-center justify-center bg-white h-screen w-screen">
+      <div>
+        <div>
+          <form
+            onSubmit={handleSubmit(handleLogin)}
+            className=" flex flex-col gap-2 my-2 min-w-[300px]"
+          >
+            <div className="flex flex-col gap-2 w-full items-center mb-6">
+              <span className="font-extrabold text-3xl text-green-500 ">
+                Gammoda
+              </span>
+              <span className="">Welcome back</span>
+            </div>
 
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2 text-[#555555] h-full ">
-            <label>Email Address</label>
-            <TextField
-              {...register("email", { required: "Email is required" })}
-              variant="outlined"
-              error={Boolean(!!errors.email)}
-              helperText={!!errors.email && errors.email.message?.toString()}
-              inputProps={{
-                style: {
-                  padding: 10,
-                  borderRadius: "6px",
-                },
-              }}
-            />
-          </div>
-          <div className="flex flex-col gap-[7px] text-[#555555] h-full ">
-            <label className="flex flex-row items-center justify-between">
-              <span>Password</span>
-
-              {showPassword ? (
-                <Image
-                  onClick={() => setShowPassword(!showPassword)}
-                  src={"/icons/hideEye.svg"}
-                  alt=""
-                  className="cursor-pointer"
-                  height={20}
-                  width={20}
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2 text-[#555555] h-full ">
+                <label>Email Address</label>
+                <TextField
+                  {...register("email", { required: "Email is required" })}
+                  variant="outlined"
+                  error={Boolean(!!errors.email)}
+                  helperText={
+                    !!errors.email && errors.email.message?.toString()
+                  }
+                  inputProps={{
+                    style: {
+                      padding: 10,
+                      borderRadius: "6px",
+                    },
+                  }}
                 />
+              </div>
+              <div className="flex flex-col gap-[7px] text-[#555555] h-full ">
+                <label className="flex flex-row items-center justify-between">
+                  <span>Password</span>
+
+                  {showPassword ? (
+                    <Image
+                      onClick={() => setShowPassword(!showPassword)}
+                      src={"/icons/hideEye.svg"}
+                      alt=""
+                      className="cursor-pointer"
+                      height={20}
+                      width={20}
+                    />
+                  ) : (
+                    <RemoveRedEyeOutlined
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="cursor-pointer"
+                      style={{ height: 20, width: 20 }}
+                    />
+                  )}
+                </label>
+                <TextField
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
+                  variant="outlined"
+                  type={showPassword ? "text" : "password"}
+                  error={Boolean(!!errors.password)}
+                  helperText={
+                    !!errors.password && errors.password.message?.toString()
+                  }
+                  inputProps={{
+                    style: {
+                      padding: 9,
+                      borderRadius: "6px",
+                    },
+                  }}
+                />
+              </div>
+            </div>
+            <span className="my-2 text-red-500 px-3">
+              {errors.email?.message
+                ? errors.email?.message.toString()
+                : errors.password?.message
+                ? errors.password?.message.toString()
+                : loginError
+                ? loginError
+                : ""}
+            </span>
+            <span className="w-full text-right py-2 hover:underline cursor-pointer">
+              Forgot Password?
+            </span>
+            <Button
+              type="submit"
+              className="bg-green-500 text-white hover:bg-green-500 border-2 rounded-[16px] p-3 h-[48px]"
+            >
+              {loading ? (
+                <CircularProgress style={{ color: "white" }} />
               ) : (
-                <RemoveRedEyeOutlined
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="cursor-pointer"
-                  style={{ height: 20, width: 20 }}
-                />
+                "Login"
               )}
-            </label>
-            <TextField
-              {...register("password", { required: "Password is required" })}
-              variant="outlined"
-              type={showPassword ? "text" : "password"}
-              error={Boolean(!!errors.password)}
-              helperText={
-                !!errors.password && errors.password.message?.toString()
-              }
-              inputProps={{
-                style: {
-                  padding: 9,
-                  borderRadius: "6px",
-                },
-              }}
-            />
-          </div>
+            </Button>
+          </form>
         </div>
-        <span className="my-2 text-red-500 px-3">
-          {errors.email?.message
-            ? errors.email?.message.toString()
-            : errors.password?.message
-            ? errors.password?.message.toString()
-            : loginError
-            ? loginError
-            : ""}
-        </span>
-        <span className="w-full text-right py-2 hover:underline cursor-pointer">
-          Forgot Password?
-        </span>
-        <Button
-          type="submit"
-          className="bg-green-500 text-white hover:bg-green-500 border-2 rounded-[16px] p-3 h-[48px]"
-        >
-          {loading ? <CircularProgress style={{ color: "white" }} /> : "Login"}
-        </Button>
-      </form>
+      </div>
     </div>
   );
 };

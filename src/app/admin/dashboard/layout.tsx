@@ -10,8 +10,8 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user.id || session?.user?.role === UserRole.Member) {
-    redirect("/login");
+  if (!session?.user?.id || session?.user?.role === UserRole.Member) {
+    redirect("/gammoda/admin/login");
   }
 
   const menuItems = [

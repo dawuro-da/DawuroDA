@@ -30,7 +30,7 @@ const getLastMonthStartAndEnd = () => {
 
 export async function GET(req: Request) {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user.id || session.user.role === UserRole.Member) {
+  if (!session?.user?.id || session.user.role === UserRole.Member) {
     return NextResponse.json(
       { success: false, error: "Unauthorized user" },
       { status: 401 }

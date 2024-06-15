@@ -5,7 +5,7 @@ import { createPartnership } from "@/db/partnership";
 
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user.id) {
+  if (!session?.user?.id) {
     return NextResponse.json(
       { success: false, error: "Unauthorized user" },
       { status: 401 }
