@@ -18,10 +18,12 @@ export async function POST(req: Request) {
     featuredImages,
     body,
     bodyAmharic,
+    isDraft,
   } = await req.json();
   try {
     const result = await createInitiative({
       nameOfInitiative,
+      isDraft,
       nameOfInitiativeAmharic,
       featuredImages,
       body,

@@ -63,8 +63,10 @@ export async function updateManagement({
   bio,
   bioAmharic,
   id,
+  isDraft,
 }: {
   id: string;
+  isDraft: boolean;
   managerName: string;
   managerNameAmharic: string;
   job: string;
@@ -78,6 +80,7 @@ export async function updateManagement({
       where: { id: id },
       data: {
         managerName,
+        isDraft,
         managerNameAmharic,
         job,
         jobAmharic,

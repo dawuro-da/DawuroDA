@@ -20,11 +20,13 @@ export async function POST(req: Request) {
     photo,
     bio,
     bioAmharic,
+    isDraft
   } = await req.json();
 
   try {
     const result = await createManagement({
       managerName,
+      isDraft,
       managerNameAmharic,
       job,
       jobAmharic,

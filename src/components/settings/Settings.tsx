@@ -13,7 +13,7 @@ const Settings = async () => {
   }
   const user = await findUserById(session.user.id);
   return (
-    <div className="flex flex-col w-full h-screen bg-[#f5f5f5] ">
+    <div className="flex flex-col w-full min-h-screen bg-[#f5f5f5] ">
       <AdminSettingHeader />
       <div className=" h-full w-full flex flex-col items-center ">
         <UserSetting user={user} />

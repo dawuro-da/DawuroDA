@@ -49,18 +49,21 @@ export async function updateJob({
   jobDescriptionAmharic,
   jobTitleAmharic,
   id,
+  isDraft,
 }: {
   id: string;
   jobTitle: string;
   jobDescription: string;
   jobDescriptionAmharic: string;
   jobTitleAmharic: string;
+  isDraft: boolean;
 }) {
   try {
     const job = await prisma.job.update({
       where: { id: id },
       data: {
         jobTitle,
+        isDraft,
         jobDescription,
         jobDescriptionAmharic,
         jobTitleAmharic,
