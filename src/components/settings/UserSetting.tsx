@@ -4,7 +4,6 @@ import { User, UserRole } from "@prisma/client";
 import { useState } from "react";
 import ProfileManagement from "./ProfileManagement";
 import AdminManagement from "./AdminManagement";
-import { useSession } from "next-auth/react";
 
 enum TABS {
   PrfoileManagement,
@@ -12,8 +11,7 @@ enum TABS {
 }
 
 const UserSetting = ({ user }: { user: User | null }) => {
-  const session = useSession();
-  const isOwner = Boolean(session?.data?.user?.role === UserRole.Owner);
+  const isOwner = Boolean(user?.role === UserRole.Owner);
   const [activeTab, setActiveTab] = useState<TABS>(TABS.PrfoileManagement);
 
   return (
