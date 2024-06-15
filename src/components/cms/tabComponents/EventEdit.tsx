@@ -9,8 +9,11 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Event } from "@prisma/client";
 import axios from "axios";
+import dayjs from "dayjs";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -45,7 +48,7 @@ const EventEdit = ({
     setValue("body", selectedEvent?.body);
     setValue("bodyAmharic", selectedEvent?.bodyAmharic);
     setValue("profileImage", selectedEvent?.profileImage);
-    // setValue("isDraft", selectedEvent?.isDraft);
+    setValue("isDraft", selectedEvent?.isDraft);
   }, [selectedEvent]);
 
   const handleUpdate = async (values: FieldValues) => {
@@ -106,7 +109,7 @@ const EventEdit = ({
       );
     }
   };
-
+  console.log("Hello sdf sdf sdf", typeof watch("isDraft"));
   return (
     <div className="border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
       <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center justify-between">
@@ -185,6 +188,46 @@ const EventEdit = ({
             Image size must be 600*600 File size must be less than 1MB
           </span> */}
           </div>
+          <div className="flex xl:flex-row lg:flex-row md:flex-row flex-col items-center w-full gap-6">
+            <div className="flex flex-col gap-1 text-fadeTextColor w-full">
+              <label>Start Date</label>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  {...register("startDate", {
+                    required: "Start Date is required",
+                  })}
+                  defaultValue={dayjs(watch("startDate"))}
+                  onChange={(value) =>
+                    setValue("startDate", value?.toDate() ?? new Date())
+                  }
+                />
+              </LocalizationProvider>
+              {errors.startDate && !watch("startDate") && (
+                <small className="text-red-500">
+                  {errors?.startDate?.message?.toString()}
+                </small>
+              )}
+            </div>
+            <div className="flex flex-col gap-1 text-fadeTextColor w-full">
+              <label>End Date</label>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  {...register("endDate", {
+                    required: "End Date is required",
+                  })}
+                  defaultValue={dayjs(watch("endDate"))}
+                  onChange={(value) =>
+                    setValue("endDate", value?.toDate() ?? new Date())
+                  }
+                />
+              </LocalizationProvider>
+              {errors?.endDate && !watch("endDate") && (
+                <small className="text-red-500">
+                  {errors?.endDate?.message?.toString()}
+                </small>
+              )}
+            </div>
+          </div>
           <div className="flex flex-col gap-1 text-fadeTextColor">
             <label>Body</label>
             <TextField
@@ -215,7 +258,10 @@ const EventEdit = ({
           </div>
           <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
             <div className="flex flex-row items-center gap-1">
-              <Checkbox {...register("isDraft")} />
+              <Checkbox
+                {...register("isDraft")}
+                checked={Boolean(watch("isDraft"))}
+              />
               <span>Save as Draft</span>
             </div>
             <div className="flex flex-row items-center gap-1">

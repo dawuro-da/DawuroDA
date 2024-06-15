@@ -15,7 +15,9 @@ export async function createNews({
   profileImage,
   body,
   bodyAmharic,
+  isDraft,
 }: {
+  isDraft: boolean;
   headline: string;
   headlineAmharic: string;
   profileImage: string;
@@ -24,7 +26,14 @@ export async function createNews({
 }) {
   try {
     const news = await prisma.news.create({
-      data: { headline, headlineAmharic, profileImage, body, bodyAmharic },
+      data: {
+        isDraft,
+        headline,
+        headlineAmharic,
+        profileImage,
+        body,
+        bodyAmharic,
+      },
     });
 
     return news;
@@ -44,6 +53,7 @@ export async function updateNews({
   body,
   bodyAmharic,
   id,
+  isDraft,
 }: {
   id: string;
   headline: string;
@@ -51,11 +61,19 @@ export async function updateNews({
   profileImage: string;
   body: string;
   bodyAmharic: string;
+  isDraft: boolean;
 }) {
   try {
     const news = await prisma.news.update({
       where: { id: id },
-      data: { headline, headlineAmharic, profileImage, body, bodyAmharic },
+      data: {
+        isDraft,
+        headline,
+        headlineAmharic,
+        profileImage,
+        body,
+        bodyAmharic,
+      },
     });
 
     return news;

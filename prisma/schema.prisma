@@ -9,9 +9,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
   // url      = env("DATABASE_URL")
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
@@ -169,12 +169,13 @@ model Subscriber {
 }
 
 model News {
-  id              String @id @default(uuid())
+  id              String  @id @default(uuid())
   headline        String
   headlineAmharic String
   profileImage    String
   body            String
   bodyAmharic     String
+  isDraft         Boolean @default(false)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -183,12 +184,16 @@ model News {
 }
 
 model Event {
-  id              String @id @default(uuid())
+  id              String  @id @default(uuid())
   headline        String
   headlineAmharic String
   profileImage    String
   body            String
   bodyAmharic     String
+  isDraft         Boolean @default(false)
+
+  startDate DateTime
+  endDate   DateTime
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -197,10 +202,11 @@ model Event {
 }
 
 model Resource {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   name        String
   description String
   document    String
+  isDraft     Boolean @default(false)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -215,6 +221,7 @@ model Initiative {
   featuredImages          String[]
   body                    String
   bodyAmharic             String
+  isDraft                 Boolean  @default(false)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -223,7 +230,7 @@ model Initiative {
 }
 
 model Management {
-  id                 String @id @default(uuid())
+  id                 String  @id @default(uuid())
   managerName        String
   managerNameAmharic String
   photo              String
@@ -231,6 +238,7 @@ model Management {
   jobAmharic         String
   bio                String
   bioAmharic         String
+  isDraft            Boolean @default(false)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -239,12 +247,13 @@ model Management {
 }
 
 model Partnership {
-  id                 String @id @default(uuid())
+  id                 String  @id @default(uuid())
   partnerName        String
   partnerNameAmharic String
   logo               String
   bio                String
   bioAmharic         String
+  isDraft            Boolean @default(false)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -253,11 +262,12 @@ model Partnership {
 }
 
 model Job {
-  id                    String @id @default(uuid())
+  id                    String  @id @default(uuid())
   jobTitle              String
   jobTitleAmharic       String
   jobDescription        String
   jobDescriptionAmharic String
+  isDraft               Boolean @default(false)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -266,9 +276,10 @@ model Job {
 }
 
 model Faq {
-  id       String @id @default(uuid())
+  id       String  @id @default(uuid())
   question String
   answer   String
+  isDraft  Boolean @default(false)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -281,6 +292,7 @@ model Auction {
   title       String
   description String
   CPO         Int
+  formPayment Int
   CPOFile     String?
   startDate   DateTime
   endDate     DateTime
@@ -293,13 +305,15 @@ model Auction {
 }
 
 model Bidder {
-  id        String  @id @default(uuid())
-  memberId  String
-  fullName  String
-  message   String?
-  offer     Int
-  auctionId String
-  auction   Auction @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+  id         String  @id @default(uuid())
+  memberId   String
+  fullName   String
+  message    String?
+  offer      Int
+  auctionId  String
+  auction    Auction @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+  hasPaidCPO Boolean @default(false)
+  hasPaidNRP Boolean @default(false)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt

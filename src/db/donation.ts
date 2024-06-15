@@ -67,3 +67,44 @@ export async function fetchDonations({
 
   return { donations, total };
 }
+
+export async function fetchAllDonations({
+  filters,
+}: {
+  filters: Filters;
+}): Promise<{ donations: GeneralDonation[] | undefined; total: number }> {
+  const whereClause: Prisma.GeneralDonationWhereInput = {
+    ...(filters.startDate &&
+      filters.endDate && {
+        created_at: {
+          gte: filters.startDate,
+          lte: filters.endDate,
+        },
+      }),
+    ...(filters.startDate &&
+      !filters.endDate && {
+        created_at: {
+          gte: filters.startDate,
+        },
+      }),
+    ...(!filters.startDate &&
+      filters.endDate && {
+        created_at: {
+          lte: filters.endDate,
+        },
+      }),
+  };
+
+  const donations = await prisma.generalDonation.findMany({
+    where: whereClause,
+    orderBy: {
+      created_at: "desc",
+    },
+  });
+
+  const total = await prisma.generalDonation.count({
+    where: whereClause,
+  });
+
+  return { donations, total };
+}

@@ -19,7 +19,9 @@ export async function createManagement({
   photo,
   bio,
   bioAmharic,
+  isDraft,
 }: {
+  isDraft: boolean;
   managerName: string;
   managerNameAmharic: string;
   job: string;
@@ -31,6 +33,7 @@ export async function createManagement({
   try {
     const management = await prisma.management.create({
       data: {
+        isDraft,
         managerName,
         managerNameAmharic,
         job,

@@ -12,17 +12,28 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       { status: 401 }
     );
   }
-  const { headline, headlineAmharic, profileImage, body, bodyAmharic } =
-    await req.json();
+  const {
+    isDraft,
+    headline,
+    headlineAmharic,
+    profileImage,
+    body,
+    bodyAmharic,
+    startDate,
+    endDate,
+  } = await req.json();
   const eventId = context.params.id;
 
   try {
     const result = await updateEvent({
       headline,
+      startDate,
+      endDate,
       headlineAmharic,
       profileImage,
       body,
       bodyAmharic,
+      isDraft,
       id: eventId,
     });
 
