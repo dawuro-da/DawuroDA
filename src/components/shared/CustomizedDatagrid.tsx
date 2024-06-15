@@ -7,6 +7,7 @@ import {
 import {
   Box,
   Button,
+  CircularProgress,
   IconButton,
   LinearProgress,
   Pagination,
@@ -161,6 +162,8 @@ interface CustomizedDatagridProps {
   totalCount: number;
   onPageChange: ({ page, pageSize }: PageState) => void;
   onRowClick?: (data: any) => void;
+  generateReport?: (data: any) => void;
+  generateLoading?: boolean;
 }
 
 const CustomizedDatagrid = ({
@@ -170,6 +173,8 @@ const CustomizedDatagrid = ({
   totalCount,
   onPageChange,
   onRowClick,
+  generateReport,
+  generateLoading,
 }: CustomizedDatagridProps) => {
   const [searchText, setSearchText] = useState("");
   const [paginationState, setPaginationState] = useState({
@@ -190,10 +195,15 @@ const CustomizedDatagrid = ({
     return (
       <div className="flex lg:flex-row md:flex-row xl:flex-row flex-col-reverse lg:items-center xl:items-center md:items-center gap-4 justify-between w-full py-6">
         <Button
+          onClick={paginProps.generateReport && paginProps.generateReport}
           variant="contained"
-          className="bg-primaryColor text-white px-10 py-2 font-bold min-w-64"
+          className="bg-primaryColor text-white px-10 py-2 h-[40px] font-bold min-w-64"
         >
-          Generate Report
+          {generateLoading ? (
+            <CircularProgress className="text-white" />
+          ) : (
+            "Generate Report"
+          )}
         </Button>
         <Pagination
           {...paginProps}
@@ -262,7 +272,15 @@ const CustomizedDatagrid = ({
         //     filter={filter}
         //   />
         // ),
-        pagination: CustomPagination,
+
+        pagination: () => {
+          return (
+            <CustomPagination
+              generateReport={generateReport}
+              generateLoading={generateLoading}
+            />
+          );
+        },
         loadingOverlay: () => (
           <LinearProgress
             color="info"

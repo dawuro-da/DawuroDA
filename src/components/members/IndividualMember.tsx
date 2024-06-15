@@ -3,6 +3,7 @@ import { Button, MenuItem, TextField } from "@mui/material";
 import {
   ContributionSystem,
   MembershipLevel,
+  MembershipType,
   PaymentMeans,
 } from "@prisma/client";
 import Image from "next/image";
@@ -408,15 +409,18 @@ const IndividualMember = ({
                   ) {
                     const minAmount = getMinimumContribution({
                       membershipLevel: watch("membershipLevel"),
-                      membershipType: "Individual",
+                      membershipType: MembershipType.Individual,
                       contributionSystem: watch("contributionSystem"),
                     });
-                    return (
-                      value <= minAmount ||
-                      `As per your Platinium Level membership, the contribution amount is >=${minAmount}`
-                    );
+                    if (parseFloat(value) >= minAmount) {
+                      return true; // Value is valid
+                    } else {
+                      return `As per your ${watch(
+                        "membershipLevel"
+                      )} Level membership, the contribution amount should be >= ${minAmount}`;
+                    }
                   }
-                  return true;
+                  return false;
                 },
               },
             })}

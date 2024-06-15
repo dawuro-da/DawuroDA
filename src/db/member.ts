@@ -308,6 +308,98 @@ export async function fetchMembers({
   return { members, total };
 }
 
+export async function fetchAllMembers({
+  filters,
+  searchText,
+}: {
+  filters: Filters;
+  searchText?: string;
+}): Promise<{ members: Member[] | undefined; total: number }> {
+  const whereClause: Prisma.MemberWhereInput = {
+    ...(filters.contributionSystem && {
+      contributionSystem: filters.contributionSystem,
+    }),
+    ...(filters.startDate &&
+      filters.endDate && {
+        created_at: {
+          gte: filters.startDate,
+          lte: filters.endDate,
+        },
+      }),
+    ...(filters.startDate &&
+      !filters.endDate && {
+        created_at: {
+          gte: filters.startDate,
+        },
+      }),
+    ...(!filters.startDate &&
+      filters.endDate && {
+        created_at: {
+          lte: filters.endDate,
+        },
+      }),
+    ...(filters.membershipLevel && {
+      membershipLevel: filters.membershipLevel,
+    }),
+    ...(filters.membershipType && {
+      membershipType: filters.membershipType,
+    }),
+    ...(filters.paymentMeans && {
+      paymentMeans: filters.paymentMeans,
+    }),
+    ...(filters.paymentStatus && {
+      hasPaid: filters.paymentStatus === "paid" ? true : false,
+    }),
+    ...(searchText && {
+      OR: [
+        {
+          firstName: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          institutionName: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          lastName: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          email: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          phone: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+      ],
+    }),
+  };
+
+  const members = await prisma.member.findMany({
+    where: whereClause,
+    orderBy: {
+      created_at: "desc",
+    },
+  });
+
+  const total = await prisma.member.count({
+    where: whereClause,
+  });
+
+  return { members, total };
+}
+
 export async function fetchRecentMembers(): Promise<Member[] | undefined> {
   const members = await prisma.member.findMany({
     orderBy: {
