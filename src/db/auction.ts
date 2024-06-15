@@ -13,6 +13,7 @@ export async function createAuction({
   title,
   description,
   CPO,
+  formPayment,
   endDate,
   startDate,
 }: {
@@ -20,11 +21,19 @@ export async function createAuction({
   description: string;
   CPO: string;
   endDate: string;
+  formPayment: string;
   startDate: string;
 }) {
   try {
     const auction = await prisma.auction.create({
-      data: { title, description, CPO: parseFloat(CPO), endDate, startDate },
+      data: {
+        formPayment: parseFloat(formPayment),
+        title,
+        description,
+        CPO: parseFloat(CPO),
+        endDate,
+        startDate,
+      },
     });
 
     return auction;
@@ -44,10 +53,12 @@ export async function updateAuction({
   endDate,
   startDate,
   id,
+  formPayment,
 }: {
   id: string;
   title: string;
   description: string;
+  formPayment: string;
   CPO: string;
   endDate: string;
   startDate: string;
@@ -55,7 +66,14 @@ export async function updateAuction({
   try {
     const auction = await prisma.auction.update({
       where: { id: id },
-      data: { title, description, CPO: parseFloat(CPO), endDate, startDate },
+      data: {
+        formPayment: parseFloat(formPayment),
+        title,
+        description,
+        CPO: parseFloat(CPO),
+        endDate,
+        startDate,
+      },
     });
 
     return auction;

@@ -12,7 +12,8 @@ export async function POST(req: Request) {
     );
   }
 
-  const { CPO, description, title, startDate, endDate } = await req.json();
+  const { formPayment, CPO, description, title, startDate, endDate } =
+    await req.json();
   try {
     const result = await createAuction({
       CPO,
@@ -20,6 +21,7 @@ export async function POST(req: Request) {
       title,
       startDate,
       endDate,
+      formPayment,
     });
 
     if (result) {

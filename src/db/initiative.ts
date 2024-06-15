@@ -17,7 +17,9 @@ export async function createInitiative({
   featuredImages,
   body,
   bodyAmharic,
+  isDraft,
 }: {
+  isDraft: boolean;
   nameOfInitiative: string;
   nameOfInitiativeAmharic: string;
   featuredImages: string[];
@@ -32,6 +34,7 @@ export async function createInitiative({
         featuredImages,
         body,
         bodyAmharic,
+        isDraft,
       },
     });
 
@@ -52,7 +55,9 @@ export async function updateInitiative({
   body,
   bodyAmharic,
   id,
+  isDraft,
 }: {
+  isDraft: boolean;
   id: string;
   nameOfInitiative: string;
   nameOfInitiativeAmharic: string;
@@ -64,6 +69,7 @@ export async function updateInitiative({
     const initiative = await prisma.initiative.update({
       where: { id: id },
       data: {
+        isDraft,
         nameOfInitiative,
         nameOfInitiativeAmharic,
         featuredImages,

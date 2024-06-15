@@ -12,12 +12,14 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       { status: 401 }
     );
   }
-  const { CPO, description, title, startDate, endDate } = await req.json();
+  const { formPayment, CPO, description, title, startDate, endDate } =
+    await req.json();
   const auctionId = context.params.id;
 
   try {
     const result = await updateAuction({
       CPO,
+      formPayment,
       description,
       title,
       startDate,

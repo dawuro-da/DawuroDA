@@ -13,14 +13,16 @@ export async function createResource({
   name,
   document,
   description,
+  isDraft,
 }: {
+  isDraft: boolean;
   name: string;
   document: string;
   description: string;
 }) {
   try {
     const resource = await prisma.resource.create({
-      data: { name, description, document },
+      data: { name, description, document, isDraft },
     });
 
     return resource;
@@ -38,16 +40,18 @@ export async function updateResource({
   document,
   description,
   id,
+  isDraft,
 }: {
   id: string;
   name: string;
   document: string;
   description: string;
+  isDraft: boolean;
 }) {
   try {
     const resource = await prisma.resource.update({
       where: { id: id },
-      data: { name, document, description },
+      data: { name, document, description, isDraft },
     });
 
     return resource;

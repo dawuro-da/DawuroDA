@@ -11,8 +11,7 @@ import RecentMembers from "./RecentMembers";
 import { useRouter } from "next/navigation";
 import { formatNumberToKOrM } from "@/util/date";
 import axios from "axios";
-import { downloadExcel, exportToCSV } from "@/util/helper";
-import { useReactToPrint } from "react-to-print";
+import { downloadExcel } from "@/util/helper";
 
 interface DashboardData {
   contributionStatus: {
@@ -145,28 +144,26 @@ const Dashboard = () => {
   const handleDownloadCSV = () => {
     setAnchorEl(null);
     switch (clickedMenu) {
-      case "Members":
-        return downloadExcel([
-          {
-            name: "total member",
-            count: dashboardData?.totalMember,
-          },
-        ]);
       case "Contribution":
-        return downloadExcel([
-          {
-            name: "total contribution",
-            count: dashboardData?.totalContributions,
-          },
-        ]);
+        return downloadExcel(
+          [
+            {
+              name: "total contribution",
+              count: dashboardData?.totalContributions,
+            },
+          ],
+          "contributionCard"
+        );
       case "Donation":
-        return downloadExcel([
-          { name: "total donations", count: dashboardData?.donations },
-        ]);
+        return downloadExcel(
+          [{ name: "total donations", count: dashboardData?.donations }],
+          "donationCard"
+        );
       case "Members":
-        return downloadExcel([
-          { name: "total members", count: dashboardData?.totalMember },
-        ]);
+        return downloadExcel(
+          [{ name: "total members", count: dashboardData?.totalMember }],
+          "membersCard"
+        );
     }
   };
   return (

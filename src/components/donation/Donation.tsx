@@ -9,11 +9,16 @@ import { useRouter } from "next/navigation";
 import DateRangeSelector from "../shared/DateRangeSelector";
 import StyledMenu from "../shared/StyledMenu";
 import { ArrowDropDown } from "@mui/icons-material";
+import { downloadExcel } from "@/util/helper";
+import { showToastAction } from "@/redux/actions";
+import { useDispatch } from "react-redux";
 
 const Donation = () => {
+  const dispatch = useDispatch();
   const [donations, setDonations] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isSmScreen, setIsSmScreen] = useState<boolean>(false);
+  const [generateLoading, setGenerateLoading] = useState(false);
   const [dateAnchor, setDateAnchor] = useState<null | Element>(null);
   const [totalCount, setTotalCount] = useState(0);
   const [filters, setFilters] = useState({});
@@ -21,6 +26,7 @@ const Donation = () => {
     startDate: Date;
     endDate: Date;
   }>();
+
   const opendate = Boolean(dateAnchor);
 
   const fetchDonations = async ({ page, pageSize }: PageState) => {
@@ -63,6 +69,27 @@ const Donation = () => {
     await fetchDonations({ page, pageSize });
   };
 
+  const generateDonationReport = async () => {
+    setGenerateLoading(true);
+    const result = await axios.post("/api/donation/fetch/all", {
+      filters: {
+        ...filters,
+        startDate: dateFilter?.startDate,
+        endDate: dateFilter?.endDate,
+      },
+    });
+
+    if (result.data.success) {
+      downloadExcel(result.data.value.donations,'DonationReport');
+      dispatch(
+        showToastAction({ message: "Successfully generated", type: "success" })
+      );
+    } else {
+      dispatch(showToastAction({ message: result.data.error, type: "error" }));
+    }
+    setGenerateLoading(false);
+  };
+
   return (
     <>
       <StyledMenu
@@ -81,9 +108,10 @@ const Donation = () => {
         <PageHeader />
         <div className="px-[40px] py-10 w-full flex flex-col flex-1 ">
           <div className="flex flex-row justify-between items-center">
-            <span className="text-titleColor font-bold text-3xl">
-              Donations
-            </span>
+            <div className="flex flex-row items-center justify-center text-titleColor gap-10">
+              <span className=" font-bold text-3xl">Donations</span>
+              <span className="h-full mt-2">Total: {totalCount}</span>
+            </div>
             <div className="min-w-[130px]">
               <div
                 className="w-full border-[1px] h-full border-titleColor text-titleColor p-2 relative pr-8 text-center cursor-pointer rounded-[5px]"
@@ -111,6 +139,8 @@ const Donation = () => {
               onRowClick={() => {}}
               totalCount={totalCount}
               onPageChange={onPageChange}
+              generateLoading={generateLoading}
+              generateReport={generateDonationReport}
             />
           </div>
         </div>

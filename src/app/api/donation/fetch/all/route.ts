@@ -1,37 +1,23 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
-import { createEvent } from "@/db/event";
+import { UserRole } from "@prisma/client";
+import { fetchAllDonations, fetchDonations } from "@/db/donation";
 
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user.id) {
+  if (!session?.user.id || session.user.role === UserRole.Member) {
     return NextResponse.json(
       { success: false, error: "Unauthorized user" },
       { status: 401 }
     );
   }
 
-  const {
-    isDraft,
-    startDate,
-    endDate,
-    profileImage,
-    body,
-    bodyAmharic,
-    headline,
-    headlineAmharic,
-  } = await req.json();
+  const { filters } = await req.json();
+
   try {
-    const result = await createEvent({
-      profileImage,
-      body,
-      bodyAmharic,
-      headline,
-      headlineAmharic,
-      isDraft,
-      startDate,
-      endDate,
+    const result = await fetchAllDonations({
+      filters,
     });
 
     if (result) {
@@ -40,19 +26,12 @@ export async function POST(req: Request) {
         { status: 200 }
       );
     }
-    return NextResponse.json(
-      {
-        success: false,
-        error: "Unable to create event",
-      },
-      { status: 500 }
-    );
   } catch (err) {
     console.warn(err);
     return NextResponse.json(
       {
         success: false,
-        error: "Unable to create event",
+        error: "Unable to fetch donations",
       },
       { status: 500 }
     );

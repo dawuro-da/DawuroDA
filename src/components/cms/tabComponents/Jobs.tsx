@@ -178,7 +178,7 @@ const Jobs = () => {
                   <IconButton className="absolute right-0 ">
                     <Image
                       src={
-                        index % 2 === 0
+                        !item.isDraft
                           ? "/icons/uploadGreen.svg"
                           : "/icons/draft.svg"
                       }

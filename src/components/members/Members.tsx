@@ -164,7 +164,7 @@ const Members = () => {
     });
 
     if (result.data.success) {
-      downloadExcel(result.data.value.members);
+      downloadExcel(result.data.value.members, "MembersReport");
       dispatch(
         showToastAction({ message: "Successfully generated", type: "success" })
       );

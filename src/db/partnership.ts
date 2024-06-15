@@ -17,7 +17,9 @@ export async function createPartnership({
   logo,
   bio,
   bioAmharic,
+  isDraft,
 }: {
+  isDraft: boolean;
   partnerName: string;
   partnerNameAmharic: string;
   logo: string;
@@ -26,7 +28,7 @@ export async function createPartnership({
 }) {
   try {
     const partnership = await prisma.partnership.create({
-      data: { partnerName, partnerNameAmharic, logo, bio, bioAmharic },
+      data: { isDraft, partnerName, partnerNameAmharic, logo, bio, bioAmharic },
     });
 
     return partnership;
@@ -46,6 +48,7 @@ export async function updatePartnership({
   bio,
   bioAmharic,
   id,
+  isDraft,
 }: {
   id: string;
   partnerName: string;
@@ -53,6 +56,7 @@ export async function updatePartnership({
   logo: string;
   bio: string;
   bioAmharic: string;
+  isDraft: boolean;
 }) {
   try {
     const partnership = await prisma.partnership.update({

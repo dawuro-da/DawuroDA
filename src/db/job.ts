@@ -14,7 +14,9 @@ export async function createJob({
   jobDescription,
   jobDescriptionAmharic,
   jobTitleAmharic,
+  isDraft,
 }: {
+  isDraft: boolean;
   jobTitle: string;
   jobDescription: string;
   jobDescriptionAmharic: string;
@@ -23,6 +25,7 @@ export async function createJob({
   try {
     const job = await prisma.job.create({
       data: {
+        isDraft,
         jobTitle,
         jobDescription,
         jobDescriptionAmharic,

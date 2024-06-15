@@ -15,16 +15,31 @@ export async function createEvent({
   profileImage,
   body,
   bodyAmharic,
+  isDraft,
+  startDate,
+  endDate,
 }: {
   headline: string;
   headlineAmharic: string;
   profileImage: string;
   body: string;
   bodyAmharic: string;
+  isDraft: boolean;
+  startDate: string;
+  endDate: string;
 }) {
   try {
     const event = await prisma.event.create({
-      data: { headline, headlineAmharic, profileImage, body, bodyAmharic },
+      data: {
+        headline,
+        headlineAmharic,
+        profileImage,
+        body,
+        bodyAmharic,
+        isDraft,
+        startDate,
+        endDate,
+      },
     });
 
     return event;
@@ -43,6 +58,9 @@ export async function updateEvent({
   profileImage,
   body,
   bodyAmharic,
+  isDraft,
+  startDate,
+  endDate,
   id,
 }: {
   id: string;
@@ -51,11 +69,22 @@ export async function updateEvent({
   profileImage: string;
   body: string;
   bodyAmharic: string;
+  isDraft: boolean;
+  startDate: string;
+  endDate: string;
 }) {
   try {
     const event = await prisma.event.update({
       where: { id: id },
-      data: { headline, headlineAmharic, profileImage, body, bodyAmharic },
+      data: {
+        headline,
+        headlineAmharic,
+        profileImage,
+        body,
+        bodyAmharic,
+        startDate,
+        endDate,
+      },
     });
 
     return event;

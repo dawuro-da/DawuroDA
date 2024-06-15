@@ -15,6 +15,8 @@ import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import EventEdit from "./EventEdit";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const Events = () => {
   const dispatch = useDispatch();
@@ -32,6 +34,7 @@ const Events = () => {
     formState: { errors },
     reset,
     watch,
+    setValue,
   } = useForm();
 
   const fetchevent = async ({ page, pageSize }: PageState) => {
@@ -178,7 +181,7 @@ const Events = () => {
                   <IconButton className="absolute right-0 ">
                     <Image
                       src={
-                        index % 2 === 0
+                        !item.isDraft
                           ? "/icons/uploadGreen.svg"
                           : "/icons/draft.svg"
                       }
@@ -287,6 +290,40 @@ const Events = () => {
                 {/* <span className="text-[10px] text-titleColor">
                 Image size must be 600*600 File size must be less than 1MB
               </span> */}
+              </div>
+              <div className="flex xl:flex-row lg:flex-row md:flex-row flex-col items-center w-full gap-6">
+                <div className="flex flex-col gap-1 text-fadeTextColor w-full">
+                  <label>Start Date</label>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      {...register("startDate", {
+                        required: "Start Date is required",
+                      })}
+                      onChange={(value) => setValue("startDate", value)}
+                    />
+                  </LocalizationProvider>
+                  {errors.startDate && !watch("startDate") && (
+                    <small className="text-red-500">
+                      {errors?.startDate?.message?.toString()}
+                    </small>
+                  )}
+                </div>
+                <div className="flex flex-col gap-1 text-fadeTextColor w-full">
+                  <label>End Date</label>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      {...register("endDate", {
+                        required: "End Date is required",
+                      })}
+                      onChange={(value) => setValue("endDate", value)}
+                    />
+                  </LocalizationProvider>
+                  {errors?.endDate && !watch("endDate") && (
+                    <small className="text-red-500">
+                      {errors?.endDate?.message?.toString()}
+                    </small>
+                  )}
+                </div>
               </div>
               <div className="flex flex-col gap-1 text-fadeTextColor">
                 <label>Body</label>

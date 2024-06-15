@@ -229,7 +229,7 @@ const PartnershipEdit = ({
           </div>
           <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
             <div className="flex flex-row items-center gap-1">
-              <Checkbox {...register("isDraft")} />
+              <Checkbox {...register("isDraft")} checked={Boolean(watch("isDraft"))}/>
               <span>Save as Draft</span>
             </div>
             <div className="flex flex-row items-center gap-1">
