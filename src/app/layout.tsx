@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={lexend.className}>
-        <NextAuthAndStoreProvider session={session} font={lexend}>
+        <NextAuthAndStoreProvider font={lexend}>
           {children}
         </NextAuthAndStoreProvider>
       </body>
