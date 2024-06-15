@@ -5,8 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import StyledMenu from "./StyledMenu";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { Logout, Person, PersonOutline } from "@mui/icons-material";
+import { Logout,  PersonOutline } from "@mui/icons-material";
 
 const PageHeader = () => {
   const session = useSession();

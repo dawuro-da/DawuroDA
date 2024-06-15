@@ -9,15 +9,10 @@ import Notifications from "@/components/shared/Notifications";
 
 type Props = {
   children?: React.ReactNode;
-  session: any;
   font: NextFont;
 };
 
-export const NextAuthAndStoreProvider = ({
-  children,
-  session,
-  font,
-}: Props) => {
+export const NextAuthAndStoreProvider = ({ children, font }: Props) => {
   const store = initGammodaState();
 
   const theme = createTheme({
@@ -32,7 +27,7 @@ export const NextAuthAndStoreProvider = ({
   });
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <Notifications />
