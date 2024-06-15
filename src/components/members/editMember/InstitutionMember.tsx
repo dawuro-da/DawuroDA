@@ -24,6 +24,7 @@ import {
 } from "@prisma/client";
 import { FieldValues } from "react-hook-form";
 import { getMinimumContribution } from "@/util/helper";
+import { getMemberFormData } from "@/util/getMemberFormData";
 
 const InstitutionMember = ({ member }: { member: Member }) => {
   const router = useRouter();
@@ -42,10 +43,9 @@ const InstitutionMember = ({ member }: { member: Member }) => {
 
   const handleEditMember = async (values: FieldValues) => {
     setLoading(true);
+    const formData = getMemberFormData(values);
     try {
-      const res = await axios.post(`/api/member/edit/${member?.id}`, {
-        ...values,
-      });
+      const res = await axios.post(`/api/member/edit/${member?.id}`, formData);
 
       if (res?.status === 200) {
         router.push("/admin/dashboard/members");

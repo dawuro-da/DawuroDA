@@ -2,17 +2,24 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
-import { MembershipType, UserRole } from "@prisma/client";
+import {
+  ContributionSystem,
+  Gender,
+  MembershipLevel,
+  MembershipType,
+  PaymentMeans,
+  UserRole,
+} from "@prisma/client";
 import {
   createIndividualMember,
   createInstitutionMember,
   findMemberByEmail,
   findMemberByPhone,
 } from "@/db/member";
-import prisma from "@/lib/prisma";
 import { calculateNextDueDate } from "@/util/date";
 import { generateMemberId } from "@/util/helper";
 import { createContribution } from "@/db/contribution";
+import { uploadFile } from "@/util/uploadFile";
 
 async function hashPassword(
   password: string,
@@ -27,43 +34,45 @@ async function hashPassword(
 }
 
 export async function POST(req: Request) {
-  const {
-    email,
-    phone,
-    membershipLevel,
-    contributionAmount,
-    contributionSystem,
-    hasPaid,
-    region,
-    city,
-    zone,
-    kebele,
-    positionAtWork,
-    paymentMeans,
-    membershipType,
-    firstName,
-    lastName,
-    gender,
-    expertise,
-    dateOfBirth,
-    institutionName,
-    headOrRepresentative,
-    fieldOfWork,
-    partnershipIdea,
-    educationLevel,
-    workPlace,
-    profileImage,
-    idNumber,
-    branch,
-  } = await req.json();
-
   const session = await getServerSession(OPTIONS);
-  if (!session?.user?.id || session?.user.role === UserRole.Member ) {
+  if (!session?.user?.id || session?.user.role === UserRole.Member) {
     return NextResponse.json(
       { success: false, error: "Unauthorized user" },
       { status: 401 }
     );
   }
+
+  const formData = await req.formData();
+
+  const email = formData.get("email") as string;
+  const phone = formData.get("phone") as string;
+  const membershipLevel = formData.get("membershipLevel") as MembershipLevel;
+  const contributionAmount = formData.get("contributionAmount") as string;
+  const contributionSystem = formData.get(
+    "contributionSystem"
+  ) as ContributionSystem;
+  const hasPaid = formData.get("hasPaid") === "true" ? true : false;
+  const region = formData.get("region") as string;
+  const city = formData.get("city") as string;
+  const zone = formData.get("zone") as string;
+  const kebele = formData.get("kebele") as string;
+  const positionAtWork = formData.get("positionAtWork") as string;
+  const paymentMeans = formData.get("paymentMeans") as PaymentMeans;
+  const membershipType = formData.get("membershipType") as MembershipType;
+  const firstName = formData.get("firstName") as string;
+  const lastName = formData.get("lastName") as string;
+  const gender = formData.get("gender") as Gender;
+  const expertise = formData.get("expertise") as string;
+  const dateOfBirth = formData.get("dateOfBirth") as string;
+  const institutionName = formData.get("institutionName") as string;
+  const headOrRepresentative = formData.get("headOrRepresentative") as string;
+  const fieldOfWork = formData.get("fieldOfWork") as string;
+  const partnershipIdea = formData.get("partnershipIdea") as string;
+  const educationLevel = formData.get("educationLevel") as string;
+  const workPlace = formData.get("workPlace") as string;
+  const profileImage = formData.get("profileImage") as File;
+  const idNumber = formData.get("idNumber") as string;
+  const branch = formData.get("branch") as string;
 
   const emailExist = Boolean(await findMemberByEmail(email));
   const phoneExist = Boolean(await findMemberByPhone(phone));
@@ -127,6 +136,17 @@ export async function POST(req: Request) {
         password_salt: salt,
       };
 
+      let imageUrl = "/icons/cms.svg";
+      if (profileImage) {
+        imageUrl =
+          (await uploadFile({
+            path: "/profileImages",
+            fileName: profileImage.name ?? "name",
+            file: profileImage,
+            mimeType: profileImage.type,
+          })) ?? imageUrl;
+      }
+
       let result;
       if (membershipType === MembershipType.Individual) {
         result = await createIndividualMember({
@@ -139,7 +159,7 @@ export async function POST(req: Request) {
             expertise,
             dateOfBirth,
             workPlace,
-            profileImage: "/icons/cms.svg",
+            profileImage: imageUrl,
             idNumber,
             branch,
           },

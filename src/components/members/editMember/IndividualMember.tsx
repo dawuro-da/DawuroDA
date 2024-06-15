@@ -24,6 +24,7 @@ import {
 import Image from "next/image";
 import { FieldValues } from "react-hook-form";
 import { getMinimumContribution } from "@/util/helper";
+import { getMemberFormData } from "@/util/getMemberFormData";
 
 const IndividualMember = ({ member }: { member: Member }) => {
   const router = useRouter();
@@ -42,10 +43,9 @@ const IndividualMember = ({ member }: { member: Member }) => {
 
   const handleEditMember = async (values: FieldValues) => {
     setLoading(true);
+    const formData = getMemberFormData(values);
     try {
-      const res = await axios.post(`/api/member/edit/${member?.id}`, {
-        ...values,
-      });
+      const res = await axios.post(`/api/member/edit/${member?.id}`, formData);
 
       if (res?.status === 200) {
         router.push("/admin/dashboard/members");
@@ -363,7 +363,8 @@ const IndividualMember = ({ member }: { member: Member }) => {
                         width={20}
                       />
                       <span>
-                        {watch("profileImage") && (watch("profileImage") as unknown as any)[0]
+                        {watch("profileImage") &&
+                        (watch("profileImage") as unknown as any)[0]
                           ? (watch("profileImage") as unknown as any)[0].name
                           : watch("profileImage")
                           ? watch("profileImage")

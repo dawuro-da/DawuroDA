@@ -17,6 +17,7 @@
     "@mui/x-date-pickers": "^7.3.1",
     "@prisma/client": "^5.13.0",
     "@reduxjs/toolkit": "^2.2.3",
+    "@vercel/blob": "^0.23.3",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "date-fns": "^3.6.0",
