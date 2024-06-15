@@ -12,7 +12,7 @@ type MenuItemProps = {
   isAccessible: boolean;
 };
 
-const Sidebar = ({ menuItems }: { menuItems: MenuItemProps[] }) => {
+const Sidebar = (props: any) => {
   const router = useRouter();
   const path = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -53,9 +53,9 @@ const Sidebar = ({ menuItems }: { menuItems: MenuItemProps[] }) => {
             <div className="border-b-[1px] border-b-[#A7DEB8] w-full" />
           </div>
 
-          {menuItems.map((menu) => {
+          {props.menuItems.map((menu: MenuItemProps) => {
             const isActive =
-              menu.name === menuItems[0].name //this check is necessary since the dashboard menu link is in all menu link
+              menu.name === props.menuItems[0].name //this check is necessary since the dashboard menu link is in all menu link
                 ? Boolean(path === menu.link)
                 : Boolean(path.includes(menu.link));
 
