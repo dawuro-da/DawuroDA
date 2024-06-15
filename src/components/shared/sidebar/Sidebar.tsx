@@ -1,53 +1,18 @@
 "use client";
-import { Menu, MenuBook } from "@mui/icons-material";
-import { UserRole } from "@prisma/client";
-import { signOut, useSession } from "next-auth/react";
+import { Menu } from "@mui/icons-material";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
-const menuItems = [
-  {
-    name: "Dashboard",
-    link: "/admin/dashboard",
-    activeIcon: "/icons/dashboardactive.svg",
-    icon: "/icons/dashboard.svg",
-  },
-  {
-    name: "Members List",
-    link: "/admin/dashboard/members",
-    activeIcon: "/icons/membersactive.svg",
-    icon: "/icons/members.svg",
-  },
-  {
-    name: "General Donation",
-    link: "/admin/dashboard/donations",
-    activeIcon: "/icons/donationactive.svg",
-    icon: "/icons/donation.svg",
-  },
-  {
-    name: "CMS",
-    link: "/admin/dashboard/cms",
-    activeIcon: "/icons/cmsactive.svg",
-    icon: "/icons/cms.svg",
-  },
-  {
-    name: "Auction",
-    link: "/admin/dashboard/auction",
-    activeIcon: "/icons/auctionactive.svg",
-    icon: "/icons/auction.svg",
-  },
-  {
-    name: "SMS",
-    link: "/admin/dashboard/sms",
-    activeIcon: "/icons/smsactive.svg",
-    icon: "/icons/sms.svg",
-  },
-];
+type MenuItemProps = {
+  name: string;
+  link: string;
+  activeIcon: string;
+  icon: string;
+  isAccessible: boolean;
+};
 
-const Sidebar = () => {
-  const session = useSession();
-  const isAdmin = Boolean(session?.data?.user?.role === UserRole.Admin);
+const Sidebar = ({ menuItems }: { menuItems: MenuItemProps[] }) => {
   const router = useRouter();
   const path = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -94,12 +59,8 @@ const Sidebar = () => {
                 ? Boolean(path === menu.link)
                 : Boolean(path.includes(menu.link));
 
-            const isAccessible = isAdmin
-              ? Boolean(menu.name === "Members List")
-              : true;
             return (
-              session?.data?.user?.id &&
-              isAccessible && (
+              menu.isAccessible && (
                 <div
                   key={menu.name}
                   onClick={() => {
