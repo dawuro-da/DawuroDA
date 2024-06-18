@@ -1,5 +1,13 @@
 import Donation from "@/components/donation/Donation";
+import { OPTIONS } from "@/util/authOptions";
+import { UserRole } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default function DonationPage() {
+export default async function DonationPage() {
+  const session = await getServerSession(OPTIONS);
+  if (!session?.user?.id || session?.user?.role === UserRole.Member) {
+    redirect("/gammoda/admin/login");
+  }
   return <Donation />;
 }
