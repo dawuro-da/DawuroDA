@@ -61,7 +61,7 @@ export async function updatePartnership({
   try {
     const partnership = await prisma.partnership.update({
       where: { id: id },
-      data: { partnerName, partnerNameAmharic, logo, bio, bioAmharic },
+      data: { partnerName, partnerNameAmharic, logo, bio, bioAmharic, isDraft },
     });
 
     return partnership;

@@ -11,6 +11,7 @@ import Jobs from "./tabComponents/Jobs";
 import Managements from "./tabComponents/Managements";
 import Faq from "./tabComponents/Faq";
 import Resource from "./tabComponents/Resource";
+import Campaigns from "./tabComponents/Campaigns";
 
 const menues = [
   {
@@ -61,6 +62,12 @@ const menues = [
     iconActive: "/icons/cms/newsActive.svg",
     icon: "/icons/cms/news.svg",
   },
+  {
+    id: "campaign",
+    name: "Campaign",
+    iconActive: "/icons/cms/campaignActive.svg",
+    icon: "/icons/cms/campaign.svg",
+  },
 ];
 
 const CMS = () => {
@@ -83,6 +90,8 @@ const CMS = () => {
         return <Faq />;
       case "resources":
         return <Resource />;
+      case "campaign":
+        return <Campaigns />;
       default:
         return <News />;
     }
@@ -92,7 +101,7 @@ const CMS = () => {
       <PageHeader />
       <div className="lg:px-[40px] md:px-[40px] px-[20px] py-10 w-full flex flex-col flex-1">
         <small className="text-titleColor"> Contents:</small>
-        <div className="flex flex-row items-center justify-start overflow-x-auto mt-4">
+        <div className="flex flex-row items-center justify-start w-full overflow-x-auto mt-4">
           {menues.map((item, index) => {
             const isActive = Boolean(item.id === selectedTab);
             return (
@@ -102,7 +111,7 @@ const CMS = () => {
                   isActive
                     ? "bg-[#7C7C7C] text-white border-[#7C7C7C] border-2"
                     : "text-[#7C7C7C] "
-                } hover:border-[#b5b5b5] hover:border-2 cursor-pointer w-[150px]
+                } hover:border-[#b5b5b5] hover:border-2 cursor-pointer w-[120px]
                 border-2 border-transparent border-l-2 border-l-[#d1d1d1] 
                 flex flex-col gap-1 items-center px-6 py-2`}
                 onClick={() => setSelectedTab(item.id)}
@@ -112,7 +121,7 @@ const CMS = () => {
                   alt=""
                   width={25}
                   height={25}
-                  className="h-[40px] w-[40px]"
+                  className="h-[35px] w-[35px]"
                 />
                 <span className="capitalize">{item.name}</span>
               </div>
@@ -120,7 +129,7 @@ const CMS = () => {
           })}
         </div>
       </div>
-      {renderSelectedTab(selectedTab)}
+      <div>{renderSelectedTab(selectedTab)}</div>
     </div>
   );
 };
