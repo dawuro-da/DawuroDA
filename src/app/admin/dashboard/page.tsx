@@ -1,5 +1,13 @@
 import Dashboard from "@/components/dashboard/Dashboard";
+import { OPTIONS } from "@/util/authOptions";
+import { UserRole } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default function Page() {
+export default async function Page() {
+  const session = await getServerSession(OPTIONS);
+  if (!session?.user?.id || session?.user?.role === UserRole.Member) {
+    redirect("/gammoda/admin/login");
+  }
   return <Dashboard />;
 }
