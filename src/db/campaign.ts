@@ -1,48 +1,42 @@
 import prisma from "@/lib/prisma";
-import { Prisma, Event } from "@prisma/client";
+import { Prisma, Campaign } from "@prisma/client";
 
-export async function findEventById(id: string): Promise<Event | null> {
-  return await prisma.event.findUnique({
+export async function findCampaignById(id: string): Promise<Campaign | null> {
+  return await prisma.campaign.findUnique({
     where: {
       id: id,
     },
   });
 }
 
-export async function createEvent({
+export async function createCampaign({
   headline,
   headlineAmharic,
-  profileImage,
-  body,
-  bodyAmharic,
+  campaignLink,
   isDraft,
   startDate,
   endDate,
 }: {
   headline: string;
   headlineAmharic: string;
-  profileImage: string;
-  body: string;
-  bodyAmharic: string;
+  campaignLink: string;
   isDraft: boolean;
   startDate: string;
   endDate: string;
 }) {
   try {
-    const event = await prisma.event.create({
+    const campaign = await prisma.campaign.create({
       data: {
         headline,
         headlineAmharic,
-        profileImage,
-        body,
-        bodyAmharic,
+        campaignLink,
         isDraft,
         startDate,
         endDate,
       },
     });
 
-    return event;
+    return campaign;
   } catch (error) {
     console.error(error);
 
@@ -52,12 +46,10 @@ export async function createEvent({
   }
 }
 
-export async function updateEvent({
+export async function updateCampaign({
   headline,
   headlineAmharic,
-  profileImage,
-  body,
-  bodyAmharic,
+  campaignLink,
   isDraft,
   startDate,
   endDate,
@@ -66,29 +58,25 @@ export async function updateEvent({
   id: string;
   headline: string;
   headlineAmharic: string;
-  profileImage: string;
-  body: string;
-  bodyAmharic: string;
+  campaignLink: string;
   isDraft: boolean;
   startDate: string;
   endDate: string;
 }) {
   try {
-    const event = await prisma.event.update({
+    const campaign = await prisma.campaign.update({
       where: { id: id },
       data: {
         headline,
         headlineAmharic,
-        profileImage,
-        body,
-        bodyAmharic,
+        isDraft,
+        campaignLink,
         startDate: new Date(startDate).toISOString(),
         endDate: new Date(endDate).toISOString(),
-        isDraft,
       },
     });
 
-    return event;
+    return campaign;
   } catch (error) {
     console.error(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -97,7 +85,7 @@ export async function updateEvent({
   }
 }
 
-export async function fetchEvents({
+export async function fetchCampaigns({
   page,
   pageSize,
   searchText,
@@ -105,8 +93,8 @@ export async function fetchEvents({
   page: number;
   pageSize: number;
   searchText?: string;
-}): Promise<{ events: Event[] | undefined; total: number }> {
-  const whereClause: Prisma.EventWhereInput = {
+}): Promise<{ campaigns: Campaign[] | undefined; total: number }> {
+  const whereClause: Prisma.CampaignWhereInput = {
     ...(searchText && {
       OR: [
         {
@@ -122,13 +110,7 @@ export async function fetchEvents({
           },
         },
         {
-          body: {
-            contains: searchText,
-            mode: "insensitive",
-          },
-        },
-        {
-          bodyAmharic: {
+          campaignLink: {
             contains: searchText,
             mode: "insensitive",
           },
@@ -137,7 +119,7 @@ export async function fetchEvents({
     }),
   };
 
-  const events = await prisma.event.findMany({
+  const campaigns = await prisma.campaign.findMany({
     where: whereClause,
     orderBy: {
       created_at: "desc",
@@ -146,19 +128,19 @@ export async function fetchEvents({
     take: pageSize,
   });
 
-  const total = await prisma.event.count({
+  const total = await prisma.campaign.count({
     where: whereClause,
   });
 
-  return { events, total };
+  return { campaigns, total };
 }
 
-export async function deleteEvent({
+export async function deleteCampaign({
   id,
 }: {
   id: string;
-}): Promise<Event | undefined> {
-  return await prisma.event.delete({
+}): Promise<Campaign | undefined> {
+  return await prisma.campaign.delete({
     where: {
       id: id,
     },

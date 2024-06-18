@@ -29,7 +29,7 @@ const Login = () => {
     });
 
     if (res?.status === 200) {
-      router.push("/admin/dashboard");
+      window.open("/admin/dashboard", "_parent");
     } else if (res?.status === 401) {
       setLoginError(res.error ?? "Login Error");
     }
