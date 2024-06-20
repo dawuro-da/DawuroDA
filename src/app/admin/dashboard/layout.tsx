@@ -11,7 +11,7 @@ export default async function AdminLayout({
 }>) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id || session?.user?.role === UserRole.Member) {
-    redirect("/gammoda/admin/login");
+    redirect("/gaadmin/login");
   }
 
   const menuItems = [

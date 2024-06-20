@@ -1,0 +1,10 @@
+{
+  "welcomeText": {
+    "message": "Welcome to"
+  },
+  "nav": {
+    "t1": "Home",
+    "t2": "About",
+    "t3": "Contact Us"
+  }
+}
