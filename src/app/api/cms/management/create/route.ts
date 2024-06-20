@@ -20,7 +20,8 @@ export async function POST(req: Request) {
     photo,
     bio,
     bioAmharic,
-    isDraft
+    isDraft,
+    isBoardMember,
   } = await req.json();
 
   try {
@@ -33,6 +34,7 @@ export async function POST(req: Request) {
       photo,
       bio,
       bioAmharic,
+      isBoardMember
     });
 
     if (result) {

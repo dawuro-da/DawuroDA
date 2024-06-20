@@ -30,7 +30,9 @@ const RecentMembers = () => {
     }
   }, []);
 
-  const onConfirm = async (customer: any) => {};
+  const onRowClick = async () => {
+    router.push("/admin/dashboard/members");
+  };
 
   return (
     <div className=" h-[620px] w-full">
@@ -38,6 +40,7 @@ const RecentMembers = () => {
         columns={getColumnDefinition({ isSmScreen: isSmScreen })}
         rows={members ?? []}
         loading={loading}
+        onRowClick={onRowClick}
       />
     </div>
   );

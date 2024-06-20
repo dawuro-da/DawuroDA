@@ -29,7 +29,11 @@ export async function fetchDonations({
   pageSize: number;
   filters: Filters;
   searchText?: string;
-}): Promise<{ donations: GeneralDonation[] | undefined; total: number }> {
+}): Promise<{
+  donations: GeneralDonation[] | undefined;
+  total: number;
+  totalDonations: number;
+}> {
   const whereClause: Prisma.GeneralDonationWhereInput = {
     ...(filters.startDate &&
       filters.endDate && {
@@ -65,7 +69,12 @@ export async function fetchDonations({
     where: whereClause,
   });
 
-  return { donations, total };
+  const totalDonations = await prisma.generalDonation.aggregate({
+    where: whereClause,
+    _sum: { amount: true },
+  });
+
+  return { donations, total, totalDonations: totalDonations._sum.amount ?? 0 };
 }
 
 export async function fetchAllDonations({

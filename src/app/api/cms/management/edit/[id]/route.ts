@@ -21,6 +21,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
     bio,
     bioAmharic,
     isDraft,
+    isBoardMember,
   } = await req.json();
   const managementId = context.params.id;
 
@@ -35,6 +36,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       bio,
       bioAmharic,
       id: managementId,
+      isBoardMember,
     });
 
     if (result) {

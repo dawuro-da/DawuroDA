@@ -10,9 +10,9 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // url      = env("DATABASE_URL")
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url      = env("DATABASE_URL")
+  // url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 enum Gender {
@@ -255,6 +255,7 @@ model Management {
   bio                String
   bioAmharic         String
   isDraft            Boolean @default(false)
+  isBoardMember      Boolean @default(false)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -309,7 +310,7 @@ model Auction {
   description String
   CPO         Int
   formPayment Int
-  formFile     String?
+  formFile    String?
   startDate   DateTime
   endDate     DateTime
   Bidder      Bidder[]
