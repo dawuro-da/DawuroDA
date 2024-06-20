@@ -129,7 +129,7 @@ const CMS = () => {
           })}
         </div>
       </div>
-      <div>{renderSelectedTab(selectedTab)}</div>
+      <div className="h-full w-full overflow-x-scroll overflow-y-clip">{renderSelectedTab(selectedTab)}</div>
     </div>
   );
 };

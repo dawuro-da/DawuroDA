@@ -89,8 +89,8 @@ const Campaigns = () => {
   };
 
   return (
-    <div className="flex flex-row flex-1 mt-2 text-[#7C7C7C] h-full">
-      <div className="h-full flex flex-col max-w-[400px] border-r-[1px] border-[#d1d1d1]">
+    <div className="flex flex-row flex-1 mt-2 text-[#7C7C7C] h-full min-w-fit w-full">
+      <div className="h-full flex flex-col max-w-[400px] min-w-[300px] border-r-[1px] border-[#d1d1d1]">
         <div className="lg:pl-[40px] md:pl-[40px] pl-[20px] py-4 pr-6 flex flex-col border-[1px] gap-4 border-[#d1d1d1] border-r-0 h-[140px]">
           <div className="flex flex-row justify-between items-center">
             <span className="font-bold text-xl">Campaigns</span>
@@ -205,7 +205,7 @@ const Campaigns = () => {
           setSelectedCampaign={setSelectedCampaign}
         />
       ) : createCampaignForm ? (
-        <div className="border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
+        <div className="min-w-[350px] border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
           <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center">
             Creat New Campaign
           </div>
@@ -213,7 +213,7 @@ const Campaigns = () => {
             onSubmit={handleSubmit(handleRegister)}
             className="relative flex-1 flex flex-col h-full p-10"
           >
-            <div className="relative flex flex-col gap-4 text-fadeTextColor h-full">
+            <div className="flex flex-col gap-4 text-fadeTextColor h-full">
               <label>Headline</label>
               <TextField
                 {...register("headline")}
@@ -287,7 +287,7 @@ const Campaigns = () => {
                   )}
                 </div>
               </div>
-              <div className="absolute bottom-0 py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
+              <div className="bottom-0 py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
                 <div className="flex flex-row items-center gap-1">
                   <Checkbox {...register("isDraft")} />
                   <span>Save as Draft</span>

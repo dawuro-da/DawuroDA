@@ -13,7 +13,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Campaign } from "@prisma/client";
 import axios from "axios";
 import dayjs from "dayjs";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -111,7 +110,7 @@ const CampaignEdit = ({
   };
 
   return (
-    <div className="border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
+    <div className="min-w-[350px] border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
       <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center justify-between">
         <span>Editing {selectedCampaign?.headline}</span>
         <IconButton onClick={() => setSelectedCampaign(undefined)}>
@@ -203,7 +202,7 @@ const CampaignEdit = ({
             </div>
           </div>
 
-          <div className="absolute bottom-0 py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
+          <div className=" bottom-0 py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
             <div className="flex flex-row items-center gap-1">
               <Checkbox
                 {...register("isDraft")}

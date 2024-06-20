@@ -111,7 +111,7 @@ const PartnershipEdit = ({
   };
 
   return (
-    <div className="border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
+    <div className="min-w-[350px] border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
       <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center justify-between">
         <span>Editing {selectedPartnership?.partnerName}</span>
         <IconButton onClick={() => setSelectedPartnership(undefined)}>
