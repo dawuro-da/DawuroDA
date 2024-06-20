@@ -20,14 +20,15 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const Events = () => {
   const dispatch = useDispatch();
-  const [refetch, setRefetch] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [fetchLoading, setfetchLoading] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
+  const [refetch, setRefetch] = useState<boolean>(false);
   const [events, setEvents] = useState<Event[]>();
   const [totalCount, setTotalCount] = useState<number>(0);
   const [selectedEvent, setSelectedEvent] = useState<Event>();
   const [createEventForm, setCreateEventForm] = useState(false);
+  
   const {
     register,
     handleSubmit,
