@@ -30,6 +30,7 @@ const AddNewAuction = () => {
     try {
       const res = await axios.post("/api/auction/create", {
         ...values,
+        formFile: "/icons/list.svg",
       });
 
       if (res?.status === 200) {
@@ -73,7 +74,9 @@ const AddNewAuction = () => {
           className="flex flex-col items-center justify-center mt-10"
         >
           <span className="w-full max-w-[700px]">
-            <span className="text-titleColor font-bold text-3xl">Create New Auction</span>
+            <span className="text-titleColor font-bold text-3xl">
+              Create New Auction
+            </span>
           </span>
           <div className="flex flex-col w-full gap-6 mt-3 max-w-[700px]">
             <div className="flex flex-col gap-4 text-fadeTextColor h-full">
@@ -131,6 +134,19 @@ const AddNewAuction = () => {
                 inputProps={{ style: { padding: 10 } }}
               />
             </div>
+            <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+              <label>Form Payment </label>
+              <TextField
+                {...register("formPayment", {
+                  required: "Form payment is required",
+                })}
+                variant="outlined"
+                type="number"
+                error={Boolean(!!errors.CPO)}
+                helperText={!!errors.CPO && errors.CPO.message?.toString()}
+                inputProps={{ style: { padding: 10 } }}
+              />
+            </div>
             <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
               <span className="text-titleColor text-sm font-bold">
                 CPO File
@@ -144,17 +160,17 @@ const AddNewAuction = () => {
                     width={20}
                   />
                   <span>
-                    {watch("CPOFile") && watch("CPOFile")[0]?.name
-                      ? watch("CPOFile")[0]?.name
+                    {watch("formFile") && watch("formFile")[0]?.name
+                      ? watch("formFile")[0]?.name
                       : "Upload"}
                   </span>
                 </span>
                 <input
-                  id="CPOFile"
+                  id="formFile"
                   {...register(
-                    "CPOFile"
+                    "formFile"
                     // {
-                    //   required: "CPOFile is required",
+                    //   required: "formFile is required",
                     //   validate: {
                     //     fileSize: (value: any) => {
                     //       if (value && value[0]) {
