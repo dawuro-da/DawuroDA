@@ -1,4 +1,5 @@
 import WorkingOnPage from "@/components/shared/WorkingOnPage";
+import SMS from "@/components/sms/SMS";
 import { OPTIONS } from "@/util/authOptions";
 import { UserRole } from "@prisma/client";
 import { getServerSession } from "next-auth";
@@ -9,5 +10,5 @@ export default async function SMSPage() {
   if (!session?.user?.id || session?.user?.role === UserRole.Member) {
     redirect("/gaadmin/login");
   }
-  return <WorkingOnPage />;
+  return <SMS />;
 }
