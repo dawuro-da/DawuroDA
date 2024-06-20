@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 export default async function SettingPage() {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id || session?.user?.role === UserRole.Member) {
-    redirect("/gammoda/admin/login");
+    redirect("/gaadmin/login");
   }
 
   return <Settings />;
