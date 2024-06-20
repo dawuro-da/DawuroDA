@@ -103,7 +103,6 @@ const FaqPage = () => {
                   setCreateFaqForm(true);
                 }}
               />
-              <span className="rotate-90 font-bold text-xl">...</span>
             </span>
           </div>
           <TextField

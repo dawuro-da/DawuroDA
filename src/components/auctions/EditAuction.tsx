@@ -150,9 +150,20 @@ const EditAuction = ({
                 inputProps={{ style: { padding: 10 } }}
               />
             </div>
+            <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+              <label>Form Payment </label>
+              <TextField
+                {...register("formPayment", { required: "Form payment is required" })}
+                variant="outlined"
+                type="number"
+                error={Boolean(!!errors.CPO)}
+                helperText={!!errors.CPO && errors.CPO.message?.toString()}
+                inputProps={{ style: { padding: 10 } }}
+              />
+            </div>
             <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
               <span className="text-titleColor text-sm font-bold">
-                CPO File
+                Form File
               </span>
               <span className="relative flex flex-row items-center px-6 border-2 border-dashed rounded-[3px] py-2 cursor-pointer h-[65px]">
                 <span className="flex flex-row items-center px-2 gap-2 text-titleColor cursor-pointer">
@@ -162,14 +173,14 @@ const EditAuction = ({
                     height={20}
                     width={20}
                   />
-                  <span>{watch("CPOFile") ? watch("CPOFile") : "Upload"}</span>
+                  <span>{watch("formFile") ? watch("formFile") : "Upload"}</span>
                 </span>
                 <input
-                  id="CPOFile"
+                  id="formFile"
                   {...register(
-                    "CPOFile"
+                    "formFile"
                     // {
-                    //   required: "CPOFile is required",
+                    //   required: "formFile is required",
                     //   validate: {
                     //     fileSize: (value: any) => {
                     //       if (value && value[0]) {

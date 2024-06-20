@@ -12,7 +12,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       { status: 401 }
     );
   }
-  const { formPayment, CPO, description, title, startDate, endDate } =
+  const { formPayment, CPO, description, title, startDate, endDate, formFile } =
     await req.json();
   const auctionId = context.params.id;
 
@@ -25,6 +25,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       startDate,
       endDate,
       id: auctionId,
+      formFile,
     });
 
     if (result) {

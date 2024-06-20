@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const { formPayment, CPO, description, title, startDate, endDate } =
+  const { formFile, formPayment, CPO, description, title, startDate, endDate } =
     await req.json();
   try {
     const result = await createAuction({
@@ -22,6 +22,7 @@ export async function POST(req: Request) {
       startDate,
       endDate,
       formPayment,
+      formFile,
     });
 
     if (result) {
