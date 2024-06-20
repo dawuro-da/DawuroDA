@@ -20,6 +20,7 @@ export async function createManagement({
   bio,
   bioAmharic,
   isDraft,
+  isBoardMember,
 }: {
   isDraft: boolean;
   managerName: string;
@@ -29,6 +30,7 @@ export async function createManagement({
   photo: string;
   bio: string;
   bioAmharic: string;
+  isBoardMember: boolean;
 }) {
   try {
     const management = await prisma.management.create({
@@ -41,6 +43,7 @@ export async function createManagement({
         photo,
         bio,
         bioAmharic,
+        isBoardMember,
       },
     });
 
@@ -64,6 +67,7 @@ export async function updateManagement({
   bioAmharic,
   id,
   isDraft,
+  isBoardMember,
 }: {
   id: string;
   isDraft: boolean;
@@ -74,6 +78,7 @@ export async function updateManagement({
   photo: string;
   bio: string;
   bioAmharic: string;
+  isBoardMember: boolean;
 }) {
   try {
     const management = await prisma.management.update({
@@ -87,6 +92,7 @@ export async function updateManagement({
         photo,
         bio,
         bioAmharic,
+        isBoardMember
       },
     });
 

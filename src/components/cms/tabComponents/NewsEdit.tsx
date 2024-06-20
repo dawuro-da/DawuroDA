@@ -13,7 +13,7 @@ import { News } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
 const NewsEdit = ({
@@ -37,7 +37,12 @@ const NewsEdit = ({
     reset,
     watch,
     setValue,
+    control,
   } = useForm();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "profileImage",
+  });
 
   useEffect(() => {
     setValue("headline", selectedNews?.headline);
@@ -145,46 +150,82 @@ const NewsEdit = ({
               inputProps={{ style: { padding: 10 } }}
             />
           </div>
-          <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
-            <span className="text-titleColor text-sm font-bold">
-              Profile Image
-            </span>
-            <span className="relative flex flex-row items-center px-6 border-2 border-dashed rounded-[3px] py-2 cursor-pointer h-[65px]">
-              <span className="flex flex-row items-center px-2 gap-2 text-titleColor cursor-pointer">
-                <Image
-                  src={"/icons/greyGallery.svg"}
-                  alt=""
-                  height={20}
-                  width={20}
-                />
-                <span>
-                  {typeof watch("profileImage") === "string" &&
-                  watch("profileImage")
-                    ? watch("profileImage")
-                    : "Upload"}
+          {fields.map((field, index) => (
+            <div
+              key={field.id}
+              className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2"
+            >
+              {index === 0 && (
+                <span className="text-titleColor text-sm font-bold">
+                  Profile Images
                 </span>
+              )}
+              <span className="flex flex-row gap-1">
+                <span className="flex-1 relative flex flex-row items-center px-6 border-2 border-dashed rounded-[3px] py-2 cursor-pointer h-[65px]">
+                  <span className="flex flex-row items-center px-2 gap-2 text-titleColor cursor-pointer">
+                    <Image
+                      src={"/icons/greyGallery.svg"}
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
+                    <span>
+                      {watch("profileImage") && watch("profileImage")[0]?.name
+                        ? watch("profileImage")[0]?.name
+                        : "Upload"}
+                    </span>
+                  </span>
+                  <input
+                    id="profileImage"
+                    {...register(
+                      "profileImage"
+                      // {
+                      //   required: "profileImage is required",
+                      //   validate: {
+                      //     fileSize: (value: any) => {
+                      //       if (value && value[0]) {
+                      //         return (
+                      //           value[0].size < 1048576 ||
+                      //           "File size must be less than 1MB"
+                      //         );
+                      //       }
+                      //       return true;
+                      //     },
+                      //   },
+                      // }
+                    )}
+                    type="file"
+                    placeholder=""
+                    className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  />
+                  <Button className="flex flex-row items-center justify-center outline-none z-0 gap-2 absolute bg-white text-titleColor right-4 px-4 py-2 cursor-pointer">
+                    <Image
+                      src={"/icons/uploadIcon.svg"}
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
+                    <span>Upload</span>
+                  </Button>
+                </span>
+                {fields.length > 1 && (
+                  <IconButton onClick={() => remove(index)}>
+                    <Close />
+                  </IconButton>
+                )}
               </span>
-              <input
-                id="profileImage"
-                {...register("profileImage")}
-                type="file"
-                placeholder=""
-                className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              />
-              <Button className="flex flex-row items-center justify-center outline-none z-0 gap-2 absolute bg-white text-titleColor right-4 px-4 py-2 cursor-pointer">
-                <Image
-                  src={"/icons/uploadIcon.svg"}
-                  alt=""
-                  height={20}
-                  width={20}
-                />
-                <span>Upload</span>
-              </Button>
-            </span>
-            {/* <span className="text-[10px] text-titleColor">
-            Image size must be 600*600 File size must be less than 1MB
-          </span> */}
-          </div>
+              {/* <span className="text-[10px] text-titleColor">
+                  Image size must be 600*600 File size must be less than 1MB
+                </span> */}
+            </div>
+          ))}
+          <Button
+            onClick={append}
+            variant="outlined"
+            className="border-gray-500 w-full text-gray-500 capitalize"
+          >
+            + Add Items
+          </Button>
           <div className="flex flex-col gap-1 text-fadeTextColor">
             <label>Body</label>
             <TextField
@@ -215,7 +256,10 @@ const NewsEdit = ({
           </div>
           <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
             <div className="flex flex-row items-center gap-1">
-              <Checkbox {...register("isDraft")} checked={Boolean(watch("isDraft"))}/>
+              <Checkbox
+                {...register("isDraft")}
+                checked={Boolean(watch("isDraft"))}
+              />
               <span>Save as Draft</span>
             </div>
             <div className="flex flex-row items-center gap-1">

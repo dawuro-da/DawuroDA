@@ -1,5 +1,9 @@
 "use client";
-import { getFormattedDate, getFormattedDateFromTimestamp } from "@/util/date";
+import {
+  formatNumberToKOrM,
+  getFormattedDate,
+  getFormattedDateFromTimestamp,
+} from "@/util/date";
 import PageHeader from "../shared/PageHeader";
 import { GridColDef } from "@mui/x-data-grid";
 import CustomizedDatagrid, { PageState } from "../shared/CustomizedDatagrid";
@@ -21,6 +25,7 @@ const Donation = () => {
   const [generateLoading, setGenerateLoading] = useState(false);
   const [dateAnchor, setDateAnchor] = useState<null | Element>(null);
   const [totalCount, setTotalCount] = useState(0);
+  const [totalDonations, setTotalDonations] = useState(0);
   const [filters, setFilters] = useState({});
   const [dateFilter, setDateFilter] = useState<{
     startDate: Date;
@@ -44,6 +49,7 @@ const Donation = () => {
     if (result.data.success) {
       setDonations(result.data.value.donations);
       setTotalCount(result.data.value.total);
+      setTotalDonations(result.data.value.totalDonations);
     }
     setLoading(false);
   };
@@ -80,7 +86,7 @@ const Donation = () => {
     });
 
     if (result.data.success) {
-      downloadExcel(result.data.value.donations,'DonationReport');
+      downloadExcel(result.data.value.donations, "DonationReport");
       dispatch(
         showToastAction({ message: "Successfully generated", type: "success" })
       );
@@ -110,7 +116,12 @@ const Donation = () => {
           <div className="flex flex-row justify-between items-center">
             <div className="flex flex-row items-center justify-center text-titleColor gap-10">
               <span className=" font-bold text-3xl">Donations</span>
-              <span className="h-full mt-2">Total: {totalCount}</span>
+              <span className="h-full mt-2">
+                Donators: {formatNumberToKOrM(totalCount)}
+              </span>
+              <span className="h-full mt-2">
+                Amount : {formatNumberToKOrM(totalDonations)} ETB
+              </span>
             </div>
             <div className="min-w-[130px]">
               <div

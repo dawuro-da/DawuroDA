@@ -157,9 +157,7 @@ const ManagementEdit = ({
               {...register("job")}
               variant="outlined"
               error={Boolean(!!errors.job)}
-              helperText={
-                !!errors.job && errors.job.message?.toString()
-              }
+              helperText={!!errors.job && errors.job.message?.toString()}
               sx={{ backgroundColor: "white" }}
               inputProps={{ style: { padding: 10 } }}
             />
@@ -171,8 +169,7 @@ const ManagementEdit = ({
               variant="outlined"
               error={Boolean(!!errors.jobAmharic)}
               helperText={
-                !!errors.jobAmharic &&
-                errors.jobAmharic.message?.toString()
+                !!errors.jobAmharic && errors.jobAmharic.message?.toString()
               }
               sx={{ backgroundColor: "white" }}
               inputProps={{ style: { padding: 10 } }}
@@ -261,9 +258,16 @@ const ManagementEdit = ({
               inputProps={{ style: { padding: 0 } }}
             />
           </div>
+          <div className="flex flex-row items-center gap-1 text-fadeTextColor">
+            <Checkbox {...register("isBoardMember")} />
+            <span>Board Member</span>
+          </div>
           <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
             <div className="flex flex-row items-center gap-1">
-              <Checkbox {...register("isDraft")} checked={Boolean(watch("isDraft"))}/>
+              <Checkbox
+                {...register("isDraft")}
+                checked={Boolean(watch("isDraft"))}
+              />
               <span>Save as Draft</span>
             </div>
             <div className="flex flex-row items-center gap-1">

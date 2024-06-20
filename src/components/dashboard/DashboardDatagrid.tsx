@@ -18,12 +18,14 @@ interface DashboardDatagridProps {
   columns: GridColDef[];
   rows: any[];
   loading: boolean;
+  onRowClick: () => void;
 }
 
 const DashboardDatagrid = ({
   columns,
   rows,
   loading,
+  onRowClick,
 }: DashboardDatagridProps) => {
   return (
     <DataGrid
@@ -45,7 +47,7 @@ const DashboardDatagrid = ({
           />
         ),
       }}
-      onRowClick={(params) => {}}
+      onRowClick={onRowClick}
       disableDensitySelector
       disableColumnFilter
       disableColumnMenu
