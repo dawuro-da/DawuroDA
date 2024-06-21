@@ -45,8 +45,8 @@ const AdminForgotPassword = () => {
                 Forgot Password
               </span>
               <small className="text-titleColor max-w-[400px]">
-                Please enter your email address and you will recieve an email.
-                and please don't share your email with anyone.
+                {`Please enter your email address and you will recieve an email.
+                and please don't share your email with anyone.`}
               </small>
             </div>
 

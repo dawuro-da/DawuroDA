@@ -2,7 +2,7 @@ import { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
-import { findByEmail } from "@/db/user";
+import { findUserByEmail } from "@/db/user";
 
 const comparePasswords = async (
   password: string,
@@ -34,7 +34,7 @@ export const OPTIONS: NextAuthOptions = {
           password: string;
         };
 
-        const user = await findByEmail(email);
+        const user = await findUserByEmail(email);
         if (user) {
           const result = await comparePasswords(
             password,
@@ -89,7 +89,7 @@ export const OPTIONS: NextAuthOptions = {
         return token;
       }
 
-      const savedUser = await findByEmail(token.email);
+      const savedUser = await findUserByEmail(token.email);
 
       if (savedUser) {
         token.id = savedUser?.id;
