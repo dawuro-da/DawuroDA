@@ -130,7 +130,7 @@ const InitiativeEdit = ({
         onSubmit={handleSubmit(handleUpdate)}
         className="relative flex-1 flex flex-col h-full p-10"
       >
-        <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+        <div className="flex flex-col gap-4 text-titleColor h-full">
           <label>Name of the intiative</label>
           <TextField
             {...register("nameOfInitiative")}
@@ -143,7 +143,7 @@ const InitiativeEdit = ({
             sx={{ backgroundColor: "white" }}
             inputProps={{ style: { padding: 10 } }}
           />
-          <div className="flex flex-col gap-1 text-fadeTextColor">
+          <div className="flex flex-col gap-1 text-titleColor">
             <label>Name of the intiative in Amharic</label>
             <TextField
               {...register("nameOfInitiativeAmharic")}
@@ -234,7 +234,7 @@ const InitiativeEdit = ({
           >
             + Add Items
           </Button>
-          <div className="flex flex-col gap-1 text-fadeTextColor">
+          <div className="flex flex-col gap-1 text-titleColor">
             <label>Body</label>
             <TextField
               {...register("body")}
@@ -247,7 +247,7 @@ const InitiativeEdit = ({
               inputProps={{ style: { padding: 0 } }}
             />
           </div>
-          <div className="flex flex-col gap-1 text-fadeTextColor">
+          <div className="flex flex-col gap-1 text-titleColor">
             <label>Body in Amharic</label>
             <TextField
               {...register("bodyAmharic")}

@@ -120,7 +120,7 @@ const ResourceEdit = ({
         onSubmit={handleSubmit(handleUpdate)}
         className="relative flex-1 flex flex-col h-full p-10"
       >
-        <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+        <div className="flex flex-col gap-4 text-titleColor h-full">
           <label>Document Name</label>
           <TextField
             {...register("name")}
@@ -130,7 +130,7 @@ const ResourceEdit = ({
             sx={{ backgroundColor: "white" }}
             inputProps={{ style: { padding: 10 } }}
           />
-          <div className="flex flex-col gap-1 text-fadeTextColor">
+          <div className="flex flex-col gap-1 text-titleColor">
             <label>Description</label>
             <TextField
               {...register("description")}

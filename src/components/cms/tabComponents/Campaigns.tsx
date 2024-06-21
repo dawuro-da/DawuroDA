@@ -212,7 +212,7 @@ const Campaigns = () => {
             onSubmit={handleSubmit(handleRegister)}
             className="relative flex-1 flex flex-col h-full p-10"
           >
-            <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+            <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Headline</label>
               <TextField
                 {...register("headline")}
@@ -224,7 +224,7 @@ const Campaigns = () => {
                 sx={{ backgroundColor: "white" }}
                 inputProps={{ style: { padding: 10 } }}
               />
-              <div className="flex flex-col gap-1 text-fadeTextColor">
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>Headline in Amharic</label>
                 <TextField
                   {...register("headlineAmharic")}
@@ -238,7 +238,7 @@ const Campaigns = () => {
                   inputProps={{ style: { padding: 10 } }}
                 />
               </div>
-              <div className="flex flex-col gap-1 text-fadeTextColor">
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>CampaignLink</label>
                 <TextField
                   {...register("campaignLink")}
@@ -253,7 +253,7 @@ const Campaigns = () => {
                 />
               </div>
               <div className="flex xl:flex-row lg:flex-row md:flex-row flex-col items-center w-full gap-6">
-                <div className="flex flex-col gap-1 text-fadeTextColor w-full">
+                <div className="flex flex-col gap-1 text-titleColor w-full">
                   <label>Start Date</label>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
@@ -269,7 +269,7 @@ const Campaigns = () => {
                     </small>
                   )}
                 </div>
-                <div className="flex flex-col gap-1 text-fadeTextColor w-full">
+                <div className="flex flex-col gap-1 text-titleColor w-full">
                   <label>End Date</label>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker

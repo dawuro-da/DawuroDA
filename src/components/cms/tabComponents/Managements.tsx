@@ -207,7 +207,7 @@ const Managements = () => {
             onSubmit={handleSubmit(handleRegister)}
             className="relative flex-1 flex flex-col h-full p-10"
           >
-            <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+            <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Manager Name</label>
               <TextField
                 {...register("managerName")}
@@ -219,7 +219,7 @@ const Managements = () => {
                 sx={{ backgroundColor: "white" }}
                 inputProps={{ style: { padding: 10 } }}
               />
-              <div className="flex flex-col gap-1 text-fadeTextColor">
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>Manager Name in Amharic</label>
                 <TextField
                   {...register("managerNameAmharic")}
@@ -233,7 +233,7 @@ const Managements = () => {
                   inputProps={{ style: { padding: 10 } }}
                 />
               </div>
-              <div className="flex flex-col gap-1 text-fadeTextColor">
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>Job Title</label>
                 <TextField
                   {...register("job")}
@@ -244,7 +244,7 @@ const Managements = () => {
                   inputProps={{ style: { padding: 10 } }}
                 />
               </div>
-              <div className="flex flex-col gap-1 text-fadeTextColor">
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>Job Title in Amharic</label>
                 <TextField
                   {...register("jobAmharic")}
@@ -309,7 +309,7 @@ const Managements = () => {
                   </span>
                 )}
               </div>
-              <div className="flex flex-col gap-1 text-fadeTextColor">
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>Bio</label>
                 <TextField
                   {...register("bio")}
@@ -322,7 +322,7 @@ const Managements = () => {
                   inputProps={{ style: { padding: 0 } }}
                 />
               </div>
-              <div className="flex flex-col gap-1 text-fadeTextColor">
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>Bio in Amharic</label>
                 <TextField
                   {...register("bioAmharic")}
@@ -337,7 +337,7 @@ const Managements = () => {
                   inputProps={{ style: { padding: 0 } }}
                 />
               </div>
-              <div className="flex flex-row items-center gap-1 text-fadeTextColor">
+              <div className="flex flex-row items-center gap-1 text-titleColor">
                 <Checkbox {...register("isBoardMember")} />
                 <span>Board Member</span>
               </div>

@@ -207,7 +207,7 @@ const Jobs = () => {
             onSubmit={handleSubmit(handleRegister)}
             className="relative flex-1 flex flex-col h-full p-10"
           >
-            <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+            <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Job Title</label>
               <TextField
                 {...register("jobTitle")}
@@ -219,7 +219,7 @@ const Jobs = () => {
                 sx={{ backgroundColor: "white" }}
                 inputProps={{ style: { padding: 10 } }}
               />
-              <div className="flex flex-col gap-1 text-fadeTextColor">
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>Job Title in Amharic</label>
                 <TextField
                   {...register("jobTitleAmharic")}
@@ -234,7 +234,7 @@ const Jobs = () => {
                 />
               </div>
 
-              <div className="flex flex-col gap-1 text-fadeTextColor">
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>Job Description</label>
                 <TextField
                   {...register("jobDescription")}
@@ -250,7 +250,7 @@ const Jobs = () => {
                   inputProps={{ style: { padding: 0 } }}
                 />
               </div>
-              <div className="flex flex-col gap-1 text-fadeTextColor">
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>Job Description in Amharic</label>
                 <TextField
                   {...register("jobDescriptionAmharic")}

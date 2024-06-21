@@ -208,7 +208,7 @@ const PartnershipPage = () => {
             onSubmit={handleSubmit(handleRegister)}
             className="relative flex-1 flex flex-col h-full p-10"
           >
-            <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+            <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Partner Name</label>
               <TextField
                 {...register("partnerName")}
@@ -220,7 +220,7 @@ const PartnershipPage = () => {
                 sx={{ backgroundColor: "white" }}
                 inputProps={{ style: { padding: 10 } }}
               />
-              <div className="flex flex-col gap-1 text-fadeTextColor">
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>Partner Name in Amharic</label>
                 <TextField
                   {...register("partnerNameAmharic")}
@@ -284,7 +284,7 @@ const PartnershipPage = () => {
                 Image size must be 600*600 File size must be less than 1MB
               </span> */}
               </div>
-              <div className="flex flex-col gap-1 text-fadeTextColor">
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>Bio</label>
                 <TextField
                   {...register("bio")}
@@ -297,7 +297,7 @@ const PartnershipPage = () => {
                   inputProps={{ style: { padding: 0 } }}
                 />
               </div>
-              <div className="flex flex-col gap-1 text-fadeTextColor">
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>Bio in Amharic</label>
                 <TextField
                   {...register("bioAmharic")}
