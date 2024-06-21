@@ -86,7 +86,7 @@ const EditAuction = ({
 
         <form
           onSubmit={handleSubmit(handleUpdate)}
-          className="flex flex-col items-center justify-center mt-10"
+          className="flex flex-col items-center justify-center mt-10 pb-12"
         >
           <div className="flex flex-col w-full gap-6 mt-3 max-w-[700px]">
             <div className="flex flex-col gap-4 text-titleColor h-full">

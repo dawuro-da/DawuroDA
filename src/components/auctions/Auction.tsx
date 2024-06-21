@@ -12,7 +12,6 @@ import { ArrowDropDown, SearchOutlined } from "@mui/icons-material";
 import EditAuction from "./EditAuction";
 import StyledMenu from "../shared/StyledMenu";
 import DateRangeSelector from "../shared/DateRangeSelector";
-import { PAGINITATION_PAGE_SIZE } from "@/constants/variables";
 
 const AuctionPage = () => {
   const router = useRouter();
@@ -51,7 +50,7 @@ const AuctionPage = () => {
   };
 
   useEffect(() => {
-    fetchAuction({ pageSize: 30 });
+    fetchAuction({ pageSize: 10 });
   }, [refetch, dateFilter]);
 
   const handleDateClose = () => {
@@ -160,41 +159,51 @@ const AuctionPage = () => {
               return (
                 <div
                   key={item.id}
-                  className=" relative bg-white w-full rounded-2xl p-10 flex xl:flex-row lg:flex-row md:flex-row flex-col items-center gap-6"
+                  className="z-10 relative cursor-pointer bg-white w-full rounded-2xl p-10 "
                 >
-                  <div className="flex flex-col w-full">
-                    <small>{item.title}</small>
-                    <span>{item.description}</span>
+                  <div
+                    onClick={() => {
+                      router.push(`/admin/dashboard/auction/${item.id}`);
+                    }}
+                    className="flex xl:flex-row lg:flex-row md:flex-row flex-col items-center gap-6"
+                  >
+                    <div className="flex flex-col w-full">
+                      <small>{item.title}</small>
+                      <span>{item.description}</span>
+                    </div>
+
+                    <div className="border-l-2 pl-6 flex flex-row items-center justify-center gap-6 w-full">
+                      <div className="flex flex-col">
+                        <span className="font-bold">64</span>
+                        <span className="text-xs">Bidders</span>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-bold">4,400</span>
+                        <span className="text-xs">Revenue from CPO sales</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-row items-center gap-6 justify-center w-full">
+                      <div className="flex flex-col">
+                        <span className="text-xs">start date</span>
+                        <span className="">
+                          {getFormattedDate(item.startDate)}
+                        </span>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-xs">end date</span>
+                        <span className="">
+                          {getFormattedDate(item.endDate)}
+                        </span>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="border-l-2 pl-6 flex flex-row items-center justify-center gap-6 w-full">
-                    <div className="flex flex-col">
-                      <span className="font-bold">64</span>
-                      <span className="text-xs">Bidders</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="font-bold">4,400</span>
-                      <span className="text-xs">Revenue from CPO sales</span>
-                    </div>
-                  </div>
-                  <div className="flex flex-row items-center gap-6 justify-center w-full">
-                    <div className="flex flex-col">
-                      <span className="text-xs">start date</span>
-                      <span className="">
-                        {getFormattedDate(item.startDate)}
-                      </span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs">end date</span>
-                      <span className="">{getFormattedDate(item.endDate)}</span>
-                    </div>
-                  </div>
                   <div
                     onClick={() => {
                       setSelectedAuction(item);
                       setOpenEditDrawer(true);
                     }}
-                    className="absolute cursor-pointer right-4 bottom-4 w-fit flex flex-row items-center"
+                    className="z-20 absolute cursor-pointer right-4 bottom-4 w-fit flex flex-row items-center"
                   >
                     <Image
                       src={"/icons/bx_edit.svg"}
