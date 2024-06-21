@@ -1,4 +1,4 @@
-import AdminForgotPassword from "@/components/auth/AdminForgtoPassword";
+import AdminForgotPassword from "@/components/auth/AdminForgotPassword";
 
 const AdminForgotPasswordPage = () => {
   return <AdminForgotPassword />;
