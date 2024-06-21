@@ -3,16 +3,19 @@
 import { useState } from "react";
 import { RemoveRedEyeOutlined } from "@mui/icons-material";
 import { Button, CircularProgress, TextField } from "@mui/material";
-import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { showToastAction } from "@/redux/actions";
 
-const AdminPasswordReset = () => {
-  const router = useRouter();
+const AdminPasswordReset = ({ email }: { email: string }) => {
+  const dispatch = useDispatch();
   const [ResetError, setResetError] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isSuccessfull, setIsSuccessfull] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
@@ -20,9 +23,19 @@ const AdminPasswordReset = () => {
   } = useForm();
 
   const handleReset = async (values: FieldValues) => {
-    const { email, password } = values;
+    const { password } = values;
     setLoading(true);
-    
+    const res = await axios.post("/api/user/reset-password", {
+      email,
+      password,
+    });
+
+    if (res.data.success && res.status === 200) {
+      setIsSuccessfull(true);
+    } else {
+      setResetError(res.data.error);
+      dispatch(showToastAction({ message: res.data.error, type: "error" }));
+    }
     setLoading(false);
   };
 
@@ -44,87 +57,94 @@ const AdminPasswordReset = () => {
               </small>
             </div>
 
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-[7px] text-[#555555] h-full ">
-                <label className="flex flex-row items-center justify-between">
-                  <span>New Password</span>
+            {!isSuccessfull && (
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-[7px] text-[#555555] h-full ">
+                  <label className="flex flex-row items-center justify-between">
+                    <span>New Password</span>
 
-                  {showPassword ? (
-                    <Image
-                      onClick={() => setShowPassword(!showPassword)}
-                      src={"/icons/hideEye.svg"}
-                      alt=""
-                      className="cursor-pointer"
-                      height={20}
-                      width={20}
-                    />
-                  ) : (
-                    <RemoveRedEyeOutlined
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="cursor-pointer"
-                      style={{ height: 20, width: 20 }}
-                    />
-                  )}
-                </label>
-                <TextField
-                  {...register("password", {
-                    required: "Password is required",
-                  })}
-                  variant="outlined"
-                  type={showPassword ? "text" : "password"}
-                  error={Boolean(!!errors.password)}
-                  helperText={
-                    !!errors.password && errors.password.message?.toString()
-                  }
-                  inputProps={{
-                    style: {
-                      padding: 9,
-                      borderRadius: "6px",
-                    },
-                  }}
-                />
-              </div>
-              <div className="flex flex-col gap-[7px] text-[#555555] h-full ">
-                <label className="flex flex-row items-center justify-between">
-                  <span>Confirm Password</span>
+                    {showPassword ? (
+                      <Image
+                        onClick={() => setShowPassword(!showPassword)}
+                        src={"/icons/hideEye.svg"}
+                        alt=""
+                        className="cursor-pointer"
+                        height={20}
+                        width={20}
+                      />
+                    ) : (
+                      <RemoveRedEyeOutlined
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="cursor-pointer"
+                        style={{ height: 20, width: 20 }}
+                      />
+                    )}
+                  </label>
+                  <TextField
+                    {...register("password", {
+                      required: "Password is required",
+                    })}
+                    variant="outlined"
+                    type={showPassword ? "text" : "password"}
+                    error={Boolean(!!errors.password)}
+                    helperText={
+                      !!errors.password && errors.password.message?.toString()
+                    }
+                    inputProps={{
+                      style: {
+                        padding: 9,
+                        borderRadius: "6px",
+                      },
+                    }}
+                  />
+                </div>
+                <div className="flex flex-col gap-[7px] text-[#555555] h-full ">
+                  <label className="flex flex-row items-center justify-between">
+                    <span>Confirm Password</span>
 
-                  {showPassword ? (
-                    <Image
-                      onClick={() => setShowPassword(!showPassword)}
-                      src={"/icons/hideEye.svg"}
-                      alt=""
-                      className="cursor-pointer"
-                      height={20}
-                      width={20}
-                    />
-                  ) : (
-                    <RemoveRedEyeOutlined
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="cursor-pointer"
-                      style={{ height: 20, width: 20 }}
-                    />
-                  )}
-                </label>
-                <TextField
-                  {...register("confirmPassword", {
-                    required: "confirm Password is required",
-                  })}
-                  variant="outlined"
-                  type={showPassword ? "text" : "password"}
-                  error={Boolean(!!errors.password)}
-                  helperText={
-                    !!errors.confirmPassword &&
-                    errors.confirmPassword.message?.toString()
-                  }
-                  inputProps={{
-                    style: {
-                      padding: 9,
-                      borderRadius: "6px",
-                    },
-                  }}
-                />
+                    {showPassword ? (
+                      <Image
+                        onClick={() => setShowPassword(!showPassword)}
+                        src={"/icons/hideEye.svg"}
+                        alt=""
+                        className="cursor-pointer"
+                        height={20}
+                        width={20}
+                      />
+                    ) : (
+                      <RemoveRedEyeOutlined
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="cursor-pointer"
+                        style={{ height: 20, width: 20 }}
+                      />
+                    )}
+                  </label>
+                  <TextField
+                    {...register("confirmPassword", {
+                      required: "Confirm password is required",
+                    })}
+                    variant="outlined"
+                    type={showPassword ? "text" : "password"}
+                    error={Boolean(!!errors.password)}
+                    helperText={
+                      !!errors.confirmPassword &&
+                      errors.confirmPassword.message?.toString()
+                    }
+                    inputProps={{
+                      style: {
+                        padding: 9,
+                        borderRadius: "6px",
+                      },
+                    }}
+                  />
+                </div>
               </div>
-            </div>
+            )}
+            {isSuccessfull && (
+              <span className="text-primaryColor text-xl max-w-[350px]">
+                You have successfully resetted your password
+              </span>
+            )}
             <span className="my-2 text-red-500 px-3">
               {ResetError ? ResetError : ""}
             </span>

@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import { createUser, findByEmail, findByPhone } from "@/db/user";
+import { createUser, findUserByEmail, findByPhone } from "@/db/user";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 
-async function hashPassword(
+export async function hashPassword(
   password: string,
   salt: string
 ): Promise<string | null> {
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const emailExist = Boolean(await findByEmail(email));
+  const emailExist = Boolean(await findUserByEmail(email));
   const phoneExist = Boolean(await findByPhone(phone));
 
   if (emailExist) {
