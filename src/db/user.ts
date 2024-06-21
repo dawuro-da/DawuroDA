@@ -1,7 +1,7 @@
 import { Gender, Prisma, User, UserRole } from "@prisma/client";
 import prisma from "@/lib/prisma";
 
-export async function findByEmail(email: string): Promise<User | null> {
+export async function findUserByEmail(email: string): Promise<User | null> {
   try {
     return await prisma.user.findUnique({
       where: {
@@ -26,7 +26,18 @@ export async function findByPhone(phone: string): Promise<User | null> {
     return null;
   }
 }
-
+export async function findUserByToken(token: string): Promise<User | null> {
+  try {
+    return await prisma.user.findFirst({
+      where: {
+        token: token,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
 export async function findUserById(id: string): Promise<User | null> {
   try {
     return await prisma.user.findUnique({
@@ -105,6 +116,30 @@ export async function updateUser({
         gender,
         email,
         phone,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    console.error(error);
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      throw error;
+    }
+  }
+}
+
+export async function updateUserToken({
+  token,
+  userId,
+}: {
+  userId: string;
+  token: string;
+}) {
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        token,
       },
     });
 

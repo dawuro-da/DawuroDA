@@ -35,6 +35,7 @@ model User {
   phone         String?  @unique
   role          UserRole @default(Member)
   gender        Gender?
+  token         String?
   password_salt String
   password_hash String
 

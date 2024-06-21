@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import { Button, CircularProgress, TextField } from "@mui/material";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { showToastAction } from "@/redux/actions";
 
 const AdminForgotPassword = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [forgotError, setforgotError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [isSuccessfull, setIsSuccessfull] = useState<boolean>(false);
@@ -18,11 +21,15 @@ const AdminForgotPassword = () => {
   } = useForm();
 
   const handleForgot = async (values: FieldValues) => {
-    const { email, password } = values;
+    const { email } = values;
     setLoading(true);
-
+    const res = await axios.post("/api/user/forgot-password", { email });
+    if (res.data.success && res.status === 200) {
+      setIsSuccessfull(true);
+    } else {
+      dispatch(showToastAction({ message: res.data.value, type: "error" }));
+    }
     setLoading(false);
-    setIsSuccessfull(true)
   };
 
   return (
