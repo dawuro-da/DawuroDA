@@ -53,7 +53,7 @@ const SignUp = () => {
       }
     } catch (err: any) {
       console.error(err);
-      await setSignUpError(err?.response?.data?.error);
+      setSignUpError(err?.response?.data?.error);
       dispatch(showToastAction({ message: signupError, type: "error" }));
     }
     setLoading(false);
