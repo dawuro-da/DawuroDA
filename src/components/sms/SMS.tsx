@@ -1,6 +1,13 @@
 "use client";
 
-import { Button, IconButton, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  IconButton,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import PageHeader from "../shared/PageHeader";
 import { SearchOutlined } from "@mui/icons-material";
 import { useState } from "react";
@@ -9,9 +16,11 @@ import {
   MembershipLevel,
   MembershipType,
 } from "@prisma/client";
+import Image from "next/image";
 
 const SMS = () => {
   const [searchText, setSearchText] = useState<string>("");
+  const [messageToSend, setMessageToSend] = useState<string>("");
   const [refetch, setRefetch] = useState<boolean>(false);
   const [filters, setFilters] = useState({
     membershipLevel: "",
@@ -32,7 +41,7 @@ const SMS = () => {
             </span>
           </span>
         </div>
-        <div className="lg:px-[40px] md:px-[40px] px-[20px] py-10 w-full flex flex-col gap-6 h-full">
+        <div className="lg:px-[40px] md:px-[40px] px-[20px] py-10 w-full flex flex-col gap-6 h-full overflow-y-auto hiddenscrollbar">
           <div className="flex flex-row gap-6 justify-end w-full">
             <Button
               variant="outlined"
@@ -94,7 +103,7 @@ const SMS = () => {
               },
             }}
           />
-          <div className="grid xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-2  gap-2">
+          <div className="flex xl:flex-row lg:flex-row md:flex-row flex-col xl:lg:items-center md:items-center xl:lg:justify-start md:justify-start justify-center  gap-6 w-full border-b-2 pb-6">
             <div className="w-[190px] bg-white">
               <Select
                 className="w-full"
@@ -175,6 +184,78 @@ const SMS = () => {
                   {MembershipType.Company}
                 </MenuItem>
               </Select>
+            </div>
+          </div>
+          <div className="flex flex-row items-center gap-6">
+            <div className="flex flex-row items-center gap-1 text-titleColor bg-white pr-4 rounded-xl">
+              <Checkbox />
+              <span>All</span>
+            </div>
+            <div className="flex flex-row items-center gap-1 text-titleColor bg-white pr-4 rounded-xl">
+              <Checkbox />
+              <span>Paid</span>
+            </div>
+            <div className="flex flex-row items-center gap-1 text-titleColor bg-white pr-4 rounded-xl">
+              <Checkbox />
+              <span>Unpaid</span>
+            </div>
+          </div>
+          <div className="flex-1 min-h-[600px] gap-6 flex flex-col overflow-y-auto hiddenscrollbar">
+            {[1, 2, 3, 4, 3, 4, 5, 6, 6, 7, 4, 3, 2, 4].map((item) => (
+              <div className="flex flex-row items-center w-full bg-white gap-10 p-2 rounded-xl">
+                <div className="flex flex-row items-center gap-4 flex-1">
+                  <Checkbox />
+                  <span>77KFS1232</span>
+                </div>
+                <span className="flex-1">name</span>
+                <span className="flex-1">0926970261</span>
+              </div>
+            ))}
+          </div>
+          <div className="h-fit flex flex-row gap-2 w-full">
+            <div className="bg-white flex-1">
+              <TextField
+                fullWidth
+                id="navbar-searchfield"
+                size="small"
+                multiline
+                name="messageToSend"
+                variant="outlined"
+                rows={5}
+                value={messageToSend}
+                onChange={(e) => {
+                  setMessageToSend(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    // setRefetch(!refetch);
+                  }
+                }}
+                inputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    width: "100%",
+                    color: "#555555",
+                    backgroundColor: "#ffffff",
+                    borderRadius: "16px",
+                    padding: 1,
+                    maxWidth: "800px",
+                  },
+                }}
+                hiddenLabel
+                placeholder="Enter message to be sent"
+              />
+            </div>
+            <div className="h-full flex flex-row items-center justify-center">
+              <div className="flex flex-row items-center justify-center border-none rounded-full h-[100px] w-[100px] bg-primaryColor hover:cursor-pointer">
+                <Image
+                  src={"/icons/send.svg"}
+                  alt=""
+                  height={60}
+                  width={60}
+                  className="h-full ml-3"
+                />
+              </div>
             </div>
           </div>
         </div>

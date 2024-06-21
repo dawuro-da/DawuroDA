@@ -124,7 +124,7 @@ const NewsEdit = ({
         onSubmit={handleSubmit(handleUpdate)}
         className="relative flex-1 flex flex-col h-full p-10"
       >
-        <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+        <div className="flex flex-col gap-4 text-titleColor h-full">
           <label>Headline</label>
           <TextField
             {...register("headline")}
@@ -136,7 +136,7 @@ const NewsEdit = ({
             sx={{ backgroundColor: "white" }}
             inputProps={{ style: { padding: 10 } }}
           />
-          <div className="flex flex-col gap-1 text-fadeTextColor">
+          <div className="flex flex-col gap-1 text-titleColor">
             <label>Headline in Amharic</label>
             <TextField
               {...register("headlineAmharic")}
@@ -226,7 +226,7 @@ const NewsEdit = ({
           >
             + Add Items
           </Button>
-          <div className="flex flex-col gap-1 text-fadeTextColor">
+          <div className="flex flex-col gap-1 text-titleColor">
             <label>Body</label>
             <TextField
               {...register("body")}
@@ -239,7 +239,7 @@ const NewsEdit = ({
               inputProps={{ style: { padding: 0 } }}
             />
           </div>
-          <div className="flex flex-col gap-1 text-fadeTextColor">
+          <div className="flex flex-col gap-1 text-titleColor">
             <label>Body in Amharic</label>
             <TextField
               {...register("bodyAmharic")}

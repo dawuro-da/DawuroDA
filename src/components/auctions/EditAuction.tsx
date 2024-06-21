@@ -89,7 +89,7 @@ const EditAuction = ({
           className="flex flex-col items-center justify-center mt-10"
         >
           <div className="flex flex-col w-full gap-6 mt-3 max-w-[700px]">
-            <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+            <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Title</label>
               <TextField
                 {...register("title", { required: "Title is required" })}
@@ -100,7 +100,7 @@ const EditAuction = ({
               />
             </div>
             <div className="flex xl:flex-row lg:flex-row md:flex-row flex-col items-center w-full gap-6">
-              <div className="flex flex-col gap-1 text-fadeTextColor w-full">
+              <div className="flex flex-col gap-1 text-titleColor w-full">
                 <label>Start Date</label>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
@@ -119,7 +119,7 @@ const EditAuction = ({
                   </small>
                 )}
               </div>
-              <div className="flex flex-col gap-1 text-fadeTextColor w-full">
+              <div className="flex flex-col gap-1 text-titleColor w-full">
                 <label>End Date</label>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
@@ -139,7 +139,7 @@ const EditAuction = ({
                 )}
               </div>
             </div>
-            <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+            <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>CPO </label>
               <TextField
                 {...register("CPO", { required: "CPO is required" })}
@@ -150,7 +150,7 @@ const EditAuction = ({
                 inputProps={{ style: { padding: 10 } }}
               />
             </div>
-            <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+            <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Form Payment </label>
               <TextField
                 {...register("formPayment", { required: "Form payment is required" })}
@@ -211,7 +211,7 @@ const EditAuction = ({
               {/* <span className="text-[10px] text-titleColor">
                 Image size must be 600*600 File size must be less than 1MB
               </span> */}{" "}
-              <div className="flex flex-col gap-4 text-fadeTextColor h-full">
+              <div className="flex flex-col gap-4 text-titleColor h-full">
                 <label>Discription</label>
                 <TextField
                   {...register("description", {
