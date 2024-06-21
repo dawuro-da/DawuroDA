@@ -27,7 +27,7 @@ const AdminForgotPassword = () => {
     if (res.data.success && res.status === 200) {
       setIsSuccessfull(true);
     } else {
-      dispatch(showToastAction({ message: res.data.value, type: "error" }));
+      dispatch(showToastAction({ message: res.data.error, type: "error" }));
     }
     setLoading(false);
   };
