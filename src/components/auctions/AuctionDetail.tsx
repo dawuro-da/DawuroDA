@@ -95,7 +95,7 @@ const AuctionDetail = ({ auction }: { auction: Auction | null }) => {
             <span className="text-xs">Revenue from CPO sales</span>
           </div>
         </div>
-        <span className="text-titleColor border-y-2 w-full py-6">
+        <span className="text-titleColor border-y-2 w-full py-6 mt-6">
           Bidders List
         </span>
         {auctionEndDate.getTime() === currentDate.getTime() && (

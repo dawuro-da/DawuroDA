@@ -8,9 +8,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 
-const Login = () => {
+const AdminPasswordReset = () => {
   const router = useRouter();
-  const [loginError, setLoginError] = useState<string>("");
+  const [ResetError, setResetError] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const {
@@ -19,20 +19,10 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const handleLogin = async (values: FieldValues) => {
+  const handleReset = async (values: FieldValues) => {
     const { email, password } = values;
     setLoading(true);
-    const res = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-
-    if (res?.status === 200) {
-      window.open("/admin/dashboard", "_parent");
-    } else if (res?.status === 401) {
-      setLoginError(res.error ?? "Login Error");
-    }
+    
     setLoading(false);
   };
 
@@ -41,37 +31,23 @@ const Login = () => {
       <div>
         <div>
           <form
-            onSubmit={handleSubmit(handleLogin)}
+            onSubmit={handleSubmit(handleReset)}
             className=" flex flex-col gap-2 my-2 min-w-[300px]"
           >
-            <div className="flex flex-col gap-2 w-full items-center mb-6">
-              <span className="font-extrabold text-3xl text-green-500 ">
-                Gammoda
+            <div className="flex flex-col gap-2 w-full  mb-6">
+              <span className="font-extrabold text-3xl text-primaryColor ">
+                Reset Password
               </span>
-              <span className="">Welcome back</span>
+              <small className="text-titleColor max-w-[400px]">
+                Reset your password here. and please make sure your new password
+                matchs with confirm password
+              </small>
             </div>
 
             <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-2 text-[#555555] h-full ">
-                <label>Email Address</label>
-                <TextField
-                  {...register("email", { required: "Email is required" })}
-                  variant="outlined"
-                  error={Boolean(!!errors.email)}
-                  helperText={
-                    !!errors.email && errors.email.message?.toString()
-                  }
-                  inputProps={{
-                    style: {
-                      padding: 10,
-                      borderRadius: "6px",
-                    },
-                  }}
-                />
-              </div>
               <div className="flex flex-col gap-[7px] text-[#555555] h-full ">
                 <label className="flex flex-row items-center justify-between">
-                  <span>Password</span>
+                  <span>New Password</span>
 
                   {showPassword ? (
                     <Image
@@ -108,30 +84,60 @@ const Login = () => {
                   }}
                 />
               </div>
+              <div className="flex flex-col gap-[7px] text-[#555555] h-full ">
+                <label className="flex flex-row items-center justify-between">
+                  <span>Confirm Password</span>
+
+                  {showPassword ? (
+                    <Image
+                      onClick={() => setShowPassword(!showPassword)}
+                      src={"/icons/hideEye.svg"}
+                      alt=""
+                      className="cursor-pointer"
+                      height={20}
+                      width={20}
+                    />
+                  ) : (
+                    <RemoveRedEyeOutlined
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="cursor-pointer"
+                      style={{ height: 20, width: 20 }}
+                    />
+                  )}
+                </label>
+                <TextField
+                  {...register("confirmPassword", {
+                    required: "confirm Password is required",
+                  })}
+                  variant="outlined"
+                  type={showPassword ? "text" : "password"}
+                  error={Boolean(!!errors.password)}
+                  helperText={
+                    !!errors.confirmPassword &&
+                    errors.confirmPassword.message?.toString()
+                  }
+                  inputProps={{
+                    style: {
+                      padding: 9,
+                      borderRadius: "6px",
+                    },
+                  }}
+                />
+              </div>
             </div>
             <span className="my-2 text-red-500 px-3">
-              {errors.email?.message
-                ? errors.email?.message.toString()
-                : errors.password?.message
-                ? errors.password?.message.toString()
-                : loginError
-                ? loginError
-                : ""}
+              {ResetError ? ResetError : ""}
             </span>
-            <span
-              onClick={() => router.push("/gaadmin/forgot-password")}
-              className="w-full text-right py-2 hover:underline cursor-pointer"
-            >
-              Forgot Password?
-            </span>
+
             <Button
+              variant="contained"
               type="submit"
-              className="bg-green-500 text-white hover:bg-green-500 border-2 rounded-[16px] p-3 h-[48px]"
+              className="bg-primaryColor shadow-none text-white hover:bg-primaryColor border-2 rounded-[16px] p-3 h-[48px]"
             >
               {loading ? (
                 <CircularProgress style={{ color: "white" }} />
               ) : (
-                "Login"
+                "Reset"
               )}
             </Button>
           </form>
@@ -141,4 +147,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminPasswordReset;
