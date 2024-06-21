@@ -167,22 +167,27 @@ const AuctionPage = () => {
                     }}
                     className="flex xl:flex-row lg:flex-row md:flex-row flex-col items-center gap-6"
                   >
-                    <div className="flex flex-col w-full">
+                    <div className="flex flex-col flex-1">
                       <small>{item.title}</small>
                       <span>{item.description}</span>
                     </div>
 
-                    <div className="border-l-2 pl-6 flex flex-row items-center justify-center gap-6 w-full">
+                    <div className="border-l-2 pl-6 flex flex-row items-center justify-center gap-6 flex-1">
                       <div className="flex flex-col">
                         <span className="font-bold">64</span>
                         <span className="text-xs">Bidders</span>
                       </div>
                       <div className="flex flex-col">
                         <span className="font-bold">4,400</span>
-                        <span className="text-xs">Revenue from CPO sales</span>
+                        <span className="text-xs">Document sales</span>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-bold">4,400</span>
+                        <span className="text-xs">CPO sales</span>
                       </div>
                     </div>
-                    <div className="flex flex-row items-center gap-6 justify-center w-full">
+
+                    <div className="flex flex-row items-center gap-6 justify-center flex-1">
                       <div className="flex flex-col">
                         <span className="text-xs">start date</span>
                         <span className="">
