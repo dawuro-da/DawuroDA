@@ -6,9 +6,9 @@ import {
   updateUserToken,
 } from "@/db/user";
 import bcrypt from "bcrypt";
-import { afterReset, forgotPassword } from "@/util/emailTemplate";
+import { afterReset } from "@/util/emailTemplate";
 import { v4 } from "uuid";
-import { hashPassword } from "../register/route";
+import { hashPassword } from "@/util/hash";
 
 export async function POST(req: Request) {
   const { email, password } = await req.json();

@@ -3,18 +3,7 @@ import bcrypt from "bcrypt";
 import { createUser, findUserByEmail, findByPhone } from "@/db/user";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
-
-export async function hashPassword(
-  password: string,
-  salt: string
-): Promise<string | null> {
-  try {
-    return await bcrypt.hash(password, salt);
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
+import { hashPassword } from "@/util/hash";
 
 export async function POST(req: Request) {
   const { firstName, lastName, role, gender, email, phone, password } =

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { findByEmail, findByPhone, updateUser } from "@/db/user";
+import { findUserByEmail, findByPhone, updateUser } from "@/db/user";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { UserRole } from "@prisma/client";
@@ -16,7 +16,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
     const userId = context.params.id;
     const { firstName, lastName, gender, email, phone } = await req.json();
 
-    const emailExist = await findByEmail(email);
+    const emailExist = await findUserByEmail(email);
     const phoneExist = await findByPhone(phone);
 
     if (emailExist) {

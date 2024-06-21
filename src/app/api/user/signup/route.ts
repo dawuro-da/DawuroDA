@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import { createUser, findByEmail, findByPhone } from "@/db/user";
+import { createUser, findUserByEmail, findByPhone } from "@/db/user";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { UserRole } from "@prisma/client";
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const emailExist = Boolean(await findByEmail(email));
+  const emailExist = Boolean(await findUserByEmail(email));
   const phoneExist = Boolean(await findByPhone(phone));
 
   if (emailExist) {

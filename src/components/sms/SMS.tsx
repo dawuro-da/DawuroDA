@@ -201,8 +201,11 @@ const SMS = () => {
             </div>
           </div>
           <div className="flex-1 min-h-[600px] gap-6 flex flex-col overflow-y-auto hiddenscrollbar">
-            {[1, 2, 3, 4, 3, 4, 5, 6, 6, 7, 4, 3, 2, 4].map((item) => (
-              <div className="flex flex-row items-center w-full bg-white gap-10 p-2 rounded-xl">
+            {[1, 2, 3, 4, 3, 4, 5, 6, 6, 7, 4, 3, 2, 4].map((item, index) => (
+              <div
+                key={index}
+                className="flex flex-row items-center w-full bg-white gap-10 p-2 rounded-xl"
+              >
                 <div className="flex flex-row items-center gap-4 flex-1">
                   <Checkbox />
                   <span>77KFS1232</span>
