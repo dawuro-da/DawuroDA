@@ -45,7 +45,7 @@ const PartnershipEdit = ({
     setValue("bio", selectedPartnership?.bio);
     setValue("bioAmharic", selectedPartnership?.bioAmharic);
     setValue("logo", selectedPartnership?.logo);
-    // setValue("isDraft", selectedPartnership?.isDraft);
+    setValue("isDraft", selectedPartnership?.isDraft);
   }, [selectedPartnership]);
 
   const handleUpdate = async (values: FieldValues) => {
@@ -178,18 +178,17 @@ const PartnershipEdit = ({
               <input
                 id="logo"
                 {...register("logo", {
-                  required: "logo is required",
-                  validate: {
-                    fileSize: (value: any) => {
-                      if (value && value[0]) {
-                        return (
-                          value[0].size < 1048576 ||
-                          "File size must be less than 1MB"
-                        );
-                      }
-                      return true;
-                    },
-                  },
+                  // validate: {
+                  //   fileSize: (value: any) => {
+                  //     if (value && value[0]) {
+                  //       return (
+                  //         value[0].size < 1048576 ||
+                  //         "File size must be less than 1MB"
+                  //       );
+                  //     }
+                  //     return true;
+                  //   },
+                  // },
                 })}
                 type="file"
                 placeholder=""

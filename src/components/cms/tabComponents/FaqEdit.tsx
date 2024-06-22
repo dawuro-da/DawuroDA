@@ -41,7 +41,7 @@ const FaqEdit = ({
   useEffect(() => {
     setValue("question", selectedFaq?.question);
     setValue("answer", selectedFaq?.answer);
-    // setValue("isDraft", selectedFaq?.isDraft);
+    setValue("isDraft", selectedFaq?.isDraft);
   }, [selectedFaq]);
 
   const handleUpdate = async (values: FieldValues) => {

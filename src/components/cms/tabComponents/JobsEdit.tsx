@@ -44,7 +44,7 @@ const JobEdit = ({
     setValue("jobTitleAmharic", selectedJob?.jobTitleAmharic);
     setValue("jobDescription", selectedJob?.jobDescription);
     setValue("jobDescriptionAmharic", selectedJob?.jobDescriptionAmharic);
-    // setValue("isDraft", selectedJob?.isDraft);
+    setValue("isDraft", selectedJob?.isDraft);
   }, [selectedJob]);
 
   const handleUpdate = async (values: FieldValues) => {

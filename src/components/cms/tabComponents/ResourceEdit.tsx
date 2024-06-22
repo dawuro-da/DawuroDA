@@ -43,7 +43,7 @@ const ResourceEdit = ({
     setValue("name", selectedResource?.name);
     setValue("description", selectedResource?.description);
     setValue("document", selectedResource?.document);
-    // setValue("isDraft", selectedResource?.isDraft);
+    setValue("isDraft", selectedResource?.isDraft);
   }, [selectedResource]);
 
   const handleUpdate = async (values: FieldValues) => {

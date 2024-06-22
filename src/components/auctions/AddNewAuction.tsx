@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, CircularProgress, TextField } from "@mui/material";
+import { Button, Checkbox, CircularProgress, TextField } from "@mui/material";
 import PageHeader from "../shared/PageHeader";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -28,10 +28,22 @@ const AddNewAuction = () => {
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const res = await axios.post("/api/auction/create", {
-        ...values,
-        formFile: "/icons/list.svg",
-      });
+      const formData = new FormData();
+      formData.append("title", values.title);
+      formData.append("description", values.description);
+      formData.append("CPO", values.CPO);
+      formData.append("formPayment", values.formPayment);
+      formData.append("isPurchasing", values.isPurchasing);
+      formData.append(
+        "formFile",
+        typeof values.formFile === "string"
+          ? values.formFile
+          : values.formFile[0]
+      );
+      formData.append("startDate", values.startDate);
+      formData.append("endDate", values.endDate);
+
+      const res = await axios.post("/api/auction/create", formData);
 
       if (res?.status === 200) {
         dispatch(
@@ -149,7 +161,7 @@ const AddNewAuction = () => {
             </div>
             <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
               <span className="text-titleColor text-sm font-bold">
-                CPO File
+                Form File
               </span>
               <span className="relative flex flex-row items-center px-6 border-2 border-dashed rounded-[3px] py-2 cursor-pointer h-[65px]">
                 <span className="flex flex-row items-center px-2 gap-2 text-titleColor cursor-pointer">
@@ -160,8 +172,10 @@ const AddNewAuction = () => {
                     width={20}
                   />
                   <span>
-                    {watch("formFile") && watch("formFile")[0]?.name
-                      ? watch("formFile")[0]?.name
+                    {typeof watch("formFile") === "string"
+                      ? watch("formFile").slice(0, 40)
+                      : watch("formFile")?.[0]?.name
+                      ? watch("formFile")?.[0]?.name
                       : "Upload"}
                   </span>
                 </span>
@@ -217,6 +231,13 @@ const AddNewAuction = () => {
                   }
                   inputProps={{ style: { padding: 0 } }}
                 />
+              </div>
+              <div className="flex flex-row items-center gap-1">
+                <Checkbox
+                  {...register("isPurchasing")}
+                  checked={Boolean(watch("isPurchasing"))}
+                />
+                <span>Save as Draft</span>
               </div>
               <Button
                 type="submit"
