@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { createPartnership } from "@/db/partnership";
+import { uploadFile } from "@/util/uploadFile";
 
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
@@ -12,14 +13,29 @@ export async function POST(req: Request) {
     );
   }
 
-  const { partnerName, isDraft, partnerNameAmharic, logo, bio, bioAmharic } =
-    await req.json();
+  const formData = await req.formData();
+  const partnerName = formData.get("partnerName") as string;
+  const isDraft = formData.get("isDraft") as string;
+  const partnerNameAmharic = formData.get("partnerNameAmharic") as string;
+  const logo = formData.get("logo") as File;
+  const bio = formData.get("bio") as string;
+  const bioAmharic = formData.get("bioAmharic") as string;
+
   try {
+    const imageUrl = logo.name
+      ? await uploadFile({
+          path: "/logos",
+          fileName: logo.name ?? "name",
+          file: logo,
+          mimeType: logo.type,
+        })
+      : (logo as unknown as string);
+
     const result = await createPartnership({
       partnerName,
-      isDraft,
+      isDraft: isDraft === "true" ? true : false,
       partnerNameAmharic,
-      logo,
+      logo: imageUrl ?? "",
       bio,
       bioAmharic,
     });

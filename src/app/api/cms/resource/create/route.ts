@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { createResource } from "@/db/resource";
+import { uploadFile } from "@/util/uploadFile";
 
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
@@ -12,13 +13,27 @@ export async function POST(req: Request) {
     );
   }
 
-  const { name, description, document, isDraft } = await req.json();
   try {
+    const formData = await req.formData();
+    const name = formData.get("name") as string;
+    const description = formData.get("description") as string;
+    const document = formData.get("document") as File;
+    const isDraft = formData.get("isDraft") as string;
+
+    const imageUrl = document.name
+      ? await uploadFile({
+          path: "/resourceDocs",
+          fileName: document.name ?? "name",
+          file: document,
+          mimeType: document.type,
+        })
+      : (document as unknown as string);
+
     const result = await createResource({
       name,
       description,
-      document,
-      isDraft,
+      document: imageUrl ?? "",
+      isDraft: isDraft === "true" ? true : false,
     });
 
     if (result) {

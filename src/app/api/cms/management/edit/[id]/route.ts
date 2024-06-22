@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { OPTIONS } from "@/util/authOptions";
 import { updateManagement } from "@/db/management";
+import { uploadFile } from "@/util/uploadFile";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
@@ -12,31 +13,39 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       { status: 401 }
     );
   }
-  const {
-    managerName,
-    managerNameAmharic,
-    job,
-    jobAmharic,
-    photo,
-    bio,
-    bioAmharic,
-    isDraft,
-    isBoardMember,
-  } = await req.json();
   const managementId = context.params.id;
 
   try {
+    const formData = await req.formData();
+    const managerName = formData.get("managerName") as string;
+    const managerNameAmharic = formData.get("managerNameAmharic") as string;
+    const job = formData.get("job") as string;
+    const jobAmharic = formData.get("jobAmharic") as string;
+    const photo = formData.get("photo") as File;
+    const bio = formData.get("bio") as string;
+    const bioAmharic = formData.get("bioAmharic") as string;
+    const isDraft = formData.get("isDraft") as string;
+    const isBoardMember = formData.get("isBoardMember") as string;
+    const imageUrl = photo.name
+      ? await uploadFile({
+          path: "/managementPhoto",
+          fileName: photo.name ?? "name",
+          file: photo,
+          mimeType: photo.type,
+        })
+      : (photo as unknown as string);
+
     const result = await updateManagement({
       managerName,
       managerNameAmharic,
       job,
-      isDraft,
+      isDraft: isDraft === "true" ? true : false,
       jobAmharic,
-      photo,
+      photo: imageUrl ?? "",
       bio,
       bioAmharic,
       id: managementId,
-      isBoardMember,
+      isBoardMember: isBoardMember === "true" ? true : false,
     });
 
     if (result) {

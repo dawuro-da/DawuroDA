@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { OPTIONS } from "@/util/authOptions";
 import { updateResource } from "@/db/resource";
+import { uploadFile } from "@/util/uploadFile";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
@@ -12,15 +13,30 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       { status: 401 }
     );
   }
-  const { name, description, document, isDraft } = await req.json();
+
   const resourceId = context.params.id;
 
   try {
+    const formData = await req.formData();
+    const name = formData.get("name") as string;
+    const description = formData.get("description") as string;
+    const document = formData.get("document") as File;
+    const isDraft = formData.get("isDraft") as string;
+
+    const imageUrl = document.name
+      ? await uploadFile({
+          path: "/resourceDocs",
+          fileName: document.name,
+          file: document,
+          mimeType: document.type,
+        })
+      : (document as unknown as string);
+
     const result = await updateResource({
       name,
-      isDraft,
+      isDraft: isDraft === "true" ? true : false,
       description,
-      document,
+      document: imageUrl ?? "",
       id: resourceId,
     });
 

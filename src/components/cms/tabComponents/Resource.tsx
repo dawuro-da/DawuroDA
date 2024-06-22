@@ -58,10 +58,18 @@ const Resources = () => {
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const res = await axios.post("/api/cms/resource/create", {
-        ...values,
-        document: "/mike/new",
-      });
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("description", values.description);
+      formData.append(
+        "document",
+        typeof values.document === "string"
+          ? values.document
+          : values.document[0]
+      );
+      formData.append("isDraft", values.isDraft);
+
+      const res = await axios.post("/api/cms/resource/create", formData);
 
       if (res?.status === 200) {
         dispatch(
@@ -246,9 +254,10 @@ const Resources = () => {
                       width={20}
                     />
                     <span>
-                      {typeof watch("document") === "string" &&
-                      watch("document")
-                        ? watch("document")
+                      {typeof watch("document") === "string"
+                        ? watch("document").slice(0, 40)
+                        : watch("document")?.[0]?.name
+                        ? watch("document")?.[0]?.name
                         : "Upload"}
                     </span>
                   </span>
