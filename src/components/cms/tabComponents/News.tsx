@@ -33,7 +33,7 @@ const NewsPage = () => {
     reset,
     watch,
     control,
-    setValue,
+    getValues,
   } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -67,11 +67,27 @@ const NewsPage = () => {
 
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
+    console.log({ values });
+    const {
+      profileImage,
+      headline,
+      headlineAmharic,
+      body,
+      bodyAmharic,
+      isDraft,
+    } = values;
+    const formData = new FormData();
+    for (let k = 0; k < profileImage.length; k++) {
+      formData.append("profileImage", profileImage[k][0]);
+    }
+    formData.append("headline", headline);
+    formData.append("headlineAmharic", headlineAmharic);
+    formData.append("body", body);
+    formData.append("bodyAmharic", bodyAmharic);
+    formData.append("isDraft", isDraft);
+
     try {
-      const res = await axios.post("/api/cms/news/create", {
-        ...values,
-        profileImage: "/mike/new",
-      });
+      const res = await axios.post("/api/cms/news/create", formData);
 
       if (res?.status === 200) {
         dispatch(
@@ -265,16 +281,17 @@ const NewsPage = () => {
                           width={20}
                         />
                         <span>
-                          {watch("profileImage") &&
-                          watch("profileImage")[0]?.name
-                            ? watch("profileImage")[0]?.name
+                          {typeof watch("profileImage")[index] === "string"
+                            ? watch("profileImage")[index]
+                            : watch("profileImage")[index][0]?.name
+                            ? watch("profileImage")[index][0]?.name
                             : "Upload"}
                         </span>
                       </span>
                       <input
                         id="profileImage"
                         {...register(
-                          "profileImage"
+                          `profileImage.${index}`
                           // {
                           //   required: "profileImage is required",
                           //   validate: {

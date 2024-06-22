@@ -54,7 +54,6 @@ const CampaignEdit = ({
         `/api/cms/campaign/edit/${selectedCampaign?.id}`,
         {
           ...values,
-          profileImage: "/mike/new",
         }
       );
 

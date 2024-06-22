@@ -63,7 +63,6 @@ const Campaigns = () => {
     try {
       const res = await axios.post("/api/cms/campaign/create", {
         ...values,
-        profileImage: "/mike/new",
       });
 
       if (res?.status === 200) {

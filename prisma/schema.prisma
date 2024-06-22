@@ -173,7 +173,7 @@ model News {
   id              String  @id @default(uuid())
   headline        String
   headlineAmharic String
-  profileImage    String
+  profileImage    String[]
   body            String
   bodyAmharic     String
   isDraft         Boolean @default(false)
