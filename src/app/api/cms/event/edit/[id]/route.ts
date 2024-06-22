@@ -26,12 +26,15 @@ export async function POST(req: Request, context: { params: { id: string } }) {
   const headlineAmharic = formData.get("headlineAmharic") as string;
 
   try {
-    const imageUrl = await uploadFile({
-      path: "/eventImages",
-      fileName: profileImage.name ?? "name",
-      file: profileImage,
-      mimeType: profileImage.type,
-    });
+    const imageUrl = profileImage.name
+      ? await uploadFile({
+          path: "/eventImages",
+          fileName: profileImage.name ?? "name",
+          file: profileImage,
+          mimeType: profileImage.type,
+        })
+      : (profileImage as unknown as string);
+
     const result = await updateEvent({
       headline,
       startDate,

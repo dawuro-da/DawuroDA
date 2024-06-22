@@ -57,11 +57,20 @@ const PartnershipPage = () => {
 
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
+
     try {
-      const res = await axios.post("/api/cms/partnership/create", {
-        ...values,
-        photo: "/mike/new",
-      });
+      const formData = new FormData();
+      formData.append("partnerName", values.partnerName);
+      formData.append("isDraft", values.isDraft);
+      formData.append("partnerNameAmharic", values.partnerNameAmharic);
+      formData.append(
+        "logo",
+        typeof values.logo === "string" ? values.logo : values.logo[0]
+      );
+      formData.append("bio", values.bio);
+      formData.append("bioAmharic", values.bioAmharic);
+
+      const res = await axios.post("/api/cms/partnership/create", formData);
 
       if (res?.status === 200) {
         dispatch(
@@ -245,8 +254,10 @@ const PartnershipPage = () => {
                       width={20}
                     />
                     <span>
-                      {watch("logo") && watch("logo")[0]?.name
-                        ? watch("logo")[0]?.name
+                      {typeof watch("logo") === "string"
+                        ? watch("logo").slice(0, 40)
+                        : watch("logo")?.[0]?.name
+                        ? watch("logo")?.[0]?.name
                         : "Upload"}
                     </span>
                   </span>

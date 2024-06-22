@@ -53,12 +53,23 @@ const ManagementEdit = ({
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
     try {
+      const formData = new FormData();
+      formData.append("managerName", values.managerName);
+      formData.append("managerNameAmharic", values.managerNameAmharic);
+      formData.append("job", values.job);
+      formData.append("jobAmharic", values.jobAmharic);
+      formData.append(
+        "photo",
+        typeof values.photo === "string" ? values.photo : values.photo[0]
+      );
+      formData.append("bio", values.bio);
+      formData.append("bioAmharic", values.bioAmharic);
+      formData.append("isDraft", values.isDraft);
+      formData.append("isBoardMember", values.isBoardMember);
+
       const res = await axios.post(
         `/api/cms/management/edit/${selectedManagement?.id}`,
-        {
-          ...values,
-          photo: "/mike/new",
-        }
+        formData
       );
 
       if (res?.status === 200) {
@@ -186,30 +197,29 @@ const ManagementEdit = ({
                   width={20}
                 />
                 <span>
-                  {watch("photo") && watch("photo")[0]?.name
-                    ? watch("photo")[0]?.name
+                  {typeof watch("photo") === "string"
+                    ? watch("photo").slice(0, 40)
+                    : watch("photo")?.[0]?.name
+                    ? watch("photo")?.[0]?.name
                     : "Upload"}
                 </span>
               </span>
               <input
                 id="photo"
-                {...register(
-                  "photo"
-                  // {
-                  //   required: "photo is required",
-                  //   validate: {
-                  //     fileSize: (value: any) => {
-                  //       if (value && value[0]) {
-                  //         return (
-                  //           value[0].size < 1048576 ||
-                  //           "File size must be less than 1MB"
-                  //         );
-                  //       }
-                  //       return true;
-                  //     },
-                  //   },
-                  // }
-                )}
+                {...register("photo", {
+                  required: "photo is required",
+                  validate: {
+                    fileSize: (value: any) => {
+                      if (value && value[0]) {
+                        return (
+                          value[0].size < 1048576 ||
+                          "File size must be less than 1MB"
+                        );
+                      }
+                      return true;
+                    },
+                  },
+                })}
                 type="file"
                 placeholder=""
                 className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"

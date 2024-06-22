@@ -51,12 +51,20 @@ const PartnershipEdit = ({
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
     try {
+      const formData = new FormData();
+      formData.append("partnerName", values.partnerName);
+      formData.append("isDraft", values.isDraft);
+      formData.append("partnerNameAmharic", values.partnerNameAmharic);
+      formData.append(
+        "logo",
+        typeof values.logo === "string" ? values.logo : values.logo[0]
+      );
+      formData.append("bio", values.bio);
+      formData.append("bioAmharic", values.bioAmharic);
+
       const res = await axios.post(
         `/api/cms/partnership/edit/${selectedPartnership?.id}`,
-        {
-          ...values,
-          logo: "/mike/new",
-        }
+        formData
       );
 
       if (res?.status === 200) {
@@ -160,8 +168,10 @@ const PartnershipEdit = ({
                   width={20}
                 />
                 <span>
-                  {watch("logo") && watch("logo")[0]?.name
-                    ? watch("logo")[0]?.name
+                  {typeof watch("logo") === "string"
+                    ? watch("logo").slice(0, 40)
+                    : watch("logo")?.[0]?.name
+                    ? watch("logo")?.[0]?.name
                     : "Upload"}
                 </span>
               </span>
@@ -229,7 +239,10 @@ const PartnershipEdit = ({
           </div>
           <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
             <div className="flex flex-row items-center gap-1">
-              <Checkbox {...register("isDraft")} checked={Boolean(watch("isDraft"))}/>
+              <Checkbox
+                {...register("isDraft")}
+                checked={Boolean(watch("isDraft"))}
+              />
               <span>Save as Draft</span>
             </div>
             <div className="flex flex-row items-center gap-1">
