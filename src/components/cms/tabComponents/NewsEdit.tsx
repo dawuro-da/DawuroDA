@@ -50,16 +50,34 @@ const NewsEdit = ({
     setValue("body", selectedNews?.body);
     setValue("bodyAmharic", selectedNews?.bodyAmharic);
     setValue("profileImage", selectedNews?.profileImage);
-    // setValue("isDraft", selectedNews?.isDraft);
+    setValue("isDraft", selectedNews?.isDraft);
   }, [selectedNews]);
 
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
+    const {
+      profileImage,
+      headline,
+      headlineAmharic,
+      body,
+      bodyAmharic,
+      isDraft,
+    } = values;
+    const formData = new FormData();
+    for (let k = 0; k < profileImage.length; k++) {
+      formData.append("profileImage", profileImage[k]);
+    }
+    formData.append("headline", headline);
+    formData.append("headlineAmharic", headlineAmharic);
+    formData.append("body", body);
+    formData.append("bodyAmharic", bodyAmharic);
+    formData.append("isDraft", isDraft);
+
     try {
-      const res = await axios.post(`/api/cms/news/edit/${selectedNews?.id}`, {
-        ...values,
-        profileImage: "/mike/new",
-      });
+      const res = await axios.post(
+        `/api/cms/news/edit/${selectedNews?.id}`,
+        formData
+      );
 
       if (res?.status === 200) {
         dispatch(
@@ -170,15 +188,17 @@ const NewsEdit = ({
                       width={20}
                     />
                     <span>
-                      {watch("profileImage") && watch("profileImage")[0]?.name
-                        ? watch("profileImage")[0]?.name
+                      {typeof watch("profileImage")[index] === "string"
+                        ? watch("profileImage")[index].slice(0, 40)
+                        : watch("profileImage")[index][0]?.name
+                        ? watch("profileImage")[index][0]?.name
                         : "Upload"}
                     </span>
                   </span>
                   <input
                     id="profileImage"
                     {...register(
-                      "profileImage"
+                      `profileImage.${index}`
                       // {
                       //   required: "profileImage is required",
                       //   validate: {

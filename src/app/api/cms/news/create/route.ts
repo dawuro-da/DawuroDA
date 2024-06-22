@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { createNews } from "@/db/news";
+import { uploadFile } from "@/util/uploadFile";
 
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
@@ -12,21 +13,41 @@ export async function POST(req: Request) {
     );
   }
 
-  const {
-    profileImage,
-    isDraft,
-    body,
-    bodyAmharic,
-    headline,
-    headlineAmharic,
-  } = await req.json();
+  const formData = await req.formData();
+
+  const profileImages = formData.getAll("profileImage") as File[];
+  const isDraft = formData.get("isDraft") as string;
+  const body = formData.get("body") as string;
+  const bodyAmharic = formData.get("bodyAmharic") as string;
+  const headline = formData.get("headline") as string;
+  const headlineAmharic = formData.get("headlineAmharic") as string;
+
   try {
+    let imageUrls = [];
+    if (profileImages.length) {
+      for (let k = 0; k < profileImages.length; k++) {
+        if (typeof profileImages[k] === "string") {
+          imageUrls.push(profileImages[k] as unknown as string);
+          continue;
+        }
+        const url = await uploadFile({
+          path: "/newsImages",
+          fileName: profileImages[k].name ?? "name",
+          file: profileImages[k],
+          mimeType: profileImages[k].type,
+        });
+        if (url) {
+          imageUrls.push(url);
+        }
+      }
+    }
+
     const result = await createNews({
-      profileImage,
+      profileImage: imageUrls,
       body,
       bodyAmharic,
       headline,
-      isDraft,
+      isDraft: isDraft === "true" ? true : false,
       headlineAmharic,
     });
 

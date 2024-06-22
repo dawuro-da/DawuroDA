@@ -20,7 +20,7 @@ export async function createNews({
   isDraft: boolean;
   headline: string;
   headlineAmharic: string;
-  profileImage: string;
+  profileImage: string[];
   body: string;
   bodyAmharic: string;
 }) {
@@ -30,7 +30,7 @@ export async function createNews({
         isDraft,
         headline,
         headlineAmharic,
-        profileImage,
+        profileImage: [...profileImage],
         body,
         bodyAmharic,
       },
@@ -58,7 +58,7 @@ export async function updateNews({
   id: string;
   headline: string;
   headlineAmharic: string;
-  profileImage: string;
+  profileImage: string[];
   body: string;
   bodyAmharic: string;
   isDraft: boolean;
@@ -70,7 +70,7 @@ export async function updateNews({
         isDraft,
         headline,
         headlineAmharic,
-        profileImage,
+        profileImage: [...profileImage],
         body,
         bodyAmharic,
       },
