@@ -53,11 +53,26 @@ const EventEdit = ({
 
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
+    const formData = new FormData();
+    formData.append("isDraft", values.isDraft);
+    formData.append("startDate", values.startDate);
+    formData.append("endDate", values.endDate);
+    formData.append(
+      "profileImage",
+      typeof values.profileImage === "string"
+        ? values.profileImage
+        : values.profileImage[0]
+    );
+    formData.append("body", values.body);
+    formData.append("bodyAmharic", values.bodyAmharic);
+    formData.append("headline", values.headline);
+    formData.append("headlineAmharic", values.headlineAmharic);
+
     try {
-      const res = await axios.post(`/api/cms/event/edit/${selectedEvent?.id}`, {
-        ...values,
-        profileImage: "/mike/new",
-      });
+      const res = await axios.post(
+        `/api/cms/event/edit/${selectedEvent?.id}`,
+        formData
+      );
 
       if (res?.status === 200) {
         dispatch(
@@ -161,9 +176,10 @@ const EventEdit = ({
                   width={20}
                 />
                 <span>
-                  {typeof watch("profileImage") === "string" &&
-                  watch("profileImage")
+                  {typeof watch("profileImage") === "string"
                     ? watch("profileImage")
+                    : watch("profileImage")?.[0]?.name
+                    ? watch("profileImage")?.[0]?.name
                     : "Upload"}
                 </span>
               </span>
