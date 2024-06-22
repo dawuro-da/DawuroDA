@@ -177,7 +177,7 @@ const EventEdit = ({
                 />
                 <span>
                   {typeof watch("profileImage") === "string"
-                    ? watch("profileImage")
+                    ? watch("profileImage").slice(0, 40)
                     : watch("profileImage")?.[0]?.name
                     ? watch("profileImage")?.[0]?.name
                     : "Upload"}
