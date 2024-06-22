@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { createEvent } from "@/db/event";
+import { uploadFile } from "@/util/uploadFile";
 
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
@@ -12,24 +13,31 @@ export async function POST(req: Request) {
     );
   }
 
-  const {
-    isDraft,
-    startDate,
-    endDate,
-    profileImage,
-    body,
-    bodyAmharic,
-    headline,
-    headlineAmharic,
-  } = await req.json();
+  const formData = await req.formData();
+  const isDraft = formData.get("isDraft") as string;
+  const startDate = formData.get("startDate") as string;
+  const endDate = formData.get("endDate") as string;
+  const profileImage = formData.get("profileImage") as File;
+  const body = formData.get("body") as string;
+  const bodyAmharic = formData.get("bodyAmharic") as string;
+  const headline = formData.get("headline") as string;
+  const headlineAmharic = formData.get("headlineAmharic") as string;
+
   try {
+    const imageUrl = await uploadFile({
+      path: "/eventImages",
+      fileName: profileImage.name ?? "name",
+      file: profileImage,
+      mimeType: profileImage.type,
+    });
+
     const result = await createEvent({
-      profileImage,
+      profileImage: imageUrl ?? "",
       body,
       bodyAmharic,
       headline,
       headlineAmharic,
-      isDraft,
+      isDraft: isDraft === "true" ? true : false,
       startDate,
       endDate,
     });
