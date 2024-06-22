@@ -17,6 +17,7 @@ export async function createAuction({
   endDate,
   startDate,
   formFile,
+  isPurchasing,
 }: {
   title: string;
   description: string;
@@ -25,6 +26,7 @@ export async function createAuction({
   formPayment: string;
   startDate: string;
   formFile: string;
+  isPurchasing: boolean;
 }) {
   try {
     const auction = await prisma.auction.create({
@@ -36,6 +38,7 @@ export async function createAuction({
         endDate,
         startDate,
         formFile,
+        isPurchasing,
       },
     });
 
@@ -58,6 +61,7 @@ export async function updateAuction({
   id,
   formPayment,
   formFile,
+  isPurchasing,
 }: {
   id: string;
   title: string;
@@ -67,6 +71,7 @@ export async function updateAuction({
   endDate: string;
   startDate: string;
   formFile: string;
+  isPurchasing: boolean;
 }) {
   try {
     const auction = await prisma.auction.update({
@@ -79,6 +84,7 @@ export async function updateAuction({
         endDate,
         startDate,
         formFile,
+        isPurchasing,
       },
     });
 

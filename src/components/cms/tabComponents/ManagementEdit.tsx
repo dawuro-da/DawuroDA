@@ -47,7 +47,8 @@ const ManagementEdit = ({
     setValue("job", selectedManagement?.job);
     setValue("jobAmharic", selectedManagement?.jobAmharic);
     setValue("photo", selectedManagement?.photo);
-    // setValue("isDraft", selectedManagement?.isDraft);
+    setValue("isDraft", selectedManagement?.isDraft);
+    setValue("isBoardMember", selectedManagement?.isBoardMember);
   }, [selectedManagement]);
 
   const handleUpdate = async (values: FieldValues) => {
@@ -269,7 +270,7 @@ const ManagementEdit = ({
             />
           </div>
           <div className="flex flex-row items-center gap-1 text-titleColor">
-            <Checkbox {...register("isBoardMember")} />
+            <Checkbox {...register("isBoardMember")} checked={Boolean(watch("isBoardMember"))} />
             <span>Board Member</span>
           </div>
           <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">

@@ -2,6 +2,7 @@
 
 import {
   Button,
+  Checkbox,
   CircularProgress,
   Drawer,
   IconButton,
@@ -12,7 +13,7 @@ import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { showToastAction } from "@/redux/actions";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -42,14 +43,37 @@ const EditAuction = ({
     formState: { errors },
     setValue,
     watch,
-  } = useForm({ defaultValues: auction });
+  } = useForm();
+
+  useEffect(() => {
+    setValue("title", auction.title);
+    setValue("description", auction.description);
+    setValue("CPO", auction.CPO);
+    setValue("formPayment", auction.formPayment);
+    setValue("isPurchasing", auction.isPurchasing);
+    setValue("formFile", auction.formFile);
+    setValue("startDate", auction.startDate);
+    setValue("endDate", auction.endDate);
+  }, []);
 
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const res = await axios.post(`/api/auction/edit/${auction.id}`, {
-        ...values,
-      });
+      const formData = new FormData();
+      formData.append("title", values.title);
+      formData.append("description", values.description);
+      formData.append("CPO", values.CPO);
+      formData.append("formPayment", values.formPayment);
+      formData.append("isPurchasing", values.isPurchasing);
+      formData.append(
+        "formFile",
+        typeof values.formFile === "string"
+          ? values.formFile
+          : values.formFile[0]
+      );
+      formData.append("startDate", values.startDate);
+      formData.append("endDate", values.endDate);
+      const res = await axios.post(`/api/auction/edit/${auction.id}`, formData);
 
       if (res?.status === 200) {
         onRefresh();
@@ -153,7 +177,9 @@ const EditAuction = ({
             <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Form Payment </label>
               <TextField
-                {...register("formPayment", { required: "Form payment is required" })}
+                {...register("formPayment", {
+                  required: "Form payment is required",
+                })}
                 variant="outlined"
                 type="number"
                 error={Boolean(!!errors.CPO)}
@@ -173,7 +199,13 @@ const EditAuction = ({
                     height={20}
                     width={20}
                   />
-                  <span>{watch("formFile") ? watch("formFile") : "Upload"}</span>
+                  <span>
+                    {typeof watch("formFile") === "string" && watch("formFile")
+                      ? watch("formFile")?.slice(0, 40)
+                      : watch("formFile")?.[0]?.name
+                      ? watch("formFile")?.[0]?.name
+                      : "Upload"}
+                  </span>
                 </span>
                 <input
                   id="formFile"
@@ -227,6 +259,13 @@ const EditAuction = ({
                   }
                   inputProps={{ style: { padding: 0 } }}
                 />
+              </div>
+              <div className="flex flex-row items-center gap-1">
+                <Checkbox
+                  {...register("isPurchasing")}
+                  checked={Boolean(watch("isPurchasing"))}
+                />
+                <span>Save as Draft</span>
               </div>
               <Button
                 type="submit"

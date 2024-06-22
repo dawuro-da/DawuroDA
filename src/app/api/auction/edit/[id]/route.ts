@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { OPTIONS } from "@/util/authOptions";
 import { updateAuction } from "@/db/auction";
+import { uploadFile } from "@/util/uploadFile";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
@@ -12,11 +13,29 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       { status: 401 }
     );
   }
-  const { formPayment, CPO, description, title, startDate, endDate, formFile } =
-    await req.json();
+
   const auctionId = context.params.id;
 
   try {
+    const formData = await req.formData();
+    const formFile = formData.get(" formFile") as File;
+    const formPayment = formData.get("formPayment") as string;
+    const CPO = formData.get("CPO") as string;
+    const description = formData.get("description") as string;
+    const title = formData.get("title") as string;
+    const startDate = formData.get("startDate") as string;
+    const endDate = formData.get("endDate") as string;
+    const isPurchasing = formData.get("isPurchasing") as string;
+
+    const imageUrl = formFile.name
+      ? await uploadFile({
+          path: "/auctionFile",
+          fileName: formFile.name ?? "name",
+          file: formFile,
+          mimeType: formFile.type,
+        })
+      : (formFile as unknown as string);
+
     const result = await updateAuction({
       CPO,
       formPayment,
@@ -25,7 +44,8 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       startDate,
       endDate,
       id: auctionId,
-      formFile,
+      isPurchasing: isPurchasing === "true" ? true : false,
+      formFile: imageUrl ?? "",
     });
 
     if (result) {
