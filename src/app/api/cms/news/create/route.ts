@@ -14,7 +14,6 @@ export async function POST(req: Request) {
   }
 
   const formData = await req.formData();
-
   const profileImages = formData.getAll("profileImage") as File[];
   const isDraft = formData.get("isDraft") as string;
   const body = formData.get("body") as string;

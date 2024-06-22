@@ -37,6 +37,7 @@ const InitiativeEdit = ({
     reset,
     watch,
     setValue,
+    getValues,
     control,
   } = useForm();
   const { fields, append, remove } = useFieldArray({
@@ -53,18 +54,38 @@ const InitiativeEdit = ({
     setValue("body", selectedInitiative?.body);
     setValue("bodyAmharic", selectedInitiative?.bodyAmharic);
     setValue("featuredImages", selectedInitiative?.featuredImages);
-    // setValue("isDraft", selectedInitiative?.isDraft);
+    setValue("isDraft", selectedInitiative?.isDraft);
   }, [selectedInitiative]);
 
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
+
     try {
+      const {
+        featuredImages,
+        nameOfInitiative,
+        nameOfInitiativeAmharic,
+        body,
+        bodyAmharic,
+        isDraft,
+      } = values;
+      const formData = new FormData();
+      for (let k = 0; k < featuredImages.length; k++) {
+        if (typeof featuredImages[k] === "string") {
+          formData.append("featuredImages", featuredImages[k]);
+        } else {
+          formData.append("featuredImages", featuredImages[k][0]);
+        }
+      }
+      formData.append("nameOfInitiative", nameOfInitiative);
+      formData.append("nameOfInitiativeAmharic", nameOfInitiativeAmharic);
+      formData.append("body", body);
+      formData.append("bodyAmharic", bodyAmharic);
+      formData.append("isDraft", isDraft);
+
       const res = await axios.post(
         `/api/cms/initiative/edit/${selectedInitiative?.id}`,
-        {
-          ...values,
-          featuredImages: ["/mike/new"],
-        }
+        formData
       );
 
       if (res?.status === 200) {
@@ -177,31 +198,32 @@ const InitiativeEdit = ({
                       width={20}
                     />
                     <span>
-                      {watch("featuredImages") &&
-                      watch("featuredImages")[0]?.name
-                        ? watch("featuredImages")[0]?.name
+                      {typeof watch("featuredImages")[index] === "string"
+                        ? watch("featuredImages")[index].slice(0, 40)
+                        : watch("featuredImages")[index][0]?.name
+                        ? watch("featuredImages")[index][0]?.name
                         : "Upload"}
                     </span>
                   </span>
                   <input
                     id="featuredImages"
-                    {...register(
-                      "featuredImages"
-                      // {
-                      //   required: "featuredImages is required",
-                      //   validate: {
-                      //     fileSize: (value: any) => {
-                      //       if (value && value[0]) {
-                      //         return (
-                      //           value[0].size < 1048576 ||
-                      //           "File size must be less than 1MB"
-                      //         );
-                      //       }
-                      //       return true;
-                      //     },
-                      //   },
-                      // }
-                    )}
+                    {...register(`featuredImages.${index}`, {
+                      validate: {
+                        fileSize: (value: any) => {
+                          if (
+                            !(typeof value === "string") &&
+                            value &&
+                            value[0]
+                          ) {
+                            return (
+                              value[0].size < 1048576 ||
+                              "File size must be less than 1MB"
+                            );
+                          }
+                          return true;
+                        },
+                      },
+                    })}
                     type="file"
                     placeholder=""
                     className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"

@@ -39,6 +39,7 @@ const Initiatives = () => {
     reset,
     watch,
     control,
+    setValue,
   } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -67,15 +68,31 @@ const Initiatives = () => {
   useEffect(() => {
     append("/icons/list.svg");
   }, []);
+
   useEffect(() => {}, [selectedInitiative]);
 
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
+    const {
+      featuredImages,
+      nameOfInitiative,
+      nameOfInitiativeAmharic,
+      body,
+      bodyAmharic,
+      isDraft,
+    } = values;
+    const formData = new FormData();
+    for (let k = 0; k < featuredImages.length; k++) {
+      formData.append("featuredImages", featuredImages[k][0]);
+    }
+    formData.append("nameOfInitiative", nameOfInitiative);
+    formData.append("nameOfInitiativeAmharic", nameOfInitiativeAmharic);
+    formData.append("body", body);
+    formData.append("bodyAmharic", bodyAmharic);
+    formData.append("isDraft", isDraft);
+
     try {
-      const res = await axios.post("/api/cms/initiative/create", {
-        ...values,
-        featuredImages: "/mike/new",
-      });
+      const res = await axios.post("/api/cms/initiative/create", formData);
 
       if (res?.status === 200) {
         dispatch(
@@ -84,8 +101,9 @@ const Initiatives = () => {
             type: "success",
           })
         );
-        setRefetch(!refetch);
         reset();
+        setValue("featuredImages", "");
+        setRefetch(!refetch);
       }
     } catch (err: any) {
       console.error(err);
@@ -98,6 +116,7 @@ const Initiatives = () => {
     }
     setLoading(false);
   };
+
   return (
     <div className="flex flex-row flex-1 mt-2 text-[#7C7C7C] h-full w-full min-w-fit">
       <div className="h-full flex flex-col max-w-[400px] min-w-[300px] border-r-[1px] border-[#d1d1d1]">
@@ -269,31 +288,30 @@ const Initiatives = () => {
                           width={20}
                         />
                         <span>
-                          {watch("featuredImages") &&
-                          watch("featuredImages")[0]?.name
-                            ? watch("featuredImages")[0]?.name
+                          {typeof watch("featuredImages")?.[index] === "string"
+                            ? watch("featuredImages")?.[index]
+                            : watch("featuredImages")?.[index]?.[0]?.name
+                            ? watch("featuredImages")?.[index]?.[0]?.name
                             : "Upload"}
                         </span>
                       </span>
                       <input
                         id="featuredImages"
-                        {...register(
-                          "featuredImages"
-                          // {
-                          //   required: "featuredImages is required",
-                          //   validate: {
-                          //     fileSize: (value: any) => {
-                          //       if (value && value[0]) {
-                          //         return (
-                          //           value[0].size < 1048576 ||
-                          //           "File size must be less than 1MB"
-                          //         );
-                          //       }
-                          //       return true;
-                          //     },
-                          //   },
-                          // }
-                        )}
+                        {...register(`featuredImages.${index}`, {
+                          validate: {
+                            fileSize: (value: any) => {
+                              if (
+                                !(typeof value === "string") &&
+                                value &&
+                                value[0] &&
+                                value[0].size > 1048576
+                              ) {
+                                return "File size must be less than 1MB";
+                              }
+                              return true;
+                            },
+                          },
+                        })}
                         type="file"
                         placeholder=""
                         className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"

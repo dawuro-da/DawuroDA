@@ -54,7 +54,7 @@ const MemberDetail = ({
       fetchMemberContributions(member.id);
     }
   }, [member]);
-  console.log({ member });
+  
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
       <div className="h-full xl:w-[700px] lg:w-[700px] md:w-[500px] w-screen p-8 flex flex-col items-center">
