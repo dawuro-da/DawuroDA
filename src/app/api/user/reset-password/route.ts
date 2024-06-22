@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import sendGridMail from "@sendgrid/mail";
 import {
   findUserByEmail,
   updateUserPassword,
@@ -9,6 +8,7 @@ import bcrypt from "bcrypt";
 import { afterReset } from "@/util/emailTemplate";
 import { v4 } from "uuid";
 import { hashPassword } from "@/util/hash";
+import { transporter } from "@/services/nodemailer";
 
 export async function POST(req: Request) {
   const { email, password } = await req.json();
@@ -38,8 +38,6 @@ export async function POST(req: Request) {
 
     const user = await findUserByEmail(email);
     if (user) {
-      sendGridMail.setApiKey(process.env.SENDGRID_API_KEY ?? "");
-
       await updateUserPassword({
         email: email,
         newPassword: hashedPassword,
@@ -50,7 +48,7 @@ export async function POST(req: Request) {
         name: `${user.firstName} ${user.lastName}`,
       });
 
-      const result = await sendGridMail.send({
+      const result = await transporter.sendMail({
         to: email,
         from: "miketesttest6@gmail.com",
         subject: "Gammoda Password Reset Requiest",

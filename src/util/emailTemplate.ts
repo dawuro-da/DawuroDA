@@ -26,7 +26,7 @@ export const forgotPassword = (props: {
                 <p>Do not share your password with anyone and avoid using the same password for multiple accounts.</p>\n
                 <p>Link: ${
                   process.env.NEXT_PUBLIC_HOSTNAME +
-                  "/setupPassword/" +
+                  "/gaadmin/password-reset/" +
                   props.token
                 }</p>\n
                 <p>If you have any questions or concerns, please do not hesitate to contact us at </p>\n 
