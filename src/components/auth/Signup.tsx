@@ -50,6 +50,8 @@ const SignUp = () => {
         } else if (res?.status === 401) {
           setSignUpError(res.error ?? "SignUp Error");
         }
+      } else {
+        dispatch(showToastAction({ message: res.data.error, type: "error" }));
       }
     } catch (err: any) {
       console.error(err);

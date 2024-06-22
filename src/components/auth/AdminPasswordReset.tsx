@@ -8,8 +8,10 @@ import { FieldValues, useForm } from "react-hook-form";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
+import { useRouter } from "next/navigation";
 
 const AdminPasswordReset = ({ email }: { email: string }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [ResetError, setResetError] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -20,6 +22,7 @@ const AdminPasswordReset = ({ email }: { email: string }) => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
 
   const handleReset = async (values: FieldValues) => {
@@ -122,10 +125,18 @@ const AdminPasswordReset = ({ email }: { email: string }) => {
                   <TextField
                     {...register("confirmPassword", {
                       required: "Confirm password is required",
+                      validate: {
+                        passwordsMatch: (value) => {
+                          if (value !== watch("password")) {
+                            return "Confirm password don't match with password ";
+                          }
+                          return true;
+                        },
+                      },
                     })}
                     variant="outlined"
                     type={showPassword ? "text" : "password"}
-                    error={Boolean(!!errors.password)}
+                    error={Boolean(!!errors.confirmPassword)}
                     helperText={
                       !!errors.confirmPassword &&
                       errors.confirmPassword.message?.toString()
@@ -141,25 +152,36 @@ const AdminPasswordReset = ({ email }: { email: string }) => {
               </div>
             )}
             {isSuccessfull && (
-              <span className="text-primaryColor text-xl max-w-[350px]">
-                You have successfully resetted your password
+              <span className="flex flex-col gap-6">
+                <span className="text-primaryColor text-xl max-w-[350px]">
+                  You have successfully resetted your password
+                </span>
+                <Button
+                  variant="contained"
+                  onClick={() => router.push("/gaadmin/login")}
+                  className="bg-primaryColor shadow-none text-white hover:bg-primaryColor border-2 rounded-[16px] p-3 h-[48px]"
+                >
+                  Back to login
+                </Button>
               </span>
             )}
             <span className="my-2 text-red-500 px-3">
               {ResetError ? ResetError : ""}
             </span>
 
-            <Button
-              variant="contained"
-              type="submit"
-              className="bg-primaryColor shadow-none text-white hover:bg-primaryColor border-2 rounded-[16px] p-3 h-[48px]"
-            >
-              {loading ? (
-                <CircularProgress style={{ color: "white" }} />
-              ) : (
-                "Reset"
-              )}
-            </Button>
+            {!isSuccessfull && (
+              <Button
+                variant="contained"
+                type="submit"
+                className="bg-primaryColor shadow-none text-white hover:bg-primaryColor border-2 rounded-[16px] p-3 h-[48px]"
+              >
+                {loading ? (
+                  <CircularProgress style={{ color: "white" }} />
+                ) : (
+                  "Reset"
+                )}
+              </Button>
+            )}
           </form>
         </div>
       </div>
