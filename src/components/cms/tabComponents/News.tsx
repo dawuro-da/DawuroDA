@@ -67,7 +67,6 @@ const NewsPage = () => {
 
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
-    console.log({ values });
     const {
       profileImage,
       headline,
@@ -96,8 +95,8 @@ const NewsPage = () => {
             type: "success",
           })
         );
-        setRefetch(!refetch);
         reset();
+        setRefetch(!refetch);
       }
     } catch (err: any) {
       console.error(err);

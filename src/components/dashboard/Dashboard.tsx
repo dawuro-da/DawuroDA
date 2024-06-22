@@ -117,8 +117,8 @@ const Dashboard = () => {
       // maybe this part should set state with `setURLData(asURL)`
       // and when that's set to something you show the download button
       // which has `href=URLData`, so that people can click on it
-    } catch (reason) {
-      console.log(reason);
+    } catch (err) {
+      console.error(err);
     }
   };
 

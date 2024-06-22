@@ -65,7 +65,11 @@ const NewsEdit = ({
     } = values;
     const formData = new FormData();
     for (let k = 0; k < profileImage.length; k++) {
-      formData.append("profileImage", profileImage[k]);
+      if (typeof profileImage[k] === "string") {
+        formData.append("profileImage", profileImage[k]);
+      } else {
+        formData.append("profileImage", profileImage[k][0]);
+      }
     }
     formData.append("headline", headline);
     formData.append("headlineAmharic", headlineAmharic);
