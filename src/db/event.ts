@@ -37,8 +37,8 @@ export async function createEvent({
         body,
         bodyAmharic,
         isDraft,
-        startDate,
-        endDate,
+        startDate: new Date(startDate).toISOString(),
+        endDate: new Date(endDate).toISOString(),
       },
     });
 
