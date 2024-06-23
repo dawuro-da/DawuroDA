@@ -237,7 +237,7 @@ const AddNewAuction = () => {
                   {...register("isPurchasing")}
                   checked={Boolean(watch("isPurchasing"))}
                 />
-                <span>Save as Draft</span>
+                <span>Purchasing</span>
               </div>
               <Button
                 type="submit"
