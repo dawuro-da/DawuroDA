@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { findUserByEmail, findByPhone, updateUser } from "@/db/user";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
-import { UserRole } from "@prisma/client";
+import { Gender, UserRole } from "@prisma/client";
+import { uploadFile } from "@/util/uploadFile";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
@@ -14,7 +15,13 @@ export async function POST(req: Request, context: { params: { id: string } }) {
   }
   try {
     const userId = context.params.id;
-    const { firstName, lastName, gender, email, phone } = await req.json();
+    const formData = await req.formData();
+    const firstName = formData.get("firstName") as string;
+    const lastName = formData.get("lastName") as string;
+    const gender = formData.get("gender") as Gender;
+    const email = formData.get("email") as string;
+    const phone = formData.get("phone") as string;
+    const profilePic = formData.get("profilePic") as File;
 
     const emailExist = await findUserByEmail(email);
     const phoneExist = await findByPhone(phone);
@@ -41,7 +48,16 @@ export async function POST(req: Request, context: { params: { id: string } }) {
         );
       }
     }
-    
+
+    const imageUrl = profilePic.name
+      ? await uploadFile({
+          path: "/adminProfilePic",
+          fileName: profilePic.name ?? "name",
+          file: profilePic,
+          mimeType: profilePic.type,
+        })
+      : (profilePic as unknown as string);
+
     const result = await updateUser({
       firstName,
       lastName,
@@ -49,6 +65,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       phone,
       email,
       userId,
+      profilePic: imageUrl,
     });
 
     if (result) {

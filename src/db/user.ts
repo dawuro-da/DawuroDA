@@ -99,6 +99,7 @@ export async function updateUser({
   email,
   phone,
   userId,
+  profilePic,
 }: {
   userId: string;
   firstName?: string;
@@ -106,6 +107,7 @@ export async function updateUser({
   gender?: Gender;
   email?: string;
   phone?: string;
+  profilePic?: string;
 }) {
   try {
     const user = await prisma.user.update({
@@ -116,6 +118,7 @@ export async function updateUser({
         gender,
         email,
         phone,
+        profilePic,
       },
     });
 
