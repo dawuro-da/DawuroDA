@@ -9,13 +9,14 @@ import {
 import { Gender, User } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
 const ProfileManagement = ({ user }: { user: User | null }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState("");
   const {
     register,
     handleSubmit,
@@ -23,12 +24,42 @@ const ProfileManagement = ({ user }: { user: User | null }) => {
     watch,
   } = useForm({ defaultValues: { ...user } });
 
+  const handleFileChange = () => {
+    if (typeof watch("profilePic") === "string") {
+      setPreviewUrl(watch("profilePic") as string);
+    } else {
+      const file = watch("profilePic")?.[0] as unknown as File;
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (reader.result) setPreviewUrl(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleFileChange();
+  }, [watch("profilePic")]);
+
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const res = await axios.post(`/api/user/edit/${user?.id}`, {
-        ...values,
-      });
+      const formData = new FormData();
+      formData.append("firstName", values.firstName);
+      formData.append("lastName", values.lastName);
+      formData.append("gender", values.gender);
+      formData.append("email", values.email);
+      formData.append("phone", values.phone);
+      formData.append(
+        "profilePic",
+        typeof values.profilePic === "string"
+          ? values.profilePic
+          : values.profilePic[0]
+      );
+
+      const res = await axios.post(`/api/user/edit/${user?.id}`, formData);
 
       if (res?.status === 200) {
         dispatch(
@@ -57,14 +88,35 @@ const ProfileManagement = ({ user }: { user: User | null }) => {
         className="flex flex-col items-center justify-center gap-8"
       >
         <div className="relative w-fit h-fit">
-          <Avatar src="/icons/list.png" style={{ width: 100, height: 100 }} />
-          <Image
-            className="absolute bottom-0 right-0 cursor-pointer"
-            src="/icons/uploadCamera.svg"
-            alt=""
-            height={30}
-            width={30}
-          />
+          <Avatar src={previewUrl} style={{ width: 100, height: 100 }} />
+          <div className="h-[30px] w-[30px] absolute bottom-0 right-0 cursor-pointer z-10">
+            <Image
+              className=" cursor-pointer"
+              src="/icons/uploadCamera.svg"
+              alt=""
+              height={30}
+              width={30}
+            />
+            <input
+              id="profile Picu"
+              {...register("profilePic", {
+                validate: {
+                  fileSize: (value: any) => {
+                    if (value && value[0]) {
+                      return (
+                        value[0].size < 1048576 ||
+                        "File size must be less than 1MB"
+                      );
+                    }
+                    return true;
+                  },
+                },
+              })}
+              type="file"
+              placeholder=""
+              className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            />
+          </div>
         </div>
         <div className="flex flex-col items-center">
           <span className="flex flex-row items-center justify-center gap-2 text-[#555555] font-bold text-2xl capitalize">
