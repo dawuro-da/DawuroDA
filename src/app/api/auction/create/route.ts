@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     const endDate = formData.get("endDate") as string;
     const isPurchasing = formData.get("isPurchasing") as string;
 
-    const imageUrl = formFile.name
+    const imageUrl = formFile?.name
       ? await uploadFile({
           path: "/auctionFile",
           fileName: formFile.name ?? "name",
