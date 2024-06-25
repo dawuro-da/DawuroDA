@@ -1,10 +1,14 @@
+"use client";
+
 import AboutSection from "./sections/AboutSection";
 
 const Homepage = () => {
   return (
-    <div className="h-full text-5xl w-full text-center flex flex-row items-center justify-center">
+    <div className="h-full w-full text-center flex flex-cpl items-center justify-center">
       Home
-      <AboutSection />
+      <div className="w-full">
+        <AboutSection />
+      </div>
     </div>
   );
 };

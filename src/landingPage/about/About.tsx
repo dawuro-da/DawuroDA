@@ -1,3 +1,5 @@
+"use client";
+
 const AboutPage = () => {
   return <div>About page</div>;
 };
