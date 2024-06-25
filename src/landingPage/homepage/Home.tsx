@@ -1,14 +1,14 @@
 "use client";
-
 import AboutSection from "./sections/AboutSection";
+import HeroSection from "./sections/HeroSection";
+import SupportRedSection from "./sections/SupportRedSection";
 
 const Homepage = () => {
   return (
-    <div className="h-full w-full text-center flex flex-cpl items-center justify-center">
-      Home
-      <div className="w-full">
-        <AboutSection />
-      </div>
+    <div className="w-full h-screen flex flex-col overflow-y-auto hiddenscrollbar">
+      <HeroSection />
+      <SupportRedSection />
+      <AboutSection />
     </div>
   );
 };
