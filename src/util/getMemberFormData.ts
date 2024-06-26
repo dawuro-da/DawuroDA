@@ -19,7 +19,7 @@ export const getMemberFormData = (values: any) => {
   formData.append("workPlace", values.workPlace);
   formData.append("idNumber", values.idNumber);
   formData.append("branch", values.branch);
-  formData.append("profileImage", values.profileImage[0]);
+  formData.append("profileImage", values.profileImage?.[0]);
   formData.append("membershipLevel", values.membershipLevel);
   formData.append("contributionSystem", values.contributionSystem);
   formData.append("educationLevel", values.educationLevel);
