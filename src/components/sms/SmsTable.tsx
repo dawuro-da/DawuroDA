@@ -1,4 +1,4 @@
-import { Checkbox, TextField } from "@mui/material";
+import { Button, Checkbox, TextField } from "@mui/material";
 import Image from "next/image";
 import { SmsMemberData } from "./SMS";
 import { useState } from "react";
@@ -92,6 +92,8 @@ const SmsTable = ({
         dispatch(
           showToastAction({ message: "Successfully Sent", type: "success" })
         );
+        setSelectedList([]);
+        setMessageToSend("");
       }
     } catch (err: any) {
       console.error(err);
@@ -188,9 +190,10 @@ const SmsTable = ({
           />
         </div>
         <div className="h-full flex flex-row items-center justify-center">
-          <div
+          <Button
+            variant="outlined"
             onClick={onSendMessage}
-            className="flex flex-row items-center justify-center border-none rounded-full h-[100px] w-[100px] bg-primaryColor hover:cursor-pointer"
+            className="flex bg-primaryColor hover:bg-primaryColor flex-row items-center justify-center border-none rounded-full h-[100px] w-[100px] hover:cursor-pointer"
           >
             <Image
               src={"/icons/send.svg"}
@@ -199,7 +202,7 @@ const SmsTable = ({
               width={60}
               className="h-full ml-3"
             />
-          </div>
+          </Button>
         </div>
       </div>
     </>
