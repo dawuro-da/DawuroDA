@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { creatSmsMessage } from "@/db/sms";
+import axios from "axios";
 
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
@@ -10,6 +11,22 @@ export async function POST(req: Request) {
   }
   try {
     const { phones, message } = await req.json();
+
+    const response = await axios.post(
+      "https://api.afromessage.com/api/bulk_send",
+      {
+        to: [...phones],
+        message: message,
+        from: process.env.AFRO_IDENTIFIER_ID,
+        campaign: "Gammoda",
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + process.env.AFRO_AUTH_TOKEN,
+        },
+      }
+    );
+    console.log({ response });
 
     const result = await creatSmsMessage({
       message,

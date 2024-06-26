@@ -400,6 +400,26 @@ export async function fetchAllMembers({
   return { members, total };
 }
 
+export async function fetchMembersWithUpcomingPayments() {
+  // Get the current date
+  const currentDate = new Date();
+
+  // Calculate the date 3 days from now
+  const dateThreeDaysFromNow = new Date();
+  dateThreeDaysFromNow.setDate(currentDate.getDate() + 3);
+
+  // Fetch members whose nextPaymentDate is within the next 3 days
+  const members = await prisma.member.findMany({
+    where: {
+      nextDueDate: {
+        lte: dateThreeDaysFromNow,
+      },
+    },
+  });
+
+  return members;
+}
+
 export async function fetchRecentMembers(): Promise<Member[] | undefined> {
   const members = await prisma.member.findMany({
     orderBy: {
