@@ -94,6 +94,7 @@ const SmsTable = ({
         );
         setSelectedList([]);
         setMessageToSend("");
+        setSelectedCheck("")
       }
     } catch (err: any) {
       console.error(err);
