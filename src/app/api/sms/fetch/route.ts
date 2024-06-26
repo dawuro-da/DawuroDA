@@ -1,0 +1,32 @@
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { OPTIONS } from "@/util/authOptions";
+import { creatSmsMessage, fetchRecentSmsMessages } from "@/db/sms";
+
+export async function POST(req: Request) {
+  const session = await getServerSession(OPTIONS);
+  if (!session?.user?.id) {
+    return NextResponse.redirect("/gaadmin/login", 401);
+  }
+  try {
+    const { phones, message } = await req.json();
+
+    const result = await fetchRecentSmsMessages();
+
+    if (result) {
+      return NextResponse.json(
+        { success: true, value: result },
+        { status: 200 }
+      );
+    }
+  } catch (err) {
+    console.warn(err);
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Unable to create user",
+      },
+      { status: 500 }
+    );
+  }
+}

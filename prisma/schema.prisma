@@ -124,6 +124,17 @@ model Member {
   @@map(name: "members")
 }
 
+model SmsMessage {
+  id          String @id @default(uuid())
+  message     String
+  totalPhones Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "sms_message")
+}
+
 model Contribution {
   id                 String             @id @default(uuid())
   contributionSystem ContributionSystem
