@@ -10,10 +10,7 @@ export async function DELETE(
 ) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id || !(session.user.role === UserRole.Owner)) {
-    return NextResponse.json(
-      { success: false, error: "Unauthorized user" },
-      { status: 401 }
-    );
+    return NextResponse.redirect("/gaadmin/login", 401)
   }
 
   const userId = context.params.id;
