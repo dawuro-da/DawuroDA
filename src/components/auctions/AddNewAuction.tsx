@@ -12,6 +12,7 @@ import { useState } from "react";
 import { showToastAction } from "@/redux/actions";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import dayjs from "dayjs";
 
 const AddNewAuction = () => {
   const router = useRouter();
@@ -109,6 +110,7 @@ const AddNewAuction = () => {
                     {...register("startDate", {
                       required: "Start Date is required",
                     })}
+                    minDate={dayjs().add(1, "day")}
                     onChange={(value) => setValue("startDate", value)}
                   />
                 </LocalizationProvider>
@@ -125,6 +127,7 @@ const AddNewAuction = () => {
                     {...register("endDate", {
                       required: "End Date is required",
                     })}
+                    minDate={dayjs().add(1, "day")}
                     onChange={(value) => setValue("endDate", value)}
                   />
                 </LocalizationProvider>

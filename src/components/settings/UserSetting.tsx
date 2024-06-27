@@ -1,9 +1,10 @@
 "use client";
 
 import { User, UserRole } from "@prisma/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileManagement from "./ProfileManagement";
 import AdminManagement from "./AdminManagement";
+import axios from "axios";
 
 enum TABS {
   PrfoileManagement,
@@ -13,6 +14,18 @@ enum TABS {
 const UserSetting = ({ user }: { user: User | null }) => {
   const isOwner = Boolean(user?.role === UserRole.Owner);
   const [activeTab, setActiveTab] = useState<TABS>(TABS.PrfoileManagement);
+
+  const initializeCronJob = async () => {
+    try {
+      const res = await axios.get("/api/sms/notifyPaymentDate");
+    } catch (err) {
+      console.error("cron error", err);
+    }
+  };
+
+  useEffect(() => {
+    initializeCronJob();
+  }, []);
 
   return (
     <div className="flex flex-col items-center p-10">

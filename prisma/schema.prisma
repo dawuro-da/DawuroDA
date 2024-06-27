@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
   // url      = env("DATABASE_URL")
   url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
@@ -341,6 +341,7 @@ model Bidder {
   fullName   String
   message    String?
   offer      Int
+  filledForm String?
   auctionId  String
   auction    Auction @relation(fields: [auctionId], references: [id], onDelete: Cascade)
   hasPaidCPO Boolean @default(false)
@@ -350,4 +351,14 @@ model Bidder {
   updated_at DateTime @default(now()) @updatedAt
 
   @@map(name: "bidder")
+}
+
+model Automation {
+  id            String @unique @default(uuid())
+  intitalizedBy String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "automation")
 }

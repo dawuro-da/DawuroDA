@@ -26,7 +26,6 @@ export async function POST(req: Request) {
         },
       }
     );
-    console.log({ response });
 
     const result = await creatSmsMessage({
       message,

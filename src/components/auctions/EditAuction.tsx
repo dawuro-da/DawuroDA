@@ -132,6 +132,7 @@ const EditAuction = ({
                       required: "Start Date is required",
                     })}
                     defaultValue={dayjs(watch("startDate"))}
+                    minDate={dayjs().add(1, "day")}
                     onChange={(value) =>
                       setValue("startDate", value?.toDate() ?? new Date())
                     }
@@ -151,6 +152,7 @@ const EditAuction = ({
                       required: "End Date is required",
                     })}
                     defaultValue={dayjs(watch("endDate"))}
+                    minDate={dayjs().add(1, "day")}
                     onChange={(value) =>
                       setValue("endDate", value?.toDate() ?? new Date())
                     }
