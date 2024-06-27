@@ -7,13 +7,15 @@ import { getFormattedDate } from "@/util/date";
 import Image from "next/image";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Auction } from "@prisma/client";
+import { Auction, UserRole } from "@prisma/client";
 import { ArrowDropDown, SearchOutlined } from "@mui/icons-material";
 import EditAuction from "./EditAuction";
 import StyledMenu from "../shared/StyledMenu";
 import DateRangeSelector from "../shared/DateRangeSelector";
+import { useSession } from "next-auth/react";
 
 const AuctionPage = () => {
+  const session = useSession();
   const router = useRouter();
   const [refetch, setRefetch] = useState<boolean>(false);
   const [fetchLoading, setfetchLoading] = useState<boolean>(false);
@@ -203,21 +205,23 @@ const AuctionPage = () => {
                     </div>
                   </div>
 
-                  <div
-                    onClick={() => {
-                      setSelectedAuction(item);
-                      setOpenEditDrawer(true);
-                    }}
-                    className="z-20 absolute cursor-pointer right-4 bottom-4 w-fit flex flex-row items-center"
-                  >
-                    <Image
-                      src={"/icons/bx_edit.svg"}
-                      alt=""
-                      width={20}
-                      height={20}
-                    />
-                    <small>Edit</small>
-                  </div>
+                  {session.data?.user.role === UserRole.Owner && (
+                    <div
+                      onClick={() => {
+                        setSelectedAuction(item);
+                        setOpenEditDrawer(true);
+                      }}
+                      className="z-20 absolute cursor-pointer right-4 bottom-4 w-fit flex flex-row items-center"
+                    >
+                      <Image
+                        src={"/icons/bx_edit.svg"}
+                        alt=""
+                        width={20}
+                        height={20}
+                      />
+                      <small>Edit</small>
+                    </div>
+                  )}
                 </div>
               );
             })
