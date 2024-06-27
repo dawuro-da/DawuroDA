@@ -17,7 +17,7 @@ import { Automation } from "@prisma/client";
 const initializeCronJob = async (automation: Automation[], userId: string) => {
   if (!automation.length) {
     await prisma.automation.create({ data: { intitalizedBy: userId } });
-    cron.schedule("*/1 * * * *", async () => {
+    cron.schedule("0 0 * * *", async () => {
       try {
         const members = await fetchMembersWithUpcomingPayments();
         const message = ` Hello,
