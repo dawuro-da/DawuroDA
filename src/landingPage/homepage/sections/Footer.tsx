@@ -94,7 +94,7 @@ const Footer = () => {
               className="w-10"
             />
             <div className="font-extrabold text-lg w-full text-center">
-              Empowering Sustainable Futures"
+              {`Empowering Sustainable Futures"`}
             </div>
             <p className="mt-2 text-sm">Empowering Sustainable Futures</p>
           </div>
@@ -112,7 +112,7 @@ const Footer = () => {
               className="w-10 -ml-10"
             />
             <div className="font-extrabold text-2xl w-2/3 text-left">
-              Empowering Sustainable Futures"
+              {`Empowering Sustainable Futures"`}
             </div>
             <p className="mt-2 text-sm">Empowering Sustainable Futures</p>
           </div>
