@@ -1,7 +1,13 @@
 "use client";
-import AboutSection from "./sections/AboutSection";
 import HeroSection from "./sections/HeroSection";
 import SupportRedSection from "./sections/SupportRedSection";
+import AboutSection from "./sections/AboutSection";
+import DevelopmentInitiatives from "./sections/DevelopmentInitiatives";
+import FAQ from "./sections/FAQ";
+import Footer from "./sections/Footer";
+import LatestNews from "./sections/LatestNews";
+import Partners from "./sections/Partners";
+import WhatsHappening from "./sections/WhatsHappening";
 
 const Homepage = () => {
   return (
@@ -9,6 +15,12 @@ const Homepage = () => {
       <HeroSection />
       <SupportRedSection />
       <AboutSection />
+      <DevelopmentInitiatives />
+      <Partners />
+      <LatestNews />
+      <WhatsHappening />
+      <FAQ />
+      <Footer />
     </div>
   );
 };
