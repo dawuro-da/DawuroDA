@@ -68,7 +68,7 @@ const Accordion = () => {
 const FAQ = () => {
   return (
     <div className="py-10 pb-28">
-      <h2 className="font-bold lg:text-4xl md:text-2xl text-xl mb-6">FAQ</h2>
+      <h2 className="font-bold lg:text-4xl md:text-2xl text-xl mb-6 text-center">FAQ</h2>
       <p className="md:mb-20 mb-10 font-light lg:w-3/12 w-4/5 mx-auto text-center">
         Find Answers to Common Questions About Our Programs and initiatives
       </p>

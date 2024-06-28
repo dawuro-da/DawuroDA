@@ -1,5 +1,6 @@
 "use client";
-
+import HeroSection from "./sections/HeroSection";
+import SupportRedSection from "./sections/SupportRedSection";
 import AboutSection from "./sections/AboutSection";
 import DevelopmentInitiatives from "./sections/DevelopmentInitiatives";
 import FAQ from "./sections/FAQ";
@@ -10,17 +11,16 @@ import WhatsHappening from "./sections/WhatsHappening";
 
 const Homepage = () => {
   return (
-    <div className="h-full w-full text-center flex flex-cpl items-center justify-center">
-      
-      <div className="w-full">
-        <AboutSection />
-        <DevelopmentInitiatives />
-        <Partners />
-        <LatestNews />
-        <WhatsHappening />
-        <FAQ />
-        <Footer />
-      </div>
+    <div className="w-full h-screen flex flex-col overflow-y-auto hiddenscrollbar">
+      <HeroSection />
+      <SupportRedSection />
+      <AboutSection />
+      <DevelopmentInitiatives />
+      <Partners />
+      <LatestNews />
+      <WhatsHappening />
+      <FAQ />
+      <Footer />
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import PageHeader from "../shared/PageHeader";
 import { Auction, Bidder } from "@prisma/client";
 import { PageState } from "../shared/CustomizedDatagrid";
-import { Avatar } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -133,7 +133,7 @@ const getColumnDefinition = ({
           headerAlign: "center",
         },
         {
-          field: "firstName",
+          field: "fullName",
           headerName: "Full Name",
           flex: 1,
           minWidth: 110,
@@ -142,30 +142,50 @@ const getColumnDefinition = ({
             return (
               <span className="flex flex-row items-center gap-2 ">
                 <Avatar sizes="small" src={params.row.profileImage} />
-                {params.row.firstName && (
-                  <span>
-                    {params.row.firstName} {params.row.lastName}
-                  </span>
-                )}
+                {params.row.fullName && <span>{params.row.fullName}</span>}
                 {params.row.institutionName && (
                   <span>{params.row.institutionName}</span>
                 )}
               </span>
+            );
+          },
+        },
+        {
+          field: "offer",
+          headerName: "Offer",
+          flex: 1,
+          minWidth: 110,
+
+          renderCell: (params) => {
+            return (
+              <span className="flex flex-row items-center gap-2 ">
+                <span>{params.row.offer}</span>
+              </span>
+            );
+          },
+        },
+        {
+          field: "filledForm",
+          headerName: "Document",
+          flex: 1,
+          minWidth: 110,
+
+          renderCell: (params) => {
+            return (
+              <Button
+                variant="outlined"
+                size="small"
+                className="px-2 flex flex-row capitalize items-center gap-2 "
+              >
+                Download
+              </Button>
             );
           },
         },
       ]
     : [
         {
-          field: "memberId",
-          headerName: "MemberId",
-          flex: 1,
-          minWidth: 110,
-          align: "center",
-          headerAlign: "center",
-        },
-        {
-          field: "firstName",
+          field: "fullName",
           headerName: "Full Name",
           flex: 1,
           minWidth: 110,
@@ -174,11 +194,7 @@ const getColumnDefinition = ({
             return (
               <span className="flex flex-row items-center gap-2 ">
                 <Avatar sizes="small" src={params.row.profileImage} />
-                {params.row.firstName && (
-                  <span>
-                    {params.row.firstName} {params.row.lastName}
-                  </span>
-                )}
+                {params.row.fullName && <span>{params.row.fullName}</span>}
                 {params.row.institutionName && (
                   <span>{params.row.institutionName}</span>
                 )}
@@ -187,24 +203,34 @@ const getColumnDefinition = ({
           },
         },
         {
-          field: "hasPaid",
-          headerName: "Paid",
+          field: "offer",
+          headerName: "Offer",
           flex: 1,
           minWidth: 110,
-          headerAlign: "center",
+
           renderCell: (params) => {
             return (
-              <div className="flex flex-row items-center gap-2 justify-center h-full">
-                <span
-                  className={`flex flex-row items-center justify-center w-fit ${
-                    params.value
-                      ? "bg-[#34A858B2]"
-                      : "bg-[#C83A272E] text-black"
-                  } text-white rounded-[8px] min-w-20 text-center px-4 h-8 `}
-                >
-                  {params.value ? "Paid" : "Unpaid"}
-                </span>
-              </div>
+              <span className="flex flex-row items-center gap-2 ">
+                <span>{params.row.offer}</span>
+              </span>
+            );
+          },
+        },
+        {
+          field: "filledForm",
+          headerName: "Document",
+          flex: 1,
+          minWidth: 110,
+
+          renderCell: (params) => {
+            return (
+              <Button
+                variant="outlined"
+                size="small"
+                className="px-2 flex flex-row capitalize items-center gap-2 "
+              >
+                Download
+              </Button>
             );
           },
         },

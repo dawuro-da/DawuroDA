@@ -25,10 +25,7 @@ export async function POST(req: Request) {
 
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id && !ownerEmails?.includes(email.toString())) {
-    return NextResponse.json(
-      { success: false, error: "Unauthorized user" },
-      { status: 401 }
-    );
+    return NextResponse.redirect("/gaadmin/login", 401)
   }
 
   const emailExist = Boolean(await findUserByEmail(email));

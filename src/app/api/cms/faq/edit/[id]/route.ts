@@ -7,10 +7,7 @@ import { updateFaq } from "@/db/faq";
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id || session?.user.role === UserRole.Member) {
-    return NextResponse.json(
-      { success: false, error: "Unauthorized user" },
-      { status: 401 }
-    );
+    return NextResponse.redirect("/gaadmin/login", 401)
   }
   const { question, answer, isDraft } = await req.json();
   const faqId = context.params.id;
