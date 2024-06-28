@@ -37,7 +37,7 @@ const DevelopmentInitiatives = () => {
 
   return (
     <div className="bg-[#F7F7F7] py-16">
-      <h1 className="text-[#1E1E1E] font-bold lg:text-4xl text-lg mb-1">
+      <h1 className="text-[#1E1E1E] font-bold lg:text-4xl text-lg mb-1 text-center">
         Development Initiatives
       </h1>
       <p className="text-[#1E1E1E] font-light md:max-w-[25%] max-w-[65%] mx-auto text-center">

@@ -105,7 +105,7 @@ export const OPTIONS: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
-    maxAge: 10 * 60, //session will expire after 10 minute of inactivity.
+    maxAge: 1 * 24 * 60 * 60, //session will expire after 1 days.
     updateAge: 10 * 60, //5 minute  keeps the session alive as long as the user is active.
   },
 };

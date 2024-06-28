@@ -11,7 +11,7 @@ const PartnerItems: string[] = [
 const Partners = () => {
   return (
     <div className="lg:py-24 py-16">
-      <h2 className="font-bold lg:text-4xl md:text-2xl text-xl mb-10">
+      <h2 className="font-bold lg:text-4xl md:text-2xl text-xl mb-10 text-center">
         Our Partners
       </h2>
       <marquee>
