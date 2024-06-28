@@ -26,13 +26,13 @@ const AboutSection = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 3,
     slidesToScroll: 1,
   };
 
   return (
-    <div className="xl:lg:px-40 md:px-20 px-10 grid lg:grid-cols-2 mt-48 mb-36 w-full">
-      <div className="lg:text-left text-center lg:col-span-1 col-span-2 w-full">
+    <div className="xl:lg:px-40 md:px-20 px-10 grid items-center h-fit lg:grid-cols-2 grid-cols-1 mt-48 mb-36 w-full">
+      <div className="lg:text-left text-center  w-full">
         <h6 className="text-[#000000] text-sm mb-7 font-light">About</h6>
         <h2 className="font-bold lg:text-4xl text-lg mb-7">
           Gamo Development Association
@@ -52,22 +52,24 @@ const AboutSection = () => {
           </button>
         </div>
       </div>
-      <div className="lg:col-span-1 col-span-2 mt-10 lg:mt-0 w-full">
-        <Slider {...settings}>
-          {managers.map((manager, index) => (
-            <div key={index} className="px-2">
-              <div className="text-center flex flex-col items-center justify-center gap-1">
-                <Avatar
-                  style={{ height: 85, width: 85 }}
-                  alt=""
-                  src={manager.url}
-                />
-                <p className="font-bold text-base ">{manager.name}</p>
-                <p className="text-[#000000] text-sm">{manager.title}</p>
+      <div className=" mt-10 lg:mt-0 w-full h-full flex items-center">
+        <div className="max-w-full max-h-full">
+          <Slider {...settings}>
+            {managers.map((manager, index) => (
+              <div key={index} className="px-2">
+                <div className="text-center flex flex-col items-center justify-center gap-1">
+                  <Avatar
+                    style={{ height: 85, width: 85 }}
+                    alt=""
+                    src={manager.url}
+                  />
+                  <p className="font-bold text-base ">{manager.name}</p>
+                  <p className="text-[#000000] text-sm">{manager.title}</p>
+                </div>
               </div>
-            </div>
-          ))}
-        </Slider>
+            ))}
+          </Slider>
+        </div>
       </div>
     </div>
   );

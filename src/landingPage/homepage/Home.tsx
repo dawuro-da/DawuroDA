@@ -13,7 +13,7 @@ const Homepage = () => {
     <div className="h-full w-full text-center flex flex-cpl items-center justify-center">
       
       <div className="w-full">
-        {/* <AboutSection /> */}
+        <AboutSection />
         <DevelopmentInitiatives />
         <Partners />
         <LatestNews />
