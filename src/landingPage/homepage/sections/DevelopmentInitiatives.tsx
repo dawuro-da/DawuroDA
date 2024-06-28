@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Slider from "react-slick";
 
 const DevelopmentInitiatives = () => {
-  const [screenSize, setScreenSize] = useState();
+  const [screenSize, setScreenSize] = useState<number>();
   const Initiatives = [
     {
       url: "/images/health.svg",
@@ -25,14 +25,17 @@ const DevelopmentInitiatives = () => {
         "Promoting environmental conservation and sustainable forestry development across all districts of Gamo Zone. This initiative involves implementing measures to protect natural resources, preserve biodiversity, and pro...",
     },
   ];
+  useEffect(() => {
+    setScreenSize(window.innerWidth);
+  }, []);
 
-
+  console.log({ screenSize });
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToScroll: 1,
-    slidesToShow: 3,
+    slidesToShow: screenSize && screenSize < 800 ? 1 : 3,
   };
 
   return (

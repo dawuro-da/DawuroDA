@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+"use client";
+import { useEffect, useState } from "react";
 
 const CountdownTimer = () => {
   const calculateTimeLeft = () => {
@@ -29,8 +30,8 @@ const CountdownTimer = () => {
 
   return (
     <div className="flex items-center flex-row justify-center md:space-x-11 space-x-8 w-4/5 mx-auto bg-[#13A6D9] text-white p-6">
-      {Object.keys(timeLeft).map((interval) => (
-        <div key={interval} className="text-center w-10">
+      {Object.keys(timeLeft).map((interval, index) => (
+        <div key={index} className="text-center w-10">
           <p className="text-lg font-bold text-white">{timeLeft[interval]}</p>
           <p className="text-sm capitalize text-white">{interval}</p>
         </div>
