@@ -14,7 +14,7 @@ const Partners = () => {
       <h2 className="font-bold lg:text-4xl md:text-2xl text-xl mb-10 text-center">
         Our Partners
       </h2>
-      <div className="flex lg:space-x-20 space-x-8  hiddenscrollbar md:w-2/4 mx-auto ">
+      <div className="flex lg:space-x-20 space-x-8 overflow-x-auto hiddenscrollbar md:w-2/4 mx-auto ">
         {PartnerItems.map((item, id) => (
           <Image src={item} height={80} width={80} alt="" key={id} />
         ))}
