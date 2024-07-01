@@ -91,8 +91,8 @@ const renderText = (currentIndex: number) => {
     case 0:
       return (
         <>
-          {/* <span className="w-full">Gamo Development Association</span> */}
-          <span className="xl:text-7xl lg:text-6xl text-4xl font-bold mb-4 z-20 pt-6">
+          <span className="w-full mt-16">Gamo Development Association</span>
+          <span className="xl:text-6xl lg:text-6xl text-4xl font-bold mb-4 z-20 ">
             Empowering Communities Through Sustainable <br />
             <span className="w-[300px] z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
               Development
@@ -104,13 +104,13 @@ const renderText = (currentIndex: number) => {
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
             <Button
               variant="outlined"
-              className="bg-primaryColor hover:bg-white hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
+              className="bg-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
             >
               Join Us
             </Button>
             <Button
               variant="outlined"
-              className="bg-transparent border-2 border-white hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
+              className="bg-transparent border-2 border-white capitalize hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
             >
               About Us
             </Button>
@@ -120,8 +120,8 @@ const renderText = (currentIndex: number) => {
     case 1:
       return (
         <>
-          <span className="w-full">Gamo Development Association</span>
-          <span className="xl:text-7xl lg:text-6xl text-4xl font-bold mb-4 z-20">
+          <span className="w-full mt-16">Gamo Development Association</span>
+          <span className="xl:text-6xl lg:text-6xl text-4xl font-bold mb-4 z-20">
             Advancing Sustainable Agriculture & Industry <br />
             <span className="w-[300px] z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
               Gamo Zone
@@ -133,13 +133,13 @@ const renderText = (currentIndex: number) => {
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
             <Button
               variant="outlined"
-              className="bg-primaryColor hover:bg-white hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
+              className="bg-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
             >
               Join Us
             </Button>
             <Button
               variant="outlined"
-              className="bg-transparent border-2 border-white hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
+              className="bg-transparent border-2 border-white capitalize hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
             >
               About Us
             </Button>
@@ -149,8 +149,8 @@ const renderText = (currentIndex: number) => {
     case 2:
       return (
         <>
-          <span className="w-full">Gamo Development Association</span>
-          <span className="xl:text-7xl lg:text-6xl text-4xl font-bold mb-4 z-20">
+          <span className="w-full mt-16">Gamo Development Association</span>
+          <span className="xl:text-6xl lg:text-6xl text-4xl font-bold mb-4 z-20">
             Safeguarding Forests and Enviroments for <br />
             <span className="w-[300px] z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
               Generation
@@ -162,13 +162,13 @@ const renderText = (currentIndex: number) => {
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
             <Button
               variant="outlined"
-              className="bg-primaryColor hover:bg-white hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
+              className="bg-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
             >
               Join Us
             </Button>
             <Button
               variant="outlined"
-              className="bg-transparent border-2 border-white hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
+              className="bg-transparent border-2 border-white capitalize hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
             >
               About Us
             </Button>
@@ -178,8 +178,8 @@ const renderText = (currentIndex: number) => {
     default:
       return (
         <>
-          <span className="w-full">Gamo Development Association</span>
-          <span className="xl:text-7xl lg:text-6xl text-4xl font-bold mb-4 z-20">
+          <span className="w-full mt-16">Gamo Development Association</span>
+          <span className="xl:text-6xl lg:text-6xl text-4xl font-bold mb-4 z-20">
             Elevating Education & Health Services for a
             <br />
             <span className="w-[300px] z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
@@ -192,13 +192,13 @@ const renderText = (currentIndex: number) => {
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
             <Button
               variant="outlined"
-              className="bg-primaryColor hover:bg-white hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
+              className="bg-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
             >
               Join Us
             </Button>
             <Button
               variant="outlined"
-              className="bg-transparent border-2 border-white hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
+              className="bg-transparent border-2 border-white capitalize hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
             >
               About Us
             </Button>

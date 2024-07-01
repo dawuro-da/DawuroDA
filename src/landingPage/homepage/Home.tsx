@@ -4,7 +4,7 @@ import SupportRedSection from "./sections/SupportRedSection";
 import AboutSection from "./sections/AboutSection";
 import DevelopmentInitiatives from "./sections/DevelopmentInitiatives";
 import FAQ from "./sections/FAQ";
-import Footer from "./sections/Footer";
+import Footer from "../footer/Footer";
 import LatestNews from "./sections/LatestNews";
 import Partners from "./sections/Partners";
 import WhatsHappening from "./sections/WhatsHappening";
