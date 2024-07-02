@@ -9,7 +9,6 @@ const HeroSection = () => {
     { url: "/images/tractor2.svg", alt: "Image 2" },
     { url: "/images/tractor.svg", alt: "Image 3" },
     { url: "/images/tractor2.svg", alt: "Image 4" },
-    
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -95,7 +94,7 @@ const renderText = (currentIndex: number) => {
       return (
         <>
           <span className="w-full mt-16">Gamo Development Association</span>
-          <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-extrabold mb-4 z-20 ">
+          <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20 ">
             Empowering Communities Through Sustainable <br />
             <span className="w-[300px] -ml-6 pl-6 z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
               Development
@@ -107,7 +106,7 @@ const renderText = (currentIndex: number) => {
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
             <Button
               variant="outlined"
-              className="bg-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white exfont-extrabold-2 px-4 rounded"
+              className="bg-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
             >
               Join Us
             </Button>
@@ -124,7 +123,7 @@ const renderText = (currentIndex: number) => {
       return (
         <>
           <span className="w-full mt-16">Gamo Development Association</span>
-          <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-extrabold mb-4 z-20">
+          <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
             Advancing Sustainable Agriculture & Industry
             <br />
             <span className="relative w-[300px] -ml-6 pl-6 z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
@@ -154,7 +153,7 @@ const renderText = (currentIndex: number) => {
       return (
         <>
           <span className="w-full mt-16">Gamo Development Association</span>
-          <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-extrabold mb-4 z-20">
+          <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
             Safeguarding Forests and Enviroments for <br />
             <span className="w-[300px] -ml-6 pl-6 z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
               Generation
@@ -183,7 +182,7 @@ const renderText = (currentIndex: number) => {
       return (
         <>
           <span className="w-full mt-16">Gamo Development Association</span>
-          <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-extrabold mb-4 z-20">
+          <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
             Elevating Education & Health Services for a
             <br />
             <span className="w-[300px] -ml-6 pl-6 z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
