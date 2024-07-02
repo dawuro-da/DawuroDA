@@ -1,5 +1,5 @@
-import Naviagtion from "@/landingPage/navigation/Navigation";
+import AboutPage from "@/landingPage/about/page";
 
-export default function Page() {
-  return <Naviagtion />;
+export default function Home() {
+  return <AboutPage />;
 }
