@@ -1,4 +1,4 @@
-import { Avatar } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
@@ -29,13 +29,14 @@ const DevelopmentInitiatives = () => {
     setScreenSize(window.innerWidth);
   }, []);
 
-  console.log({ screenSize });
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToScroll: 1,
     slidesToShow: screenSize && screenSize < 800 ? 1 : 3,
+    nextArrow: <RightArrow />,
+    prevArrow: <LeftArrow />,
   };
 
   return (
@@ -50,26 +51,31 @@ const DevelopmentInitiatives = () => {
         <Slider {...settings} className="pb-10">
           {Initiatives.map((Initiative, id) => (
             <div key={id} className="mx-0 w-full">
-              <div className="flex flex-col items-center justify-center gap-1">
+              <div className="group cursor-pointer hover:bg-white flex flex-col items-center justify-center gap-1 pb-10">
                 <Avatar
                   style={{ height: "100%", width: "85%", borderRadius: "0px" }}
                   alt=""
                   src={Initiative.url}
                 />
-                <p className="w-[85%] text-start font-bold text-xl">
+                <p className="w-[85%] group-hover:underline text-start font-bold text-xl">
                   {Initiative.title}
                 </p>
                 <p className="text-[#000000] text-start text-sm w-[85%]">
                   {Initiative.description}
                 </p>
                 <div className="flex w-4/5 mt-6 items-center justify-start cursor-pointer">
-                  <p className="font-light">Learn More</p>
-                  <Image
-                    src={"/images/diagonalarrow.svg"}
-                    height={45}
-                    width={45}
-                    alt=""
-                  />
+                  <Button
+                    variant="outlined"
+                    className="text-black border-none hover:border-none capitalize hover:bg-none bg-none flex flex-row"
+                  >
+                    <span className="font-light">Learn More</span>
+                    <Image
+                      src={"/images/diagonalarrow.svg"}
+                      height={30}
+                      width={30}
+                      alt=""
+                    />
+                  </Button>
                 </div>
               </div>
             </div>
@@ -81,3 +87,41 @@ const DevelopmentInitiatives = () => {
 };
 
 export default DevelopmentInitiatives;
+
+const RightArrow = (props: any) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      onClick={onClick}
+      style={style}
+      className={`${className} rounded-full bg-white  flex flex-row items-center justify-center`}
+    >
+      <Image
+        src={"/images/arrowdown.svg"}
+        className="-rotate-90"
+        alt=""
+        height={20}
+        width={20}
+      />
+    </div>
+  );
+};
+
+const LeftArrow = (props: any) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      onClick={onClick}
+      style={style}
+      className={`${className} rounded-full bg-white  flex flex-row items-center justify-center`}
+    >
+      <Image
+        src={"/images/arrowdown.svg"}
+        className="rotate-90"
+        alt=""
+        height={20}
+        width={20}
+      />
+    </div>
+  );
+};
