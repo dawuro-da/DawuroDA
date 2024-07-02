@@ -1,4 +1,4 @@
-import Naviagtion from "@/landingPage/navigation/Navigation";
+import Navigation from "@/landingPage/navigation/Navigation";
 import { Button } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -35,7 +35,7 @@ const HeroSection = () => {
   return (
     <div className="relative min-h-screen w-full bg-[#333333] z-10 overflow-hidden">
       <div className="z-40 absolute top-0 w-full">
-        <Naviagtion />
+        <Navigation />
       </div>
       {images.map((image, index) => (
         <div

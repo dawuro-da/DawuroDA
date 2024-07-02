@@ -9,10 +9,11 @@ import {
   Twitter,
 } from "@mui/icons-material";
 import { Avatar, Button, IconButton } from "@mui/material";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Naviagtion() {
+export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -27,9 +28,9 @@ export default function Naviagtion() {
   ];
 
   return (
-    <div className="z-50 relative flex w-full flex-row items-center justify-between xl:lg:px-40 md:px-20 px-10 xl:lg:md:h-[180px] h-[100px] bg-transparent">
+    <div className="z-50 relative flex w-full flex-row items-center justify-between xl:lg:px-40 md:px-20 px-10 xl:lg:md:h-[180px] h-[100px]">
       <div
-        className={`absolute top-[15px] flex-1 w-5/6 hidden xl:lg:md:flex flex-row justify-end  gap-8 ${
+        className={`absolute top-[15px] flex-1 w-5/6 hidden xl:lg:md:flex flex-row justify-end gap-8 ${
           isHome ? "text-white" : "text-black"
         }`}
       >
@@ -71,8 +72,8 @@ export default function Naviagtion() {
         {menuItems.map((item, index) => {
           const isActive = Boolean(item.link === pathname);
           return (
-            <span
-              onClick={() => router.push(item.link)}
+            <Link
+              href={item.link}
               key={index}
               className={`cursor-pointer  
                       ${
@@ -85,7 +86,7 @@ export default function Naviagtion() {
                      hover:border-b-2 hover:border-primaryColor py-2 px-2`}
             >
               {item.name}
-            </span>
+            </Link>
           );
         })}
       </div>
