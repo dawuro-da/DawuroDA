@@ -33,7 +33,7 @@ const AboutSection = () => {
   return (
     <>
       <Content setContent={setContent} content={content} />
-      <div className="md:w-4/5 w-full mx-auto pt-24 flex md:flex-row flex-col lg:mt-[180px] mt-[100px]">
+      <div className="md:w-4/5 w-full mx-auto pt-24 flex md:flex-row flex-col lg:mt-[180px] md:mt-[100px] mt-[60px]">
         <Sidebar
           setContent={setContent}
           currentContent={content}

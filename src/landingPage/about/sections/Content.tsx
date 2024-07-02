@@ -105,7 +105,7 @@ const Content = ({ content, setContent }: ContentProps) => {
               </span>
             )}
           </p>
-          <h1 className="font-extrabold h-[100px] lg:text-6xl md:text-3xl text-xl">
+          <h1 className="font-extrabold md:h-[100px] h-fit lg:text-6xl md:text-3xl text-xl">
             {title}
           </h1>
           <p className="md:text-sm h-16 pt-4 text-xs md:block hidden">

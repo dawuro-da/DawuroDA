@@ -1,4 +1,4 @@
-import AboutPage from "@/landingPage/about/page";
+import AboutPage from "@/landingPage/about/AboutPage";
 
 export default function Home() {
   return <AboutPage />;
