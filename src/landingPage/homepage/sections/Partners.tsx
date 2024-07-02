@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import Slider from "react-slick";
 
 const PartnerItems: string[] = [
@@ -10,6 +11,16 @@ const PartnerItems: string[] = [
 ];
 
 const Partners = () => {
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    if (window.innerWidth < 700) {
+      setIsSmallScreen(true);
+    } else {
+      setIsSmallScreen(false);
+    }
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -18,7 +29,7 @@ const Partners = () => {
     cssEase: "linear",
     speed: 2000,
     slidesToScroll: 1,
-    slidesToShow: 6,
+    slidesToShow: isSmallScreen ? 3 : 6,
   };
 
   return (
@@ -27,10 +38,13 @@ const Partners = () => {
         Our Partners
       </h2>
       <div className="xl:lg:px-40 md:px-20 max-w-full flex flex-row items-center justify-center">
-        <div className="max-w-fit overflow-x-auto pl-16 hiddenscrollbar justify-center ">
-          <Slider {...settings} className="pb-10">
+        <div className="max-w-fit overflow-y-hidden overflow-x-auto pl-16 hiddenscrollbar justify-center ">
+          <Slider {...settings} className="">
             {PartnerItems.map((item, id) => (
-              <div key={id} className="w-[80px] h-[80px] flex flex-row items-center justify-center">
+              <div
+                key={id}
+                className="w-[80px] h-[80px] flex flex-row items-center justify-center"
+              >
                 <Image src={item} height={80} width={80} alt="" key={id} />
               </div>
             ))}
