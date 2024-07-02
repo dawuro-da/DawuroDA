@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import Slider from "react-slick";
 
 const PartnerItems: string[] = [
   "/images/partner1.svg",
@@ -9,15 +11,45 @@ const PartnerItems: string[] = [
 ];
 
 const Partners = () => {
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    if (window.innerWidth < 700) {
+      setIsSmallScreen(true);
+    } else {
+      setIsSmallScreen(false);
+    }
+  }, []);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 500,
+    cssEase: "linear",
+    speed: 2000,
+    slidesToScroll: 1,
+    slidesToShow: isSmallScreen ? 3 : 6,
+  };
+
   return (
     <div className="lg:py-24 py-16">
       <h2 className="font-bold lg:text-4xl md:text-2xl text-xl mb-10 text-center">
         Our Partners
       </h2>
-      <div className="flex lg:space-x-20 space-x-8 overflow-x-auto hiddenscrollbar md:w-2/4 mx-auto ">
-        {PartnerItems.map((item, id) => (
-          <Image src={item} height={80} width={80} alt="" key={id} />
-        ))}
+      <div className="xl:lg:px-40 md:px-20 max-w-full flex flex-row items-center justify-center">
+        <div className="max-w-fit overflow-y-hidden overflow-x-auto pl-16 hiddenscrollbar justify-center ">
+          <Slider {...settings} className="">
+            {PartnerItems.map((item, id) => (
+              <div
+                key={id}
+                className="w-[80px] h-[80px] flex flex-row items-center justify-center"
+              >
+                <Image src={item} height={80} width={80} alt="" key={id} />
+              </div>
+            ))}
+          </Slider>
+        </div>
       </div>
 
       <div className="text-[#FFFFFF] pt-32 text-left px-11 mt-20 lg:bg-[url('/images/partnerbg.svg')] bg-[url('/images/partnerbg2.svg')] lg:h-80 h-96 w-4/5 mx-auto bg-cover">
