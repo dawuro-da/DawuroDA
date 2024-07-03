@@ -21,7 +21,7 @@ const OtpConfirmation = ({
   const [otp, setOtp] = useState("");
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 max-w-[600px] w-full">
+    <div className="flex flex-col items-center justify-center gap-4 max-w-[300px] w-full">
       <div className="font-bold text-3xl">OTP Confirmation</div>
       <span className="max-w-[250px] text-black text-center">
         {`We've sent you confirmation text to your phone`}

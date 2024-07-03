@@ -60,7 +60,7 @@ const MemberSignup = ({
     }
   };
   return (
-    <form className="px-10 flex flex-col items-center justify-center gap-4 ">
+    <form className="px-10 flex flex-col items-center justify-center gap-4 h-full w-full ">
       {renderSteps(signUpStep)}
     </form>
   );
