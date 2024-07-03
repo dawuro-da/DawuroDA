@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
@@ -27,6 +28,7 @@ const MemberRegistration = ({}: MemberRegistrationProps) => {
           const isDone = Boolean(item < currentStep);
           return (
             <div
+              key={item}
               className={`relative ${
                 !(index === 0) && "flex-1"
               } flex flex-row justify-end`}
@@ -63,6 +65,47 @@ const MemberRegistration = ({}: MemberRegistrationProps) => {
             </div>
           );
         })}
+      </div>
+      <div className="w-full mt-10">
+        <span className="text-3xl font-light tracking-tight mt-12 w-full">
+          Please choose what represents you
+        </span>
+      </div>
+      <div className="w-full flex flex-row items-center justify-between mt-20">
+        {currentStep > 1 ? (
+          <Button
+            className="px-10 text-[#6c6c6c] border-[#6c6c6c] shadow-none"
+            variant="outlined"
+            onClick={() => {
+              setCurrentStep(currentStep - 1);
+            }}
+          >
+            Back
+          </Button>
+        ) : (
+          <span></span>
+        )}
+        {currentStep < 4 ? (
+          <Button
+            className="px-10 shadow-none"
+            variant="contained"
+            onClick={() => {
+              setCurrentStep(currentStep + 1);
+            }}
+          >
+            Next
+          </Button>
+        ) : (
+          <Button
+            className="px-10 shadow-none"
+            variant="contained"
+            onClick={() => {
+              setCurrentStep(currentStep + 1);
+            }}
+          >
+            Finish
+          </Button>
+        )}
       </div>
     </div>
   );
