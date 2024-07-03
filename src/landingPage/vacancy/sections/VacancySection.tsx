@@ -1,6 +1,7 @@
 import Naviagtion from "@/landingPage/navigation/Navigation";
 import VacancyCard from "./VacancyCard";
 import { VacancyData } from "./VacancyData";
+import Footer from "@/landingPage/footer/Footer";
 
 const VacancySection = () => {
   return (
@@ -16,7 +17,7 @@ const VacancySection = () => {
           <p className="font-light text-[#7C7C7C]">Our Job Openings</p>
         </div>
       </div>
-      <div>
+      <div className="mb-48">
         {VacancyData.map((item, id) => (
           <VacancyCard
             key={id}
@@ -26,6 +27,7 @@ const VacancySection = () => {
           />
         ))}
       </div>
+      <Footer />
     </div>
   );
 };
