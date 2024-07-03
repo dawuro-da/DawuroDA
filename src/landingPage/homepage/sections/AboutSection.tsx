@@ -1,6 +1,8 @@
 "use client";
 
-import { Avatar } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import Slider from "react-slick";
 
 const AboutSection = () => {
@@ -21,13 +23,22 @@ const AboutSection = () => {
       title: "House of Peoples' Representative Chairman",
     },
   ];
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    if (window.innerWidth < 700) {
+      setIsSmallScreen(true);
+    } else setIsSmallScreen(false);
+  }, []);
 
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: isSmallScreen ? 2 : 3,
     slidesToScroll: 1,
+    nextArrow: <RightArrow />,
+    prevArrow: <LeftArrow />,
   };
 
   return (
@@ -44,12 +55,18 @@ const AboutSection = () => {
           aliquip ex ea commodo consequat.{" "}
         </p>
         <div className="flex space-x-5 lg:justify-start justify-center">
-          <button className="px-7 py-2 rounded-md text-white bg-[#222222]">
+          <Button
+            variant="outlined"
+            className="px-7 border-none hover:bg-[#292929] hover:border-none py-2 rounded-md text-white bg-[#222222]"
+          >
             About Us
-          </button>
-          <button className="px-7 py-2 rounded-md bg-white border border-[#ADADAD] text-[#1E1E1E]">
+          </Button>
+          <Button
+            variant="outlined"
+            className="px-7 border-none hover:bg-white py-2 hover:border-none rounded-md bg-white border border-[#ADADAD] text-[#1E1E1E]"
+          >
             Board
-          </button>
+          </Button>
         </div>
       </div>
       <div className=" mt-10 lg:mt-0 w-full h-full flex items-center">
@@ -76,3 +93,41 @@ const AboutSection = () => {
 };
 
 export default AboutSection;
+
+const RightArrow = (props: any) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      onClick={onClick}
+      style={style}
+      className={`${className} rounded-full bg-white flex flex-row items-center justify-center`}
+    >
+      <Image
+        src={"/images/arrowdown.svg"}
+        className="-rotate-90 opacity-55"
+        alt=""
+        height={20}
+        width={20}
+      />
+    </div>
+  );
+};
+
+const LeftArrow = (props: any) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      onClick={onClick}
+      style={style}
+      className={`${className} rounded-full bg-white flex flex-row items-center justify-center`}
+    >
+      <Image
+        src={"/images/arrowdown.svg"}
+        className="rotate-90 opacity-55"
+        alt=""
+        height={20}
+        width={20}
+      />
+    </div>
+  );
+};
