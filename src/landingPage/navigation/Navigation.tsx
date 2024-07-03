@@ -128,8 +128,8 @@ export default function Naviagtion() {
         </div>
         <Button
           variant="outlined"
-          onClick={() => router.push("/registration")}
-          className="text-white capitalize bg-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer hidden xl:lg:md:block"
+          onClick={() => router.push("/login")}
+          className="text-white capitalize bg-primaryColor hover:bg-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer hidden xl:lg:md:block"
         >
           Join
         </Button>
@@ -166,7 +166,9 @@ export default function Naviagtion() {
               return (
                 <div className="w-full" key={index}>
                   <span
-                    onClick={() => router.push(item.link)}
+                    onClick={ () => {
+                       router.push(item.link);
+                    }}
                     key={index}
                     className={` w-fit cursor-pointer 
                       ${
@@ -211,7 +213,7 @@ export default function Naviagtion() {
             </div>
             <span
               onClick={() => router.push("/donate")}
-              className={` w-full cursor-pointer 
+              className={`w-fit cursor-pointer 
                       ${
                         "/donate" === pathname
                           ? "border-b-2 border-b-primaryColor"
@@ -223,8 +225,8 @@ export default function Naviagtion() {
             </span>
             <Button
               variant="outlined"
-              onClick={() => router.push("/registration")}
-              className=" text-white capitalize bg-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer "
+              onClick={() => router.push("/login")}
+              className=" text-white capitalize bg-primaryColor hover:bg-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer "
             >
               Join
             </Button>
