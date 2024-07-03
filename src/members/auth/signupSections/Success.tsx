@@ -7,7 +7,7 @@ const Success = () => {
         </span>
         <br />
         <span className="tracking-tight text-titleColor">
-          You've Successfully Registered.
+          {`You've Successfully Registered.`}
           <br /> Please login and pay your contribuition
         </span>
       </div>
