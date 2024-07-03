@@ -1,7 +1,20 @@
 import { Button } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import {
+  FieldErrors,
+  FieldValues,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
+} from "react-hook-form";
+import MembershipTypeForm from "./MembershipTypeForm";
+import IndividualForm from "./IndividualForm";
+import IndividualProfessionalForm from "./IndividualProfessionalForm";
+import { MembershipType } from "@prisma/client";
+import InstitutionForm from "./InstitutionForm";
+import InstitutionProfessionForm from "./InstitutionProfessionForm";
+import Success from "./Success";
 
 interface MemberRegistrationProps {
   register: UseFormRegister<FieldValues>;
@@ -9,26 +22,99 @@ interface MemberRegistrationProps {
   setIsSignUp: (value: boolean) => void;
   errors: FieldErrors<FieldValues>;
   handleNext: () => void;
+  watch: UseFormWatch<FieldValues>;
+  setValue: UseFormSetValue<FieldValues>;
 }
 
-const MemberRegistration = ({}: MemberRegistrationProps) => {
-  const [currentStep, setCurrentStep] = useState(2);
+const MemberRegistration = ({
+  register,
+  loginError,
+  setIsSignUp,
+  handleNext,
+  errors,
+  watch,
+  setValue,
+}: MemberRegistrationProps) => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const steps = [
+    { label: "Membership Type", step: 1 },
+    { label: "Personal Info", step: 2 },
+    { label: "Professional Info", step: 3 },
+    { label: "Success", step: 4 },
+  ];
+
+  const renderForm = (step: number) => {
+    switch (step) {
+      case 1:
+        return (
+          <MembershipTypeForm
+            register={register}
+            errors={errors}
+            loginError={loginError}
+            setValue={setValue}
+            watch={watch}
+          />
+        );
+      case 2:
+        return watch("membershipType") !== MembershipType.Company ? (
+          <IndividualForm
+            register={register}
+            errors={errors}
+            loginError={loginError}
+            watch={watch}
+          />
+        ) : (
+          <InstitutionForm
+            register={register}
+            errors={errors}
+            loginError={loginError}
+            watch={watch}
+          />
+        );
+      case 3:
+        return watch("membershipType") !== MembershipType.Company ? (
+          <IndividualProfessionalForm
+            register={register}
+            errors={errors}
+            loginError={loginError}
+            watch={watch}
+          />
+        ) : (
+          <InstitutionProfessionForm
+            register={register}
+            errors={errors}
+            loginError={loginError}
+            watch={watch}
+          />
+        );
+
+      default:
+        return <Success />;
+    }
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center  gap-6 h-full w-full">
+    <div
+      style={{
+        ...(currentStep === 4 && {
+          backgroundImage: "url('/images/birthDayDecoration.svg')",
+        }),
+      }}
+      className="px-10 flex flex-col items-center  gap-6 h-full w-full overflow-y-auto hiddenscrollbar py-12"
+    >
       <div className="flex flex-col gap-2 w-full">
         <span className="tracking-tight">Gamo Development Association</span>
         <span className="text-3xl font-bold tracking-tight">
           Registration Form
         </span>
       </div>
-      <div className=" flex flex-row items-center w-full gap-2 justify-between mt-2">
-        {[1, 2, 3, 4].map((item, index) => {
-          const isActive = Boolean(item <= currentStep);
-          const isDone = Boolean(item < currentStep);
+      <div className=" flex flex-row items-center w-full min-h-[120px] gap-2 justify-between mt-2 overflow-hidden">
+        {steps.map((item, index) => {
+          const isActive = Boolean(item.step <= currentStep);
+          const isDone = Boolean(item.step < currentStep);
           return (
             <div
-              key={item}
+              key={index}
               className={`relative ${
                 !(index === 0) && "flex-1"
               } flex flex-row justify-end`}
@@ -51,7 +137,7 @@ const MemberRegistration = ({}: MemberRegistrationProps) => {
                     width={25}
                   />
                 ) : (
-                  item
+                  item.step
                 )}
               </div>
               {index !== 0 && (
@@ -62,17 +148,23 @@ const MemberRegistration = ({}: MemberRegistrationProps) => {
                     } border-b-2 w-[98%] absolute z-10 h-full bottom-4`}
                 />
               )}
+              <div
+                className={`md:block hidden
+                    ${
+                      isActive ? "text-primaryColor" : "text-titleColor"
+                    }  absolute z-10 min-w-[150px] h-fit -bottom-8 ${
+                  index === 0 ? "left-0 right-6" : "-right-16 left-0"
+                }justify-end`}
+              >
+                {item.label}
+              </div>
             </div>
           );
         })}
       </div>
-      <div className="w-full mt-10">
-        <span className="text-3xl font-light tracking-tight mt-12 w-full">
-          Please choose what represents you
-        </span>
-      </div>
-      <div className="w-full flex flex-row items-center justify-between mt-20">
-        {currentStep > 1 ? (
+      <div className="w-full mt-10">{renderForm(currentStep)}</div>
+      <div className="w-full flex flex-row items-center justify-between mt-12">
+        {currentStep > 1 && currentStep < 4 ? (
           <Button
             className="px-10 text-[#6c6c6c] border-[#6c6c6c] shadow-none"
             variant="outlined"
