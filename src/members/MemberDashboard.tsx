@@ -8,7 +8,10 @@ const MemberDashboard = () => {
     <div className="w-full">
       <Naviagtion />
       <div className="h-full w-full xl:lg:px-40 md:px-20 px-10 bg-[#f5f5f5] py-10">
-        <div className="flex flex-row gap-8">
+        <div className="flex xl:lg:flex-row md:flex-row flex-col gap-8">
+          <span className="md:hidden block text-center">
+            <strong>Welcome</strong> Alemu Getahun
+          </span>
           <div className="flex flex-col gap-6 min-w-[340px] ">
             <div className="p-8 rounded-[5px] flex flex-col gap-6 bg-white">
               <div className="flex flex-row items-center justify-between">
@@ -68,7 +71,7 @@ const MemberDashboard = () => {
             </div>
           </div>
           <div className="flex flex-col flex-1 h-full w-full pt-4">
-            <span>
+            <span className="md:block hidden">
               <strong>Welcome</strong> Alemu Getahun
             </span>
             <HistoryAndAuction />
