@@ -40,15 +40,15 @@ const CampaignSection = () => {
             return (
               <div
                 key={index}
-                style={{boxShadow:'1px 1px 10px rgb(0,0,0,0.06)'}}
-                className="flex flex-col justify-center p-6 xl:lg:max-w-[300px] md:max-w-[300px] sm:max-w-[300px] max-w-full rounded-lg gap-4"
+                style={{ boxShadow: "1px 1px 10px rgb(0,0,0,0.06)" }}
+                className="h-fit flex flex-col justify-center p-6 xl:lg:max-w-[300px] md:max-w-[300px] sm:max-w-[300px] max-w-full rounded-lg gap-4"
               >
                 <Image src={campaign.icon} alt="" height={40} width={40} />
                 <span className="font-bold text-xl">{campaign.title}</span>
                 <span className="font-light">{campaign.description}</span>
                 <Button
                   variant="outlined"
-                  className="bg-[#13A6D9] border-none hover:border-none hover:bg-[#13A6D9] text-white font-normal capitalize px-10 py-2 w-fit"
+                  className="bg-[#13A6D9] border-2 hover:border-2 border-[#13A6D9] hover:border-[#13A6D9] hover:bg-white hover:text-[#13A6D9] text-white font-normal capitalize px-10 py-2 w-fit"
                 >
                   Support
                 </Button>

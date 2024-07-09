@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
@@ -59,7 +60,12 @@ const Partners = () => {
         <p className="mb-3 font-light">
           Join us in making a lasting impact. Every donation counts!
         </p>
-        <button className="px-8 py-2 rounded bg-[#52BE61]">Donate</button>
+        <Button
+          variant="outlined"
+          className="px-8 py-2 rounded bg-primaryColor text-white hover:text-primaryColor"
+        >
+          Donate
+        </Button>
       </div>
     </div>
   );

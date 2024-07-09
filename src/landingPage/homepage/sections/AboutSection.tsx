@@ -59,13 +59,13 @@ const AboutSection = () => {
         <div className="flex space-x-5 lg:justify-start justify-center">
           <Button
             variant="outlined"
-            className="px-7 border-none hover:bg-[#292929] hover:border-none py-2 rounded-md text-white bg-[#222222]"
+            className="px-7 hover:bg-[#ffffff] border-2 border-[#292929] hover:border-2 hover:border-[#292929] py-2 rounded-md text-white hover:text-[#222222] bg-[#222222]"
           >
             About Us
           </Button>
           <Button
             variant="outlined"
-            className="px-7 border-none hover:bg-white py-2 hover:border-none rounded-md bg-white border border-[#ADADAD] text-[#1E1E1E]"
+            className="px-7 hover:bg-[#292929] border-2 border-[#292929] hover:border-2 hover:border-[#292929] py-2 rounded-md text-[#292929] hover:text-[#ffffff] bg-[#ffffff]"
           >
             Board
           </Button>

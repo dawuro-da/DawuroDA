@@ -15,7 +15,7 @@ export const contentData: {
   };
 } = {
   About: {
-    title: "What is Gamo Development Association?",
+    title: "Who we are?",
     description:
       "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
     bgColor: "bg-[#D2232C]",
@@ -25,8 +25,8 @@ export const contentData: {
     title: "What we do?",
     description:
       "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem.",
-    bgColor: "bg-[#52BE61]",
-    borderColor: "border-[#52BE61]",
+    bgColor: "bg-primaryColor",
+    borderColor: "border-primaryColor",
   },
   "President Message": {
     title: "President Message",
@@ -76,7 +76,7 @@ const Content = ({ content, setContent }: ContentProps) => {
             bgColor === "bg-[#F0DC35]" ? "text-[#1E1E1E]" : "text-white"
           } p-4 w-4/5 mx-auto lg:pl-20 md:pl-10 pl-4 lg:pr-48 md:pr-16 md:py-10 py-5 md:space-y-8 space-y-3`}
         >
-          <p className="flex flex-row items-center text-sm gap-1">
+          <p className="flex flex-row items-center text-sm gap-1 mb-8">
             <span
               className="hover:underline hover:cursor-pointer"
               onClick={() => router.push("/")}
@@ -105,10 +105,10 @@ const Content = ({ content, setContent }: ContentProps) => {
               </span>
             )}
           </p>
-          <h1 className="font-extrabold md:h-[100px] h-fit lg:text-6xl md:text-3xl text-xl">
+          <span className="font-extrabold h-fit lg:text-6xl md:text-3xl text-xl">
             {title}
-          </h1>
-          <p className="md:text-sm h-16 pt-4 text-xs md:block hidden">
+          </span>
+          <p className="md:text-sm text-xs md:block hidden">
             {description}
           </p>
         </div>
