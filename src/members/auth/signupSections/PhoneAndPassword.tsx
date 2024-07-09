@@ -101,7 +101,7 @@ const PhoneAndPassword = ({
             width={25}
             style={{ height: 25, width: 25, color: "#1877F2" }}
           />
-          <span>Facebook</span>
+          <span>Google</span>
         </div>
       </div>
       <Button
