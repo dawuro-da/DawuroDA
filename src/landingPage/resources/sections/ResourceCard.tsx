@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import Image from "next/image";
 
 export interface ResourceCardItems {
@@ -31,7 +32,10 @@ const ResourceCard = ({ data }: ResourceCardProps) => {
               </p>
             </div>
           </div>
-          <button className="text-white w-full flex flex-row py-3 rounded-md bg-primaryColor justify-center items-center gap-2">
+          <Button
+            variant="outlined"
+            className="text-white w-full flex flex-row py-3 rounded-md bg-primaryColor hover:text-primaryColor justify-center items-center gap-2"
+          >
             <Image
               src={"/images/arrowdown2.svg"}
               height={20}
@@ -39,7 +43,7 @@ const ResourceCard = ({ data }: ResourceCardProps) => {
               alt=""
             />
             <p>Download</p>
-          </button>
+          </Button>
         </div>
       ))}
     </div>
