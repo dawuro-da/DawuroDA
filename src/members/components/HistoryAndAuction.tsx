@@ -44,7 +44,10 @@ const HistoryAndAuction = () => {
         <div className="flex flex-col gap-6 w-full mt-10">
           {[1, 2, 3, 4].map((item) => {
             return (
-              <div className="w-full bg-white border-[1px] flex flex-row items-center justify-between p-4 xl:lg:px-10">
+              <div
+                key={item}
+                className="w-full bg-white border-[1px] flex flex-row items-center justify-between p-4 xl:lg:px-10"
+              >
                 <span>340ETB</span>
                 <span>Quarterly</span>
                 <span>May 20,2022</span>
