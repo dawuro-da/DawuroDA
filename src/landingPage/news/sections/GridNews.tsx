@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 
-const Initiatives = () => {
+const GridNews = () => {
   const [screenSize, setScreenSize] = useState<number>();
-  const Initiatives = [
+  const news = [
     {
       url: "/images/health.svg",
       title: "Health and Hygiene ",
@@ -30,9 +30,9 @@ const Initiatives = () => {
   return (
     <div>
       <div className="w-4/5 mx-auto lg:mt-10 mt-6">
-        <div className="pb-10 flex md:flex-row flex-col">
-          {Initiatives.map((Initiative, id) => (
-            <div key={id} className="mx-0 w-full">
+        <div className="pb-10 flex md:flex-row flex-col gap-6">
+          {news.map((Initiative, id) => (
+            <div key={id} className=" w-full">
               <div className="flex flex-col items-center justify-center gap-1">
                 <Avatar
                   style={{ height: "100%", width: "85%", borderRadius: "0px" }}
@@ -58,10 +58,12 @@ const Initiatives = () => {
             </div>
           ))}
         </div>
-        <div className="px-4 py-1 border border-[#1E1E1E] w-fit font-light mx-auto">Load More</div>
+        <div className="px-4 py-1 border border-[#1E1E1E] w-fit font-light mx-auto">
+          Load More
+        </div>
       </div>
     </div>
   );
 };
 
-export default Initiatives;
+export default GridNews;

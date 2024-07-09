@@ -91,6 +91,9 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             src={"/images/whitBgLogo.svg"}
             alt=""
             className="h-[60px] w-[60px]"
+            style={{
+              boxShadow:'2px 3px 12px rgb(0,0,0,0.2)'
+            }}
           />
         </div>
         <div className=" font-bold xl:lg:md:relative hidden xl:lg:md:flex flex-row items-center h-full gap-10">
