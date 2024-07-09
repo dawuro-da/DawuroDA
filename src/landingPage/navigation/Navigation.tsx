@@ -132,7 +132,7 @@ export default function Naviagtion({ bg }: { bg?: string }) {
         <Button
           variant="outlined"
           onClick={() => router.push("/login")}
-          className="text-white capitalize bg-primaryColor hover:bg-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer hidden xl:lg:md:block"
+          className="text-white capitalize bg-primaryColor hover:text-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer hidden xl:lg:md:block"
         >
           Join
         </Button>
@@ -239,7 +239,7 @@ export default function Naviagtion({ bg }: { bg?: string }) {
                 router.push("/login");
                 setMenuOpen(!menuOpen);
               }}
-              className=" text-white capitalize bg-primaryColor hover:bg-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer "
+              className=" text-white capitalize bg-primaryColor hover:text-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer "
             >
               Join
             </Button>

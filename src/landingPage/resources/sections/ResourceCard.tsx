@@ -31,7 +31,7 @@ const ResourceCard = ({ data }: ResourceCardProps) => {
               </p>
             </div>
           </div>
-          <button className="text-white w-full flex flex-row py-3 rounded-md bg-[#52BE61] justify-center items-center gap-2">
+          <button className="text-white w-full flex flex-row py-3 rounded-md bg-primaryColor justify-center items-center gap-2">
             <Image
               src={"/images/arrowdown2.svg"}
               height={20}

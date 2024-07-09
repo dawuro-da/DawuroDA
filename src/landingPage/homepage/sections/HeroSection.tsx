@@ -106,7 +106,7 @@ const renderText = (currentIndex: number) => {
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
             <Button
               variant="outlined"
-              className="bg-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
+              className="bg-primaryColor border-2 hover:border-2 border-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
             >
               Join Us
             </Button>
