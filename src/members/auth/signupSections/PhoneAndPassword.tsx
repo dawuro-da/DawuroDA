@@ -23,7 +23,7 @@ const PhoneAndPassword = ({
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 max-w-[600px] w-full">
+    <div className="flex flex-col items-center justify-center gap-4 max-w-[400px] w-full">
       <div className="font-bold text-4xl">Sign Up</div>
       <div className="flex flex-col gap-1 items-center">
         <span className="text-center">Welcome to</span>
@@ -101,7 +101,7 @@ const PhoneAndPassword = ({
             width={25}
             style={{ height: 25, width: 25, color: "#1877F2" }}
           />
-          <span>Facebook</span>
+          <span>Google</span>
         </div>
       </div>
       <Button
