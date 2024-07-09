@@ -1,4 +1,4 @@
-import { Job } from "./JobPage";
+import { Job } from "./JobDetailPage";
 
 export const JobData: Job = {
     title: "Environmental Project Manager",

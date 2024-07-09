@@ -1,5 +1,10 @@
+"use client";
+
+import { showToastAction } from "@/redux/actions";
+import { Button } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
 
 export interface Job {
   title: string;
@@ -15,7 +20,9 @@ interface JobProps {
   job: Job;
 }
 
-const JobPage = ({ job }: JobProps) => {
+const JobDetailPage = ({ job }: JobProps) => {
+  const dispatch = useDispatch();
+
   return (
     <div className="min-h-screen p-8">
       <Link href="/vacancies" className="w-fit font-light flex flex-row gap-4">
@@ -25,10 +32,18 @@ const JobPage = ({ job }: JobProps) => {
       <h1 className="text-3xl font-bold mt-4 mb-8">{job.title}</h1>
       <div className="flex flex-row gap-20 items-center">
         <p className="font-light">Posted on: {job.postedDate}</p>
-        <button className="font-light border border-[#8E8E8E] px-4 py-2 flex flex-row items-center rounded-md gap-2">
+        <Button
+          onClick={() => {
+            dispatch(
+              showToastAction({ message: "Link copied", type: "success" })
+            );
+          }}
+          variant="outlined"
+          className="font-light border border-[#8E8E8E] text-[#8E8E8E] px-4 py-2 flex flex-row items-center rounded-md gap-2"
+        >
           <Image src={"/images/sharebtn.svg"} height={15} width={15} alt="" />
           <p>Share</p>
-        </button>
+        </Button>
       </div>
       <div className="mt-6">
         <h2 className="text-xl font-bold">Description:</h2>
@@ -71,4 +86,4 @@ const JobPage = ({ job }: JobProps) => {
   );
 };
 
-export default JobPage;
+export default JobDetailPage;
