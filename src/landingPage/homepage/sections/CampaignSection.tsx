@@ -40,7 +40,8 @@ const CampaignSection = () => {
             return (
               <div
                 key={index}
-                className="flex flex-col justify-center p-6 shadow-xl max-w-[300px] gap-4"
+                style={{boxShadow:'1px 1px 10px rgb(0,0,0,0.06)'}}
+                className="flex flex-col justify-center p-6 xl:lg:max-w-[300px] md:max-w-[300px] sm:max-w-[300px] max-w-full rounded-lg gap-4"
               >
                 <Image src={campaign.icon} alt="" height={40} width={40} />
                 <span className="font-bold text-xl">{campaign.title}</span>

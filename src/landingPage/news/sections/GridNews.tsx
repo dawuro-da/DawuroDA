@@ -29,7 +29,7 @@ const GridNews = () => {
 
   return (
     <div>
-      <div className="w-4/5 mx-auto lg:mt-10 mt-6">
+      <div className="xl:lg:px-40 md:px-20 px-10 lg:mt-10 my-6 mb-32">
         <div className="pb-10 flex md:flex-row flex-col gap-6">
           {news.map((Initiative, id) => (
             <div key={id} className=" w-full">

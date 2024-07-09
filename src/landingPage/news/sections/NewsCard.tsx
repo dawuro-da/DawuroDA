@@ -122,7 +122,7 @@ const NewsCard = () => {
             </div>
           ))}
         </div>
-        <div className="flex xl:lg:flex-row md:flex-row flex-col col-span-2  mt-4">
+        <div className="flex xl:lg:flex-row md:flex-row flex-col col-span-2 xl:lg:mt-16">
           {newsItems?.slice(1, 3).map((item, id) => (
             <div key={id} className="flex flex-col items-start">
               <div className="flex flex-row text-start space-x-6 lg:mb-5 mb-4">

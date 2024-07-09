@@ -3,6 +3,7 @@ import Naviagtion from "@/landingPage/navigation/Navigation";
 import { Avatar } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Footer from "../footer/Footer";
 
 interface NewsItem {
   title: string;
@@ -50,12 +51,18 @@ const NewsDetail = () => {
   return (
     <div className=" w-full">
       <Naviagtion />
-      <div className="xl:lg:px-40 md:px-20 px-10 w-full">
+      <div className="xl:lg:px-40 md:px-20 px-10 w-full mb-32">
         <div
           className="flex flex-row gap-2 cursor-pointer w-fit text-titleColor"
           onClick={() => router.push("/news")}
         >
-          <Image src={"/images/back.svg"} alt="" width={20} height={20} />
+          <Image
+            draggable={false}
+            src={"/images/back.svg"}
+            alt=""
+            width={20}
+            height={20}
+          />
           <p>Back to News</p>
         </div>
         <div>
@@ -63,13 +70,20 @@ const NewsDetail = () => {
             Elon Musk drops lawsuit after OpenAI published his emails
           </h2>
           <div className="flex flex-row mt-5 space-x-3">
-            <Image src="/images/calendar.svg" alt="" width={15} height={20} />
+            <Image
+              draggable={false}
+              src="/images/calendar.svg"
+              alt=""
+              width={15}
+              height={20}
+            />
             <p className="text-[#1E1E1E] font-light text-sm">Mar 20,2023</p>
           </div>
         </div>
         <div className="grid xl:lg:grid-cols-4 gap-7 font-light">
           <div className="xl:lg:col-span-3 mt-12 text-titleColor">
             <Image
+              draggable={false}
               src={"/images/newsdetail1.svg"}
               alt=""
               width={20}
@@ -143,6 +157,7 @@ const NewsDetail = () => {
             <div className="w-full mb-2">
               <span className="font-normal text-sm">More News</span>
               <Image
+                draggable={false}
                 src={"/images/progress.svg"}
                 alt=""
                 width={20}
@@ -155,6 +170,7 @@ const NewsDetail = () => {
                 <div key={id} className="flex flex-col items-start mt-4">
                   <div className="flex flex-row text-start space-x-6 lg:mb-1 mb-4">
                     <Image
+                      draggable={false}
                       src={item.imgSrc}
                       alt=""
                       width={20}
@@ -165,16 +181,17 @@ const NewsDetail = () => {
                       <h2 className="md:text-sm text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
                         {item.title}
                       </h2>
-                      <div className="flex items-center space-x-3">
+                      <div className="flex flex-row items-center gap-2">
                         <Image
+                          draggable={false}
                           src="/images/calendar.svg"
                           alt=""
                           width={15}
                           height={20}
                         />
-                        <p className="text-[#1E1E1E] font-light lg:text-base text-xs">
+                        <span className="text-[#1E1E1E] font-light text-[12px]">
                           {item.date}
-                        </p>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -189,6 +206,7 @@ const NewsDetail = () => {
               You May Also Like
             </span>
             <Image
+              draggable={false}
               src={"/images/progress.svg"}
               alt=""
               width={20}
@@ -196,11 +214,12 @@ const NewsDetail = () => {
               className="w-full mt-4"
             />
           </div>
-          <div className="grid xl:lg:grid-cols-4 gap-6 w-full">
+          <div className="grid xl:lg:grid-cols-4 md:grid-cols-2 gap-6 w-full">
             {NewsLists.map((NewsList, id) => (
-              <div key={id} className=" w-full">
-                <div className="flex flex-col items-center justify-center w-full col-span-3">
+              <div key={id} className="w-full mt-4">
+                <div className="flex flex-col items-center justify-center w-full">
                   <Image
+                    draggable={false}
                     height={100}
                     width={100}
                     style={{
@@ -210,14 +229,18 @@ const NewsDetail = () => {
                     alt=""
                     src={NewsList.url}
                   />
-                  <p className="text-start my-4 w-full text-titleColor">
+                  <p className="text-start w-full text-titleColor">
                     {NewsList.lastUpdate}
                   </p>
                   <p className="w-full text-start font-bold text-xl my-2">
-                    {NewsList.title}
+                    {NewsList.title.length > 60
+                      ? `${NewsList.title.slice(0, 60)}...`
+                      : NewsList.title}
                   </p>
                   <p className="text-start text-sm w-full text-titleColor">
-                    {NewsList.description}
+                    {NewsList.description.length > 200
+                      ? `${NewsList.description.slice(0, 200)}...`
+                      : NewsList.description}
                   </p>
                 </div>
               </div>
@@ -225,6 +248,7 @@ const NewsDetail = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
