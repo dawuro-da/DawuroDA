@@ -14,7 +14,7 @@ import { Avatar, Button, IconButton, MenuItem } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Naviagtion() {
+export default function Naviagtion({ bg }: { bg?: string }) {
   const router = useRouter();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,7 +30,7 @@ export default function Naviagtion() {
   ];
 
   return (
-    <>
+    <div className={`${bg}`}>
       <StyledMenu
         anchorEl={anchorEl}
         open={open}
@@ -268,6 +268,6 @@ export default function Naviagtion() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

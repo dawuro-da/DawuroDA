@@ -53,8 +53,8 @@ const MemberAuth = () => {
             />
           </div>
         ))}
-        <div className=" xl:lg:pl-40 md:pl-20 pl-10 absolute text-white h-full w-full flex flex-col items-center justify-center xl:lg:gap-6 gap-2 z-20">
-          {renderText(currentIndex)}
+        <div className="absolute text-white h-full w-full flex flex-col items-center justify-end pb-24 xl:lg:gap-6 gap-2 z-20">
+          <div className="max-w-[500px] flex flex-row justify-center items-center">{renderText(currentIndex)}</div>
         </div>
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
           {images.map((_, index) => (
@@ -69,7 +69,11 @@ const MemberAuth = () => {
         </div>
       </div>
       <div className="flex flex-row items-center justify-center w-full">
-        {isSignUp ? <MemberSignup setIsSignUp={setIsSignUp}/> : <MemberLogin setIsSignUp={setIsSignUp}/>}
+        {isSignUp ? (
+          <MemberSignup setIsSignUp={setIsSignUp} />
+        ) : (
+          <MemberLogin setIsSignUp={setIsSignUp} />
+        )}
       </div>
     </div>
   );

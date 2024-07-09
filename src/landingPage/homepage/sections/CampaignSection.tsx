@@ -36,9 +36,12 @@ const CampaignSection = () => {
           </span>
         </div>
         <div className="grid lg:grid-cols-2 md:grid-cols-3 gap-6">
-          {campaigns.map((campaign) => {
+          {campaigns.map((campaign, index) => {
             return (
-              <div className="flex flex-col justify-center p-6 shadow-xl max-w-[300px] gap-4">
+              <div
+                key={index}
+                className="flex flex-col justify-center p-6 shadow-xl max-w-[300px] gap-4"
+              >
                 <Image src={campaign.icon} alt="" height={40} width={40} />
                 <span className="font-bold text-xl">{campaign.title}</span>
                 <span className="font-light">{campaign.description}</span>
