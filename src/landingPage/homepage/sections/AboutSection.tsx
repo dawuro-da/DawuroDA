@@ -28,7 +28,9 @@ const AboutSection = () => {
   useEffect(() => {
     if (window.innerWidth < 700) {
       setIsSmallScreen(true);
-    } else setIsSmallScreen(false);
+    } else {
+      setIsSmallScreen(false);
+    }
   }, []);
 
   const settings = {

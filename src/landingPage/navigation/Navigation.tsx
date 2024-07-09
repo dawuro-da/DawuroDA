@@ -128,8 +128,8 @@ export default function Naviagtion({ bg }: { bg?: string }) {
         </div>
         <Button
           variant="outlined"
-          onClick={() => router.push("/registration")}
-          className="text-white capitalize bg-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer hidden xl:lg:md:block"
+          onClick={() => router.push("/login")}
+          className="text-white capitalize bg-primaryColor hover:bg-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer hidden xl:lg:md:block"
         >
           Join
         </Button>
@@ -152,10 +152,7 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             menuOpen ? "translate-x-[0] duration-300" : "translate-x-[-100%]"
           } hiddenscrollbar`}
         >
-          <div
-            onClick={() => router.push("/")}
-            className="text-black relative pb-20 font-bold flex flex-col items-start h-full gap-6 cursor-pointer"
-          >
+          <div className="text-black relative pb-20 font-bold flex flex-col items-start h-full gap-6 cursor-pointer">
             <div className="w-full flex flex-row items-center justify-end">
               <IconButton onClick={() => setMenuOpen(!menuOpen)}>
                 <Close />
@@ -166,7 +163,10 @@ export default function Naviagtion({ bg }: { bg?: string }) {
               return (
                 <div className="w-full" key={index}>
                   <span
-                    onClick={() => router.push(item.link)}
+                    onClick={() => {
+                      router.push(item.link);
+                      setMenuOpen(!menuOpen);
+                    }}
                     key={index}
                     className={` w-fit cursor-pointer 
                       ${
@@ -183,7 +183,10 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             })}
             <div className="w-full">
               <span
-                onClick={() => router.push("/auctions")}
+                onClick={() => {
+                  router.push("/auctions");
+                  setMenuOpen(!menuOpen);
+                }}
                 className={` w-fit cursor-pointer 
                       ${
                         Boolean("auctions" === pathname)
@@ -197,7 +200,10 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             </div>
             <div className="w-full">
               <span
-                onClick={() => router.push("/vacancies")}
+                onClick={() => {
+                  router.push("/vacancies");
+                  setMenuOpen(!menuOpen);
+                }}
                 className={` w-fit cursor-pointer 
                       ${
                         Boolean("vacancies" === pathname)
@@ -210,8 +216,11 @@ export default function Naviagtion({ bg }: { bg?: string }) {
               </span>
             </div>
             <span
-              onClick={() => router.push("/donate")}
-              className={` w-full cursor-pointer 
+              onClick={() => {
+                router.push("/donate");
+                setMenuOpen(!menuOpen);
+              }}
+              className={`w-fit cursor-pointer 
                       ${
                         "/donate" === pathname
                           ? "border-b-2 border-b-primaryColor"
@@ -223,8 +232,11 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             </span>
             <Button
               variant="outlined"
-              onClick={() => router.push("/registration")}
-              className=" text-white capitalize bg-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer "
+              onClick={() => {
+                router.push("/login");
+                setMenuOpen(!menuOpen);
+              }}
+              className=" text-white capitalize bg-primaryColor hover:bg-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer "
             >
               Join
             </Button>

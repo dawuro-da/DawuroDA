@@ -19,6 +19,8 @@ const MemberSignup = ({
   const {
     register,
     formState: { errors },
+    watch,
+    setValue,
   } = useForm();
 
   const handleNext = () => {
@@ -55,12 +57,14 @@ const MemberSignup = ({
             errors={errors}
             setIsSignUp={setIsSignUp}
             handleNext={handleNext}
+            watch={watch}
+            setValue={setValue}
           />
         );
     }
   };
   return (
-    <form className="px-10 flex flex-col items-center justify-center gap-4 h-full w-full ">
+    <form className="flex flex-col items-center justify-center gap-4 h-full w-full">
       {renderSteps(signUpStep)}
     </form>
   );
