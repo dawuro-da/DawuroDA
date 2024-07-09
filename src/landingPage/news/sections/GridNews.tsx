@@ -1,5 +1,5 @@
 "use client";
-import { Avatar } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
@@ -30,29 +30,34 @@ const GridNews = () => {
   return (
     <div>
       <div className="xl:lg:px-40 md:px-20 px-10 lg:mt-10 my-6 mb-32">
-        <div className="pb-10 flex md:flex-row flex-col gap-6">
+        <div className="pb-10 flex md:flex-row flex-col gap-10">
           {news.map((Initiative, id) => (
-            <div key={id} className=" w-full">
+            <div key={id} className="group w-full cursor-pointer">
               <div className="flex flex-col items-center justify-center gap-1">
                 <Avatar
-                  style={{ height: "100%", width: "85%", borderRadius: "0px" }}
+                  style={{ height: "100%", width: "100%", borderRadius: "0px" }}
                   alt=""
                   src={Initiative.url}
                 />
-                <p className="w-[85%] text-start font-bold text-xl">
+                <p className="w-[100%] text-start font-bold text-xl group-hover:underline">
                   {Initiative.title}
                 </p>
-                <p className="text-[#000000] text-start text-sm w-[85%]">
+                <p className="text-[#000000] text-start text-sm w-[100%]">
                   {Initiative.description}
                 </p>
-                <div className="flex w-4/5 mt-6 items-center justify-start cursor-pointer">
-                  <p className="font-light">Learn More</p>
-                  <Image
-                    src={"/images/diagonalarrow.svg"}
-                    height={45}
-                    width={45}
-                    alt=""
-                  />
+                <div className="flex flex-row w-full mt-6 items-center justify-start cursor-pointer">
+                  <Button
+                    variant="outlined"
+                    className="text-black border-none hover:border-none capitalize hover:bg-none bg-none flex flex-row"
+                  >
+                    <span className="font-light">Learn More</span>
+                    <Image
+                      src={"/images/diagonalarrow.svg"}
+                      height={30}
+                      width={30}
+                      alt=""
+                    />
+                  </Button>
                 </div>
               </div>
             </div>
