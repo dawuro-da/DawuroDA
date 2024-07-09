@@ -152,10 +152,7 @@ export default function Naviagtion() {
             menuOpen ? "translate-x-[0] duration-300" : "translate-x-[-100%]"
           } hiddenscrollbar`}
         >
-          <div
-            onClick={() => router.push("/")}
-            className="text-black relative pb-20 font-bold flex flex-col items-start h-full gap-6 cursor-pointer"
-          >
+          <div className="text-black relative pb-20 font-bold flex flex-col items-start h-full gap-6 cursor-pointer">
             <div className="w-full flex flex-row items-center justify-end">
               <IconButton onClick={() => setMenuOpen(!menuOpen)}>
                 <Close />
@@ -166,8 +163,9 @@ export default function Naviagtion() {
               return (
                 <div className="w-full" key={index}>
                   <span
-                    onClick={ () => {
-                       router.push(item.link);
+                    onClick={() => {
+                      router.push(item.link);
+                      setMenuOpen(!menuOpen);
                     }}
                     key={index}
                     className={` w-fit cursor-pointer 
@@ -185,7 +183,10 @@ export default function Naviagtion() {
             })}
             <div className="w-full">
               <span
-                onClick={() => router.push("/auctions")}
+                onClick={() => {
+                  router.push("/auctions");
+                  setMenuOpen(!menuOpen);
+                }}
                 className={` w-fit cursor-pointer 
                       ${
                         Boolean("auctions" === pathname)
@@ -199,7 +200,10 @@ export default function Naviagtion() {
             </div>
             <div className="w-full">
               <span
-                onClick={() => router.push("/vacancies")}
+                onClick={() => {
+                  router.push("/vacancies");
+                  setMenuOpen(!menuOpen);
+                }}
                 className={` w-fit cursor-pointer 
                       ${
                         Boolean("vacancies" === pathname)
@@ -212,7 +216,10 @@ export default function Naviagtion() {
               </span>
             </div>
             <span
-              onClick={() => router.push("/donate")}
+              onClick={() => {
+                router.push("/donate");
+                setMenuOpen(!menuOpen);
+              }}
               className={`w-fit cursor-pointer 
                       ${
                         "/donate" === pathname
@@ -225,7 +232,10 @@ export default function Naviagtion() {
             </span>
             <Button
               variant="outlined"
-              onClick={() => router.push("/login")}
+              onClick={() => {
+                router.push("/login");
+                setMenuOpen(!menuOpen);
+              }}
               className=" text-white capitalize bg-primaryColor hover:bg-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer "
             >
               Join
