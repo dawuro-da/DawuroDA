@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -37,12 +37,15 @@ const newsItems: NewsItem[] = [
 ];
 
 const NewsCard = () => {
-  const router = useRouter()
+  const router = useRouter();
   return (
-    <div className="w-4/5 mx-auto">
+    <div className="xl:lg:px-40 md:px-20 px-10 w-full">
       <h2 className="font-bold lg:text-4xl text-lg text-center">News</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 p-4 md:mt-20 mt-8">
-      <div className="relative lg:col-span-1 lg:block hidden cursor-pointer" onClick={() => router.push('/news/news-detail')}>
+        <div
+          className="relative lg:col-span-1 lg:block hidden cursor-pointer"
+          onClick={() => router.push("/news/news-detail")}
+        >
           <Image
             src={newsItems[0].imgSrc}
             alt=""
@@ -66,29 +69,29 @@ const NewsCard = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 lg:col-span-1 md:col-span-7 gap-0">
-        <div className="relative lg:col-span-1 lg:block hidden mb-5">
-          <Image
-            src={newsItems[4].imgSrc}
-            alt=""
-            width={20}
-            height={20}
-            className="lg:w-full"
-          />
-          <div className="absolute bottom-12 text-white left-7 text-left">
-            <h2 className="text-2xl font-bold mb-3">{newsItems[0].title}</h2>
-            <div className="flex items-center space-x-3">
-              <Image
-                src="/images/calendar2.svg"
-                alt=""
-                width={15}
-                height={20}
-              />
-              <p className="text-white font-light text-sm">
-                {newsItems[0].date}
-              </p>
+          <div className="relative lg:col-span-1 lg:block hidden mb-5">
+            <Image
+              src={newsItems[4].imgSrc}
+              alt=""
+              width={20}
+              height={20}
+              className="lg:w-full"
+            />
+            <div className="absolute bottom-12 text-white left-7 text-left">
+              <h2 className="text-2xl font-bold mb-3">{newsItems[0].title}</h2>
+              <div className="flex items-center space-x-3">
+                <Image
+                  src="/images/calendar2.svg"
+                  alt=""
+                  width={15}
+                  height={20}
+                />
+                <p className="text-white font-light text-sm">
+                  {newsItems[0].date}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
           {newsItems?.slice(1, 3).map((item, id) => (
             <div key={id} className="flex flex-col items-start">
               <div className="flex flex-row text-start space-x-6 lg:mb-5 mb-4">
@@ -119,8 +122,8 @@ const NewsCard = () => {
             </div>
           ))}
         </div>
-        <div className="flex flex-row col-span-2 mt-4">
-        {newsItems?.slice(1, 3).map((item, id) => (
+        <div className="flex xl:lg:flex-row md:flex-row flex-col col-span-2  mt-4">
+          {newsItems?.slice(1, 3).map((item, id) => (
             <div key={id} className="flex flex-col items-start">
               <div className="flex flex-row text-start space-x-6 lg:mb-5 mb-4">
                 <Image
