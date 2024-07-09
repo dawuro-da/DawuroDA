@@ -49,7 +49,7 @@ export default function Naviagtion({ bg }: { bg?: string }) {
           </MenuItem>
         </div>
       </StyledMenu>
-      <div className="z-50 relative flex w-full flex-row items-center justify-between xl:lg:px-40 md:px-20 px-10 xl:lg:md:h-[180px] h-[100px] bg-transparent overflow-hidden">
+      <div className="z-50 relative flex w-full flex-row items-center justify-between xl:lg:px-40 md:px-20 px-10 xl:lg:h-[140px] pt-8 md:h-[140px] h-[100px] bg-transparent overflow-hidden">
         <div
           className={` flex-1 w-full xl:lg:pr-80 md:pr-40  absolute top-[15px] hidden xl:lg:md:flex flex-row justify-end  gap-8 ${
             isHome ? "text-white" : "text-black"

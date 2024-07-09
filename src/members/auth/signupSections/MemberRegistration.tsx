@@ -15,6 +15,7 @@ import { MembershipType } from "@prisma/client";
 import InstitutionForm from "./InstitutionForm";
 import InstitutionProfessionForm from "./InstitutionProfessionForm";
 import Success from "./Success";
+import { useRouter } from "next/navigation";
 
 interface MemberRegistrationProps {
   register: UseFormRegister<FieldValues>;
@@ -35,6 +36,7 @@ const MemberRegistration = ({
   watch,
   setValue,
 }: MemberRegistrationProps) => {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const steps = [
     { label: "Membership Type", step: 1 },
@@ -192,7 +194,7 @@ const MemberRegistration = ({
             className="px-10 shadow-none"
             variant="contained"
             onClick={() => {
-              setCurrentStep(currentStep + 1);
+              router.push("/member/dashboard");
             }}
           >
             Finish
