@@ -12,10 +12,10 @@ const MemberDashboard = () => {
           <span className="md:hidden block text-center">
             <strong>Welcome</strong> Alemu Getahun
           </span>
-          <div className="flex flex-col gap-6 min-w-[340px] ">
+          <div className="flex flex-col gap-6 xl:lg:min-w-[340px] w-full ">
             <div className="p-8 rounded-[5px] flex flex-col gap-6 bg-white">
               <div className="flex flex-row items-center justify-between">
-                <Avatar className="h-[80px] w-[80px]" />
+                <Avatar className="xl:lg:h-[80px] xl:lg:w-[80px] h-[50px] w-[50px]" />
                 <span className="flex flex-col gap-2">
                   <span className="text-xl">Alemu Getahun</span>
                   <span className="text-sm">since: 10 May, 2022</span>
@@ -40,7 +40,7 @@ const MemberDashboard = () => {
                 </div>
                 <Button
                   variant="outlined"
-                  className="mt-6 border-2 border-[#222222] hover:border-2 hover:border-[#222222] text-[#222222] hover:text-white hover:bg-[#222222]"
+                  className="xl:lg:text-[14px] md:text-[14px] text-[12px] capitalize mt-6 border-2 border-[#222222] hover:border-2 hover:border-[#222222] text-[#222222] hover:text-white hover:bg-[#222222]"
                 >
                   Go to profile overview
                 </Button>
@@ -48,7 +48,7 @@ const MemberDashboard = () => {
             </div>
             <Button
               variant="outlined"
-              className="mt-6 border-2 border-primaryColor hover:border-2 hover:border-primaryColor text-white hover:text-primaryColor bg-primaryColor"
+              className="mt-6 border-2 capitalize text-[14px] border-primaryColor hover:border-2 hover:border-primaryColor text-white hover:text-primaryColor bg-primaryColor"
             >
               Pay
             </Button>
