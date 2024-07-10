@@ -12,7 +12,7 @@ const MemberDashboard = () => {
           <span className="md:hidden block text-center">
             <strong>Welcome</strong> Alemu Getahun
           </span>
-          <div className="flex flex-col gap-6 xl:lg:min-w-[340px] w-full ">
+          <div className="flex flex-col gap-6 xl:lg:min-w-[340px] xl:lg:w-fit md:w-fit w-full ">
             <div className="p-8 rounded-[5px] flex flex-col gap-6 bg-white">
               <div className="flex flex-row items-center justify-between">
                 <Avatar className="xl:lg:h-[80px] xl:lg:w-[80px] h-[50px] w-[50px]" />
