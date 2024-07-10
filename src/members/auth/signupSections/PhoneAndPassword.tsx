@@ -1,26 +1,54 @@
 import { FacebookRounded, RemoveRedEyeOutlined } from "@mui/icons-material";
 import { Button, Divider, TextField } from "@mui/material";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import {
+  FieldErrors,
+  FieldValues,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
+} from "react-hook-form";
 
 interface PhoneAndPasswordProps {
   register: UseFormRegister<FieldValues>;
-  loginError: string;
   setIsSignUp: (value: boolean) => void;
   errors: FieldErrors<FieldValues>;
   handleNext: () => void;
+  watch: UseFormWatch<FieldValues>;
 }
 const PhoneAndPassword = ({
   register,
-  loginError,
   setIsSignUp,
   handleNext,
+  watch,
   errors,
 }: PhoneAndPasswordProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+
+  const sendOtp = async () => {
+    try {
+      if (!watch("phone") || !watch("password")) {
+        setError("All fields are required");
+        return;
+      }
+      const res = await axios.post("/api/sms/sendOtp", {
+        phone: watch("phone"),
+      });
+      if (res.data.success) {
+        handleNext();
+      } else {
+        setError("Something Went Wrong");
+      }
+    } catch (err) {
+      console.log(err);
+      setError("Something Went Wrong");
+    }
+  };
 
   return (
     <div className="px-10 py-20 flex flex-col items-center justify-center gap-4 max-w-[450px] w-full">
@@ -35,6 +63,7 @@ const PhoneAndPassword = ({
         <span className="text-titleColor text-sm font-bold">Phone Number</span>
         <TextField
           size="small"
+          autoComplete="off"
           {...register("phone", {
             required: "Phone Number is required",
           })}
@@ -71,6 +100,7 @@ const PhoneAndPassword = ({
           {...register("password", {
             required: "Password is required",
           })}
+          autoComplete="off"
           variant="outlined"
           type={showPassword ? "text" : "password"}
           error={Boolean(!!errors.password)}
@@ -104,8 +134,9 @@ const PhoneAndPassword = ({
           <span>Google</span>
         </div>
       </div>
+      <span className="text-red-500">{error}</span>
       <Button
-        onClick={handleNext}
+        onClick={sendOtp}
         variant="outlined"
         className="capitalize font-bold bg-primaryColor hover:bg-primaryColor text-white w-full"
       >

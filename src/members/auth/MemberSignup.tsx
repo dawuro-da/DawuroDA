@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useRef, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import OtpConfirmation from "./signupSections/OtpConfirmation";
 import PhoneAndPassword from "./signupSections/PhoneAndPassword";
 import MemberRegistration from "./signupSections/MemberRegistration";
@@ -13,6 +13,7 @@ const MemberSignup = ({
   setIsSignUp: (value: boolean) => void;
 }) => {
   const router = useRouter();
+  const formRef = useRef<HTMLFormElement | null>(null);
   const [signUpStep, setSignUpStep] = useState(0);
   const [loginError, setLoginError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -21,10 +22,15 @@ const MemberSignup = ({
     formState: { errors },
     watch,
     setValue,
+    handleSubmit,
   } = useForm();
 
   const handleNext = () => {
-    setSignUpStep(signUpStep + 1);
+    if (signUpStep === 3) {
+      formRef.current?.submit();
+    } else {
+      setSignUpStep(signUpStep + 1);
+    }
   };
 
   const renderSteps = (currentStep: number) => {
@@ -33,20 +39,20 @@ const MemberSignup = ({
         return (
           <PhoneAndPassword
             register={register}
-            loginError={loginError}
             errors={errors}
             setIsSignUp={setIsSignUp}
             handleNext={handleNext}
+            watch={watch}
           />
         );
       case 1:
         return (
           <OtpConfirmation
             register={register}
-            loginError={loginError}
             errors={errors}
             setIsSignUp={setIsSignUp}
             handleNext={handleNext}
+            watch={watch}
           />
         );
       default:
@@ -63,8 +69,22 @@ const MemberSignup = ({
         );
     }
   };
+
+  const handleRegister = async (values: FieldValues) => {
+    try {
+      console.log({ values });
+      setSignUpStep(signUpStep + 1);
+    } catch (err) {
+      console.log({ err });
+    }
+  };
+
   return (
-    <form className="flex flex-col items-center justify-center gap-4 h-full w-full">
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit(handleRegister)}
+      className="flex flex-col items-center justify-center gap-4 h-full w-full"
+    >
       {renderSteps(signUpStep)}
     </form>
   );
