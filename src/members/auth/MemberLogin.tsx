@@ -27,7 +27,7 @@ const MemberLogin = ({
   } = useForm();
 
   return (
-    <form className="px-10 flex flex-col items-center justify-center gap-4 max-w-[600px]">
+    <form className="px-10 py-20 xl:lg:mt-0 mt-10 flex flex-col items-center justify-center gap-4 max-w-[600px]">
       <div className="font-bold text-4xl">Login</div>
       <div className="flex flex-col gap-1 items-center">
         <span className="text-center">Welcome back to</span>
