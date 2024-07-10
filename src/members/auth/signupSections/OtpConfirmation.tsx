@@ -1,24 +1,51 @@
 import OtpInput from "react-otp-input";
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import {
+  FieldErrors,
+  FieldValues,
+  UseFormRegister,
+  UseFormWatch,
+} from "react-hook-form";
+import axios from "axios";
 
 interface OtpConfirmationProps {
   register: UseFormRegister<FieldValues>;
-  loginError: string;
   setIsSignUp: (value: boolean) => void;
   errors: FieldErrors<FieldValues>;
   handleNext: () => void;
+  watch: UseFormWatch<FieldValues>;
 }
 const OtpConfirmation = ({
   register,
-  loginError,
   setIsSignUp,
   handleNext,
   errors,
+  watch,
 }: OtpConfirmationProps) => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [otp, setOtp] = useState("");
+  const [error, setError] = useState("");
+
+  const verifyOtp = async () => {
+    try {
+      if (!otp) {
+        setError("Please enter the OTP code");
+        return;
+      }
+      const res = await axios.post("/api/sms/verifyOtp", {
+        code: otp,
+        phone: watch("phone"),
+      });
+      if (res.data.success) {
+        handleNext();
+      } else {
+        setError("Invalid OTP code");
+      }
+    } catch (err) {
+      console.log(err);
+      setError("Something Went Wrong");
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 max-w-[300px] w-full">
@@ -46,13 +73,16 @@ const OtpConfirmation = ({
           }}
         />
       </div>
-      <Button
-        onClick={handleNext}
-        variant="outlined"
-        className="capitalize font-bold bg-primaryColor hover:bg-primaryColor text-white w-full"
-      >
-        Confirm
-      </Button>
+      <div>
+        <span className="text-red-500">{error}</span>
+        <Button
+          onClick={verifyOtp}
+          variant="outlined"
+          className="capitalize font-bold bg-primaryColor hover:bg-primaryColor text-white w-full"
+        >
+          Confirm
+        </Button>
+      </div>
     </div>
   );
 };

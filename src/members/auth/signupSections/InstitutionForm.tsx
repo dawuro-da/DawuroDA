@@ -88,6 +88,7 @@ const InstitutionForm = ({
           })}
           type="text"
           placeholder=""
+          disabled={true}
           className="border-2 rounded-[16px] py-2"
           inputProps={{ style: { padding: 10 } }}
           error={Boolean(!!errors.phone)}
