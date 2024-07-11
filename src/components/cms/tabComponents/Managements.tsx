@@ -176,7 +176,7 @@ const Managements = () => {
                   } gap-2 hover:bg-[#e5e5e6] cursor-pointer`}
                 >
                   <Image
-                    src={"/icons/list.png"}
+                    src={item.photo}
                     alt=""
                     height={50}
                     width={50}
@@ -221,7 +221,7 @@ const Managements = () => {
             <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Manager Name</label>
               <TextField
-                {...register("managerName")}
+                {...register("managerName", { required: "required" })}
                 variant="outlined"
                 error={Boolean(!!errors.managerName)}
                 helperText={
@@ -233,7 +233,7 @@ const Managements = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Manager Name in Amharic</label>
                 <TextField
-                  {...register("managerNameAmharic")}
+                  {...register("managerNameAmharic", { required: "required" })}
                   variant="outlined"
                   error={Boolean(!!errors.managerNameAmharic)}
                   helperText={
@@ -247,7 +247,7 @@ const Managements = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Job Title</label>
                 <TextField
-                  {...register("job")}
+                  {...register("job", { required: "required" })}
                   variant="outlined"
                   error={Boolean(!!errors.job)}
                   helperText={!!errors.job && errors.job.message?.toString()}
@@ -258,7 +258,7 @@ const Managements = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Job Title in Amharic</label>
                 <TextField
-                  {...register("jobAmharic")}
+                  {...register("jobAmharic", { required: "required" })}
                   variant="outlined"
                   error={Boolean(!!errors.jobAmharic)}
                   helperText={
@@ -365,7 +365,7 @@ const Managements = () => {
                   className="flex flex-row items-center justify-center gap-2 shadow-none capitalize text-lg h-[48px]"
                 >
                   {loading ? (
-                    <CircularProgress />
+                    <CircularProgress className="text-white" />
                   ) : watch("isDraft") ? (
                     <span>Save Draft</span>
                   ) : (

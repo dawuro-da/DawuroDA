@@ -172,13 +172,13 @@ const Resources = () => {
                     selectedResource?.id === item.id && "bg-[#e5e5e6]"
                   } gap-2 hover:bg-[#e5e5e6] cursor-pointer`}
                 >
-                  <Image
+                  {/* <Image
                     src={"/icons/list.png"}
                     alt=""
                     height={50}
                     width={50}
                     className="h-full"
-                  />
+                  /> */}
                   <span className=" overflow-clip text-ellipsis text-nowrap flex-1 max-w-[70%]">
                     {item.name}
                   </span>
@@ -293,7 +293,7 @@ const Resources = () => {
                   className="flex flex-row items-center justify-center gap-2 shadow-none capitalize text-lg h-[48px]"
                 >
                   {loading ? (
-                    <CircularProgress />
+                    <CircularProgress className="text-white" />
                   ) : watch("isDraft") ? (
                     <span>Save Draft</span>
                   ) : (

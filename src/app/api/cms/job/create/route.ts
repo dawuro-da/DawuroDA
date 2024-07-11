@@ -6,7 +6,7 @@ import { createJob } from "@/db/job";
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id) {
-    return NextResponse.redirect("/gaadmin/login", 401)
+    return NextResponse.redirect("/gaadmin/login", 401);
   }
 
   const {
@@ -15,6 +15,9 @@ export async function POST(req: Request) {
     isDraft,
     jobDescriptionAmharic,
     jobTitleAmharic,
+    responsiblities,
+    qualification,
+    benefits,
   } = await req.json();
   try {
     const result = await createJob({
@@ -23,6 +26,9 @@ export async function POST(req: Request) {
       jobDescriptionAmharic,
       jobTitleAmharic,
       isDraft,
+      responsiblities,
+      qualification,
+      benefits,
     });
 
     if (result) {

@@ -8,7 +8,7 @@ import { uploadFile } from "@/util/uploadFile";
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id || session?.user.role === UserRole.Member) {
-    return NextResponse.redirect("/gaadmin/login", 401)
+    return NextResponse.redirect("/gaadmin/login", 401);
   }
 
   const newsId = context.params.id;
@@ -17,6 +17,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
   const profileImages = formData.getAll("profileImage") as File[];
   const isDraft = formData.get("isDraft") as string;
   const body = formData.get("body") as string;
+  const youtubeLink = formData.get("youtubeLink") as string;
   const bodyAmharic = formData.get("bodyAmharic") as string;
   const headline = formData.get("headline") as string;
   const headlineAmharic = formData.get("headlineAmharic") as string;
@@ -47,6 +48,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       isDraft: isDraft === "true" ? true : false,
       bodyAmharic,
       id: newsId,
+      youtubeLink,
     });
 
     if (result) {

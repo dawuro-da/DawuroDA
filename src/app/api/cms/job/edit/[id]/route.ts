@@ -7,7 +7,7 @@ import { updateJob } from "@/db/job";
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id || session?.user.role === UserRole.Member) {
-    return NextResponse.redirect("/gaadmin/login", 401)
+    return NextResponse.redirect("/gaadmin/login", 401);
   }
   const {
     jobTitle,
@@ -15,6 +15,9 @@ export async function POST(req: Request, context: { params: { id: string } }) {
     jobDescription,
     jobDescriptionAmharic,
     jobTitleAmharic,
+    responsiblities,
+    qualification,
+    benefits,
   } = await req.json();
   const jobId = context.params.id;
 
@@ -26,6 +29,9 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       jobTitleAmharic,
       id: jobId,
       isDraft,
+      responsiblities,
+      qualification,
+      benefits,
     });
 
     if (result) {

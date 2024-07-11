@@ -51,6 +51,7 @@ const InitiativeEdit = ({
       "nameOfInitiativeAmharic",
       selectedInitiative?.nameOfInitiativeAmharic
     );
+    setValue("youtubeLink", selectedInitiative?.youtubeLink);
     setValue("body", selectedInitiative?.body);
     setValue("bodyAmharic", selectedInitiative?.bodyAmharic);
     setValue("featuredImages", selectedInitiative?.featuredImages);
@@ -65,6 +66,7 @@ const InitiativeEdit = ({
         featuredImages,
         nameOfInitiative,
         nameOfInitiativeAmharic,
+        youtubeLink,
         body,
         bodyAmharic,
         isDraft,
@@ -79,6 +81,7 @@ const InitiativeEdit = ({
       }
       formData.append("nameOfInitiative", nameOfInitiative);
       formData.append("nameOfInitiativeAmharic", nameOfInitiativeAmharic);
+      formData.append("youtubeLink", youtubeLink);
       formData.append("body", body);
       formData.append("bodyAmharic", bodyAmharic);
       formData.append("isDraft", isDraft);
@@ -154,7 +157,7 @@ const InitiativeEdit = ({
         <div className="flex flex-col gap-4 text-titleColor h-full">
           <label>Name of the intiative</label>
           <TextField
-            {...register("nameOfInitiative")}
+            {...register("nameOfInitiative", { required: "required" })}
             variant="outlined"
             error={Boolean(!!errors.nameOfInitiative)}
             helperText={
@@ -167,7 +170,7 @@ const InitiativeEdit = ({
           <div className="flex flex-col gap-1 text-titleColor">
             <label>Name of the intiative in Amharic</label>
             <TextField
-              {...register("nameOfInitiativeAmharic")}
+              {...register("nameOfInitiativeAmharic", { required: "required" })}
               variant="outlined"
               error={Boolean(!!errors.nameOfInitiativeAmharic)}
               helperText={
@@ -198,10 +201,10 @@ const InitiativeEdit = ({
                       width={20}
                     />
                     <span>
-                      {typeof watch("featuredImages")[index] === "string"
-                        ? watch("featuredImages")[index].slice(0, 40)
-                        : watch("featuredImages")[index][0]?.name
-                        ? watch("featuredImages")[index][0]?.name
+                      {typeof watch("featuredImages")?.[index] === "string"
+                        ? watch("featuredImages")?.[index].slice(0, 40)
+                        : watch("featuredImages")?.[index][0]?.name
+                        ? watch("featuredImages")?.[index][0]?.name
                         : "Upload"}
                     </span>
                   </span>
@@ -257,9 +260,22 @@ const InitiativeEdit = ({
             + Add Items
           </Button>
           <div className="flex flex-col gap-1 text-titleColor">
+            <label>Youtube Link</label>
+            <TextField
+              {...register("youtubeLink")}
+              variant="outlined"
+              error={Boolean(!!errors.youtubeLink)}
+              helperText={
+                !!errors.youtubeLink && errors.youtubeLink.message?.toString()
+              }
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ style: { padding: 10 } }}
+            />
+          </div>
+          <div className="flex flex-col gap-1 text-titleColor">
             <label>Body</label>
             <TextField
-              {...register("body")}
+              {...register("body", { required: "required" })}
               variant="outlined"
               multiline
               rows={4}
@@ -272,7 +288,7 @@ const InitiativeEdit = ({
           <div className="flex flex-col gap-1 text-titleColor">
             <label>Body in Amharic</label>
             <TextField
-              {...register("bodyAmharic")}
+              {...register("bodyAmharic", { required: "required" })}
               variant="outlined"
               multiline
               rows={4}
@@ -299,7 +315,7 @@ const InitiativeEdit = ({
                 className="flex flex-row items-center justify-center gap-2 shadow-none capitalize text-lg h-[48px]"
               >
                 {loading ? (
-                  <CircularProgress />
+                  <CircularProgress className="text-white" />
                 ) : watch("isDraft") ? (
                   <span>Save Draft</span>
                 ) : (

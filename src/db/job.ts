@@ -15,12 +15,18 @@ export async function createJob({
   jobDescriptionAmharic,
   jobTitleAmharic,
   isDraft,
+  responsiblities,
+  qualification,
+  benefits,
 }: {
   isDraft: boolean;
   jobTitle: string;
   jobDescription: string;
   jobDescriptionAmharic: string;
   jobTitleAmharic: string;
+  responsiblities?: string;
+  qualification?: string;
+  benefits?: string;
 }) {
   try {
     const job = await prisma.job.create({
@@ -30,6 +36,9 @@ export async function createJob({
         jobDescription,
         jobDescriptionAmharic,
         jobTitleAmharic,
+        responsiblities,
+        qualification,
+        benefits,
       },
     });
 
@@ -50,6 +59,9 @@ export async function updateJob({
   jobTitleAmharic,
   id,
   isDraft,
+  responsiblities,
+  qualification,
+  benefits,
 }: {
   id: string;
   jobTitle: string;
@@ -57,6 +69,9 @@ export async function updateJob({
   jobDescriptionAmharic: string;
   jobTitleAmharic: string;
   isDraft: boolean;
+  responsiblities?: string;
+  qualification?: string;
+  benefits?: string;
 }) {
   try {
     const job = await prisma.job.update({
@@ -67,6 +82,9 @@ export async function updateJob({
         jobDescription,
         jobDescriptionAmharic,
         jobTitleAmharic,
+        responsiblities,
+        qualification,
+        benefits,
       },
     });
 

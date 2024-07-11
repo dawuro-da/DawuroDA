@@ -164,13 +164,13 @@ const Jobs = () => {
                     selectedJob?.id === item.id && "bg-[#e5e5e6]"
                   } gap-2 hover:bg-[#e5e5e6] cursor-pointer`}
                 >
-                  <Image
+                  {/* <Image
                     src={"/icons/list.png"}
                     alt=""
                     height={50}
                     width={50}
                     className="h-full"
-                  />
+                  /> */}
                   <span className=" overflow-clip text-ellipsis text-nowrap flex-1 max-w-[70%]">
                     {item.jobTitle}
                   </span>
@@ -210,7 +210,7 @@ const Jobs = () => {
             <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Job Title</label>
               <TextField
-                {...register("jobTitle")}
+                {...register("jobTitle", { required: "required" })}
                 variant="outlined"
                 error={Boolean(!!errors.jobTitle)}
                 helperText={
@@ -222,7 +222,7 @@ const Jobs = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Job Title in Amharic</label>
                 <TextField
-                  {...register("jobTitleAmharic")}
+                  {...register("jobTitleAmharic", { required: "required" })}
                   variant="outlined"
                   error={Boolean(!!errors.jobTitleAmharic)}
                   helperText={
@@ -237,7 +237,7 @@ const Jobs = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Job Description</label>
                 <TextField
-                  {...register("jobDescription")}
+                  {...register("jobDescription", { required: "required" })}
                   variant="outlined"
                   multiline
                   rows={4}
@@ -253,7 +253,9 @@ const Jobs = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Job Description in Amharic</label>
                 <TextField
-                  {...register("jobDescriptionAmharic")}
+                  {...register("jobDescriptionAmharic", {
+                    required: "required",
+                  })}
                   variant="outlined"
                   multiline
                   rows={4}
@@ -261,6 +263,53 @@ const Jobs = () => {
                   helperText={
                     !!errors.jobDescriptionAmharic &&
                     errors.jobDescriptionAmharic.message?.toString()
+                  }
+                  sx={{ backgroundColor: "white" }}
+                  inputProps={{ style: { padding: 0 } }}
+                />
+              </div>
+              <div className="flex flex-col gap-1 text-titleColor">
+                <label>Responsiblities</label>
+                <TextField
+                  {...register("responsiblities", { required: "required" })}
+                  variant="outlined"
+                  multiline
+                  rows={4}
+                  error={Boolean(!!errors.responsiblities)}
+                  helperText={
+                    !!errors.responsiblities &&
+                    errors.responsiblities.message?.toString()
+                  }
+                  sx={{ backgroundColor: "white" }}
+                  inputProps={{ style: { padding: 0 } }}
+                />
+              </div>
+              <div className="flex flex-col gap-1 text-titleColor">
+                <label>Qualification</label>
+                <TextField
+                  {...register("qualification", { required: "required" })}
+                  variant="outlined"
+                  multiline
+                  rows={4}
+                  error={Boolean(!!errors.qualification)}
+                  helperText={
+                    !!errors.qualification &&
+                    errors.qualification.message?.toString()
+                  }
+                  sx={{ backgroundColor: "white" }}
+                  inputProps={{ style: { padding: 0 } }}
+                />
+              </div>
+              <div className="flex flex-col gap-1 text-titleColor">
+                <label>Benefits</label>
+                <TextField
+                  {...register("benefits", { required: "required" })}
+                  variant="outlined"
+                  multiline
+                  rows={4}
+                  error={Boolean(!!errors.benefits)}
+                  helperText={
+                    !!errors.benefits && errors.benefits.message?.toString()
                   }
                   sx={{ backgroundColor: "white" }}
                   inputProps={{ style: { padding: 0 } }}
@@ -277,7 +326,7 @@ const Jobs = () => {
                   className="flex flex-row items-center justify-center gap-2 shadow-none capitalize text-lg h-[48px]"
                 >
                   {loading ? (
-                    <CircularProgress />
+                    <CircularProgress className="text-white" />
                   ) : watch("isDraft") ? (
                     <span>Save Draft</span>
                   ) : (

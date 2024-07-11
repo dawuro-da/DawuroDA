@@ -7,13 +7,14 @@ import { uploadFile } from "@/util/uploadFile";
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id) {
-    return NextResponse.redirect("/gaadmin/login", 401)
+    return NextResponse.redirect("/gaadmin/login", 401);
   }
 
   const formData = await req.formData();
   const profileImages = formData.getAll("profileImage") as File[];
   const isDraft = formData.get("isDraft") as string;
   const body = formData.get("body") as string;
+  const youtubeLink = formData.get("youtubeLink") as string;
   const bodyAmharic = formData.get("bodyAmharic") as string;
   const headline = formData.get("headline") as string;
   const headlineAmharic = formData.get("headlineAmharic") as string;
@@ -45,6 +46,7 @@ export async function POST(req: Request) {
       headline,
       isDraft: isDraft === "true" ? true : false,
       headlineAmharic,
+      youtubeLink,
     });
 
     if (result) {

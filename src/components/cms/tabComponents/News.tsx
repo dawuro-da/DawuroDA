@@ -63,14 +63,13 @@ const NewsPage = () => {
     fetchNews({ page: 1, pageSize: 30 });
   }, [refetch]);
 
-  useEffect(() => {}, [selectedNews]);
-
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
     const {
       profileImage,
       headline,
       headlineAmharic,
+      youtubeLink,
       body,
       bodyAmharic,
       isDraft,
@@ -81,6 +80,7 @@ const NewsPage = () => {
     }
     formData.append("headline", headline);
     formData.append("headlineAmharic", headlineAmharic);
+    formData.append("youtubeLink", youtubeLink);
     formData.append("body", body);
     formData.append("bodyAmharic", bodyAmharic);
     formData.append("isDraft", isDraft);
@@ -190,7 +190,7 @@ const NewsPage = () => {
                   } gap-2 hover:bg-[#e5e5e6] cursor-pointer`}
                 >
                   <Image
-                    src={"/icons/list.png"}
+                    src={item.profileImage[0]}
                     alt=""
                     height={50}
                     width={50}
@@ -237,7 +237,7 @@ const NewsPage = () => {
             <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Headline</label>
               <TextField
-                {...register("headline")}
+                {...register("headline", { required: "required" })}
                 variant="outlined"
                 error={Boolean(!!errors.headline)}
                 helperText={
@@ -249,7 +249,7 @@ const NewsPage = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Headline in Amharic</label>
                 <TextField
-                  {...register("headlineAmharic")}
+                  {...register("headlineAmharic", { required: "required" })}
                   variant="outlined"
                   error={Boolean(!!errors.headlineAmharic)}
                   helperText={
@@ -280,10 +280,10 @@ const NewsPage = () => {
                           width={20}
                         />
                         <span>
-                          {typeof watch("profileImage")[index] === "string"
-                            ? watch("profileImage")[index]
-                            : watch("profileImage")[index][0]?.name
-                            ? watch("profileImage")[index][0]?.name
+                          {typeof watch("profileImage")?.[index] === "string"
+                            ? watch("profileImage")?.[index]
+                            : watch("profileImage")?.[index]?.[0]?.name
+                            ? watch("profileImage")?.[index]?.[0]?.name
                             : "Upload"}
                         </span>
                       </span>
@@ -339,6 +339,20 @@ const NewsPage = () => {
                 + Add Items
               </Button>
               <div className="flex flex-col gap-1 text-titleColor">
+                <label>Youtube Link</label>
+                <TextField
+                  {...register("youtubeLink")}
+                  variant="outlined"
+                  error={Boolean(!!errors.youtubeLink)}
+                  helperText={
+                    !!errors.youtubeLink &&
+                    errors.youtubeLink.message?.toString()
+                  }
+                  sx={{ backgroundColor: "white" }}
+                  inputProps={{ style: { padding: 10 } }}
+                />
+              </div>
+              <div className="flex flex-col gap-1 text-titleColor">
                 <label>Body</label>
                 <TextField
                   {...register("body")}
@@ -378,7 +392,7 @@ const NewsPage = () => {
                   className="flex flex-row items-center justify-center gap-2 shadow-none capitalize text-lg h-[48px]"
                 >
                   {loading ? (
-                    <CircularProgress />
+                    <CircularProgress className="text-white" />
                   ) : watch("isDraft") ? (
                     <span>Save Draft</span>
                   ) : (

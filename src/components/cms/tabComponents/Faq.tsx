@@ -164,13 +164,13 @@ const FaqPage = () => {
                     selectedFaq?.id === item.id && "bg-[#e5e5e6]"
                   } gap-2 hover:bg-[#e5e5e6] cursor-pointer`}
                 >
-                  <Image
+                  {/* <Image
                     src={"/icons/list.png"}
                     alt=""
                     height={50}
                     width={50}
                     className="h-full"
-                  />
+                  /> */}
                   <span className=" overflow-clip text-ellipsis text-nowrap flex-1 max-w-[70%]">
                     {item.question}
                   </span>
@@ -210,7 +210,7 @@ const FaqPage = () => {
             <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Question</label>
               <TextField
-                {...register("question")}
+                {...register("question", { required: "required" })}
                 variant="outlined"
                 error={Boolean(!!errors.question)}
                 helperText={
@@ -222,7 +222,7 @@ const FaqPage = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Answer</label>
                 <TextField
-                  {...register("answer")}
+                  {...register("answer", { required: "required" })}
                   variant="outlined"
                   error={Boolean(!!errors.answer)}
                   helperText={

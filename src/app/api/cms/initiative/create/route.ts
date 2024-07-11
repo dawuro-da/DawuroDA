@@ -7,7 +7,7 @@ import { uploadFile } from "@/util/uploadFile";
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id) {
-    return NextResponse.redirect("/gaadmin/login", 401)
+    return NextResponse.redirect("/gaadmin/login", 401);
   }
 
   const formData = await req.formData();
@@ -16,6 +16,7 @@ export async function POST(req: Request) {
   const body = formData.get("body") as string;
   const bodyAmharic = formData.get("bodyAmharic") as string;
   const nameOfInitiative = formData.get("nameOfInitiative") as string;
+  const youtubeLink = formData.get("youtubeLink") as string;
   const nameOfInitiativeAmharic = formData.get(
     "nameOfInitiativeAmharic"
   ) as string;
@@ -47,6 +48,7 @@ export async function POST(req: Request) {
       featuredImages: imageUrls,
       body,
       bodyAmharic,
+      youtubeLink,
     });
 
     if (result) {

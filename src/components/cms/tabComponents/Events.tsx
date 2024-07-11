@@ -181,7 +181,7 @@ const Events = () => {
                   } gap-2 hover:bg-[#e5e5e6] cursor-pointer`}
                 >
                   <Image
-                    src={"/icons/list.png"}
+                    src={item.profileImage}
                     alt=""
                     height={50}
                     width={50}
@@ -228,7 +228,7 @@ const Events = () => {
             <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Headline</label>
               <TextField
-                {...register("headline")}
+                {...register("headline",{required:'required'})}
                 variant="outlined"
                 error={Boolean(!!errors.headline)}
                 helperText={
@@ -240,7 +240,7 @@ const Events = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Headline in Amharic</label>
                 <TextField
-                  {...register("headlineAmharic")}
+                  {...register("headlineAmharic",{required:'required'})}
                   variant="outlined"
                   error={Boolean(!!errors.headlineAmharic)}
                   helperText={

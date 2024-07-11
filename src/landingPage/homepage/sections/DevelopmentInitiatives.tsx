@@ -1,9 +1,11 @@
 import { Avatar, Button } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 
 const DevelopmentInitiatives = () => {
+  const router = useRouter();
   const [screenSize, setScreenSize] = useState<number>();
   const Initiatives = [
     {
@@ -50,7 +52,11 @@ const DevelopmentInitiatives = () => {
       <div className="w-4/5 mx-auto lg:mt-28 mt-16">
         <Slider {...settings} className="pb-10">
           {Initiatives.map((Initiative, id) => (
-            <div key={id} className="mx-0 w-full">
+            <div
+              key={id}
+              className="mx-0 w-full"
+              onClick={() => router.push("/initiatives/id")}
+            >
               <div className="group cursor-pointer hover:bg-white flex flex-col items-center justify-center gap-1 pb-10">
                 <Avatar
                   style={{ height: "100%", width: "85%", borderRadius: "0px" }}

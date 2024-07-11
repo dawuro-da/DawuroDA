@@ -44,6 +44,9 @@ const JobEdit = ({
     setValue("jobTitleAmharic", selectedJob?.jobTitleAmharic);
     setValue("jobDescription", selectedJob?.jobDescription);
     setValue("jobDescriptionAmharic", selectedJob?.jobDescriptionAmharic);
+    setValue("responsiblities", selectedJob?.responsiblities);
+    setValue("qualification", selectedJob?.qualification);
+    setValue("benefits", selectedJob?.benefits);
     setValue("isDraft", selectedJob?.isDraft);
   }, [selectedJob]);
 
@@ -121,7 +124,7 @@ const JobEdit = ({
         <div className="flex flex-col gap-4 text-titleColor h-full">
           <label>Job Title</label>
           <TextField
-            {...register("jobTitle")}
+            {...register("jobTitle", { required: "required" })}
             variant="outlined"
             error={Boolean(!!errors.jobTitle)}
             helperText={
@@ -133,7 +136,7 @@ const JobEdit = ({
           <div className="flex flex-col gap-1 text-titleColor">
             <label>Job Title in Amharic</label>
             <TextField
-              {...register("jobTitleAmharic")}
+              {...register("jobTitleAmharic", { required: "required" })}
               variant="outlined"
               error={Boolean(!!errors.jobTitleAmharic)}
               helperText={
@@ -148,7 +151,7 @@ const JobEdit = ({
           <div className="flex flex-col gap-1 text-titleColor">
             <label>Job Description</label>
             <TextField
-              {...register("jobDescription")}
+              {...register("jobDescription", { required: "required" })}
               variant="outlined"
               multiline
               rows={4}
@@ -164,7 +167,7 @@ const JobEdit = ({
           <div className="flex flex-col gap-1 text-titleColor">
             <label>Job Description in Amharic</label>
             <TextField
-              {...register("jobDescriptionAmharic")}
+              {...register("jobDescriptionAmharic", { required: "required" })}
               variant="outlined"
               multiline
               rows={4}
@@ -177,9 +180,59 @@ const JobEdit = ({
               inputProps={{ style: { padding: 0 } }}
             />
           </div>
+          <div className="flex flex-col gap-1 text-titleColor">
+            <label>Responsiblities</label>
+            <TextField
+              {...register("responsiblities", { required: "required" })}
+              variant="outlined"
+              multiline
+              rows={4}
+              error={Boolean(!!errors.responsiblities)}
+              helperText={
+                !!errors.responsiblities &&
+                errors.responsiblities.message?.toString()
+              }
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ style: { padding: 0 } }}
+            />
+          </div>
+          <div className="flex flex-col gap-1 text-titleColor">
+            <label>Qualification</label>
+            <TextField
+              {...register("qualification", { required: "required" })}
+              variant="outlined"
+              multiline
+              rows={4}
+              error={Boolean(!!errors.qualification)}
+              helperText={
+                !!errors.qualification &&
+                errors.qualification.message?.toString()
+              }
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ style: { padding: 0 } }}
+            />
+          </div>
+          <div className="flex flex-col gap-1 text-titleColor">
+            <label>Benefits</label>
+            <TextField
+              {...register("benefits", { required: "required" })}
+              variant="outlined"
+              multiline
+              rows={4}
+              error={Boolean(!!errors.benefits)}
+              helperText={
+                !!errors.benefits && errors.benefits.message?.toString()
+              }
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ style: { padding: 0 } }}
+            />
+          </div>
           <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
             <div className="flex flex-row items-center gap-1">
-              <Checkbox {...register("isDraft")} checked={Boolean(watch("isDraft"))}/>
+              <Checkbox
+                {...register("isDraft")}
+                checked={Boolean(watch("isDraft"))}
+              />
               <span>Save as Draft</span>
             </div>
             <div className="flex flex-row items-center gap-1">
@@ -189,7 +242,7 @@ const JobEdit = ({
                 className="flex flex-row items-center justify-center gap-2 shadow-none capitalize text-lg h-[48px]"
               >
                 {loading ? (
-                  <CircularProgress />
+                  <CircularProgress className="text-white" />
                 ) : watch("isDraft") ? (
                   <span>Save Draft</span>
                 ) : (

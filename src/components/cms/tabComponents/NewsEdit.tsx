@@ -47,6 +47,7 @@ const NewsEdit = ({
   useEffect(() => {
     setValue("headline", selectedNews?.headline);
     setValue("headlineAmharic", selectedNews?.headlineAmharic);
+    setValue("youtubeLink", selectedNews?.youtubeLink);
     setValue("body", selectedNews?.body);
     setValue("bodyAmharic", selectedNews?.bodyAmharic);
     setValue("profileImage", selectedNews?.profileImage);
@@ -59,6 +60,7 @@ const NewsEdit = ({
       profileImage,
       headline,
       headlineAmharic,
+      youtubeLink,
       body,
       bodyAmharic,
       isDraft,
@@ -73,6 +75,7 @@ const NewsEdit = ({
     }
     formData.append("headline", headline);
     formData.append("headlineAmharic", headlineAmharic);
+    formData.append("youtubeLink", youtubeLink);
     formData.append("body", body);
     formData.append("bodyAmharic", bodyAmharic);
     formData.append("isDraft", isDraft);
@@ -149,7 +152,7 @@ const NewsEdit = ({
         <div className="flex flex-col gap-4 text-titleColor h-full">
           <label>Headline</label>
           <TextField
-            {...register("headline")}
+            {...register("headline", { required: "required" })}
             variant="outlined"
             error={Boolean(!!errors.headline)}
             helperText={
@@ -161,7 +164,7 @@ const NewsEdit = ({
           <div className="flex flex-col gap-1 text-titleColor">
             <label>Headline in Amharic</label>
             <TextField
-              {...register("headlineAmharic")}
+              {...register("headlineAmharic", { required: "required" })}
               variant="outlined"
               error={Boolean(!!errors.headlineAmharic)}
               helperText={
@@ -192,10 +195,10 @@ const NewsEdit = ({
                       width={20}
                     />
                     <span>
-                      {typeof watch("profileImage")[index] === "string"
-                        ? watch("profileImage")[index].slice(0, 40)
-                        : watch("profileImage")[index][0]?.name
-                        ? watch("profileImage")[index][0]?.name
+                      {typeof watch("profileImage")?.[index] === "string"
+                        ? watch("profileImage")?.[index].slice(0, 40)
+                        : watch("profileImage")?.[index][0]?.name
+                        ? watch("profileImage")?.[index][0]?.name
                         : "Upload"}
                     </span>
                   </span>
@@ -251,6 +254,19 @@ const NewsEdit = ({
             + Add Items
           </Button>
           <div className="flex flex-col gap-1 text-titleColor">
+            <label>Youtube Link</label>
+            <TextField
+              {...register("youtubeLink")}
+              variant="outlined"
+              error={Boolean(!!errors.youtubeLink)}
+              helperText={
+                !!errors.youtubeLink && errors.youtubeLink.message?.toString()
+              }
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ style: { padding: 10 } }}
+            />
+          </div>
+          <div className="flex flex-col gap-1 text-titleColor">
             <label>Body</label>
             <TextField
               {...register("body")}
@@ -293,7 +309,7 @@ const NewsEdit = ({
                 className="flex flex-row items-center justify-center gap-2 shadow-none capitalize text-lg h-[48px]"
               >
                 {loading ? (
-                  <CircularProgress />
+                  <CircularProgress className="text-white" />
                 ) : watch("isDraft") ? (
                   <span>Save Draft</span>
                 ) : (
