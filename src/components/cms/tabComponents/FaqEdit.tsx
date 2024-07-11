@@ -116,7 +116,7 @@ const FaqEdit = ({
         <div className="flex flex-col gap-4 text-titleColor h-full">
           <label>Question</label>
           <TextField
-            {...register("question")}
+            {...register("question", { required: "required" })}
             variant="outlined"
             error={Boolean(!!errors.question)}
             helperText={
@@ -128,7 +128,7 @@ const FaqEdit = ({
           <div className="flex flex-col gap-1 text-titleColor">
             <label>Answer</label>
             <TextField
-              {...register("answer")}
+              {...register("answer", { required: "required" })}
               variant="outlined"
               error={Boolean(!!errors.answer)}
               helperText={!!errors.answer && errors.answer.message?.toString()}
@@ -138,7 +138,10 @@ const FaqEdit = ({
           </div>
           <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
             <div className="flex flex-row items-center gap-1">
-              <Checkbox {...register("isDraft")} checked={Boolean(watch("isDraft"))}/>
+              <Checkbox
+                {...register("isDraft")}
+                checked={Boolean(watch("isDraft"))}
+              />
               <span>Save as Draft</span>
             </div>
             <div className="flex flex-row items-center gap-1">
@@ -148,7 +151,7 @@ const FaqEdit = ({
                 className="flex flex-row items-center justify-center gap-2 shadow-none capitalize text-lg h-[48px]"
               >
                 {loading ? (
-                  <CircularProgress />
+                  <CircularProgress className="text-white" />
                 ) : watch("isDraft") ? (
                   <span>Save Draft</span>
                 ) : (

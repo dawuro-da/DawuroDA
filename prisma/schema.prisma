@@ -166,8 +166,8 @@ model TempMember {
   fieldOfWork          String?
   partnershipIdea      String?
 
-  created_at    DateTime       @default(now())
-  updated_at    DateTime       @default(now()) @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
 
   @@map(name: "temp_members")
 }
@@ -236,6 +236,7 @@ model News {
   profileImage    String[]
   body            String
   bodyAmharic     String
+  youtubeLink     String?
   isDraft         Boolean  @default(false)
 
   created_at DateTime @default(now())
@@ -298,6 +299,7 @@ model Initiative {
   featuredImages          String[]
   body                    String
   bodyAmharic             String
+  youtubeLink             String?
   isDraft                 Boolean  @default(false)
 
   created_at DateTime @default(now())
@@ -345,7 +347,11 @@ model Job {
   jobTitleAmharic       String
   jobDescription        String
   jobDescriptionAmharic String
-  isDraft               Boolean @default(false)
+  responsiblities       String?
+  qualification         String?
+  benefits              String?
+
+  isDraft Boolean @default(false)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt

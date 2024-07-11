@@ -166,13 +166,13 @@ const Campaigns = () => {
                     selectedCampaign?.id === item.id && "bg-[#e5e5e6]"
                   } gap-2 hover:bg-[#e5e5e6] cursor-pointer`}
                 >
-                  <Image
+                  {/* <Image
                     src={"/icons/list.png"}
                     alt=""
                     height={50}
                     width={50}
                     className="h-full"
-                  />
+                  /> */}
                   <span className=" overflow-clip text-ellipsis text-nowrap flex-1 max-w-[70%]">
                     {item.headline}
                   </span>
@@ -214,7 +214,7 @@ const Campaigns = () => {
             <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Headline</label>
               <TextField
-                {...register("headline")}
+                {...register("headline", { required: "required" })}
                 variant="outlined"
                 error={Boolean(!!errors.headline)}
                 helperText={
@@ -226,7 +226,7 @@ const Campaigns = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Headline in Amharic</label>
                 <TextField
-                  {...register("headlineAmharic")}
+                  {...register("headlineAmharic", { required: "required" })}
                   variant="outlined"
                   error={Boolean(!!errors.headlineAmharic)}
                   helperText={
@@ -240,7 +240,7 @@ const Campaigns = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>CampaignLink</label>
                 <TextField
-                  {...register("campaignLink")}
+                  {...register("campaignLink", { required: "required" })}
                   variant="outlined"
                   error={Boolean(!!errors.campaignLink)}
                   helperText={

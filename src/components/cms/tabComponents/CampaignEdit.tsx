@@ -123,7 +123,7 @@ const CampaignEdit = ({
         <div className="relative flex flex-col gap-4 text-titleColor h-full">
           <label>Headline</label>
           <TextField
-            {...register("headline")}
+            {...register("headline", { required: "required" })}
             variant="outlined"
             error={Boolean(!!errors.headline)}
             helperText={
@@ -135,7 +135,7 @@ const CampaignEdit = ({
           <div className="flex flex-col gap-1 text-titleColor">
             <label>Headline in Amharic</label>
             <TextField
-              {...register("headlineAmharic")}
+              {...register("headlineAmharic", { required: "required" })}
               variant="outlined"
               error={Boolean(!!errors.headlineAmharic)}
               helperText={
@@ -150,7 +150,7 @@ const CampaignEdit = ({
           <div className="flex flex-col gap-1 text-titleColor">
             <label>Campaign Link</label>
             <TextField
-              {...register("campaignLink")}
+              {...register("campaignLink", { required: "required" })}
               variant="outlined"
               error={Boolean(!!errors.campaignLink)}
               helperText={

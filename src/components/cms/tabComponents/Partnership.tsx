@@ -174,7 +174,7 @@ const PartnershipPage = () => {
                   } gap-2 hover:bg-[#e5e5e6] cursor-pointer`}
                 >
                   <Image
-                    src={"/icons/list.png"}
+                    src={item.logo}
                     alt=""
                     height={50}
                     width={50}
@@ -220,7 +220,7 @@ const PartnershipPage = () => {
             <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Partner Name</label>
               <TextField
-                {...register("partnerName")}
+                {...register("partnerName",{required:'required'})}
                 variant="outlined"
                 error={Boolean(!!errors.partnerName)}
                 helperText={
@@ -232,7 +232,7 @@ const PartnershipPage = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Partner Name in Amharic</label>
                 <TextField
-                  {...register("partnerNameAmharic")}
+                  {...register("partnerNameAmharic", { required: "required" })}
                   variant="outlined"
                   error={Boolean(!!errors.partnerNameAmharic)}
                   helperText={
@@ -334,7 +334,7 @@ const PartnershipPage = () => {
                   className="flex flex-row items-center justify-center gap-2 shadow-none capitalize text-lg h-[48px]"
                 >
                   {loading ? (
-                    <CircularProgress />
+                    <CircularProgress className="text-white" />
                   ) : watch("isDraft") ? (
                     <span>Save Draft</span>
                   ) : (

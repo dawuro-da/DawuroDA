@@ -18,6 +18,7 @@ export async function createInitiative({
   body,
   bodyAmharic,
   isDraft,
+  youtubeLink,
 }: {
   isDraft: boolean;
   nameOfInitiative: string;
@@ -25,6 +26,7 @@ export async function createInitiative({
   featuredImages: string[];
   body: string;
   bodyAmharic: string;
+  youtubeLink?: string;
 }) {
   try {
     const initiative = await prisma.initiative.create({
@@ -35,6 +37,7 @@ export async function createInitiative({
         body,
         bodyAmharic,
         isDraft,
+        youtubeLink,
       },
     });
 
@@ -56,6 +59,7 @@ export async function updateInitiative({
   bodyAmharic,
   id,
   isDraft,
+  youtubeLink,
 }: {
   isDraft: boolean;
   id: string;
@@ -64,12 +68,14 @@ export async function updateInitiative({
   featuredImages: string[];
   body: string;
   bodyAmharic: string;
+  youtubeLink?: string;
 }) {
   try {
     const initiative = await prisma.initiative.update({
       where: { id: id },
       data: {
         isDraft,
+        youtubeLink,
         nameOfInitiative,
         nameOfInitiativeAmharic,
         featuredImages,

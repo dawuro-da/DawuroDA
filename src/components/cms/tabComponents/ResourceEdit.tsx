@@ -206,7 +206,7 @@ const ResourceEdit = ({
                 className="flex flex-row items-center justify-center gap-2 shadow-none capitalize text-lg h-[48px]"
               >
                 {loading ? (
-                  <CircularProgress />
+                  <CircularProgress className="text-white" />
                 ) : watch("isDraft") ? (
                   <span>Save Draft</span>
                 ) : (

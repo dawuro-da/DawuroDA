@@ -134,7 +134,7 @@ const PartnershipEdit = ({
         <div className="flex flex-col gap-4 text-titleColor h-full">
           <label>Partner Name</label>
           <TextField
-            {...register("partnerName")}
+            {...register("partnerName", { required: "required" })}
             variant="outlined"
             error={Boolean(!!errors.partnerName)}
             helperText={
@@ -146,7 +146,7 @@ const PartnershipEdit = ({
           <div className="flex flex-col gap-1 text-titleColor">
             <label>Partner Name in Amharic</label>
             <TextField
-              {...register("partnerNameAmharic")}
+              {...register("partnerNameAmharic", { required: "required" })}
               variant="outlined"
               error={Boolean(!!errors.partnerNameAmharic)}
               helperText={
@@ -178,6 +178,7 @@ const PartnershipEdit = ({
               <input
                 id="logo"
                 {...register("logo", {
+                  required: "logo is required",
                   // validate: {
                   //   fileSize: (value: any) => {
                   //     if (value && value[0]) {
@@ -251,7 +252,7 @@ const PartnershipEdit = ({
                 className="flex flex-row items-center justify-center gap-2 shadow-none capitalize text-lg h-[48px]"
               >
                 {loading ? (
-                  <CircularProgress />
+                  <CircularProgress className="text-white" />
                 ) : watch("isDraft") ? (
                   <span>Save Draft</span>
                 ) : (
