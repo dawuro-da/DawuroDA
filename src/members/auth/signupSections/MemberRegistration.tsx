@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import Image from "next/image";
-import { useState } from "react";
+import { MutableRefObject, useRef, useState } from "react";
 import {
   FieldErrors,
   FieldValues,
@@ -20,9 +20,7 @@ import { useRouter } from "next/navigation";
 interface MemberRegistrationProps {
   register: UseFormRegister<FieldValues>;
   loginError: string;
-  setIsSignUp: (value: boolean) => void;
   errors: FieldErrors<FieldValues>;
-  handleNext: () => void;
   watch: UseFormWatch<FieldValues>;
   setValue: UseFormSetValue<FieldValues>;
 }
@@ -30,13 +28,13 @@ interface MemberRegistrationProps {
 const MemberRegistration = ({
   register,
   loginError,
-  setIsSignUp,
-  handleNext,
   errors,
   watch,
   setValue,
 }: MemberRegistrationProps) => {
   const router = useRouter();
+  console.log({errors})
+  const btnRef = useRef<HTMLButtonElement | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const steps = [
     { label: "Membership Type", step: 1 },
@@ -179,12 +177,18 @@ const MemberRegistration = ({
         ) : (
           <span></span>
         )}
+        <button ref={btnRef} type="submit" className="hidden" />
+
         {currentStep < 4 ? (
           <Button
             className="px-10 shadow-none"
             variant="contained"
             onClick={() => {
-              setCurrentStep(currentStep + 1);
+              if (currentStep === 3) {
+                btnRef.current?.click();
+              } else {
+                setCurrentStep(currentStep + 1);
+              }
             }}
           >
             Next

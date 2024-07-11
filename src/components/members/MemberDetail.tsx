@@ -118,7 +118,7 @@ const MemberDetail = ({
                 member.membershipLevel === MembershipLevel.Platinium
                   ? "bg-[#34A8A8] text-white"
                   : member.membershipLevel === MembershipLevel.Diamond
-                  ? "bg-[#B0E0E62E] text-white"
+                  ? "bg-[#B0E0E62E] text-[#222222]"
                   : member.membershipLevel === MembershipLevel.Gold
                   ? "bg-[#FFD7002E]"
                   : member.membershipLevel === MembershipLevel.Siliver

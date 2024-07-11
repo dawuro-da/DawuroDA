@@ -13,7 +13,6 @@ const MemberSignup = ({
   setIsSignUp: (value: boolean) => void;
 }) => {
   const router = useRouter();
-  const formRef = useRef<HTMLFormElement | null>(null);
   const [signUpStep, setSignUpStep] = useState(0);
   const [loginError, setLoginError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -26,11 +25,7 @@ const MemberSignup = ({
   } = useForm();
 
   const handleNext = () => {
-    if (signUpStep === 3) {
-      formRef.current?.submit();
-    } else {
-      setSignUpStep(signUpStep + 1);
-    }
+    setSignUpStep(signUpStep + 1);
   };
 
   const renderSteps = (currentStep: number) => {
@@ -61,8 +56,6 @@ const MemberSignup = ({
             register={register}
             loginError={loginError}
             errors={errors}
-            setIsSignUp={setIsSignUp}
-            handleNext={handleNext}
             watch={watch}
             setValue={setValue}
           />
@@ -81,7 +74,6 @@ const MemberSignup = ({
 
   return (
     <form
-      ref={formRef}
       onSubmit={handleSubmit(handleRegister)}
       className="flex flex-col items-center justify-center gap-4 h-full w-full"
     >

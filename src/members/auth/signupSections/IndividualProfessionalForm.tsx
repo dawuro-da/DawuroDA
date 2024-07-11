@@ -1,7 +1,9 @@
+import { getMinimumContribution } from "@/util/helper";
 import { MenuItem, TextField } from "@mui/material";
 import {
   ContributionSystem,
   MembershipLevel,
+  MembershipType,
   PaymentMeans,
 } from "@prisma/client";
 import {
@@ -93,6 +95,49 @@ const IndividualProfessionalForm = ({
             </MenuItem>
           </TextField>
         </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <span className="text-titleColor text-sm font-bold">
+          Contribution Amount
+        </span>
+        <TextField
+          size="small"
+          {...register("contributionAmount", {
+            required: "Contribution Amount is required",
+            validate: {
+              minAmount: (value: any) => {
+                if (
+                  value &&
+                  watch("membershipLevel") &&
+                  watch("contributionSystem")
+                ) {
+                  const minAmount = getMinimumContribution({
+                    membershipLevel: watch("membershipLevel"),
+                    membershipType: MembershipType.Individual,
+                    contributionSystem: watch("contributionSystem"),
+                  });
+                  if (parseFloat(value) >= minAmount) {
+                    return true; // Value is valid
+                  } else {
+                    return `As per your ${watch(
+                      "membershipLevel"
+                    )} Level membership, the contribution amount should be >= ${minAmount}`;
+                  }
+                }
+                return false;
+              },
+            },
+          })}
+          type="number"
+          placeholder=""
+          className="border-2 rounded-[16px] "
+          inputProps={{ style: { padding: 10 } }}
+          error={Boolean(!!errors.contributionAmount)}
+          helperText={
+            !!errors.contributionAmount &&
+            errors.contributionAmount.message?.toString()
+          }
+        />
       </div>
       <div className="flex flex-col gap-2">
         <span className="text-titleColor text-sm font-bold">
