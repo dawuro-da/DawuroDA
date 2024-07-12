@@ -33,7 +33,6 @@ const MemberRegistration = ({
   setValue,
 }: MemberRegistrationProps) => {
   const router = useRouter();
-  console.log({errors})
   const btnRef = useRef<HTMLButtonElement | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const steps = [
@@ -90,6 +89,20 @@ const MemberRegistration = ({
 
       default:
         return <Success />;
+    }
+  };
+
+  const handleNextStep = () => {
+    if (currentStep === 2) {
+      if (!checkEmptyField({ watch })) {
+        return btnRef.current?.click();
+      }
+    }
+
+    if (currentStep === 3) {
+      return btnRef.current?.click();
+    } else {
+      return setCurrentStep(currentStep + 1);
     }
   };
 
@@ -183,13 +196,7 @@ const MemberRegistration = ({
           <Button
             className="px-10 shadow-none"
             variant="contained"
-            onClick={() => {
-              if (currentStep === 3) {
-                btnRef.current?.click();
-              } else {
-                setCurrentStep(currentStep + 1);
-              }
-            }}
+            onClick={handleNextStep}
           >
             Next
           </Button>
@@ -210,3 +217,46 @@ const MemberRegistration = ({
 };
 
 export default MemberRegistration;
+
+const checkEmptyField = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
+  if (watch("membershipType") === MembershipType.Individual) {
+    if (
+      !watch("firstName") ||
+      !watch("lastName") ||
+      !watch("phone") ||
+      !watch("email") ||
+      !watch("gender") ||
+      !watch("dateOfBirth") ||
+      !watch("region") ||
+      !watch("zone") ||
+      !watch("city") ||
+      !watch("kebele") ||
+      !watch("workPlace") ||
+      !watch("idNumber") ||
+      !watch("branch") ||
+      !watch("profileImage")
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  } else if (watch("membershipType") === MembershipType.Company) {
+    if (
+      !watch("institutionName") ||
+      !watch("headOrRepresentative") ||
+      !watch("fieldOfWork") ||
+      !watch("phone") ||
+      !watch("partnershipIdea") ||
+      !watch("region") ||
+      !watch("zone") ||
+      !watch("city") ||
+      !watch("kebele")
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  } else {
+    return false;
+  }
+};
