@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import AnchorTemporaryDrawer from "../AnchorTemporaryDrawer";
-import BruktawitProfile from "../drawerContent/BruktawitProfile";
+import BruktawitProfile from "../drawerContent/ManagerProfile";
 
 const BoardMember = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
