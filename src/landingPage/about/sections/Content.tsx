@@ -63,14 +63,8 @@ const Content = ({ content, setContent }: ContentProps) => {
 
   return (
     <>
-      <div className="relative lg:mt-[180px] mt-[100px] h-max">
-        <Image
-          src={"/images/bgabout.svg"}
-          height={10}
-          width={10}
-          alt=""
-          className="w-full h-[90%]"
-        />
+      <div className="relative lg:mt-[130px] mt-[100px] h-max">
+        <div className="w-full h-[90%] min-h-[500px] bg-[url('/images/bgabout.svg')] bg-cover bg-no-repeat" />
         <div
           className={`absolute right-[10%] font-light md:-bottom-[30%] -bottom-16 ${bgColor} ${
             bgColor === "bg-[#F0DC35]" ? "text-[#1E1E1E]" : "text-white"
@@ -108,9 +102,7 @@ const Content = ({ content, setContent }: ContentProps) => {
           <span className="font-extrabold h-fit lg:text-6xl md:text-3xl text-xl">
             {title}
           </span>
-          <p className="md:text-sm text-xs md:block hidden">
-            {description}
-          </p>
+          <p className="md:text-sm text-xs md:block hidden">{description}</p>
         </div>
       </div>
     </>
