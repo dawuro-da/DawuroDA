@@ -8,22 +8,14 @@ import {
   MembershipLevel,
   MembershipType,
   PaymentMeans,
-  UserRole,
 } from "@prisma/client";
-import {
-  createIndividualMember,
-  createInstitutionMember,
-  findMemberByEmail,
-  findMemberByPhone,
-} from "@/db/member";
 import { calculateNextDueDate } from "@/util/date";
-import { generateMemberId } from "@/util/helper";
-import { createContribution } from "@/db/contribution";
 import { uploadFile } from "@/util/uploadFile";
 import {
   createIndividualTempMember,
   createInstitutionTempMember,
 } from "@/db/tempMember";
+import axios from "axios";
 
 async function hashPassword(
   password: string,
@@ -38,11 +30,6 @@ async function hashPassword(
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(OPTIONS);
-  if (!session?.user?.id || session?.user.role === UserRole.Member) {
-    return NextResponse.redirect("/gaadmin/login", 401);
-  }
-
   const formData = await req.formData();
 
   const email = formData.get("email") as string;
@@ -90,7 +77,6 @@ export async function POST(req: Request) {
     );
 
   try {
-    const memberId = "tempId";
     const date = new Date(Date.now());
 
     const sharedMember = {
@@ -105,8 +91,6 @@ export async function POST(req: Request) {
       kebele,
       positionAtWork,
       paymentMeans,
-      memberId,
-      registeredBy: session.user?.id,
       contributionAmount: parseInt(contributionAmount),
       lastPaidAt: date.toISOString(),
       membershipType,
@@ -118,7 +102,7 @@ export async function POST(req: Request) {
       password_salt: salt,
     };
 
-    let imageUrl = "/icons/cms.svg";
+    let imageUrl = "/icons/avatar.svg";
     if (profileImage) {
       imageUrl =
         (await uploadFile({
@@ -158,9 +142,33 @@ export async function POST(req: Request) {
       });
     }
 
-    if (result) {
+    var raw = JSON.stringify({
+      amount: contributionAmount,
+      currency: "ETB",
+      email: email,
+      first_name: `${firstName}`,
+      last_name: `${lastName}`,
+      phone_number: `${phone}`,
+      tx_ref: `chewatatest-${Math.random()}`,
+      callback_url: `${process.env.PAYMENT_WEB_HOOK}/api/webhook/payment`,
+      return_url: `${process.env.PAYMENT_WEB_HOOK}/login`,
+      "customization[title]": "Gammoda member's contribution",
+      "customization[description]":
+        "this membership contribution should be paid after compeletion of your registration ",
+    });
+    const res = await axios.post(
+      "https://api.chapa.co/v1/transaction/initialize",
+      raw,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.CHAPA_SECRET_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (res) {
       return NextResponse.json(
-        { success: true, value: result },
+        { success: true, value: res.data },
         { status: 200 }
       );
     }

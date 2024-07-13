@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import Image from "next/image";
 import { MutableRefObject, useRef, useState } from "react";
 import {
@@ -23,6 +23,7 @@ interface MemberRegistrationProps {
   errors: FieldErrors<FieldValues>;
   watch: UseFormWatch<FieldValues>;
   setValue: UseFormSetValue<FieldValues>;
+  loading: boolean;
 }
 
 const MemberRegistration = ({
@@ -31,6 +32,7 @@ const MemberRegistration = ({
   errors,
   watch,
   setValue,
+  loading,
 }: MemberRegistrationProps) => {
   const router = useRouter();
   const btnRef = useRef<HTMLButtonElement | null>(null);
@@ -88,21 +90,24 @@ const MemberRegistration = ({
         );
 
       default:
-        return <Success />;
+        return <Success watch={watch} />;
     }
   };
 
   const handleNextStep = () => {
-    if (currentStep === 2) {
-      if (!checkEmptyField({ watch })) {
-        return btnRef.current?.click();
-      }
-    }
-
-    if (currentStep === 3) {
-      return btnRef.current?.click();
-    } else {
-      return setCurrentStep(currentStep + 1);
+    switch (currentStep) {
+      case 2:
+        if (!checkEmptyField({ watch })) {
+          return btnRef.current?.click();
+        } else {
+          return setCurrentStep(currentStep + 1);
+        }
+      case 3:
+        btnRef.current?.click();
+        setCurrentStep(currentStep + 1);
+        return;
+      default:
+        setCurrentStep(currentStep + 1);
     }
   };
 
@@ -192,23 +197,13 @@ const MemberRegistration = ({
         )}
         <button ref={btnRef} type="submit" className="hidden" />
 
-        {currentStep < 4 ? (
+        {currentStep < 4 && (
           <Button
             className="px-10 shadow-none"
             variant="contained"
             onClick={handleNextStep}
           >
-            Next
-          </Button>
-        ) : (
-          <Button
-            className="px-10 shadow-none"
-            variant="contained"
-            onClick={() => {
-              router.push("/member/dashboard");
-            }}
-          >
-            Finish
+            {loading ? <CircularProgress className="text-white" /> : "Next"}
           </Button>
         )}
       </div>

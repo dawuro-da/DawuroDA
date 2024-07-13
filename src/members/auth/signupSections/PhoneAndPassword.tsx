@@ -1,5 +1,5 @@
 import { FacebookRounded, RemoveRedEyeOutlined } from "@mui/icons-material";
-import { Button, Divider, TextField } from "@mui/material";
+import { Button, CircularProgress, Divider, TextField } from "@mui/material";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,8 +29,10 @@ const PhoneAndPassword = ({
 }: PhoneAndPasswordProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const sendOtp = async () => {
+    setLoading(true);
     try {
       if (!watch("phone") || !watch("password")) {
         setError("All fields are required");
@@ -48,6 +50,7 @@ const PhoneAndPassword = ({
       console.log(err);
       setError("Something Went Wrong");
     }
+    setLoading(false);
   };
 
   return (
@@ -140,7 +143,7 @@ const PhoneAndPassword = ({
         variant="outlined"
         className="capitalize font-bold bg-primaryColor hover:bg-primaryColor text-white w-full"
       >
-        Sign up
+        {loading ? <CircularProgress className="text-white" /> : "Sign up"}
       </Button>
       <div className="flex flex-row items-center gap-2 justify-end w-full">
         <span>have an account?</span>

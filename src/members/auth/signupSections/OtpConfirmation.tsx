@@ -1,5 +1,5 @@
 import OtpInput from "react-otp-input";
-import { Button, TextField } from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
 import { useState } from "react";
 import {
   FieldErrors,
@@ -10,23 +10,16 @@ import {
 import axios from "axios";
 
 interface OtpConfirmationProps {
-  register: UseFormRegister<FieldValues>;
-  setIsSignUp: (value: boolean) => void;
-  errors: FieldErrors<FieldValues>;
   handleNext: () => void;
   watch: UseFormWatch<FieldValues>;
 }
-const OtpConfirmation = ({
-  register,
-  setIsSignUp,
-  handleNext,
-  errors,
-  watch,
-}: OtpConfirmationProps) => {
+const OtpConfirmation = ({ handleNext, watch }: OtpConfirmationProps) => {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const verifyOtp = async () => {
+    setLoading(true);
     try {
       if (!otp) {
         setError("Please enter the OTP code");
@@ -45,6 +38,7 @@ const OtpConfirmation = ({
       console.log(err);
       setError("Something Went Wrong");
     }
+    setLoading(false);
   };
 
   return (
@@ -80,7 +74,7 @@ const OtpConfirmation = ({
           variant="outlined"
           className="capitalize font-bold bg-primaryColor hover:bg-primaryColor text-white w-full"
         >
-          Confirm
+          {loading ? <CircularProgress className="text-white" /> : "Confirm"}
         </Button>
       </div>
     </div>
