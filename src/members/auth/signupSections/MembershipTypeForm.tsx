@@ -1,5 +1,6 @@
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { MembershipType } from "@prisma/client";
+import { useEffect } from "react";
 import {
   FieldErrors,
   FieldValues,
@@ -16,13 +17,13 @@ interface MembershipTypeFormProps {
   watch: UseFormWatch<FieldValues>;
 }
 
-const MembershipTypeForm = ({
-  register,
-  loginError,
-  errors,
-  setValue,
-  watch,
-}: MembershipTypeFormProps) => {
+const MembershipTypeForm = ({ setValue, watch }: MembershipTypeFormProps) => {
+  useEffect(() => {
+    if (!watch("membershipType")) {
+      setValue("membershipType", MembershipType.Individual);
+    }
+  }, []);
+
   return (
     <>
       <span className="text-3xl font-light tracking-tight mt-12 w-full">

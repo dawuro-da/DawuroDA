@@ -39,7 +39,7 @@ const IndividualProfessionalForm = ({
               required: "Membership Level is required",
             })}
             className="w-full p-[1px]"
-            defaultValue={""}
+            defaultValue={watch("membershipLevel")}
             size="small"
             error={Boolean(!!errors.membershipLevel)}
             helperText={
@@ -73,7 +73,7 @@ const IndividualProfessionalForm = ({
           <TextField
             select
             className="w-full p-[1px]"
-            defaultValue={""}
+            defaultValue={watch("contributionSystem")}
             size="small"
             {...register("contributionSystem", {
               required: "Contribution System is required",
@@ -200,7 +200,7 @@ const IndividualProfessionalForm = ({
           <TextField
             select
             className="w-full p-[1px]"
-            defaultValue={""}
+            defaultValue={watch("paymentMeans")}
             size="small"
             {...register("paymentMeans", {
               required: "Payment Means is required",

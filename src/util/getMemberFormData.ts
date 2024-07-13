@@ -28,6 +28,7 @@ export const getMemberFormData = (values: any) => {
   formData.append("positionAtWork", values.positionAtWork);
   formData.append("paymentMeans", values.paymentMeans);
   formData.append("membershipType", values.membershipType);
+  formData.append("password", values.password);
 
   return formData;
 };

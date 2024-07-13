@@ -1,18 +1,18 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import OtpConfirmation from "./signupSections/OtpConfirmation";
 import PhoneAndPassword from "./signupSections/PhoneAndPassword";
 import MemberRegistration from "./signupSections/MemberRegistration";
+import axios from "axios";
+import { getMemberFormData } from "@/util/getMemberFormData";
 
 const MemberSignup = ({
   setIsSignUp,
 }: {
   setIsSignUp: (value: boolean) => void;
 }) => {
-  const router = useRouter();
   const [signUpStep, setSignUpStep] = useState(0);
   const [loginError, setLoginError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -41,15 +41,7 @@ const MemberSignup = ({
           />
         );
       case 1:
-        return (
-          <OtpConfirmation
-            register={register}
-            errors={errors}
-            setIsSignUp={setIsSignUp}
-            handleNext={handleNext}
-            watch={watch}
-          />
-        );
+        return <OtpConfirmation handleNext={handleNext} watch={watch} />;
       default:
         return (
           <MemberRegistration
@@ -58,18 +50,24 @@ const MemberSignup = ({
             errors={errors}
             watch={watch}
             setValue={setValue}
+            loading={loading}
           />
         );
     }
   };
 
   const handleRegister = async (values: FieldValues) => {
+    setLoading(true);
     try {
-      console.log({ values });
-      setSignUpStep(signUpStep + 1);
+      const formData = getMemberFormData({ ...values });
+      const res = await axios.post("/api/tempMember/register", formData);
+      if (res.data.success) {
+        window.open(res.data.value.data.checkout_url);
+      }
     } catch (err) {
       console.log({ err });
     }
+    setLoading(false);
   };
 
   return (
