@@ -219,7 +219,6 @@ const checkEmptyField = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
       !watch("firstName") ||
       !watch("lastName") ||
       !watch("phone") ||
-      !watch("email") ||
       !watch("gender") ||
       !watch("dateOfBirth") ||
       !watch("region") ||
