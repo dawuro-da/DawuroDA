@@ -1,20 +1,11 @@
 import { NextResponse } from "next/server";
-import axios, { AxiosHeaders } from "axios";
 import { findTempMemberByEmailAndPhone } from "@/db/tempMember";
-import { MembershipType } from "@prisma/client";
-import { createIndividualMember } from "@/db/member";
 import { generateMemberId } from "@/util/helper";
 import { calculateNextDueDate } from "@/util/date";
 import prisma from "@/lib/prisma";
 
 export async function POST(req: Request, res: any) {
-  console.log("====================================");
-  console.log("====================================");
-  console.log("====================================");
-  console.log("body webhook", await req.json());
-  console.log("====================================");
-  console.log("====================================");
-  console.log("====================================");
+  // chapa
   // {
   //   event: 'charge.success',
   //   first_name: 'Bilen',
@@ -89,9 +80,18 @@ export async function POST(req: Request, res: any) {
         });
       }
     }
-    res.status(200);
+    return NextResponse.json(
+      {
+        success: "OK",
+      },
+      { status: 200 }
+    );
   } catch (error) {
-    console.log(error);
-    return res.status(500);
+    return NextResponse.json(
+      {
+        success: "Can't process payment",
+      },
+      { status: 500 }
+    );
   }
 }

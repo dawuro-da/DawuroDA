@@ -9,7 +9,7 @@ const Success = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
   const handleGeneratePaymentLink = async () => {
     setLoading(true);
     try {
-      const res = await axios.post("/api/payment/initiate", {
+      const res = await axios.post("/api/payment/registrationPayment", {
         contributionAmount: watch("contributionAmount"),
         email: watch("email"),
         firstName: watch("firstName"),
