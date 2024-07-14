@@ -45,11 +45,11 @@ const PhoneAndPassword = ({
       if (res.data.success) {
         handleNext();
       } else {
-        setError("Something Went Wrong");
+        setError(res.data.error);
       }
-    } catch (err) {
-      console.log(err);
-      setError("Something Went Wrong");
+    } catch (err: any) {
+      console.log({ err });
+      if (err?.response?.data?.error) setError(err?.response?.data?.error);
     }
     setLoading(false);
   };
