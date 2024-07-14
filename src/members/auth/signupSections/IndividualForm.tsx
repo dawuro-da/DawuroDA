@@ -70,21 +70,6 @@ const IndividualForm = ({
           helperText={!!errors.phone && errors.phone.message?.toString()}
         />
       </div>
-      <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Email</span>
-        <TextField
-          size="small"
-          {...register("email", {
-            required: "Email is required",
-          })}
-          type="text"
-          placeholder=""
-          className="border-2 rounded-[16px] py-2"
-          inputProps={{ style: { padding: 10 } }}
-          error={Boolean(!!errors.email)}
-          helperText={!!errors.email && errors.email.message?.toString()}
-        />
-      </div>
       <div className="flex flex-col gap-2">
         <span className="text-titleColor text-sm font-bold">Gender</span>
         <div className="min-w-[130px]">

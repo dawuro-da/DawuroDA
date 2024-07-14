@@ -35,11 +35,12 @@ const PhoneAndPassword = ({
     setLoading(true);
     try {
       if (!watch("phone") || !watch("password")) {
-        setError("All fields are required");
+        setError("Phone and password are required");
         return;
       }
-      const res = await axios.post("/api/sms/sendOtp", {
+      const res = await axios.post("/api/member/checkToRegister", {
         phone: watch("phone"),
+        email: watch("email"),
       });
       if (res.data.success) {
         handleNext();
@@ -63,6 +64,21 @@ const PhoneAndPassword = ({
         </span>
       </div>
       <div className="flex flex-col gap-1 w-full mt-16">
+        <span className="text-titleColor text-sm font-bold">
+          {"Email (optional)"}
+        </span>
+        <TextField
+          size="small"
+          {...register("email")}
+          type="text"
+          placeholder=""
+          className="border-2 rounded-[16px] py-2"
+          inputProps={{ style: { padding: 10 } }}
+          error={Boolean(!!errors.email)}
+          helperText={!!errors.email && errors.email.message?.toString()}
+        />
+      </div>
+      <div className="flex flex-col gap-1 w-full">
         <span className="text-titleColor text-sm font-bold">Phone Number</span>
         <TextField
           size="small"

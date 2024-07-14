@@ -1,42 +1,5 @@
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
-import { getServerSession } from "next-auth";
-import { OPTIONS } from "@/util/authOptions";
-import {
-  ContributionSystem,
-  Gender,
-  MembershipLevel,
-  MembershipType,
-  PaymentMeans,
-  UserRole,
-} from "@prisma/client";
-import {
-  createIndividualMember,
-  createInstitutionMember,
-  findMemberByEmail,
-  findMemberByPhone,
-} from "@/db/member";
-import { calculateNextDueDate } from "@/util/date";
-import { generateMemberId } from "@/util/helper";
-import { createContribution } from "@/db/contribution";
-import { uploadFile } from "@/util/uploadFile";
-import {
-  createIndividualTempMember,
-  createInstitutionTempMember,
-} from "@/db/tempMember";
 import axios from "axios";
-
-async function hashPassword(
-  password: string,
-  salt: string
-): Promise<string | null> {
-  try {
-    return await bcrypt.hash(password, salt);
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
 
 export async function POST(req: Request) {
   const {
