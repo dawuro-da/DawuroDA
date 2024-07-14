@@ -215,6 +215,19 @@ export default MemberRegistration;
 
 const checkEmptyField = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
   if (watch("membershipType") === MembershipType.Individual) {
+    console.log("firstName || ", watch("firstName"));
+    console.log("      lastName || ", watch("lastName"));
+    console.log("      phone || ", watch("phone"));
+    console.log("      gender || ", watch("gender"));
+    console.log("      dateOfBirth || ", watch("dateOfBirth"));
+    console.log("      region || ", watch("region"));
+    console.log("      zone || ", watch("zone"));
+    console.log("      city || ", watch("city"));
+    console.log("      kebele || ", watch("kebele"));
+    console.log("      workPlace || ", watch("workPlace"));
+    console.log("      idNumber || ", watch("idNumber"));
+    console.log("      branch || ", watch("branch"));
+    console.log("      profileImage ", watch("profileImage"));
     if (
       !watch("firstName") ||
       !watch("lastName") ||
