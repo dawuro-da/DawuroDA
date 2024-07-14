@@ -1,10 +1,31 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
 import { sendOTP } from "@/util/sms";
+import { findMemberByEmail, findMemberByPhone } from "@/db/member";
 
 export async function POST(req: Request) {
   try {
-    const { phone } = await req.json();
+    const { phone, email } = await req.json();
+
+    const emailExist = email ? Boolean(await findMemberByEmail(email)) : "";
+    const phoneExist = Boolean(await findMemberByPhone(phone));
+
+    if (emailExist) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Email already exist",
+        },
+        { status: 409 }
+      );
+    } else if (phoneExist) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Phone already exist",
+        },
+        { status: 409 }
+      );
+    }
 
     const response = await sendOTP({ phone });
 
@@ -12,7 +33,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           success: true,
-          value: "Successfully Sent",
+          value: "Verifcation OTP sent",
         },
         { status: 200 }
       );
