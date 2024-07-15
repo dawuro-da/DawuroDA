@@ -56,7 +56,6 @@ const MemberSignup = ({
     }
   };
 
-  console.log({errors})
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
     try {

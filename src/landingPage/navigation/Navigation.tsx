@@ -11,11 +11,18 @@ import {
   Twitter,
 } from "@mui/icons-material";
 import { Avatar, Button, IconButton, MenuItem } from "@mui/material";
+import { UserRole } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import ProfileMenu from "./ProfileMenu";
 
 export default function Naviagtion({ bg }: { bg?: string }) {
   const router = useRouter();
+  const session = useSession();
+  const hasValidSession = Boolean(
+    session.data?.user.id && session.data.user.role === UserRole.Member
+  );
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
@@ -92,7 +99,7 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             alt=""
             className="h-[60px] w-[60px]"
             style={{
-              boxShadow:'2px 3px 12px rgb(0,0,0,0.2)'
+              boxShadow: "2px 3px 12px rgb(0,0,0,0.2)",
             }}
           />
         </div>
@@ -129,13 +136,17 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             </div>
           </div>
         </div>
-        <Button
-          variant="outlined"
-          onClick={() => router.push("/login")}
-          className="text-white capitalize bg-primaryColor hover:text-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer hidden xl:lg:md:block"
-        >
-          Join
-        </Button>
+        {hasValidSession ? (
+          <ProfileMenu />
+        ) : (
+          <Button
+            variant="outlined"
+            onClick={() => router.push("/login")}
+            className="text-white capitalize bg-primaryColor hover:text-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer hidden xl:lg:md:block"
+          >
+            Join
+          </Button>
+        )}
         <div
           className={`xl:lg:md:hidden absolute top-2 right-10 w-fit h-full flex flex-row items-center ${
             isHome && "text-white"
@@ -233,16 +244,20 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             >
               Donate
             </span>
-            <Button
-              variant="outlined"
-              onClick={() => {
-                router.push("/login");
-                setMenuOpen(!menuOpen);
-              }}
-              className=" text-white capitalize bg-primaryColor hover:text-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer "
-            >
-              Join
-            </Button>
+            {hasValidSession ? (
+              <ProfileMenu />
+            ) : (
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  router.push("/login");
+                  setMenuOpen(!menuOpen);
+                }}
+                className=" text-white capitalize bg-primaryColor hover:text-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer "
+              >
+                Join
+              </Button>
+            )}
             <span className="flex flex-col font-normal gap-1 mt-2">
               <span className="text-xs">Language</span>
               <select

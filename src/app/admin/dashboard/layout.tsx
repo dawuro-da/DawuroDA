@@ -10,8 +10,10 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user?.id || session?.user?.role === UserRole.Member) {
+  if (!session?.user?.id) {
     redirect("/gaadmin/login");
+  } else if (session?.user?.role === UserRole.Member) {
+    redirect("/member/dashboard");
   }
 
   const menuItems = [

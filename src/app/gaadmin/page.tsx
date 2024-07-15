@@ -5,8 +5,11 @@ import { getServerSession } from "next-auth";
 
 export default async function Gaadmin() {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user?.id || session?.user?.role === UserRole.Member) {
+  if (!session?.user?.id) {
     redirect("/gaadmin/login");
+  } else if (session?.user?.role === UserRole.Member) {
+    redirect("/member/dashboard");
   }
+
   return redirect("/admin/dashboard");
 }

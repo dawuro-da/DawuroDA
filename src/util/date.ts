@@ -1,3 +1,13 @@
+export function getMonthsSince(date: Date): number {
+  const today = new Date();
+  const yearDiff = today.getFullYear() - date.getFullYear();
+  const monthDiff = today.getMonth() - date.getMonth();
+
+  const totalMonths = yearDiff * 12 + monthDiff;
+
+  return totalMonths > 0 ? totalMonths : 0;
+}
+
 export function getFormattedDateFromTimestamp(dateString: string) {
   // Create a Date object from the provided date string
   const date = new Date(dateString);

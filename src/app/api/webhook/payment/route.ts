@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
-import { findTempMemberByEmailAndPhone } from "@/db/tempMember";
+import { findTempMemberByPhone } from "@/db/tempMember";
 import { generateMemberId } from "@/util/helper";
 import { calculateNextDueDate } from "@/util/date";
 import prisma from "@/lib/prisma";
+import crypto from "crypto";
+import { createContribution } from "@/db/contribution";
 
 export async function POST(req: Request, res: any) {
   // chapa
@@ -27,12 +29,15 @@ export async function POST(req: Request, res: any) {
   //   meta: 'null'
   // }
   try {
-    const { event, email, mobile } = await req.json();
+    const body = await req.json();
+    const { event, email, mobile } = body;
+
+    console.log("=============================");
+    console.log({ body });
+    console.log("============================");
     if (event === "charge.success") {
-      const tempMember = await findTempMemberByEmailAndPhone({
-        email,
-        phone: mobile,
-      });
+      const tempMember = await findTempMemberByPhone(mobile);
+
       if (tempMember) {
         const date = new Date(Date.now());
         const sharedData = {
@@ -58,7 +63,7 @@ export async function POST(req: Request, res: any) {
           password_salt: tempMember.password_salt,
         };
 
-        await prisma.member.create({
+        const member = await prisma.member.create({
           data: {
             ...sharedData,
             memberId: generateMemberId(),
@@ -78,6 +83,13 @@ export async function POST(req: Request, res: any) {
             partnershipIdea: tempMember.partnershipIdea,
           },
         });
+        if (member) {
+          await createContribution({
+            contributionSystem: member.contributionSystem,
+            contributorId: member.id,
+            amount: member.contributionAmount.toString(),
+          });
+        }
       }
     }
     return NextResponse.json(
@@ -87,6 +99,7 @@ export async function POST(req: Request, res: any) {
       { status: 200 }
     );
   } catch (error) {
+    console.log({ error });
     return NextResponse.json(
       {
         success: "Can't process payment",

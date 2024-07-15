@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 export default async function Page() {
   const session = await getServerSession(OPTIONS);
   if (session?.user?.role === "Member") {
-    redirect("members/dashboard");
+    redirect("/member/dashboard");
   } else if (session?.user?.id) {
     redirect("/admin/dashboard");
   }
