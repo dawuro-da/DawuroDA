@@ -5,12 +5,13 @@ import {
   FacebookRounded,
   RemoveRedEyeOutlined,
 } from "@mui/icons-material";
-import { Button, Divider, TextField } from "@mui/material";
+import { Button, CircularProgress, Divider, TextField } from "@mui/material";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 
 const MemberLogin = ({
   setIsSignUp,
@@ -24,10 +25,31 @@ const MemberLogin = ({
   const {
     register,
     formState: { errors },
+    handleSubmit,
   } = useForm();
 
+  const handleLogin = async (values: FieldValues) => {
+    const { phone, password } = values;
+    setLoading(true);
+    const res = await signIn("credentials", {
+      email: phone,
+      password,
+      redirect: false,
+    });
+
+    if (res?.status === 200) {
+      window.open("/member/dashboard", "_parent");
+    } else if (res?.status === 401) {
+      setLoginError(res.error ?? "Login Error");
+    }
+    setLoading(false);
+  };
+
   return (
-    <form className="px-10 py-20 xl:lg:mt-0 mt-10 flex flex-col items-center justify-center gap-4 max-w-[600px]">
+    <form
+      onSubmit={handleSubmit(handleLogin)}
+      className="px-10 py-20 xl:lg:mt-0 mt-10 flex flex-col items-center justify-center gap-4 max-w-[600px]"
+    >
       <div className="font-bold text-4xl">Login</div>
       <div className="flex flex-col gap-1 items-center">
         <span className="text-center">Welcome back to</span>
@@ -116,10 +138,11 @@ const MemberLogin = ({
         </div>
       </div>
       <Button
+        type="submit"
         variant="outlined"
         className="capitalize font-bold bg-primaryColor hover:bg-primaryColor text-white w-full"
       >
-        Login
+        {loading ? <CircularProgress className="text-white" /> : "Login"}
       </Button>
       <div className="flex flex-row items-center gap-2 justify-end w-full">
         <span>Are you new here?</span>

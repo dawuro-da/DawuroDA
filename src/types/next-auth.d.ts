@@ -10,6 +10,8 @@ declare module "next-auth" {
       lastName: string;
       role: UserRole;
       email: string;
+      phone: string;
+      profileImage: string;
     };
   }
 
@@ -19,5 +21,7 @@ declare module "next-auth" {
     lastName: string;
     role: UserRole;
     email: string;
+    phone: string;
+    profileImage: string;
   }
 }

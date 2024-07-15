@@ -3,12 +3,18 @@
 import { useState } from "react";
 import { AuctionCardData } from "./AuctionData";
 import AuctionCard from "./AuctionCard";
+import { Contribution } from "@prisma/client";
+import { getFormattedDate } from "@/util/date";
 
 enum Tab {
   PaymentHistoryTab,
   AuctionTab,
 }
-const HistoryAndAuction = () => {
+const HistoryAndAuction = ({
+  contributions,
+}: {
+  contributions?: Contribution[];
+}) => {
   const [selectedTab, setSelectedTab] = useState(Tab.PaymentHistoryTab);
 
   return (
@@ -42,15 +48,15 @@ const HistoryAndAuction = () => {
       </div>
       {Tab.PaymentHistoryTab === selectedTab && (
         <div className="flex flex-col gap-6 w-full mt-10">
-          {[1, 2, 3, 4].map((item) => {
+          {contributions?.map((contribution, index) => {
             return (
               <div
-                key={item}
+                key={contribution.id}
                 className="w-full bg-white border-[1px] flex flex-row items-center justify-between p-4 xl:lg:px-10"
               >
-                <span>340ETB</span>
-                <span>Quarterly</span>
-                <span>May 20,2022</span>
+                <span>{`${contribution.amount}ETB`}</span>
+                <span>{contribution.contributionSystem}</span>
+                <span>{getFormattedDate(contribution.created_at)}</span>
               </div>
             );
           })}
