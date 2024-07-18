@@ -1,9 +1,12 @@
 import Navigation from "@/landingPage/navigation/Navigation";
 import { Button } from "@mui/material";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const HeroSection = () => {
+  const router = useRouter();
   const images = [
     { url: "/images/hero1.svg", alt: "Image 1" },
     { url: "/images/hero2.svg", alt: "Image 2" },
@@ -55,7 +58,7 @@ const HeroSection = () => {
         </div>
       ))}
       <div className="leading-10 xl:lg:px-40 md:px-20 px-10 absolute text-white h-full w-full xl:max-w-[80%] lg:max-w-[90%] flex flex-col items-center justify-center xl:lg:gap-6 gap-2 z-20">
-        {renderText(currentIndex)}
+        {renderText(currentIndex, router)}
       </div>
 
       <button
@@ -88,7 +91,7 @@ const HeroSection = () => {
 
 export default HeroSection;
 
-const renderText = (currentIndex: number) => {
+const renderText = (currentIndex: number, router: AppRouterInstance) => {
   switch (currentIndex) {
     case 0:
       return (
@@ -105,14 +108,16 @@ const renderText = (currentIndex: number) => {
           </p>
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
             <Button
+              onClick={() => router.push("/login")}
               variant="outlined"
               className="bg-primaryColor border-2 hover:border-2 border-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
             >
               Join Us
             </Button>
             <Button
+              onClick={() => router.push("/about")}
               variant="outlined"
-              className="bg-transparent border-2 border-white capitalize hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
+              className="bg-transparent border-2 border-white capitalize hover:border-2 hover:border-white hover:bg-transparent hover:text-black text-white font-bold py-2 px-4 rounded"
             >
               About Us
             </Button>

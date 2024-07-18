@@ -51,7 +51,7 @@ const MemberAuth = () => {
               src={image.url}
               alt={image.alt}
               fill
-              className="w-[100%] h-[100%] object-cover filter brightness-30 opacity-25"
+              className="w-[100%] h-[100%] object-cover filter "
             />
           </div>
         ))}

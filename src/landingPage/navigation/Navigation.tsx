@@ -16,6 +16,7 @@ import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import ProfileMenu from "./ProfileMenu";
+import Link from "next/link";
 
 export default function Naviagtion({ bg }: { bg?: string }) {
   const router = useRouter();
@@ -66,16 +67,32 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             <span>Join our social media:</span>
             <Telegram />
             <Twitter />
-            <Facebook />
+            <Link
+              target="_blank"
+              href="https://www.facebook.com/gamodevelopmentassociation?mibextid=ZbWKwL"
+            >
+              <Facebook />
+            </Link>
             <Instagram />
           </div>
-          <span className="hover:text-primaryColor cursor-pointer text-sm">
+          <span
+            onClick={() =>
+              window.open("https://chapa.link/donation/view/DN-hCHqr7IQf80T")
+            }
+            className="hover:text-primaryColor cursor-pointer text-sm"
+          >
             Donate
           </span>
-          <span className="hover:text-primaryColor cursor-pointer text-sm">
+          <span
+            onClick={() => router.push("/#contact-us")}
+            className="hover:text-primaryColor cursor-pointer text-sm"
+          >
             Contact
           </span>
-          <span className="hover:text-primaryColor cursor-pointer text-sm">
+          <span
+            onClick={() => router.push("/#faqs")}
+            className="hover:text-primaryColor cursor-pointer text-sm"
+          >
             FAQ
           </span>
           <select
@@ -231,16 +248,10 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             </div>
             <span
               onClick={() => {
-                router.push("/donate");
+                window.open("https://chapa.link/donation/view/DN-hCHqr7IQf80T");
                 setMenuOpen(!menuOpen);
               }}
-              className={`w-fit cursor-pointer 
-                      ${
-                        "/donate" === pathname
-                          ? "border-b-2 border-b-primaryColor"
-                          : "border-b-2 border-b-transparent"
-                      }
-                     hover:border-b-2 hover:border-primaryColor px-2`}
+              className={`w-fit cursor-pointer hover:border-b-2 hover:border-primaryColor px-2`}
             >
               Donate
             </span>
@@ -279,7 +290,12 @@ export default function Naviagtion({ bg }: { bg?: string }) {
               <span className="flex flex-row gap-2 text-[#474747]">
                 <Telegram />
                 <Twitter />
-                <Facebook />
+                <Link
+                  target="_blank"
+                  href="https://www.facebook.com/gamodevelopmentassociation?mibextid=ZbWKwL"
+                >
+                  <Facebook />
+                </Link>
                 <Instagram />
               </span>
             </span>

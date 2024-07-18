@@ -2,6 +2,7 @@
 
 import { Avatar, Button } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 
@@ -43,6 +44,8 @@ const AboutSection = () => {
     prevArrow: <LeftArrow />,
   };
 
+  const router = useRouter();
+
   return (
     <div className="xl:lg:px-40 md:px-20 px-10 grid items-center h-fit lg:grid-cols-2 grid-cols-1 mt-48 mb-36 w-full">
       <div className="lg:text-left text-center  w-full">
@@ -58,12 +61,14 @@ const AboutSection = () => {
         </p>
         <div className="flex space-x-5 lg:justify-start justify-center">
           <Button
+            onClick={() => router.push("/about")}
             variant="outlined"
             className="px-7 hover:bg-[#ffffff] border-2 border-[#292929] hover:border-2 hover:border-[#292929] py-2 rounded-md text-white hover:text-[#222222] bg-[#222222]"
           >
             About Us
           </Button>
           <Button
+            onClick={() => router.push("/about")}
             variant="outlined"
             className="px-7 hover:bg-[#292929] border-2 border-[#292929] hover:border-2 hover:border-[#292929] py-2 rounded-md text-[#292929] hover:text-[#ffffff] bg-[#ffffff]"
           >
