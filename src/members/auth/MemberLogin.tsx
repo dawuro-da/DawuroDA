@@ -116,7 +116,7 @@ const MemberLogin = ({
           </span>
         </Link>
       </div>
-      <Divider title="Or" className="font-extralight w-full" textAlign="center">
+      {/* <Divider title="Or" className="font-extralight w-full" textAlign="center">
         Or
       </Divider>
       <div className="flex xl:lg:flex-row md:flex-row flex-col items-center gap-4 w-full">
@@ -136,7 +136,7 @@ const MemberLogin = ({
           />
           <span>Google</span>
         </div>
-      </div>
+      </div> */}
       <Button
         type="submit"
         variant="outlined"
