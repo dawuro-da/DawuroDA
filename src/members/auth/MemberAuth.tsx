@@ -6,8 +6,10 @@ import MemberSignup from "./MemberSignup";
 import { useEffect, useState } from "react";
 
 const images = [
-  { url: "/images/tractor.svg", alt: "Image 1" },
-  { url: "/images/tractor2.svg", alt: "Image 2" },
+  { url: "/images/hero1.svg", alt: "Image 1" },
+  { url: "/images/hero2.svg", alt: "Image 2" },
+  { url: "/images/hero3.svg", alt: "Image 3" },
+  { url: "/images/hero4.svg", alt: "Image 4" },
 ];
 
 const MemberAuth = () => {
@@ -49,12 +51,14 @@ const MemberAuth = () => {
               src={image.url}
               alt={image.alt}
               fill
-              className="w-[100%] h-[100%] object-cover filter brightness-30"
+              className="w-[100%] h-[100%] object-cover filter brightness-30 opacity-25"
             />
           </div>
         ))}
         <div className="absolute text-white h-full w-full flex flex-col items-center justify-end pb-24 xl:lg:gap-6 gap-2 z-20">
-          <div className="max-w-[500px] flex flex-row justify-center items-center">{renderText(currentIndex)}</div>
+          <div className="max-w-[500px] flex flex-row justify-center items-center">
+            {renderText(currentIndex)}
+          </div>
         </div>
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
           {images.map((_, index) => (

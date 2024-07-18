@@ -69,7 +69,7 @@ const NewsCard = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 lg:col-span-1 md:col-span-7 gap-0">
-          <div className="relative lg:col-span-1 lg:block hidden mb-5 group cursor-pointer">
+          <div onClick={() => router.push("/news/news-detail")} className="relative lg:col-span-1 lg:block hidden group cursor-pointer">
             <Image
               src={newsItems[4].imgSrc}
               alt=""
@@ -77,7 +77,7 @@ const NewsCard = () => {
               height={20}
               className="lg:w-full"
             />
-            <div className="absolute bottom-12 text-white left-7 text-left cursor-pointer">
+            <div className="absolute bottom-20 text-white left-7 text-left cursor-pointer">
               <h2 className="group-hover:underline text-2xl font-bold mb-3">
                 {newsItems[0].title}
               </h2>
@@ -100,7 +100,7 @@ const NewsCard = () => {
               className="flex flex-col items-start cursor-pointer group"
               onClick={() => router.push("/news/news-detail")}
             >
-              <div className="flex flex-row text-start space-x-6 lg:mb-5 mb-4">
+              <div onClick={() => router.push("/news/news-detail")} className="flex flex-row text-start space-x-6 lg:mb-5 mb-4">
                 <Image
                   src={item.imgSrc}
                   alt=""

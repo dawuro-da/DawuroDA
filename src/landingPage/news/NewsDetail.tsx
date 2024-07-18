@@ -20,7 +20,7 @@ const newsItems: NewsItem[] = [
   {
     title: "Support Our Mission: Donate Today!",
     date: "Mar 20, 2023",
-    imgSrc: "/images/newsdetail3.svg",
+    imgSrc: "/images/eduNews.jpg",
   },
   {
     title: "Support Our Mission: Donate Today!",
@@ -84,72 +84,29 @@ const NewsDetail = () => {
           <div className="xl:lg:col-span-3 mt-12 text-titleColor">
             <Image
               draggable={false}
-              src={"/images/newsdetail1.svg"}
+              src={"/images/eduNews.jpg"}
               alt=""
+              unoptimized
               width={20}
               height={20}
               className="w-full mb-14"
             />
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum
-            </p>
-            <br />
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum
-            </p>
-            <br />
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum
-            </p>
-            <br />
-
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborumLorem
-              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-              minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum
+              It is reported that the Gamo Bayra Model boarding school is
+              working to become a competitor in the country. Gamo Bayra Model
+              boarding school is working with determination to be a competitor
+              and competitor in the country, the administrator of the school Mr.
+              Ayalew Abera said that the Gamo Development Association is working
+              hard to become a competitor. In addition to teaching Gamo Bayra
+              Model boarding school, they have also stated that they are
+              preparing to score good results in the technology innovation
+              competition that is being held in Turkey. The headmaster of the
+              school Mr. Abraham Dobe on his behalf; Gamo Bayra Model boarding
+              school is ready to receive 150 new students in the 2017 academic
+              year. Aklew said that the teaching process is going well than
+              ever. The students of the school also expressed that they are well
+              prepared for the 2016 academic year secondary school final exam.
+              The report was taken from Gamo TV social media page.
             </p>
           </div>
 
@@ -173,9 +130,10 @@ const NewsDetail = () => {
                       draggable={false}
                       src={item.imgSrc}
                       alt=""
+                      unoptimized
                       width={20}
                       height={20}
-                      className="lg:w-[40%] w-[38%]"
+                      className="lg:min-w-[40%] min-w-[38%]"
                     />
                     <div className="mt-2 pl-0 w-full">
                       <h2 className="md:text-sm text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
