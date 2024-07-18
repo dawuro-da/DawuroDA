@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 
 const HeroSection = () => {
   const images = [
-    { url: "/images/tractor.svg", alt: "Image 1" },
-    { url: "/images/tractor2.svg", alt: "Image 2" },
-    { url: "/images/tractor.svg", alt: "Image 3" },
-    { url: "/images/tractor2.svg", alt: "Image 4" },
+    { url: "/images/hero1.svg", alt: "Image 1" },
+    { url: "/images/hero2.svg", alt: "Image 2" },
+    { url: "/images/hero3.svg", alt: "Image 3" },
+    { url: "/images/hero4.svg", alt: "Image 4" },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);

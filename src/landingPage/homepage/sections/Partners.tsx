@@ -53,7 +53,7 @@ const Partners = () => {
         </div>
       </div>
 
-      <div className="text-[#FFFFFF] pt-32 text-left px-11 mt-20 lg:bg-[url('/images/partnerbg.svg')] bg-[url('/images/partnerbg2.svg')] lg:h-80 h-96 w-4/5 mx-auto bg-cover">
+      <div className="text-[#FFFFFF] pt-32 text-left px-11 mt-20 lg:bg-[url('/images/donationBG.webp')] bg-[url('/images/partnerbg2.svg')] lg:h-80 h-96 w-4/5 mx-auto bg-cover">
         <h3 className="lg:text-4xl text-lg font-bold mb-3">
           Support Our Mission: Donate Today!
         </h3>

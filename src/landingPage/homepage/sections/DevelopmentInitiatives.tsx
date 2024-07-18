@@ -9,19 +9,19 @@ const DevelopmentInitiatives = () => {
   const [screenSize, setScreenSize] = useState<number>();
   const Initiatives = [
     {
-      url: "/images/health.svg",
+      url: "/images/haygine.jpg",
       title: "Health and Hygiene ",
       description:
         "Enhancing community well-being by providing access to safe water and improving the quality of health services. This initiative focuses on implementing water sanitation projects and healthcare infrastructure improvements to...",
     },
     {
-      url: "/images/tourism.svg",
+      url: "/images/tourism.jpg",
       title: "Tourism Economy Expansion",
       description:
         "Boosting the economy of the community by upgrading, modernizing, and expanding tourism destinations. This initiative focuses on enhancing visitor experiences, promoting local attractions, and supporting tourism-related...",
     },
     {
-      url: "/images/forest.svg",
+      url: "/images/forestry.jpg",
       title: "Forestry Development",
       description:
         "Promoting environmental conservation and sustainable forestry development across all districts of Gamo Zone. This initiative involves implementing measures to protect natural resources, preserve biodiversity, and pro...",
@@ -54,14 +54,18 @@ const DevelopmentInitiatives = () => {
           {Initiatives.map((Initiative, id) => (
             <div
               key={id}
-              className="mx-0 w-full"
+              className="mx-0 w-full h-full"
               onClick={() => router.push("/initiatives/id")}
             >
-              <div className="group cursor-pointer hover:bg-white flex flex-col items-center justify-center gap-1 pb-10">
-                <Avatar
-                  style={{ height: "100%", width: "85%", borderRadius: "0px" }}
-                  alt=""
-                  src={Initiative.url}
+              <div className="group cursor-pointer hover:bg-white flex flex-col items-center justify-center gap-1 pb-10 h-full w-full">
+                <div
+                  className="w-[85%] h-[350px]"
+                  style={{
+                    background: `url(${Initiative.url})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "contain",
+                    backgroundRepeat:'no-repeat'
+                  }}
                 />
                 <p className="w-[85%] group-hover:underline text-start font-bold text-xl">
                   {Initiative.title}

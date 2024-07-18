@@ -20,7 +20,7 @@ const ContentRender = ({ content }: { content: string }) => {
     case "Board Members":
       return <BoardMember />;
     case "Management":
-      return <>Management</>;
+      return <BoardMember />;
     default:
       return null;
   }

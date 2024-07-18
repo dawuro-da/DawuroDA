@@ -17,7 +17,7 @@ const CampaignSection = () => {
     },
     {
       icon: "/icons/supportIcon.svg",
-      title: "Support Flood Victims",
+      title: "Student educational material support campaign",
       description:
         "Join Us in Providing Urgent Relief and Long-Term Support for Those Affected by the Flood",
     },
@@ -44,7 +44,7 @@ const CampaignSection = () => {
                 className="h-fit flex flex-col justify-center p-6 xl:lg:max-w-[300px] md:max-w-[300px] sm:max-w-[300px] max-w-full rounded-lg gap-4"
               >
                 <Image src={campaign.icon} alt="" height={40} width={40} />
-                <span className="font-bold text-xl">{campaign.title}</span>
+                <span className="font-bold text-xl capitalize">{campaign.title}</span>
                 <span className="font-light">{campaign.description}</span>
                 <Button
                   variant="outlined"
