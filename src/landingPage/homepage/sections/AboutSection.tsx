@@ -9,19 +9,21 @@ import Slider from "react-slick";
 const AboutSection = () => {
   const managers = [
     {
-      url: "/images/tagese.svg",
-      name: "Tagesse Chafo",
-      title: "House of Peoples' Representative Chairman",
+      url: "/images/birhanuZ.jpg",
+      name: "Birhanu Zewudie Zeta",
+      title:
+        "Head of the southern Ethiopian regional government bureau of urban infrastructure",
     },
     {
-      url: "/images/image2.svg",
-      name: "Alemtsahay Abera",
-      title: "House of Peoples' Representative Chairman",
+      url: "/images/tilahunK.jpg",
+      name: "Tilahun Kebede",
+      title: "South Ethiopia Regional State Presidentn",
     },
     {
-      url: "/images/image3.svg",
-      name: "Tagesse Chafo",
-      title: "House of Peoples' Representative Chairman",
+      url: "/images/alemtsehay.jpg",
+      name: "Alemtsehay Paulos",
+      title:
+        "Ethiopian Minister for Cabinet Affairs and Head of the Prime Minister Office",
     },
   ];
   const [isSmallScreen, setIsSmallScreen] = useState(false);

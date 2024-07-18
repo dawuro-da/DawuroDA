@@ -47,7 +47,8 @@ const DevelopmentInitiatives = () => {
         Development Initiatives
       </h1>
       <p className="text-[#1E1E1E] font-light md:max-w-[25%] max-w-[65%] mx-auto text-center">
-        Fostering sustainable growth and community well-being in Gamo Zone.
+        Bringing sustainable development in Gamo zone, which satisfy real
+        community needs and sustainable development
       </p>
       <div className="w-4/5 mx-auto lg:mt-28 mt-16">
         <Slider {...settings} className="pb-10">
@@ -64,7 +65,7 @@ const DevelopmentInitiatives = () => {
                     background: `url(${Initiative.url})`,
                     backgroundPosition: "center",
                     backgroundSize: "contain",
-                    backgroundRepeat:'no-repeat'
+                    backgroundRepeat: "no-repeat",
                   }}
                 />
                 <p className="w-[85%] group-hover:underline text-start font-bold text-xl">
