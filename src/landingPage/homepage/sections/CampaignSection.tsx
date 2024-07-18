@@ -44,9 +44,16 @@ const CampaignSection = () => {
                 className="h-fit flex flex-col justify-center p-6 xl:lg:max-w-[300px] md:max-w-[300px] sm:max-w-[300px] max-w-full rounded-lg gap-4"
               >
                 <Image src={campaign.icon} alt="" height={40} width={40} />
-                <span className="font-bold text-xl capitalize">{campaign.title}</span>
+                <span className="font-bold text-xl capitalize">
+                  {campaign.title}
+                </span>
                 <span className="font-light">{campaign.description}</span>
                 <Button
+                  onClick={() =>
+                    window.open(
+                      "https://chapa.link/donation/view/DN-hCHqr7IQf80T"
+                    )
+                  }
                   variant="outlined"
                   className="bg-[#13A6D9] border-2 hover:border-2 border-[#13A6D9] hover:border-[#13A6D9] hover:bg-white hover:text-[#13A6D9] text-white font-normal capitalize px-10 py-2 w-fit"
                 >

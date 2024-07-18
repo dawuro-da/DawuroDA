@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const SocialLink = ({
   href,
@@ -17,7 +20,7 @@ const SocialLink = ({
 
 const ContactInfo = () => (
   <div className="flex-1 flex flex-col items-center">
-    <div className="mb-6 md:mb-0">
+    <div id="contact-us" className="mb-6 md:mb-0">
       <h3 className="font-bold text-base mb-2 md:text-left text-center">
         Contact
       </h3>
@@ -33,35 +36,39 @@ const ContactInfo = () => (
   </div>
 );
 
-const FooterLinks = () => (
-  <div className="flex-1 flex flex-col items-center">
-    <div className="mb-6 md:mb-0 lg:block hidden">
-      <h3 className="font-bold text-base mb-2 text-left">Links</h3>
-      <ul className="space-y-2">
-        {[
-          "About Us",
-          "Board Members",
-          "Initiatives",
-          "Vacancies",
-          "Resources",
-          "FAQ",
-        ].map((link, index) => (
-          <li key={index} className="text-left">
-            <Link href="" className="font-light text-sm space-y-4 text-left">
-              {link}
-            </Link>
-          </li>
-        ))}
-      </ul>
+const FooterLinks = () => {
+  return (
+    <div className="flex-1 flex flex-col items-center">
+      <div className="mb-6 md:mb-0 lg:block hidden">
+        <h3 className="font-bold text-base mb-2 text-left">Links</h3>
+        <ul className="space-y-2">
+          {[
+            { link: "/about", name: "About Us" },
+            { link: "/about", name: "Board Members" },
+            { link: "/#initiatives", name: "Initiatives" },
+            { link: "/vacancies", name: "Vacancies" },
+            { link: "/resources", name: "Resources" },
+            { link: "/#faqs", name: "FAQ" },
+          ].map((item, index) => (
+            <li key={index} className="text-left">
+              <Link
+                href={item.link}
+                className="font-light text-sm space-y-4 text-left"
+              >
+                {item.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Footer = () => {
   return (
     <div className="bg-[#F1F1F1] xl:lg:px-40 md:px-20 px-10">
       <div className="px-6  container pt-20 md:pb-6 pb-0 w-full grid md:grid-cols-4 gap-6 items-center">
-        
         <div className="flex flex-col items-center mb-6 md:mb-0">
           <Image
             src="/images/logo.svg"
@@ -77,7 +84,7 @@ const Footer = () => {
             {[
               { href: "", src: "/images/twitter.svg", alt: "Twitter" },
               { href: "", src: "/images/instagram.svg", alt: "Instagram" },
-              { href: "", src: "/images/facebook.svg", alt: "Facebook" },
+              { href: "https://www.facebook.com/gamodevelopmentassociation?mibextid=ZbWKwL", src: "/images/facebook.svg", alt: "Facebook" },
               { href: "", src: "/images/telegram.svg", alt: "Telegram" },
             ].map((social, index) => (
               <SocialLink

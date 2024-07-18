@@ -61,6 +61,9 @@ const Partners = () => {
           Join us in making a lasting impact. Every donation counts!
         </p>
         <Button
+          onClick={() =>
+            window.open("https://chapa.link/donation/view/DN-hCHqr7IQf80T")
+          }
           variant="outlined"
           className="px-8 py-2 rounded bg-primaryColor text-white hover:text-primaryColor"
         >
