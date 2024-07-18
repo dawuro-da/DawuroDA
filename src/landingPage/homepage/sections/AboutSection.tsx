@@ -54,10 +54,13 @@ const AboutSection = () => {
           Gamo Development Association
         </h2>
         <p className="text-[#6A6A6A] font-light mb-7 lg:max-w-[70%]">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.{" "}
+          Gamo development association/GaDA/ envisions to create prosperous
+          society through bringing holistic and sustainable development building
+          up on Gamo culture of peace and coexistence. Building its
+          institutional capacity, GaDA`s mission is to bring sustainable
+          development in Gamo zone, which satisfy real community needs, through
+          mobilizing natural and human resources closely working with local
+          community and stakeholders.
         </p>
         <div className="flex space-x-5 lg:justify-start justify-center">
           <Button
