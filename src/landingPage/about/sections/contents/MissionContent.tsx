@@ -4,60 +4,66 @@ const MissionContent = () => {
       <h1 className="text-2xl font-bold">Vision</h1>
       <br />
       <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-        accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
-        illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-        explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-        odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-        voluptatem sequi nesciunt.
+        To see resilient and prosperous society in Gamo Zone at the end of 2031.
       </p>
       <br />
-      <p>
-        Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-        consectetur, adipisci velit, sed quia non numquam eius modi tempora
-        incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
-      </p>
-      <br />
+
       <h1 className="text-2xl font-bold">Mission</h1>
       <br />
       <p>
-        Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-        suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
-        autem vel eum iure reprehenderit qui in ea voluptate velit esse quam
-        nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
-        voluptas nulla pariatur?
+        To advance community development built up on Gamo culture of peace and
+        co- existence that satisfies real community needs holistically to ensure
+        prosperity through building institutional capacity, mobilizing
+        resources, and meaningful community and stakeholders’ engagement.
       </p>
+
       <br />
-      <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-        accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
-        illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-        explicabo.
-      </p>
-      <br />
-      <h1 className="font-bold text-2xl">Goals</h1>
+      <h1 className="font-bold text-2xl">Objectives</h1>
       <br />
       <ul className="list-disc mx-6">
         <li>
-          Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut
-          fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem
-          sequi nesciunt.
+          Improving the livelihood of the community in a sustainable manner by
+          promoting integrated agricultural and industrial development
+        </li>
+        <li>Improving access and quality of education</li>
+        <li>Improving access and quality of health and clean water services</li>
+
+        <li>
+          Ensuring the development of forestry and environmental protection in
+          all zonal districts of Gamo.
         </li>
         <li>
-          Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-          consectetur, adipisci velit, sed quia non numquam eius modi tempora
-          incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+          Increasing the economic benefit of the community by improving,
+          modernizing and expanding tourism destinations
         </li>
         <li>
-          Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-          suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
-          autem vel eum iure reprehenderit qui in ea voluptate velit esse quam
-          nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
-          voluptas nulla pariatur?
+          Ensuring sports development by increasing community participation and
+          sense of ownership
+        </li>
+        <li>
+          Studying, organizing, protecting and enriching the culture and
+          language of the ethnic groups in the zone so as to introduce to the
+          world
+        </li>
+        <li>
+          Enhancing institutional capacity by increasing, expanding and
+          coordinating the association's revenue streams
+        </li>
+        <li>
+          Ensuring social justice and peace by promoting democratic thinking
+          based on the culture of peace and tolerance in the society of the zone
+        </li>
+        <li>
+          Reducing exposure to disaster by identifying risk areas, providing
+          appropriate timely response and rehabilitation when disaster occurs
+        </li>
+        <li>
+          To promote the modernization of institutional partnership and
+          coordination system supported by research and study
         </li>
       </ul>
     </div>
   );
 };
 
-export default MissionContent
+export default MissionContent;

@@ -78,11 +78,9 @@ const BoardMember = () => {
           <h1 className="font-bold text-lg">Board Members</h1>
           <br />
           <p className="mb-8">
-            Enim ad minima veniam, quis nostrum exercitationem ullam corporis
-            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
-            autem vel eum iure reprehenderit qui in ea voluptate velit esse quam
-            nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
-            voluptas nulla pariatur
+            Board of directors is next to general assembly that has also crucial
+            role in setting and deciding on policy level issues and
+            developmental direction of the organization.
           </p>
         </div>
         <div className="grid grid-cols-3 gap-10 w-full ">
