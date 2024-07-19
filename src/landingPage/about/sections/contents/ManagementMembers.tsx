@@ -3,7 +3,7 @@ import BoardMemberProfile from "./BoardMemberProfile";
 import axios from "axios";
 import { Management } from "@prisma/client";
 
-const BoardMember = () => {
+const ManagementMembers = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState<any>();
   const [managers, setManagers] = useState<Management[]>();
@@ -38,7 +38,7 @@ const BoardMember = () => {
     <>
       <div className="font-light w-full overflow-x-clip">
         <div className="mb-4">
-          <h1 className="font-bold text-lg">Board Members</h1>
+          <h1 className="font-bold text-lg">Managements</h1>
           <br />
           <p className="mb-8">
             Board of directors is next to general assembly that has also crucial
@@ -48,7 +48,7 @@ const BoardMember = () => {
         </div>
         <div className="grid grid-cols-3 gap-10 w-full ">
           {managers
-            ?.filter((item) => item.isBoardMember)
+            ?.filter((item) => !item.isBoardMember)
             .map((manager, index) => (
               <div
                 key={index}
@@ -85,4 +85,4 @@ const BoardMember = () => {
   );
 };
 
-export default BoardMember;
+export default ManagementMembers;

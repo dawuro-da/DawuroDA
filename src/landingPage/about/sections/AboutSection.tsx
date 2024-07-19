@@ -6,6 +6,7 @@ import WhatWeDoContent from "./contents/WhatWeDoContent";
 import PresidentMessage from "./contents/PresidentMessage";
 import MissionContent from "./contents/MissionContent";
 import BoardMember from "./contents/BoardMember";
+import ManagementMembers from "./contents/ManagementMembers";
 
 const ContentRender = ({ content }: { content: string }) => {
   switch (content) {
@@ -20,7 +21,7 @@ const ContentRender = ({ content }: { content: string }) => {
     case "Board Members":
       return <BoardMember />;
     case "Management":
-      return <BoardMember />;
+      return <ManagementMembers />;
     default:
       return null;
   }
