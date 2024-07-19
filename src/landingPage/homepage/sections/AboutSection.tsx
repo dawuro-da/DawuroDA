@@ -1,34 +1,38 @@
 "use client";
 
-import { Avatar, Button } from "@mui/material";
+import { Avatar, Button, Skeleton } from "@mui/material";
+import { Management } from "@prisma/client";
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 
 const AboutSection = () => {
-  const managers = [
-    {
-      url: "/images/birhanuZ.jpg",
-      name: "Birhanu Zewudie Zeta",
-      title:
-        "Head of the southern Ethiopian regional government bureau of urban infrastructure",
-    },
-    {
-      url: "/images/tilahunK.jpg",
-      name: "Tilahun Kebede",
-      title: "South Ethiopia Regional State Presidentn",
-    },
-    {
-      url: "/images/alemtsehay.jpg",
-      name: "Alemtsehay Paulos",
-      title:
-        "Ethiopian Minister for Cabinet Affairs and Head of the Prime Minister Office",
-    },
-  ];
+  const router = useRouter();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [managers, setManagers] = useState<Management[]>();
+  const [loading, setLoading] = useState(false);
+
+  const fetchManagers = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.post("/api/cms/management/fetch", {
+        page: 1,
+        pageSize: 20,
+      });
+      if (res.data.success) {
+        const latestManagers = res.data.value.managements;
+        setManagers(latestManagers);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
+    fetchManagers();
     if (window.innerWidth < 700) {
       setIsSmallScreen(true);
     } else {
@@ -45,8 +49,6 @@ const AboutSection = () => {
     nextArrow: <RightArrow />,
     prevArrow: <LeftArrow />,
   };
-
-  const router = useRouter();
 
   return (
     <div className="xl:lg:px-40 md:px-20 px-10 grid items-center h-fit lg:grid-cols-2 grid-cols-1 mt-48 mb-36 w-full">
@@ -82,21 +84,29 @@ const AboutSection = () => {
         </div>
       </div>
       <div className=" mt-10 lg:mt-0 w-full h-full flex items-center">
-        <div className="max-w-full max-h-full">
+        <div className="max-w-full w-full max-h-full">
           <Slider {...settings}>
-            {managers.map((manager, index) => (
-              <div key={index} className="px-2">
-                <div className="text-center flex flex-col items-center justify-center gap-1">
-                  <Avatar
-                    style={{ height: 85, width: 85 }}
-                    alt=""
-                    src={manager.url}
-                  />
-                  <p className="font-bold text-base ">{manager.name}</p>
-                  <p className="text-[#000000] text-sm">{manager.title}</p>
-                </div>
-              </div>
-            ))}
+            {loading
+              ? [1, 2, 3].map((item) => (
+                  <Skeleton key={item} className="w-full min-h-[100px]" />
+                ))
+              : managers?.map((manager, index) => (
+                  <div key={manager.id} className="px-2 w-full h-fit">
+                    <div className="text-center flex flex-col items-center justify-center gap-1">
+                      <Avatar
+                        style={{ height: 85, width: 85 }}
+                        alt=""
+                        src={manager.photo}
+                      />
+                      <p className="font-bold text-base ">
+                        {manager.managerName.slice(0, 30)}
+                      </p>
+                      <p className="text-[#000000] text-sm">
+                        {manager.job.slice(0, 30)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
           </Slider>
         </div>
       </div>

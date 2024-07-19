@@ -47,6 +47,32 @@ export function getFormattedDate(dateString: Date) {
   return formattedDate;
 }
 
+export function getFormattedMonthAndDay(dateString: Date) {
+  // Create a Date object from the provided date string
+  const date = new Date(dateString);
+
+  // Format the date using toLocaleDateString with the specified options
+  const formattedDate = date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+
+  return formattedDate;
+}
+
+export function getFormattedhourAndMinute(dateString: Date) {
+  // Create a Date object from the provided date string
+  const date = new Date(dateString);
+
+  // Format the date using toLocaleDateString with the specified options
+  const formattedHour = date.toLocaleDateString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  return formattedHour;
+}
+
 export function calculateNextDueDate({
   fromDate,
   contributionSystem,
@@ -101,3 +127,30 @@ export const checkMemberThreeMonth = ({
   // Check if the difference is more than or equal to 3 months
   return differenceInMonths >= 3;
 };
+
+export function getRelativeTimeSinceDate(dateString: Date) {
+  const givenDate = new Date(dateString);
+  const now = new Date();
+  const diffInMilliseconds = now.getTime() - givenDate.getTime();
+  const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  const diffInDays = Math.floor(diffInHours / 24);
+  const diffInWeeks = Math.floor(diffInDays / 7);
+
+  if (diffInWeeks > 0) {
+    return diffInWeeks === 1 ? "1 week ago" : `${diffInWeeks} weeks ago`;
+  } else if (diffInDays > 0) {
+    return diffInDays === 1 ? "1 day ago" : `${diffInDays} days ago`;
+  } else if (diffInHours > 0) {
+    return diffInHours === 1 ? "1 hour ago" : `${diffInHours} hours ago`;
+  } else if (diffInMinutes > 0) {
+    return diffInMinutes === 1
+      ? "1 minute ago"
+      : `${diffInMinutes} minutes ago`;
+  } else {
+    return diffInSeconds === 1
+      ? "1 second ago"
+      : `${diffInSeconds} seconds ago`;
+  }
+}

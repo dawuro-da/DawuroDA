@@ -1,20 +1,34 @@
 import { Button } from "@mui/material";
+import { Partnership } from "@prisma/client";
+import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 
-const PartnerItems: string[] = [
-  "/images/partner1.svg",
-  "/images/partner2.svg",
-  "/images/partner3.svg",
-  "/images/partner4.svg",
-  "/images/partner5.svg",
-];
-
 const Partners = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [partnerships, setPartnerships] = useState<Partnership[]>();
+  const [loading, setLoading] = useState(false);
+
+  const fetchPartnerships = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.post("/api/cms/partnership/fetch", {
+        page: 1,
+        pageSize: 20,
+      });
+      if (res.data.success) {
+        const latestPartnerships = res.data.value.partnerships;
+        setPartnerships(latestPartnerships);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
+    fetchPartnerships();
     if (window.innerWidth < 700) {
       setIsSmallScreen(true);
     } else {
@@ -41,12 +55,12 @@ const Partners = () => {
       <div className="xl:lg:px-40 md:px-20 max-w-full flex flex-row items-center justify-center">
         <div className="max-w-fit overflow-y-hidden overflow-x-auto pl-16 hiddenscrollbar justify-center ">
           <Slider {...settings} className="">
-            {PartnerItems.map((item, id) => (
+            {partnerships?.map((item, id) => (
               <div
                 key={id}
                 className="w-[80px] h-[80px] flex flex-row items-center justify-center"
               >
-                <Image src={item} height={80} width={80} alt="" key={id} />
+                <Image src={item.logo} height={80} width={80} alt="" key={id} />
               </div>
             ))}
           </Slider>

@@ -1,27 +1,51 @@
 "use client";
 
 import { showToastAction } from "@/redux/actions";
-import { Button } from "@mui/material";
+import { getFormattedDate } from "@/util/date";
+import { Button, Skeleton } from "@mui/material";
+import { Job } from "@prisma/client";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-export interface Job {
-  title: string;
-  location: string;
-  postedDate: string;
-  description: string;
-  responsibilities: string[];
-  qualifications: string[];
-  benefits: string[];
-}
-
-interface JobProps {
-  job: Job;
-}
-
-const JobDetailPage = ({ job }: JobProps) => {
+const JobDetailPage = () => {
   const dispatch = useDispatch();
+  const params = useParams();
+  const [job, setJob] = useState<Job>();
+  const [loading, setLoading] = useState(false);
+
+  const fetchJob = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.post(`/api/cms/job/fetch/${params.id}`, {
+        page: 1,
+        pageSize: 20,
+      });
+      if (res.data.success) {
+        const latestJobs = res.data.value.job;
+        setJob(latestJobs);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchJob();
+  }, []);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      dispatch(showToastAction({ message: "Link copied", type: "success" }));
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
 
   return (
     <div className="min-h-screen p-8">
@@ -29,59 +53,46 @@ const JobDetailPage = ({ job }: JobProps) => {
         <Image src={"/images/back.svg"} height={20} width={20} alt="" />
         <p>Back to Vacancies</p>
       </Link>
-      <h1 className="text-3xl font-bold mt-4 mb-8">{job.title}</h1>
-      <div className="flex flex-row gap-20 items-center">
-        <p className="font-light">Posted on: {job.postedDate}</p>
-        <Button
-          onClick={() => {
-            dispatch(
-              showToastAction({ message: "Link copied", type: "success" })
-            );
-          }}
-          variant="outlined"
-          className="font-light border border-[#8E8E8E] text-[#8E8E8E] px-4 py-2 flex flex-row items-center rounded-md gap-2"
-        >
-          <Image src={"/images/sharebtn.svg"} height={15} width={15} alt="" />
-          <p>Share</p>
-        </Button>
-      </div>
-      <div className="mt-6">
-        <h2 className="text-xl font-bold">Description:</h2>
-        <div className="mt-2">
-          <p>
-            <strong className="text-base">Position:</strong> {job.title}
-          </p>
-          <p>
-            <strong>Location:</strong> {job.location}
-          </p>
-          <h3 className="mt-4 font-semibold">Responsibilities:</h3>
-          <ul className="list-disc list-inside mt-2 font-normal">
-            {job.responsibilities.map((item: string, id: number) => (
-              <li key={id}>{item}</li>
-            ))}
-          </ul>
-          <h3 className="mt-4 font-semibold">Qualifications:</h3>
-          <ul className="list-disc list-inside mt-2 font-normal">
-            {job.qualifications.map((item: string, id: number) => (
-              <li key={id}>{item}</li>
-            ))}
-          </ul>
-          <h3 className="mt-4 font-semibold">Benefits:</h3>
-          <ul className="list-disc list-inside mt-2">
-            {job.benefits.map((item: string, id: number) => (
-              <li key={id} className="my-2">
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <div className="mt-8">
-        <p className="text-black text-xs">Apply via email</p>
-        <button className="text-white capitalize bg-[#34a858] font-light shadow-none px-8 py-2 rounded-[5px] cursor-pointer mt-5">
-          Submit
-        </button>
-      </div>
+      {loading ? (
+        <Skeleton className="min-h-[500px]" />
+      ) : (
+        <>
+          <h1 className="text-3xl font-bold mt-4 mb-8">{job?.jobTitle}</h1>
+          <div className="flex flex-row gap-20 items-center">
+            <p className="font-light">
+              Posted on: {job?.updated_at && getFormattedDate(job.updated_at)}
+            </p>
+            <Button
+              onClick={copyToClipboard}
+              variant="outlined"
+              className="font-light border border-[#8E8E8E] text-[#8E8E8E] px-4 py-2 flex flex-row items-center rounded-md gap-2"
+            >
+              <Image
+                src={"/images/sharebtn.svg"}
+                height={15}
+                width={15}
+                alt=""
+              />
+              <p>Share</p>
+            </Button>
+          </div>
+          <div className="mt-6">
+            <h2 className="text-xl font-bold">Description:</h2>
+            <div className="mt-2">
+              <p>{job?.jobDescription}</p>
+              <h3 className="mt-4 font-semibold">Responsibilities:</h3>
+              <p>{job?.responsiblities}</p>
+              <h3 className="mt-4 font-semibold">Qualifications:</h3>
+              <p>{job?.qualification}</p>
+              <h3 className="mt-4 font-semibold">Benefits:</h3>
+              <p>{job?.benefits}</p>
+            </div>
+          </div>
+          <div className="mt-8">
+            <p className="text-black text-xs">Apply via email</p>
+          </div>
+        </>
+      )}
     </div>
   );
 };
