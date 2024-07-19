@@ -2,107 +2,84 @@
 
 import Footer from "@/landingPage/footer/Footer";
 import Naviagtion from "@/landingPage/navigation/Navigation";
+import { Skeleton } from "@mui/material";
+import { Initiative } from "@prisma/client";
+import axios from "axios";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-
-const NewsLists = [
-  {
-    url: "/images/health.svg",
-    title: "Health and Hygiene",
-    description:
-      "Enhancing community well-being by providing access to safe water and improving the quality of health services. This initiative focuses on implementing water sanitation projects and healthcare infrastructure improvements to...",
-  },
-  {
-    url: "/images/forest.svg",
-    title: "Forestry Development",
-    description:
-      "Promoting environmental conservation and sustainable forestry development across all districts of Gamo Zone. This initiative involves implementing measures to protect natural resources, preserve biodiversity, and pro...",
-  },
-];
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const InitiativeDetail = () => {
   const router = useRouter();
+  const params = useParams();
+  const [initiative, setInitiative] = useState<Initiative>();
+  const [initiativeList, setInitiativeList] = useState<Initiative[]>();
+  const [loading, setLoading] = useState(false);
+
+  const fetchInitiative = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.post(`/api/cms/initiative/fetch/${params.id}`);
+      if (res.data.success) {
+        setInitiative(res.data.value.initiative);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
+
+  const fetchInitiativeList = async () => {
+    try {
+      const res = await axios.post(`/api/cms/initiative/fetch`, {
+        page: 1,
+        pageSize: 4,
+      });
+      if (res.data.success) {
+        setInitiativeList(res.data.value.initiatives);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchInitiative();
+    fetchInitiativeList();
+  }, []);
 
   return (
     <div className=" w-full">
       <Naviagtion />
       <div className="xl:lg:px-40 md:px-20 px-10 w-full mb-32">
-        <div>
-          <h2 className="font-extrabold xl:lg:text-5xl text-3xl mt-9 xl:lg:w-3/4 w-full">
-            Tourism Economy Expansion
-          </h2>
+        <div className="mt-9 ">
+          {loading ? (
+            <Skeleton />
+          ) : (
+            <h2 className="font-extrabold xl:lg:text-5xl text-3xl xl:lg:w-3/4 w-full">
+              {initiative?.nameOfInitiative}
+            </h2>
+          )}
         </div>
-        <div className="gap-7 font-light">
-          <div className=" mt-12 text-titleColor">
-            <Image
-              draggable={false}
-              src={"/images/news-image2.svg"}
-              alt=""
-              width={20}
-              height={20}
-              className="w-full mb-14 max-h-[800px]"
-            />
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum
-            </p>
-
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum
-            </p>
-
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum
-            </p>
-
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborumLorem
-              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-              minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum
-            </p>
-          </div>
+        <div className="mt-12 gap-7 font-light min-h-[500px]">
+          {loading ? (
+            <Skeleton className="min-h-[500px]" />
+          ) : (
+            <div className=" text-titleColor">
+              {initiative?.featuredImages?.[0] && (
+                <Image
+                  draggable={false}
+                  src={initiative?.featuredImages?.[0]}
+                  unoptimized
+                  alt=""
+                  width={20}
+                  height={20}
+                  className="w-full mb-14 max-h-[800px]"
+                />
+              )}
+              <p>{initiative?.body}</p>
+            </div>
+          )}
         </div>
         <div className="mt-20 mb-10">
           <div className="xl:lg:w-1/3 w-fit my-10">
@@ -119,10 +96,10 @@ const InitiativeDetail = () => {
             />
           </div>
           <div className="grid xl:lg:grid-cols-4 md:grid-cols-2 gap-6 w-full">
-            {NewsLists.map((NewsList, id) => (
+            {initiativeList?.map((initiative, index) => (
               <div
-                onClick={() => router.push("/initiatives/id")}
-                key={id}
+                onClick={() => router.push(`/initiatives/${initiative.id}`)}
+                key={index}
                 className="group w-full mt-4 hover:bg-white cursor-pointer"
               >
                 <div className="flex flex-col items-center justify-center w-full">
@@ -134,20 +111,21 @@ const InitiativeDetail = () => {
                       height: "100%",
                       width: "100%",
                     }}
+                    unoptimized
                     alt=""
-                    src={NewsList.url}
+                    src={initiative.featuredImages?.[0]}
                   />
                   <p className="group-hover:underline w-full text-start font-bold text-xl my-2">
-                    {NewsList.title.length > 60
-                      ? `${NewsList.title.slice(0, 60)}...`
-                      : NewsList.title}
+                    {initiative.nameOfInitiative.length > 60
+                      ? `${initiative.nameOfInitiative.slice(0, 60)}...`
+                      : initiative.nameOfInitiative}
                   </p>
                   <p className="text-start text-sm w-full text-titleColor">
-                    {NewsList.description.length > 200
-                      ? `${NewsList.description.slice(0, 200)}...`
-                      : NewsList.description}
+                    {initiative.body.length > 200
+                      ? `${initiative.body.slice(0, 200)}...`
+                      : initiative.body}
                   </p>
-                  <button className="text-black w-full text-left items-start border-none hover:border-none capitalize hover:bg-none bg-none flex flex-row border border-red-500">
+                  <button className="text-black mt-4 w-full text-left items-start border-none hover:border-none capitalize hover:bg-none bg-none flex flex-row border border-red-500">
                     <span className="font-light">Learn More</span>
                     <Image
                       src={"/images/diagonalarrow.svg"}

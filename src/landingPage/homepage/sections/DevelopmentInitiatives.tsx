@@ -1,4 +1,6 @@
-import { Avatar, Button } from "@mui/material";
+import { Avatar, Button, Skeleton } from "@mui/material";
+import { Initiative } from "@prisma/client";
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -7,27 +9,28 @@ import Slider from "react-slick";
 const DevelopmentInitiatives = () => {
   const router = useRouter();
   const [screenSize, setScreenSize] = useState<number>();
-  const Initiatives = [
-    {
-      url: "/images/haygine.jpg",
-      title: "Health and Hygiene ",
-      description:
-        "Enhancing community well-being by providing access to safe water and improving the quality of health services. This initiative focuses on implementing water sanitation projects and healthcare infrastructure improvements to...",
-    },
-    {
-      url: "/images/tourism.jpg",
-      title: "Tourism Economy Expansion",
-      description:
-        "Boosting the economy of the community by upgrading, modernizing, and expanding tourism destinations. This initiative focuses on enhancing visitor experiences, promoting local attractions, and supporting tourism-related...",
-    },
-    {
-      url: "/images/forestry.jpg",
-      title: "Forestry Development",
-      description:
-        "Promoting environmental conservation and sustainable forestry development across all districts of Gamo Zone. This initiative involves implementing measures to protect natural resources, preserve biodiversity, and pro...",
-    },
-  ];
+  const [initiatives, setInitiatives] = useState<Initiative[]>();
+  const [loading, setLoading] = useState(false);
+
+  const fetchInitiatives = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.post("/api/cms/initiative/fetch", {
+        page: 1,
+        pageSize: 20,
+      });
+      if (res.data.success) {
+        const latestInitiatives = res.data.value.initiatives;
+        setInitiatives(latestInitiatives);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
+    fetchInitiatives();
     setScreenSize(window.innerWidth);
   }, []);
 
@@ -52,45 +55,51 @@ const DevelopmentInitiatives = () => {
       </p>
       <div className="w-4/5 mx-auto lg:mt-28 mt-16">
         <Slider {...settings} className="pb-10">
-          {Initiatives.map((Initiative, id) => (
-            <div
-              key={id}
-              className="mx-0 w-full h-full"
-              onClick={() => router.push("/initiatives/id")}
-            >
-              <div className="group cursor-pointer hover:bg-white flex flex-col items-center justify-center gap-1 pb-10 h-full w-full">
+          {loading
+            ? [1, 2, 3].map((item) => (
+                <Skeleton key={item} className="w-full min-h-[300px]" />
+              ))
+            : initiatives?.map((initiative, id) => (
                 <div
-                  className="w-[85%] h-[350px]"
-                  style={{
-                    background: `url(${Initiative.url})`,
-                    backgroundPosition: "center",
-                    backgroundSize: "contain",
-                    backgroundRepeat: "no-repeat",
-                  }}
-                />
-                <p className="w-[85%] group-hover:underline text-start font-bold text-xl">
-                  {Initiative.title}
-                </p>
-                <p className="text-[#000000] text-start text-sm w-[85%]">
-                  {Initiative.description}
-                </p>
-                <div className="flex w-4/5 mt-6 items-center justify-start cursor-pointer">
-                  <Button
-                    variant="outlined"
-                    className="text-black border-none hover:border-none capitalize hover:bg-none bg-none flex flex-row"
-                  >
-                    <span className="font-light">Learn More</span>
-                    <Image
-                      src={"/images/diagonalarrow.svg"}
-                      height={30}
-                      width={30}
-                      alt=""
+                  key={initiative.id}
+                  className="mx-0 w-full h-full"
+                  onClick={() => router.push(`/initiatives/${initiative.id}`)}
+                >
+                  <div className="group cursor-pointer hover:bg-white flex flex-col items-center justify-center gap-1 pb-10 h-full w-full">
+                    <div
+                      className="w-[85%] h-[350px]"
+                      style={{
+                        background: `url(${initiative.featuredImages?.[0]})`,
+                        backgroundPosition: "center",
+                        backgroundSize: "contain",
+                        backgroundRepeat: "no-repeat",
+                      }}
                     />
-                  </Button>
+                    <p className="w-[85%] group-hover:underline text-start font-bold text-xl">
+                      {initiative.nameOfInitiative.slice(0, 60)}
+                      {initiative.nameOfInitiative.length > 60 && "..."}
+                    </p>
+                    <p className="text-[#000000] text-start text-sm w-[85%]">
+                      {initiative.body.slice(0, 200)}
+                      {initiative.body.length > 200 && "..."}
+                    </p>
+                    <div className="flex w-4/5 mt-6 items-center justify-start cursor-pointer">
+                      <Button
+                        variant="outlined"
+                        className="text-black border-none hover:border-none capitalize hover:bg-none bg-none flex flex-row"
+                      >
+                        <span className="font-light">Learn More</span>
+                        <Image
+                          src={"/images/diagonalarrow.svg"}
+                          height={30}
+                          width={30}
+                          alt=""
+                        />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              ))}
         </Slider>
       </div>
     </div>
