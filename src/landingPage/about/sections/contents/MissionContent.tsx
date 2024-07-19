@@ -11,10 +11,10 @@ const MissionContent = () => {
       <h1 className="text-2xl font-bold">Mission</h1>
       <br />
       <p>
-        To advance community development built up on Gamo culture of peace and
+        {`To advance community development built up on Gamo culture of peace and
         co- existence that satisfies real community needs holistically to ensure
         prosperity through building institutional capacity, mobilizing
-        resources, and meaningful community and stakeholders’ engagement.
+        resources, and meaningful community and stakeholders’ engagement.`}
       </p>
 
       <br />
@@ -41,13 +41,13 @@ const MissionContent = () => {
           sense of ownership
         </li>
         <li>
-          Studying, organizing, protecting and enriching the culture and
+         {` Studying, organizing, protecting and enriching the culture and
           language of the ethnic groups in the zone so as to introduce to the
-          world
+          world`}
         </li>
         <li>
-          Enhancing institutional capacity by increasing, expanding and
-          coordinating the association's revenue streams
+          {`Enhancing institutional capacity by increasing, expanding and
+          coordinating the association's revenue streams`}
         </li>
         <li>
           Ensuring social justice and peace by promoting democratic thinking
