@@ -1,6 +1,5 @@
 import Footer from "../footer/Footer";
 import Naviagtion from "../navigation/Navigation";
-import GridNews from "./sections/GridNews";
 import NewsCard from "./sections/NewsCard";
 
 const NewsPage = () => {
@@ -8,7 +7,7 @@ const NewsPage = () => {
     <div className="w-full">
       <Naviagtion />
       <NewsCard />
-      <GridNews />
+      
       <Footer />
     </div>
   );

@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
-import { fetchNewss } from "@/db/news";
+import { findNewsById } from "@/db/news";
 
-export async function POST(req: Request) {
-  const { page, pageSize, searchText } = await req.json();
-
+export async function POST(req: Request, context: { params: { id: string } }) {
+  const newsId = context.params.id;
   try {
-    const result = await fetchNewss({ page, pageSize, searchText });
+    const result = await findNewsById(newsId);
 
     if (result) {
       return NextResponse.json(
-        { success: true, value: result },
+        { success: true, value: { news: result } },
         { status: 200 }
       );
     }

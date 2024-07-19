@@ -1,6 +1,12 @@
 "use client";
+import { getFormattedDate } from "@/util/date";
+import { CircularProgress } from "@mui/material";
+import { News } from "@prisma/client";
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import GridNews from "./GridNews";
 
 interface NewsItem {
   title: string;
@@ -8,163 +14,191 @@ interface NewsItem {
   imgSrc: string;
 }
 
-const newsItems: NewsItem[] = [
-  {
-    title: "Support Our Mission: Donate Today!",
-    date: "Mar 20, 2023",
-    imgSrc: "/images/news1.svg",
-  },
-  {
-    title: "Support Our Mission: Donate Today!",
-    date: "Mar 20, 2023",
-    imgSrc: "/images/news2.svg",
-  },
-  {
-    title: "Support Our Mission: Donate Today!",
-    date: "Mar 20, 2023",
-    imgSrc: "/images/news3.svg",
-  },
-  {
-    title: "Devastation in Gaza as Israel wages war on Hamas",
-    date: "Mar 20, 2023",
-    imgSrc: "/images/news5.svg",
-  },
-  {
-    title: "Support Our Mission: Donate Today!",
-    date: "Mar 20, 2023",
-    imgSrc: "/images/news6.svg",
-  },
-];
-
 const NewsCard = () => {
   const router = useRouter();
+  const [news, setNews] = useState<News[]>();
+  const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [page, setPage] = useState(1);
+
+  const fetchNews = async () => {
+    page === 1 ? setLoading(true) : setLoadingMore(true);
+    try {
+      const res = await axios.post("/api/cms/news/fetch", {
+        page: page,
+        pageSize: 20,
+      });
+      if (res.data.success) {
+        const latestNews = res.data.value.newss;
+        const oldNews = news?.length ? news : [];
+        setNews([...oldNews, ...latestNews]);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+    setLoadingMore(false);
+  };
+
+  useEffect(() => {
+    fetchNews();
+  }, [page]);
+
   return (
-    <div className="xl:lg:px-40 md:px-20 px-10 w-full">
-      <h2 className="font-bold lg:text-4xl text-lg text-center">News</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 p-4 md:mt-20 mt-8">
-        <div
-          className="relative lg:col-span-1 lg:block hidden cursor-pointer group"
-          onClick={() => router.push("/news/news-detail")}
-        >
-          <Image
-            src={newsItems[0].imgSrc}
-            alt=""
-            width={20}
-            height={20}
-            className="w-[85%]"
-          />
-          <div className="absolute bottom-12 text-white left-7 text-left">
-            <h2 className="text-2xl font-bold mb-3 group-hover:underline">{newsItems[0].title}</h2>
-            <div className="flex items-center space-x-3">
-              <Image
-                src="/images/calendar2.svg"
-                alt=""
-                width={15}
-                height={20}
-              />
-              <p className="text-white font-light text-sm">
-                {newsItems[0].date}
-              </p>
-            </div>
+    <>
+      <div className="xl:lg:px-40 md:px-20 px-10 w-full min-h-[500px]">
+        <h2 className="font-bold lg:text-4xl text-lg text-center">News</h2>
+        {loading ? (
+          <div className="flex flex-row items-center justify-center w-full">
+            <CircularProgress />
           </div>
-        </div>
-        <div className="grid grid-cols-1 lg:col-span-1 md:col-span-7 gap-0">
-          <div onClick={() => router.push("/news/news-detail")} className="relative lg:col-span-1 lg:block hidden group cursor-pointer">
-            <Image
-              src={newsItems[4].imgSrc}
-              alt=""
-              width={20}
-              height={20}
-              className="lg:w-full"
-            />
-            <div className="absolute bottom-20 text-white left-7 text-left cursor-pointer">
-              <h2 className="group-hover:underline text-2xl font-bold mb-3">
-                {newsItems[0].title}
-              </h2>
-              <div className="flex items-center space-x-3">
-                <Image
-                  src="/images/calendar2.svg"
-                  alt=""
-                  width={15}
-                  height={20}
-                />
-                <p className="text-white font-light text-sm">
-                  {newsItems[0].date}
-                </p>
-              </div>
-            </div>
-          </div>
-          {newsItems?.slice(1, 3).map((item, id) => (
-            <div
-              key={id}
-              className="flex flex-col items-start cursor-pointer group"
-              onClick={() => router.push("/news/news-detail")}
-            >
-              <div onClick={() => router.push("/news/news-detail")} className="flex flex-row text-start space-x-6 lg:mb-5 mb-4">
-                <Image
-                  src={item.imgSrc}
-                  alt=""
-                  width={20}
-                  height={20}
-                  className="lg:w-[38%] max-h-[200px] w-[38%]"
-                />
-                <div className="mt-2 md:pl-6 pl-0 lg:w-2/4">
-                  <h2 className="group-hover:underline md:text-xl text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
-                    {item.title}
-                  </h2>
+        ) : (
+          news?.length && (
+            <div className="grid grid-cols-1 md:grid-cols-2 p-4 md:mt-20 mt-8 gap-4">
+              <div
+                className="relative lg:col-span-1 lg:block hidden cursor-pointer group"
+                onClick={() => router.push(`/news/${news?.[0].id}`)}
+                style={{
+                  background: `url('${news?.[0]?.profileImage?.[0]}')`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+                <div className="absolute bottom-0 text-white left-0 pb-6 pl-4 pt-3 text-left bg-gradient-to-t from-black to-transparent">
+                  <span className="text-2xl font-bold group-hover:underline">
+                    {news?.[0]?.headline.slice(0, 70)}
+                    {news?.[0]?.headline.length > 70 && "..."}
+                  </span>
                   <div className="flex items-center space-x-3">
                     <Image
-                      src="/images/calendar.svg"
+                      src="/images/calendar2.svg"
                       alt=""
                       width={15}
                       height={20}
                     />
-                    <p className="text-[#1E1E1E] font-light lg:text-base text-xs">
-                      {item.date}
+                    <p className="text-white font-light text-sm">
+                      {news?.[0] && getFormattedDate(news?.[0]?.updated_at)}
                     </p>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-        <div className="flex xl:lg:flex-row md:flex-row flex-col col-span-2 xl:lg:mt-16">
-          {newsItems?.slice(1, 3).map((item, id) => (
-            <div
-              key={id}
-              className="flex flex-col items-start cursor-pointer group"
-              onClick={() => router.push("/news/news-detail")}
-            >
-              <div className="flex flex-row text-start space-x-6 lg:mb-5 mb-4">
-                <Image
-                  src={item.imgSrc}
-                  alt=""
-                  width={20}
-                  height={20}
-                  className="lg:w-[41%] w-[38%]"
-                />
-                <div className="mt-2 md:pl-6 pl-0 lg:w-2/4">
-                  <h2 className="group-hover:underline md:text-xl text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
-                    {item.title}
-                  </h2>
-                  <div className="flex items-center space-x-3">
-                    <Image
-                      src="/images/calendar.svg"
-                      alt=""
-                      width={15}
-                      height={20}
-                    />
-                    <p className="text-[#1E1E1E] font-light lg:text-base text-xs">
-                      {item.date}
-                    </p>
+              <div className="grid grid-cols-1 lg:col-span-1 md:col-span-7 gap-4">
+                <div
+                  onClick={() => router.push(`/news/${news?.[4].id}`)}
+                  style={{
+                    background: `url('${news?.[4]?.profileImage?.[0]}')`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                  className="relative lg:col-span-1 lg:block hidden group cursor-pointer min-h-[300px]"
+                >
+                  <div className="absolute bottom-0 text-white left-0 pb-6 pl-4 pt-3 text-left bg-gradient-to-t from-black to-transparent cursor-pointer">
+                    <h2 className="group-hover:underline text-2xl font-bold mb-3">
+                      {`${news?.[0]?.headline.slice(0, 70)} ${
+                        news?.[0]?.headline.length > 70 && "..."
+                      }`}
+                    </h2>
+                    <div className="flex items-center space-x-3">
+                      <Image
+                        src="/images/calendar2.svg"
+                        alt=""
+                        width={15}
+                        height={20}
+                      />
+                      <p className="text-white font-light text-sm">
+                        {news?.[0] && getFormattedDate(news?.[0]?.updated_at)}
+                      </p>
+                    </div>
                   </div>
                 </div>
+                {news?.slice(1, 3).map((item, id) => (
+                  <div
+                    key={id}
+                    className="flex flex-col items-start cursor-pointer group"
+                    onClick={() => router.push(`/news/${item.id}`)}
+                  >
+                    <div
+                      onClick={() => router.push(`/news/${item.id}`)}
+                      className="flex flex-row text-start space-x-6 lg:mb-5 mb-4"
+                    >
+                      <Image
+                        src={item.profileImage?.[0]}
+                        alt=""
+                        width={20}
+                        height={20}
+                        unoptimized
+                        className="lg:w-[38%] max-h-[200px] w-[38%]"
+                      />
+                      <div className="mt-2 md:pl-6 pl-0 lg:w-2/4">
+                        <h2 className="group-hover:underline md:text-xl text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
+                          {item.headline.slice(0, 70)}
+                          {news?.[0]?.headline.length > 70 && "..."}
+                        </h2>
+                        <div className="flex items-center space-x-3">
+                          <Image
+                            src="/images/calendar.svg"
+                            alt=""
+                            width={15}
+                            height={20}
+                          />
+                          <p className="text-[#1E1E1E] font-light lg:text-base text-xs">
+                            {getFormattedDate(item.updated_at)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-2 flex xl:lg:flex-row md:flex-row flex-col col-span-2 xl:lg:mt-16">
+                {news?.slice(3, 6).map((item, index) => (
+                  <div
+                    key={item.id}
+                    className="flex flex-col items-start cursor-pointer group w-full"
+                    onClick={() => router.push(`/news/${item.id}`)}
+                  >
+                    <div className="flex flex-row text-start space-x-6 lg:mb-5 mb-4">
+                      <Image
+                        src={item.profileImage?.[0]}
+                        alt=""
+                        width={20}
+                        height={20}
+                        unoptimized
+                        className="lg:w-[41%] w-[38%] max-h-full"
+                      />
+                      <div className="mt-2 md:pl-6 pl-0 lg:w-2/4">
+                        <h2 className="group-hover:underline md:text-xl text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
+                          {item.headline.slice(0, 70)}
+                          {news?.[0]?.headline.length > 70 && "..."}
+                        </h2>
+                        <div className="flex items-center space-x-3">
+                          <Image
+                            src="/images/calendar.svg"
+                            alt=""
+                            width={15}
+                            height={20}
+                          />
+                          <p className="text-[#1E1E1E] font-light lg:text-base text-xs">
+                            {getFormattedDate(item.updated_at)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
+          )
+        )}
       </div>
-    </div>
+      {news?.length && (
+        <GridNews
+          news={news.filter((news, index) => index > 6)}
+          loadMore={() => setPage(page + 1)}
+          loadingMore={loadingMore}
+        />
+      )}
+    </>
   );
 };
 
