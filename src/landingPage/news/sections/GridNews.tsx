@@ -1,49 +1,45 @@
 "use client";
-import { Avatar, Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
+import { News } from "@prisma/client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import Slider from "react-slick";
+import { useRouter } from "next/navigation";
 
-const GridNews = () => {
-  const [screenSize, setScreenSize] = useState<number>();
-  const news = [
-    {
-      url: "/images/health.svg",
-      title: "Health and Hygiene ",
-      description:
-        "Enhancing community well-being by providing access to safe water and improving the quality of health services. This initiative focuses on implementing water sanitation projects and healthcare infrastructure improvements to...",
-    },
-    {
-      url: "/images/tourism.svg",
-      title: "Tourism Economy Expansion",
-      description:
-        "Boosting the economy of the community by upgrading, modernizing, and expanding tourism destinations. This initiative focuses on enhancing visitor experiences, promoting local attractions, and supporting tourism-related...",
-    },
-    {
-      url: "/images/forest.svg",
-      title: "Forestry Development",
-      description:
-        "Promoting environmental conservation and sustainable forestry development across all districts of Gamo Zone. This initiative involves implementing measures to protect natural resources, preserve biodiversity, and pro...",
-    },
-  ];
+const GridNews = ({
+  news,
+  loadMore,
+  loadingMore,
+}: {
+  news: News[];
+  loadMore: () => void;
+  loadingMore: boolean;
+}) => {
+  const router = useRouter();
 
   return (
     <div>
       <div className="xl:lg:px-40 md:px-20 px-10 lg:mt-10 my-6 mb-32">
-        <div className="pb-10 flex md:flex-row flex-col gap-10">
-          {news.map((Initiative, id) => (
-            <div key={id} className="group w-full cursor-pointer">
+        <div className="pb-10 grid xl:lg:grid-cols-4 md:grid-cols-2 gap-10">
+          {news?.map((newsItem, id) => (
+            <div
+              onClick={() => router.push(`/news/${newsItem.id}`)}
+              key={id}
+              className="group w-full cursor-pointer"
+            >
               <div className="flex flex-col items-center justify-center gap-1">
-                <Avatar
-                  style={{ height: "100%", width: "100%", borderRadius: "0px" }}
+                <Image
+                  height={100}
+                  width={100}
+                  style={{ height: "100%", width: "100%" }}
+                  src={newsItem.profileImage?.[0]}
                   alt=""
-                  src={Initiative.url}
+                  unoptimized
                 />
                 <p className="w-[100%] text-start font-bold text-xl group-hover:underline">
-                  {Initiative.title}
+                  {newsItem.headline}
                 </p>
                 <p className="text-[#000000] text-start text-sm w-[100%]">
-                  {Initiative.description}
+                  {newsItem.body.slice(0, 200)}
+                  {newsItem.body.length > 200 && "..."}
                 </p>
                 <div className="flex flex-row w-full mt-6 items-center justify-start cursor-pointer">
                   <Button
@@ -63,8 +59,11 @@ const GridNews = () => {
             </div>
           ))}
         </div>
-        <div className="px-4 py-1 border border-[#1E1E1E] w-fit font-light mx-auto">
-          Load More
+        <div
+          onClick={loadMore}
+          className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
+        >
+          {loadingMore ? <CircularProgress className="h-full" /> : "Load More"}
         </div>
       </div>
     </div>
