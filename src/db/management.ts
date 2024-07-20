@@ -160,7 +160,7 @@ export async function fetchManagements({
   const managements = await prisma.management.findMany({
     where: whereClause,
     orderBy: {
-      created_at: "desc",
+      created_at: "asc",
     },
     skip: (page - 1) * pageSize,
     take: pageSize,

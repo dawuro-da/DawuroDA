@@ -21,6 +21,7 @@ const WhatsHappening = () => {
       const res = await axios.post("/api/cms/event/fetch", {
         page: 1,
         pageSize: 4,
+        upcoming: true,
       });
       if (res.data.success) {
         const latestEvents = res.data.value.events;
@@ -46,11 +47,15 @@ const WhatsHappening = () => {
       </p>
       {loading ? (
         <Skeleton className="min-h-[300px]" />
+      ) : events?.length === 0 ? (
+        <div className="text-center min-w-full text-3xl text-titleColor">
+          No upcoming events
+        </div>
       ) : (
         events?.map((event, index) => {
           const isActive = Boolean(selectedIndex === index);
           return (
-            <div key={index} className="flex flex-col">
+            <div key={index} className="flex flex-col mb-12">
               <div className="w-4/5 space-y-10 mx-auto grid md:grid-cols-4 bg-gradient-to-b from-blue-100 to-white px-14 xl:lg:px-14 md:px-0 py-20 border border-[#13A6D9]">
                 <div className="text-[#000000] md:text-left text-center lg:max-w-full max-w-[80%] mx-auto items-center flex justify-center">
                   <h2 className="text-sm font-normal md:max-w-[50%]">
@@ -78,10 +83,16 @@ const WhatsHappening = () => {
                     {isActive ? event.body : event.body.slice(0, 300)}
                   </p>
                   <span
-                    onClick={() => setSelectedIndex(index)}
+                    onClick={() => {
+                      if (isActive) {
+                        setSelectedIndex(-1);
+                      } else {
+                        setSelectedIndex(index);
+                      }
+                    }}
                     className="w-full text-right text-titleColor capitalize hover:text-black cursor-pointer"
                   >
-                    see more
+                    {isActive ? "see less" : "see more"}
                   </span>
                 </div>
               </div>

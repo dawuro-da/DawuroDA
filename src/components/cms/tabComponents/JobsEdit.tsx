@@ -53,7 +53,7 @@ const JobEdit = ({
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const res = await axios.post(`/api/cms/event/edit/${selectedJob?.id}`, {
+      const res = await axios.post(`/api/cms/job/edit/${selectedJob?.id}`, {
         ...values,
         profileImage: "/mike/new",
       });
@@ -83,9 +83,7 @@ const JobEdit = ({
 
   const handleDelete = async (id: string) => {
     try {
-      const res = await axios.delete(
-        `/api/cms/event/delete/${selectedJob?.id}`
-      );
+      const res = await axios.delete(`/api/cms/job/delete/${selectedJob?.id}`);
 
       if (res?.status === 200) {
         dispatch(
