@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Skeleton } from "@mui/material";
 import { Partnership } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
@@ -55,14 +55,25 @@ const Partners = () => {
       <div className="xl:lg:px-40 md:px-20 max-w-full flex flex-row items-center justify-center">
         <div className="max-w-fit overflow-y-hidden overflow-x-auto pl-16 hiddenscrollbar justify-center ">
           <Slider {...settings} className="">
-            {partnerships?.map((item, id) => (
-              <div
-                key={id}
-                className="w-[80px] h-[80px] flex flex-row items-center justify-center"
-              >
-                <Image src={item.logo} height={80} width={80} alt="" key={id} />
-              </div>
-            ))}
+            {loading
+              ? [1, 2, 3].map((item) => (
+                  <Skeleton key={item} className="w-full" />
+                ))
+              : partnerships?.map((item, id) => (
+                  <div
+                    key={id}
+                    className="w-[80px] h-[80px] flex flex-row items-center justify-center"
+                  >
+                    <Image
+                      src={`${item.logo}`}
+                      height={80}
+                      width={80}
+                      unoptimized
+                      alt=""
+                      key={id}
+                    />
+                  </div>
+                ))}
           </Slider>
         </div>
       </div>

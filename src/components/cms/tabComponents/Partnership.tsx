@@ -160,7 +160,7 @@ const PartnershipPage = () => {
             }}
           />
         </div>
-        <div className="flex-1 px-4 mt-6 flex flex-col gap-4">
+        <div className="flex-1 px-4 mt-6 flex flex-col gap-4 overflow-y-auto hiddenscrollbar">
           {fetchLoading ? (
             <CircularProgress />
           ) : (

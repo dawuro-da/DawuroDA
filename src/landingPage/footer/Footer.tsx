@@ -25,12 +25,18 @@ const ContactInfo = () => (
         Contact
       </h3>
       <div className="font-light text-sm space-y-4 md:text-left text-center">
-        <p>Address: Arbaminch City</p>
-        <p>Tel: +251 966 78 90 11</p>
-        <p>Tel: +251 966 78 90 11</p>
-        <p>
-          Email: <Link href="mailto:info@gammoda.com">info@gammoda.com</Link>
+        <p className="flex flex-row gap-1 justify-start items-start">
+          <span className="flex flex-row items-center w-fit">Tel:</span>
+          <span className="flex flex-col">
+            <span className="pl-4">0910324567</span>
+            <span className="pl-4"> 0910600719</span>
+            <span className="pl-4"> 0911283675</span>
+          </span>
         </p>
+        <p>
+          Email: <Link href="mailto:info@gammoda.com">info@gammoda.org</Link>
+        </p>
+        <p>PO. Box:- 72 Arba minch</p>
       </div>
     </div>
   </div>
@@ -84,7 +90,11 @@ const Footer = () => {
             {[
               { href: "", src: "/images/twitter.svg", alt: "Twitter" },
               { href: "", src: "/images/instagram.svg", alt: "Instagram" },
-              { href: "https://www.facebook.com/gamodevelopmentassociation?mibextid=ZbWKwL", src: "/images/facebook.svg", alt: "Facebook" },
+              {
+                href: "https://www.facebook.com/gamodevelopmentassociation?mibextid=ZbWKwL",
+                src: "/images/facebook.svg",
+                alt: "Facebook",
+              },
               { href: "", src: "/images/telegram.svg", alt: "Telegram" },
             ].map((social, index) => (
               <SocialLink

@@ -37,6 +37,7 @@ const ManagementEdit = ({
     reset,
     watch,
     setValue,
+    getValues,
   } = useForm();
 
   useEffect(() => {
@@ -207,20 +208,7 @@ const ManagementEdit = ({
               </span>
               <input
                 id="photo"
-                {...register("photo", {
-                  required: "photo is required",
-                  validate: {
-                    fileSize: (value: any) => {
-                      if (value && value[0]) {
-                        return (
-                          value[0].size < 1048576 ||
-                          "File size must be less than 1MB"
-                        );
-                      }
-                      return true;
-                    },
-                  },
-                })}
+                {...register("photo")}
                 type="file"
                 placeholder=""
                 className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"

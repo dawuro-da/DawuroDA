@@ -47,6 +47,8 @@ const EventEdit = ({
     setValue("headlineAmharic", selectedEvent?.headlineAmharic);
     setValue("body", selectedEvent?.body);
     setValue("bodyAmharic", selectedEvent?.bodyAmharic);
+    setValue("startDate", selectedEvent?.startDate);
+    setValue("endDate", selectedEvent?.endDate);
     setValue("profileImage", selectedEvent?.profileImage);
     setValue("isDraft", selectedEvent?.isDraft);
   }, [selectedEvent]);

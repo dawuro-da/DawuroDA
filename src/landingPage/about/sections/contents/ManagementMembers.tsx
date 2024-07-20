@@ -77,7 +77,7 @@ const ManagementMembers = () => {
       </div>
 
       <BoardMemberProfile
-        member={selectedMember}
+        manager={selectedMember}
         handleClose={() => toggleDrawer(false)}
         open={isDrawerOpen}
       />
