@@ -7,7 +7,6 @@ interface SidebarProps {
 const Sidebar = ({ setContent, currentContent, borderColor }: SidebarProps) => {
   const menuItems = [
     "About",
-    "What We Do",
     "President Message",
     "Mission, Vision, Goals",
     "Board Members",

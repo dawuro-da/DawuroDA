@@ -2,7 +2,6 @@ import Sidebar from "./Sidebar";
 import { useState } from "react";
 import Content, { contentData } from "./Content";
 import AboutContent from "./contents/AboutContent";
-import WhatWeDoContent from "./contents/WhatWeDoContent";
 import PresidentMessage from "./contents/PresidentMessage";
 import MissionContent from "./contents/MissionContent";
 import BoardMember from "./contents/BoardMember";
@@ -12,8 +11,6 @@ const ContentRender = ({ content }: { content: string }) => {
   switch (content) {
     case "About":
       return <AboutContent />;
-    case "What We Do":
-      return <WhatWeDoContent />;
     case "President Message":
       return <PresidentMessage />;
     case "Mission, Vision, Goals":
