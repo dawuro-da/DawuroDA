@@ -153,17 +153,19 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             </div>
           </div>
         </div>
-        {hasValidSession ? (
-          <ProfileMenu />
-        ) : (
-          <Button
-            variant="outlined"
-            onClick={() => router.push("/login")}
-            className="text-white capitalize bg-primaryColor hover:text-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer hidden xl:lg:md:block"
-          >
-            Join
-          </Button>
-        )}
+        <div className="hidden xl:lg:md:block">
+          {hasValidSession ? (
+            <ProfileMenu />
+          ) : (
+            <Button
+              variant="outlined"
+              onClick={() => router.push("/login")}
+              className="text-white capitalize bg-primaryColor hover:text-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer "
+            >
+              Join
+            </Button>
+          )}
+        </div>
         <div
           className={`xl:lg:md:hidden absolute top-2 right-10 w-fit h-full flex flex-row items-center ${
             isHome && "text-white"
