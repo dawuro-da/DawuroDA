@@ -132,7 +132,7 @@ const NewsCard = () => {
                       <div className="mt-2 md:pl-6 pl-0 lg:w-2/4">
                         <h2 className="group-hover:underline md:text-xl text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
                           {item.headline.slice(0, 70)}
-                          {news?.[0]?.headline.length > 70 && "..."}
+                          {item.headline.length > 70 && "..."}
                         </h2>
                         <div className="flex items-center space-x-3">
                           <Image
@@ -164,7 +164,8 @@ const NewsCard = () => {
                         width={20}
                         height={20}
                         unoptimized
-                        className="lg:w-[41%] w-[38%] max-h-full"
+                        objectFit="cover"
+                        className="lg:w-[41%] w-[38%] h-fit max-h-full"
                       />
                       <div className="mt-2 md:pl-6 pl-0 lg:w-2/4">
                         <h2 className="group-hover:underline md:text-xl text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">

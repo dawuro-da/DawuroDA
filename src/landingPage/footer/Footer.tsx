@@ -27,14 +27,20 @@ const ContactInfo = () => (
       <div className="font-light text-sm space-y-4 md:text-left text-center">
         <p className="flex flex-row gap-1 justify-start items-start">
           <span className="flex flex-row items-center w-fit">Tel:</span>
-          <span className="flex flex-col">
-            <span className="pl-4">0910324567</span>
-            <span className="pl-4"> 0910600719</span>
-            <span className="pl-4"> 0911283675</span>
+          <span className="flex flex-col gap-2">
+            <Link href="tel:0910324567">
+              <span className="pl-4 hover:underline">0910324567</span>
+            </Link>
+            <Link href="tel:0910600719">
+              <span className="pl-4 hover:underline"> 0910600719</span>
+            </Link>
+            <Link href="tel:0911283675">
+              <span className="pl-4 hover:underline"> 0911283675</span>
+            </Link>
           </span>
         </p>
         <p>
-          Email: <Link href="mailto:info@gammoda.com">info@gammoda.org</Link>
+          Email: <Link href="mailto:info@gammoda.com" className="hover:underline">info@gammoda.org</Link>
         </p>
         <p>PO. Box:- 72 Arba minch</p>
       </div>

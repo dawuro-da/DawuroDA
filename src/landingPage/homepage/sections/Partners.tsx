@@ -44,7 +44,11 @@ const Partners = () => {
     cssEase: "linear",
     speed: 2000,
     slidesToScroll: 1,
-    slidesToShow: isSmallScreen ? 3 : 6,
+    slidesToShow: isSmallScreen
+      ? 3
+      : partnerships && partnerships?.length < 6
+      ? partnerships?.length
+      : 6,
   };
 
   return (
@@ -52,8 +56,8 @@ const Partners = () => {
       <h2 className="font-bold lg:text-4xl md:text-2xl text-xl mb-10 text-center">
         Our Partners
       </h2>
-      <div className="xl:lg:px-40 md:px-20 max-w-full flex flex-row items-center justify-center">
-        <div className="max-w-fit overflow-y-hidden overflow-x-auto pl-16 hiddenscrollbar justify-center ">
+      <div className="xl:lg:px-40 md:px-20 max-w-full w-screen flex flex-row items-center justify-center">
+        <div className="w-full overflow-y-hidden overflow-x-auto hiddenscrollbar">
           <Slider {...settings} className="">
             {loading
               ? [1, 2, 3].map((item) => (

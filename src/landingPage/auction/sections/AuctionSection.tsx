@@ -1,15 +1,50 @@
+"use client";
+
 import Naviagtion from "@/landingPage/navigation/Navigation";
 import AuctionCard from "./AuctionCard";
 import { AuctionCardData } from "./AuctionData";
 import Footer from "@/landingPage/footer/Footer";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Auction } from "@prisma/client";
+import { CircularProgress, Skeleton } from "@mui/material";
+import { getFormattedDate } from "@/util/date";
 
 const AuctionSection = () => {
+  const [auctions, setAuctions] = useState<Auction[]>();
+  const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [page, setPage] = useState(1);
+
+  const fetchAuctions = async () => {
+    page === 1 ? setLoading(true) : setLoadingMore(true);
+    try {
+      const res = await axios.post("/api/auction/fetch", {
+        page: page,
+        pageSize: 10,
+      });
+      if (res.data.success) {
+        const latestAuctions = res.data.value.auctions;
+        const oldAuctions = auctions?.length ? auctions : [];
+        setAuctions([...oldAuctions, ...latestAuctions]);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+    setLoadingMore(false);
+  };
+
+  useEffect(() => {
+    fetchAuctions();
+  }, [page]);
+
   return (
     <div className="bg-[#F5F5F5] min-h-screen flex flex-col">
       <div className="z-40 absolute top-0 w-full">
         <Naviagtion bg="bg-[#F5F5F5]" />
       </div>
-      <div className="w-4/5 mx-auto mb-48">
+      <div className="xl:lg:px-40 md:px-20 px-10 w-full">
         <div className="text-center lg:mt-[180px] mt-[100px] mb-16">
           <h1 className="lg:text-4xl md:text-2xl text-lg font-extrabold mb-6">
             Auctions
@@ -17,16 +52,35 @@ const AuctionSection = () => {
           <p className="font-light text-[#7C7C7C]">Get involved in auctions</p>
         </div>
         <div>
-          {AuctionCardData.map((item, id) => (
-            <AuctionCard
-              key={id}
-              startDate={item.startDate}
-              title={item.title}
-              description={item.description}
-              bidder={item.bidder}
-              endDate={item.endDate}
-            />
-          ))}
+          {loading ? (
+            <>
+              <Skeleton style={{ width: "100%", height: "200px" }} />
+              <Skeleton style={{ width: "100%", height: "200px" }} />
+            </>
+          ) : (
+            auctions?.map((item, id) => (
+              <AuctionCard
+                key={id}
+                startDate={getFormattedDate(item.startDate)}
+                title={item.title}
+                description={item.description}
+                bidder={64}
+                endDate={getFormattedDate(item.endDate)}
+              />
+            ))
+          )}
+        </div>
+        <div className="w-full my-20">
+          <div
+            onClick={() => setPage(page + 1)}
+            className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
+          >
+            {loadingMore ? (
+              <CircularProgress className="h-full" />
+            ) : (
+              "Load More"
+            )}
+          </div>
         </div>
       </div>
       <Footer />
