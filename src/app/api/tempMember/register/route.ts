@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import { getServerSession } from "next-auth";
-import { OPTIONS } from "@/util/authOptions";
 import {
   ContributionSystem,
   Gender,
@@ -176,8 +174,8 @@ export async function POST(req: Request) {
       { success: false, error: "Unable to create member" },
       { status: 500 }
     );
-  } catch (err) {
-    console.warn(err);
+  } catch (err: any) {
+    console.warn(err.response.data);
     return NextResponse.json(
       {
         success: false,

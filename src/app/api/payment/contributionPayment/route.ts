@@ -19,9 +19,12 @@ export async function POST(req: Request) {
       first_name: `${firstName ? firstName : institutionName}`,
       last_name: `${lastName ? lastName : ""}`,
       phone_number: `${phone}`,
-      tx_ref: `chewatatest-${Math.random()}`,
+      tx_ref: `gammoda-ref-${Math.random()}`,
       callback_url: `${process.env.PAYMENT_WEB_HOOK}/api/webhook/payment`,
-      //   return_url: `${process.env.PAYMENT_WEB_HOOK}/login`,
+      return_url: `${process.env.PAYMENT_WEB_HOOK}/member/dashboard`,
+      meta: {
+        paymentType: "contributionPayment",
+      },
       "customization[title]": "Gammoda member's contribution",
       "customization[description]":
         "this membership contribution should be paid after compeletion of your registration ",

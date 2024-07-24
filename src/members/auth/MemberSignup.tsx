@@ -16,6 +16,7 @@ const MemberSignup = ({
   const [signUpStep, setSignUpStep] = useState(0);
   const [loginError, setLoginError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [isSuccessFull, setIsSuccessfull] = useState<boolean>(false);
   const {
     register,
     formState: { errors },
@@ -51,6 +52,7 @@ const MemberSignup = ({
             watch={watch}
             setValue={setValue}
             loading={loading}
+            isSuccessfull={isSuccessFull}
           />
         );
     }
@@ -62,6 +64,7 @@ const MemberSignup = ({
       const formData = getMemberFormData({ ...values });
       const res = await axios.post("/api/tempMember/register", formData);
       if (res.data.success) {
+        setIsSuccessfull(true);
         window.open(res.data.value.data.checkout_url);
       }
     } catch (err) {

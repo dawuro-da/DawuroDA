@@ -5,6 +5,7 @@ import { calculateNextDueDate } from "@/util/date";
 import prisma from "@/lib/prisma";
 import crypto from "crypto";
 import { createContribution } from "@/db/contribution";
+import { TempMember } from "@prisma/client";
 
 export async function POST(req: Request, res: any) {
   // chapa
@@ -37,59 +38,8 @@ export async function POST(req: Request, res: any) {
     console.log("============================");
     if (event === "charge.success") {
       const tempMember = await findTempMemberByPhone(mobile);
-
       if (tempMember) {
-        const date = new Date(Date.now());
-        const sharedData = {
-          email: tempMember.email,
-          phone: tempMember.phone,
-          membershipLevel: tempMember.membershipLevel,
-          contributionSystem: tempMember.contributionSystem,
-          hasPaid: true,
-          membershipType: tempMember.membershipType,
-          region: tempMember.region,
-          city: tempMember.city,
-          zone: tempMember.zone,
-          kebele: tempMember.kebele,
-          positionAtWork: tempMember.positionAtWork,
-          paymentMeans: tempMember.paymentMeans,
-          contributionAmount: tempMember.contributionAmount,
-          lastPaidAt: date.toISOString(),
-          nextDueDate: calculateNextDueDate({
-            fromDate: date,
-            contributionSystem: tempMember.contributionSystem,
-          })?.toISOString(),
-          password_hash: tempMember.password_hash,
-          password_salt: tempMember.password_salt,
-        };
-
-        const member = await prisma.member.create({
-          data: {
-            ...sharedData,
-            memberId: generateMemberId(),
-            firstName: tempMember.firstName,
-            lastName: tempMember.lastName,
-            gender: tempMember.gender,
-            educationLevel: tempMember.educationLevel,
-            expertise: tempMember.expertise,
-            dateOfBirth: tempMember.dateOfBirth,
-            workPlace: tempMember.workPlace,
-            profileImage: tempMember.profileImage,
-            idNumber: tempMember.idNumber,
-            branch: tempMember.branch,
-            institutionName: tempMember.institutionName,
-            headOrRepresentative: tempMember.headOrRepresentative,
-            fieldOfWork: tempMember.fieldOfWork,
-            partnershipIdea: tempMember.partnershipIdea,
-          },
-        });
-        if (member) {
-          await createContribution({
-            contributionSystem: member.contributionSystem,
-            contributorId: member.id,
-            amount: member.contributionAmount.toString(),
-          });
-        }
+        await registerNewPaidMember(tempMember);
       }
     }
     return NextResponse.json(
@@ -108,3 +58,60 @@ export async function POST(req: Request, res: any) {
     );
   }
 }
+
+const registerNewPaidMember = async (tempMember: TempMember) => {
+  const date = new Date(Date.now());
+  const sharedData = {
+    email: tempMember.email,
+    phone: tempMember.phone,
+    membershipLevel: tempMember.membershipLevel,
+    contributionSystem: tempMember.contributionSystem,
+    hasPaid: true,
+    membershipType: tempMember.membershipType,
+    region: tempMember.region,
+    city: tempMember.city,
+    zone: tempMember.zone,
+    kebele: tempMember.kebele,
+    positionAtWork: tempMember.positionAtWork,
+    paymentMeans: tempMember.paymentMeans,
+    contributionAmount: tempMember.contributionAmount,
+    lastPaidAt: date.toISOString(),
+    nextDueDate: calculateNextDueDate({
+      fromDate: date,
+      contributionSystem: tempMember.contributionSystem,
+    })?.toISOString(),
+    password_hash: tempMember.password_hash,
+    password_salt: tempMember.password_salt,
+  };
+
+  const member = await prisma.member.create({
+    data: {
+      ...sharedData,
+      memberId: generateMemberId(),
+      firstName: tempMember.firstName,
+      lastName: tempMember.lastName,
+      gender: tempMember.gender,
+      educationLevel: tempMember.educationLevel,
+      expertise: tempMember.expertise,
+      dateOfBirth: tempMember.dateOfBirth,
+      workPlace: tempMember.workPlace,
+      profileImage: tempMember.profileImage,
+      idNumber: tempMember.idNumber,
+      branch: tempMember.branch,
+      institutionName: tempMember.institutionName,
+      headOrRepresentative: tempMember.headOrRepresentative,
+      fieldOfWork: tempMember.fieldOfWork,
+      partnershipIdea: tempMember.partnershipIdea,
+    },
+  });
+  if (member) {
+    await createContribution({
+      contributionSystem: member.contributionSystem,
+      contributorId: member.id,
+      amount: member.contributionAmount.toString(),
+    });
+  } else {
+    return null;
+  }
+  return member;
+};

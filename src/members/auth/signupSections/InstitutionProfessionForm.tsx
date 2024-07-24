@@ -128,6 +128,14 @@ const InstitutionProfessionForm = ({
                 }
                 return false;
               },
+              exceed: (value: any) => {
+                if (parseFloat(value) <= 100000) {
+                  return true; // Value is valid
+                } else {
+                  return `Contribution amount should not exceed 100,000ETB for registration.
+                   So please change your contribution system or contact our admins`;
+                }
+              },
             },
           })}
           type="number"
