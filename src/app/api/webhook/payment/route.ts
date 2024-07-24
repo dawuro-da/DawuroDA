@@ -5,7 +5,7 @@ import { calculateNextDueDate } from "@/util/date";
 import prisma from "@/lib/prisma";
 import crypto from "crypto";
 import { createContribution } from "@/db/contribution";
-import { TempMember } from "@prisma/client";
+import { Member, TempMember } from "@prisma/client";
 
 export async function POST(req: Request, res: any) {
   // chapa
@@ -59,6 +59,7 @@ export async function POST(req: Request, res: any) {
   }
 }
 
+const addNewContribution = async (member: Member) => {};
 const registerNewPaidMember = async (tempMember: TempMember) => {
   const date = new Date(Date.now());
   const sharedData = {
