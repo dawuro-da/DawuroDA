@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
 import { useRouter } from "next/navigation";
 
-const AdminPasswordReset = ({ email }: { email: string }) => {
+const MemberPasswordReset = ({ phone }: { phone: string }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [ResetError, setResetError] = useState<string>("");
@@ -28,8 +28,8 @@ const AdminPasswordReset = ({ email }: { email: string }) => {
   const handleReset = async (values: FieldValues) => {
     const { password } = values;
     setLoading(true);
-    const res = await axios.post("/api/user/reset-password", {
-      email,
+    const res = await axios.post("/api/member/reset-password", {
+      phone,
       password,
     });
 
@@ -158,7 +158,7 @@ const AdminPasswordReset = ({ email }: { email: string }) => {
                 </span>
                 <Button
                   variant="contained"
-                  onClick={() => router.push("/gaadmin/login")}
+                  onClick={() => router.push("/login")}
                   className="bg-primaryColor shadow-none text-white hover:bg-primaryColor border-2 rounded-[16px] p-3 h-[48px]"
                 >
                   Back to login
@@ -189,4 +189,4 @@ const AdminPasswordReset = ({ email }: { email: string }) => {
   );
 };
 
-export default AdminPasswordReset;
+export default MemberPasswordReset;

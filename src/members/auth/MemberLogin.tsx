@@ -119,7 +119,7 @@ const MemberLogin = ({
           : ""}
       </span>
       <div className="flex flex-row items-center justify-end w-full">
-        <Link href={"/#"}>
+        <Link href={"/member/forgot-password"}>
           <span className="text-[#13A6D9] hover:underline">
             Forgot password?
           </span>

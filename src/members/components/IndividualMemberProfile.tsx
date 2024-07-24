@@ -377,61 +377,6 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
                     }
                   />
                 </div>
-                <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
-                  <span className="text-titleColor text-sm font-bold">
-                    Profile Image
-                  </span>
-                  <span className="relative flex flex-row items-center px-6 border-2 border-dashed rounded-[3px] py-2 cursor-pointer h-[65px]">
-                    <span className="flex flex-row items-center px-2 gap-2 text-titleColor cursor-pointer">
-                      <Image
-                        src={"/icons/greyGallery.svg"}
-                        alt=""
-                        height={20}
-                        width={20}
-                      />
-                      <span>
-                        {watch("profileImage") &&
-                        (watch("profileImage") as unknown as any)[0]
-                          ? (watch("profileImage") as unknown as any)[0].name
-                          : watch("profileImage")
-                          ? watch("profileImage")
-                          : "Upload"}
-                      </span>
-                    </span>
-                    <input
-                      id="profileImage"
-                      {...register("profileImage", {
-                        // validate: {
-                        //   fileSize: (value: any) => {
-                        //     if (value && value[0]) {
-                        //       return (
-                        //         value[0].size < 1048576 ||
-                        //         "Image size must be 600*600 File size must be less than 1MB"
-                        //       );
-                        //     }
-                        //     return true;
-                        //   },
-                        // },
-                      })}
-                      type="file"
-                      placeholder=""
-                      className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    />
-                    <Button className="flex flex-row items-center justify-center outline-none z-0 gap-2 absolute bg-white text-titleColor right-4 px-4 py-2 cursor-pointer">
-                      <Image
-                        src={"/icons/uploadIcon.svg"}
-                        alt=""
-                        height={20}
-                        width={20}
-                      />
-                      <span>Upload</span>
-                    </Button>
-                  </span>
-                  <span className="text-xs text-red-500">
-                    {!!errors.profileImage &&
-                      errors.profileImage.message?.toString()}
-                  </span>
-                </div>
               </div>
               <div className="flex flex-row items-center justify-between gap-6">
                 <span className="font-bold">
