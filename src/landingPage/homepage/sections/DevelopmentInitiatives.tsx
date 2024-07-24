@@ -67,11 +67,11 @@ const DevelopmentInitiatives = () => {
                 >
                   <div className="group cursor-pointer hover:bg-white flex flex-col items-center justify-center gap-1 pb-10 h-full w-full">
                     <div
-                      className="w-[85%] h-[350px]"
+                      className="w-[85%] max-h-[350px] xl:lg:h-[300px] md:h-[250px] h-[200px]"
                       style={{
                         background: `url(${initiative.featuredImages?.[0]})`,
                         backgroundPosition: "center",
-                        backgroundSize: "contain",
+                        backgroundSize: "cover",
                         backgroundRepeat: "no-repeat",
                       }}
                     />
