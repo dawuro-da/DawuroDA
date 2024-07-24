@@ -109,6 +109,26 @@ export async function createIndividualMember({
   }
 }
 
+export async function updateMemberPassword({
+  phone,
+  passwordSalt,
+  newPassword,
+}: {
+  phone: string;
+  passwordSalt: string;
+  newPassword: string;
+}): Promise<Member | undefined> {
+  return await prisma.member.update({
+    where: {
+      phone: phone,
+    },
+    data: {
+      password_salt: passwordSalt,
+      password_hash: newPassword,
+    },
+  });
+}
+
 export async function createInstitutionMember({
   institutionData,
 }: {

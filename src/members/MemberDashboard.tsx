@@ -4,7 +4,6 @@ import Naviagtion from "@/landingPage/navigation/Navigation";
 import { Avatar, Button, Divider } from "@mui/material";
 import Image from "next/image";
 import HistoryAndAuction from "./components/HistoryAndAuction";
-import { signOut } from "next-auth/react";
 import {
   Contribution,
   Member,

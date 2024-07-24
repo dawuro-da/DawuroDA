@@ -4,6 +4,8 @@ import Image from "next/image";
 import MemberLogin from "./MemberLogin";
 import MemberSignup from "./MemberSignup";
 import { useEffect, useState } from "react";
+import { ArrowBack } from "@mui/icons-material";
+import Link from "next/link";
 
 const images = [
   { url: "/images/hero1.svg", alt: "Image 1" },
@@ -40,6 +42,12 @@ const MemberAuth = () => {
   return (
     <div className="w-full h-screen overflow-y-auto flex xl:flex-row lg:flex-row">
       <div className="relative w-[80%] h-full xl:block lg:block hidden">
+        <Link href={"/"}>
+          <div className="absolute flex flex-row items-center gap-2 top-10 left-10 text-white w-fit z-40 hover:cursor-pointer hover:underline">
+            <ArrowBack />
+            <span>Back to home</span>
+          </div>
+        </Link>
         {images.map((image, index) => (
           <div
             key={index}
