@@ -19,9 +19,21 @@ import { uploadFile } from "@/util/uploadFile";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user?.id || session?.user.role === UserRole.Member) {
-    return NextResponse.redirect("/gaadmin/login", 401)
+  if (!session?.user?.id) {
+    return NextResponse.redirect("/gaadmin/login", 401);
+  } else if (
+    session?.user.role === UserRole.Member &&
+    session.user.id !== context.params.id
+  ) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Unauthorized member",
+      },
+      { status: 401 }
+    );
   }
+
   const formData = await req.formData();
 
   const email = formData.get("email") as string;
