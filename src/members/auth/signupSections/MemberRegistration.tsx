@@ -1,6 +1,6 @@
 import { Button, CircularProgress } from "@mui/material";
 import Image from "next/image";
-import { MutableRefObject, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   FieldErrors,
   FieldValues,
@@ -15,7 +15,6 @@ import { MembershipType } from "@prisma/client";
 import InstitutionForm from "./InstitutionForm";
 import InstitutionProfessionForm from "./InstitutionProfessionForm";
 import Success from "./Success";
-import { useRouter } from "next/navigation";
 
 interface MemberRegistrationProps {
   register: UseFormRegister<FieldValues>;
@@ -24,6 +23,7 @@ interface MemberRegistrationProps {
   watch: UseFormWatch<FieldValues>;
   setValue: UseFormSetValue<FieldValues>;
   loading: boolean;
+  isSuccessfull: boolean;
 }
 
 const MemberRegistration = ({
@@ -33,8 +33,8 @@ const MemberRegistration = ({
   watch,
   setValue,
   loading,
+  isSuccessfull,
 }: MemberRegistrationProps) => {
-  const router = useRouter();
   const btnRef = useRef<HTMLButtonElement | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const steps = [
@@ -43,6 +43,12 @@ const MemberRegistration = ({
     { label: "Professional Info", step: 3 },
     { label: "Success", step: 4 },
   ];
+
+  useEffect(() => {
+    if (isSuccessfull) {
+      setCurrentStep(currentStep + 1);
+    }
+  }, [isSuccessfull]);
 
   const renderForm = (step: number) => {
     switch (step) {
@@ -103,14 +109,7 @@ const MemberRegistration = ({
           return setCurrentStep(currentStep + 1);
         }
       case 3:
-        btnRef.current?.click();
-        // Use a timeout to allow potential async validation to complete
-        setTimeout(() => {
-          if (Object.keys(errors).length === 0) {
-            setCurrentStep(currentStep + 1);
-          }
-        }, 10);
-        return;
+        return btnRef.current?.click();
       default:
         setCurrentStep(currentStep + 1);
     }
@@ -259,3 +258,7 @@ const checkEmptyField = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
     return false;
   }
 };
+
+function isEmpty(obj: any) {
+  return Object.keys(obj).length === 0;
+}
