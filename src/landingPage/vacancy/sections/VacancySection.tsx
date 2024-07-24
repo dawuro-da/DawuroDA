@@ -6,33 +6,37 @@ import Footer from "@/landingPage/footer/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Job } from "@prisma/client";
-import { Skeleton } from "@mui/material";
+import { CircularProgress, Skeleton } from "@mui/material";
 import { getRelativeTimeSinceDate } from "@/util/date";
 
 const VacancySection = () => {
   const [jobs, setJobs] = useState<Job[]>();
   const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [page, setPage] = useState(1);
 
   const fetchJobs = async () => {
-    setLoading(true);
+    page === 1 ? setLoading(true) : setLoadingMore(true);
     try {
       const res = await axios.post("/api/cms/job/fetch", {
-        page: 1,
-        pageSize: 20,
+        page: page,
+        pageSize: 10,
       });
       if (res.data.success) {
         const latestJobs = res.data.value.jobs;
-        setJobs(latestJobs);
+        const oldJobs = jobs?.length ? jobs : [];
+        setJobs([...oldJobs, ...latestJobs]);
       }
     } catch (err) {
       console.log(err);
     }
     setLoading(false);
+    setLoadingMore(false);
   };
 
   useEffect(() => {
     fetchJobs();
-  }, []);
+  }, [page]);
 
   return (
     <div className="bg-[#F5F5F5] min-h-screen flex flex-col">
@@ -47,12 +51,20 @@ const VacancySection = () => {
           <p className="font-light text-[#7C7C7C]">Our Job Openings</p>
         </div>
       </div>
-      <div className="mb-48 min-h-[400px]">
+      <div className="mb-48 min-h-[300px]">
         {loading ? (
           <Skeleton className="min-h-[300px]" />
         ) : (
           jobs?.map((item, index) => <VacancyCard key={index} job={item} />)
         )}
+      </div>
+      <div className="w-full mb-20">
+        <div
+          onClick={() => setPage(page + 1)}
+          className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
+        >
+          {loadingMore ? <CircularProgress className="h-full" /> : "Load More"}
+        </div>
       </div>
       <Footer />
     </div>

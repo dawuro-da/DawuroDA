@@ -31,11 +31,13 @@ const GridNews = ({
                   width={100}
                   style={{ height: "100%", width: "100%" }}
                   src={newsItem.profileImage?.[0]}
+                  objectFit="cover"
                   alt=""
                   unoptimized
                 />
                 <p className="w-[100%] text-start font-bold text-xl group-hover:underline">
-                  {newsItem.headline}
+                  {newsItem.headline.slice(0, 70)}
+                  {newsItem.headline.length > 70 && "..."}
                 </p>
                 <p className="text-[#000000] text-start text-sm w-[100%]">
                   {newsItem.body.slice(0, 200)}

@@ -137,11 +137,12 @@ const NewsDetail = () => {
                         src={item.profileImage?.[0]}
                         alt=""
                         unoptimized
+                        objectFit="cover"
                         width={20}
                         height={20}
-                        className="lg:min-w-[40%] min-w-[38%]"
+                        className="lg:min-w-[40%] min-w-[38%] h-fit"
                       />
-                      <div className="mt-2 pl-0 w-full">
+                      <div className=" pl-0 w-full">
                         <h2 className="group-hover:underline md:text-sm text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
                           {item.headline.length > 60
                             ? `${item.headline.slice(0, 60)}...`
@@ -197,6 +198,7 @@ const NewsDetail = () => {
                       height={100}
                       width={100}
                       unoptimized
+                      objectFit="cover"
                       style={{
                         height: "100%",
                         width: "100%",
