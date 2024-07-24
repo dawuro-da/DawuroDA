@@ -109,6 +109,15 @@ const MemberLogin = ({
           }}
         />
       </div>
+      <span className="my-2 text-red-500 px-3">
+        {errors.email?.message
+          ? errors.email?.message.toString()
+          : errors.password?.message
+          ? errors.password?.message.toString()
+          : loginError
+          ? loginError
+          : ""}
+      </span>
       <div className="flex flex-row items-center justify-end w-full">
         <Link href={"/#"}>
           <span className="text-[#13A6D9] hover:underline">

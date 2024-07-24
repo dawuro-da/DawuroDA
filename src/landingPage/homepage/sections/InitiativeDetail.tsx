@@ -110,6 +110,7 @@ const InitiativeDetail = () => {
                     style={{
                       height: "100%",
                       width: "100%",
+                      maxHeight: "300px",
                     }}
                     unoptimized
                     alt=""
