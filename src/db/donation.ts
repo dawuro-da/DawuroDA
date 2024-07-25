@@ -117,3 +117,29 @@ export async function fetchAllDonations({
 
   return { donations, total };
 }
+
+export async function createDonation({
+  amount,
+  donationDesignation,
+  fullName,
+  phone,
+}: {
+  amount: string;
+  donationDesignation: string;
+  fullName: string;
+  phone: string;
+}) {
+  try {
+    return await prisma.generalDonation.create({
+      data: {
+        amount: parseFloat(amount),
+        donationDesignation,
+        fullName,
+        phone,
+      },
+    });
+  } catch (err) {
+    console.warn(err);
+    return null;
+  }
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import Naviagtion from "@/landingPage/navigation/Navigation";
-import { Avatar, Button, Divider } from "@mui/material";
+import { Avatar, Button, CircularProgress, Divider } from "@mui/material";
 import Image from "next/image";
 import HistoryAndAuction from "./components/HistoryAndAuction";
 import {
@@ -12,6 +12,10 @@ import {
 } from "@prisma/client";
 import { getFormattedDate, getMonthsSince } from "@/util/date";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { showToastAction } from "@/redux/actions";
+import axios from "axios";
+import { useState } from "react";
 
 const MemberDashboard = ({
   contributions,
@@ -20,8 +24,34 @@ const MemberDashboard = ({
   member?: Member;
   contributions?: Contribution[];
 }) => {
+  const dispatch = useDispatch();
   const router = useRouter();
+  const [payLoading, setPayLoading] = useState(false);
   const isCompany = Boolean(member?.membershipType === MembershipType.Company);
+
+  const handleContributionPayment = async () => {
+    setPayLoading(true);
+    try {
+      const res = await axios.post("/api/payment/contributionPayment", {
+        contributionAmount: member?.contributionAmount,
+        email: member?.email,
+        firstName: member?.firstName,
+        lastName: member?.lastName,
+        phone: member?.phone,
+        institutionName: member?.institutionName,
+      });
+      if (res.data.success) {
+        console.log();
+        window.open(res.data.value.data.checkout_url, "_blank");
+      } else {
+        dispatch(showToastAction({ message: res.data.error, type: "error" }));
+      }
+    } catch (err) {
+      console.warn(err);
+      dispatch(showToastAction({ message: "Here is an item", type: "error" }));
+    }
+    setPayLoading(false);
+  };
 
   return (
     <div className="w-full">
@@ -96,10 +126,11 @@ const MemberDashboard = ({
               </div>
             </div>
             <Button
+              onClick={handleContributionPayment}
               variant="outlined"
               className="mt-6 border-2 capitalize text-[14px] border-primaryColor hover:border-2 hover:border-primaryColor text-white hover:text-primaryColor bg-primaryColor"
             >
-              Pay
+              {payLoading ? <CircularProgress /> : "Pay"}
             </Button>
             <Divider textAlign="left">
               <span className="text-titleColor text-[14px]">Your Id</span>
