@@ -6,42 +6,49 @@ import prisma from "@/lib/prisma";
 import crypto from "crypto";
 import { createContribution } from "@/db/contribution";
 import { Member, TempMember } from "@prisma/client";
+import { findMemberByPhone } from "@/db/member";
+import { createDonation } from "@/db/donation";
+
+type PaymentTypes = "donation";
 
 export async function POST(req: Request, res: any) {
-  // chapa
-  // {
-  //   event: 'charge.success',
-  //   first_name: 'Bilen',
-  //   last_name: 'Gizachew',
-  //   email: 'abebech_bekele@gmail.com',
-  //   mobile: null,
-  //   currency: 'ETB',
-  //   amount: '100.00',
-  //   charge: '3.50',
-  //   status: 'success',
-  //   mode: 'test',
-  //   reference: 'APOIkm9PlGaiO',
-  //   created_at: '2024-05-08T21:41:36.000000Z',
-  //   updated_at: '2024-05-08T21:41:36.000000Z',
-  //   type: 'API',
-  //   tx_ref: 'chewatatest-0.4589925656490659',
-  //   payment_method: 'test',
-  //   customization: { title: null, description: null, logo: null },
-  //   meta: 'null'
-  // }
   try {
     const body = await req.json();
-    const { event, email, mobile } = body;
+    const {
+      event,
+      email,
+      mobile,
+      meta,
+      amount,
+      first_name,
+      last_name,
+      fullName,
+      type,
+    } = body;
 
-    console.log("=============================");
-    console.log({ body });
-    console.log("============================");
-    if (event === "charge.success") {
-      const tempMember = await findTempMemberByPhone(mobile);
-      if (tempMember) {
-        await registerNewPaidMember(tempMember);
+    if (event === "charge.success" && type === "API") {
+      const { paymentType } = JSON.parse(meta);
+
+      if (paymentType === "registrationPayment") {
+        const tempMember = await findTempMemberByPhone(mobile);
+        if (tempMember) {
+          await registerNewPaidMember(tempMember);
+        }
+      } else if (paymentType === "contributionPayment") {
+        const member = await findMemberByPhone(mobile);
+        if (member) {
+          await addNewContribution(member);
+        }
       }
+    } else if (event === "charge.success" && type === "Donation") {
+      await createANewDonation({
+        amount: amount,
+        donationDesignation: "",
+        fullName: `${first_name} ${last_name && last_name}`,
+        phone: mobile,
+      });
     }
+
     return NextResponse.json(
       {
         success: "OK",
@@ -58,8 +65,32 @@ export async function POST(req: Request, res: any) {
     );
   }
 }
+const createANewDonation = async ({
+  amount,
+  donationDesignation,
+  fullName,
+  phone,
+}: {
+  amount: string;
+  donationDesignation: string;
+  fullName: string;
+  phone: string;
+}) => {
+  return await createDonation({ amount, donationDesignation, fullName, phone });
+};
 
-const addNewContribution = async (member: Member) => {};
+const addNewContribution = async (member: Member) => {
+  const contribution = await createContribution({
+    contributionSystem: member.contributionSystem,
+    contributorId: member.id,
+    amount: member.contributionAmount.toString(),
+  });
+  console.log("=============================");
+  console.log({ contribution });
+  console.log("============================");
+  return contribution;
+};
+
 const registerNewPaidMember = async (tempMember: TempMember) => {
   const date = new Date(Date.now());
   const sharedData = {
@@ -105,6 +136,7 @@ const registerNewPaidMember = async (tempMember: TempMember) => {
       partnershipIdea: tempMember.partnershipIdea,
     },
   });
+
   if (member) {
     await createContribution({
       contributionSystem: member.contributionSystem,
