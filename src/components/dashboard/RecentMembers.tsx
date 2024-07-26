@@ -72,7 +72,7 @@ const getColumnDefinition = ({
           renderCell: (params) => {
             return (
               <span className="flex flex-row items-center gap-2 ">
-                <Avatar sizes="small" src="" />
+                <Avatar sizes="small" src={params?.row?.profileImage} />
                 {params.row.firstName && (
                   <span>
                     {params.row.firstName} {params.row.lastName}

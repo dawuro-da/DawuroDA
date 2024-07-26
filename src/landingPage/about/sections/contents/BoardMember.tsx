@@ -41,9 +41,15 @@ const BoardMember = () => {
           <h1 className="font-bold text-lg">Board Members</h1>
           <br />
           <p className="mb-8">
-            Board of directors is next to general assembly that has also crucial
-            role in setting and deciding on policy level issues and
-            developmental direction of the organization.
+            {`The Board of Directors of the Gammo Development Association
+            comprises a diverse group of professionals dedicated to the
+            advancement and well-being of the Gammo community. Each board member
+            brings a unique set of skills and experiences that contribute to the
+            strategic direction and governance of the association. The board's
+            collective expertise spans various sectors including education,
+            healthcare, business, and community development. This diverse
+            background ensures a holistic approach to addressing the needs of
+            the Gammo people.`}
           </p>
         </div>
         <div className="grid grid-cols-3 gap-10 w-full ">

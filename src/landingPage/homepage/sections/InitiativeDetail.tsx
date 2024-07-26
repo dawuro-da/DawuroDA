@@ -56,7 +56,7 @@ const InitiativeDetail = () => {
           {loading ? (
             <Skeleton />
           ) : (
-            <h2 className="font-extrabold xl:lg:text-5xl text-3xl xl:lg:w-3/4 w-full">
+            <h2 className="font-extrabold xl:lg:text-4xl text-3xl w-full">
               {initiative?.nameOfInitiative}
             </h2>
           )}

@@ -2,21 +2,41 @@
 
 import { Avatar, MenuItem, Skeleton } from "@mui/material";
 import { signOut, useSession } from "next-auth/react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { Logout, PersonOutline } from "@mui/icons-material";
 import StyledMenu from "@/components/shared/StyledMenu";
+import axios from "axios";
 
 const ProfileMenu = () => {
   const session = useSession();
   const router = useRouter();
+  const pathname = usePathname();
+  const isHome = Boolean(pathname === "/");
   const user = session?.data?.user;
+  const [userData, setUserData] = useState<any>();
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const open = Boolean(anchorEl);
 
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const fetchMemberProfile = async () => {
+    try {
+      const res = await axios.get(`/api/member/fetch/profile/${user?.id}`);
+      if (res.data.success) {
+        setUserData(res.data.value);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchMemberProfile();
+  }, []);
+
   return (
     <>
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
@@ -37,16 +57,12 @@ const ProfileMenu = () => {
       </StyledMenu>
 
       <div
-        className="flex flex-row items-center gap-4 font-bold cursor-pointer"
+        className="flex flex-row items-center gap-4 font-bold cursor-pointer w-[220px]"
         onClick={(e) => setAnchorEl(e.currentTarget)}
       >
-        <Avatar src={session.data?.user.profileImage} />
-        {user?.id ? (
-          <span>
-            {user.lastName
-              ? `${user.firstName} ${user.lastName}`
-              : user.firstName}
-          </span>
+        <Avatar src={userData?.profileImage} />
+        {userData?.name ? (
+          <span className={`${isHome && "text-white"}`}>{userData.name}</span>
         ) : (
           <Skeleton style={{ width: "100px", height: "40px" }} />
         )}

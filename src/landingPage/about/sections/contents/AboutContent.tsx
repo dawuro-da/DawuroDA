@@ -45,8 +45,9 @@ const AboutContent = () => {
       </p>
       <br />
       <Image
-        src={"/images/aboutrec.svg"}
+        src={"/images/arbaminch.jpg"}
         height={20}
+        unoptimized
         width={20}
         alt=""
         className="w-full"

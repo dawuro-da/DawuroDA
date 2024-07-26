@@ -33,6 +33,7 @@ import DeleteModal from "../shared/DeleteModal";
 import { showToastAction } from "@/redux/actions";
 import { useDispatch } from "react-redux";
 import { downloadExcel } from "@/util/helper";
+import { Session } from "next-auth";
 
 const Members = () => {
   const dispatch = useDispatch();
@@ -179,11 +180,6 @@ const Members = () => {
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <div>
           <MenuItem
-            disabled={
-              (selectedMember &&
-                session?.data?.user?.id !== selectedMember?.registeredBy) ||
-              session.data?.user?.role !== UserRole.Owner
-            }
             onClick={() => {
               router.push(`/admin/dashboard/members/${selectedMember?.id}`);
             }}
@@ -191,11 +187,6 @@ const Members = () => {
             Edit
           </MenuItem>
           <MenuItem
-            disabled={
-              (selectedMember &&
-                session?.data?.user?.id !== selectedMember?.registeredBy) ||
-              session.data?.user?.role !== UserRole.Owner
-            }
             onClick={() => {
               setShowDeleteDialog(true);
             }}
@@ -468,7 +459,7 @@ const Members = () => {
               columns={getColumnDefinition({
                 onOption,
                 isSmScreen: isSmScreen,
-                adminId: session?.data?.user?.id,
+                user: session?.data?.user,
               })}
               generateReport={generateMemberReport}
               generateLoading={generateLoading}
@@ -505,11 +496,18 @@ export default Members;
 const getColumnDefinition = ({
   onOption,
   isSmScreen,
-  adminId,
+  user,
 }: {
   onOption: (customer: any, e: any) => Promise<void>;
   isSmScreen: boolean;
-  adminId?: string;
+  user?: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    role: UserRole;
+    email: string;
+    phone: string;
+  };
 }): GridColDef[] =>
   !isSmScreen
     ? [
@@ -530,7 +528,7 @@ const getColumnDefinition = ({
           renderCell: (params) => {
             return (
               <span className="flex flex-row items-center gap-2 ">
-                <Avatar sizes="small"  src={params.row.profileImage} />
+                <Avatar sizes="small" src={params.row.profileImage} />
                 {params.row.firstName && (
                   <span>
                     {params.row.firstName} {params.row.lastName}
@@ -617,7 +615,10 @@ const getColumnDefinition = ({
                   className="rotate-90 font-bold cursor-pointer hover:scale-125 text-[20px]"
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (adminId === params.row.registeredBy) {
+                    if (
+                      user?.role === "Owner" ||
+                      user?.id === params.row.registeredBy
+                    ) {
                       onOption(params.row, e);
                     }
                   }}
@@ -696,7 +697,10 @@ const getColumnDefinition = ({
                   className="rotate-90 font-bold cursor-pointer hover:scale-125 text-[20px]"
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (adminId === params.row.registeredBy) {
+                    if (
+                      user?.role === "Owner" ||
+                      user?.id === params.row.registeredBy
+                    ) {
                       onOption(params.row, e);
                     }
                   }}

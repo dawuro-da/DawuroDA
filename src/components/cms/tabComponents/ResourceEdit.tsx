@@ -1,7 +1,6 @@
 import { showToastAction } from "@/redux/actions";
 import { Close, Delete, Upload } from "@mui/icons-material";
 import {
-  Avatar,
   Button,
   Checkbox,
   CircularProgress,
@@ -48,7 +47,15 @@ const ResourceEdit = ({
 
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
+
     try {
+      if (!(typeof values.document === "string") || !values.document[0]) {
+        dispatch(
+          showToastAction({ message: "document is required", type: "error" })
+        );
+        setLoading(false);
+        return;
+      }
       const formData = new FormData();
       formData.append("name", values.name);
       formData.append("description", values.description);
@@ -75,6 +82,7 @@ const ResourceEdit = ({
         reset();
         setSelectedResource(undefined);
         setRefetch(!refetch);
+        setLoading(false);
       }
     } catch (err: any) {
       console.error(err);

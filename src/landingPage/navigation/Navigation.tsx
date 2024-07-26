@@ -25,10 +25,10 @@ export default function Naviagtion({ bg }: { bg?: string }) {
     session.data?.user.id && session.data.user.role === UserRole.Member
   );
   const pathname = usePathname();
+  const isHome = Boolean(pathname === "/");
   const [menuOpen, setMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const open = Boolean(anchorEl);
-  const isHome = Boolean(pathname === "/");
 
   const menuItems = [
     { name: "Home", link: "/" },
