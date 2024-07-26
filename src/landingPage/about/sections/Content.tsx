@@ -17,34 +17,35 @@ export const contentData: {
   About: {
     title: "Who we are?",
     description:
-      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
+      "Gamo Development Association (GaDA), is an indigenous, not for profit, non-religious and development oriented non-governmental organization, which envisions to create prosperous society through bringing holistic and sustainable development building up on Gamo culture of peace and coexistence.",
     bgColor: "bg-[#D2232C]",
     borderColor: "border-[#D2232C]",
   },
   "President Message": {
     title: "President Message",
     description:
-      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem",
+      "The reform of the association has focused on 7 thematic areas of education‚ health, clean drinking water‚ environmental protection and other infrastructure focus areas have been developed, and by investing a lot of resources in the sector, various sections of the society have been able to benefit.",
     bgColor: "bg-[#13A6D9]",
     borderColor: "border-[#13A6D9]",
   },
   "Mission, Vision, Goals": {
     title: "Mission, Vision, Goals",
     description:
-      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem",
+      "GaDA is committed to ensure the involvement and benefit of all segments of the society from its development intervention disregard of disability status, religious, political, ethnic and any other background",
     bgColor: "bg-[#222222]",
     borderColor: "border-[#222222]",
   },
   "Board Members": {
     title: "Board Members",
     description:
-      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem",
+      "Key responsibilities of the board include setting long-term goals, overseeing financial management, ensuring compliance with legal and ethical standards, and fostering partnerships with other organizations.",
     bgColor: "bg-[#F0DC35]",
     borderColor: "border-[#F0DC35]",
   },
   Management: {
     title: "Management",
-    description: "Content for Management.",
+    description:
+      "The management team works closely with the Board of Directors to ensure alignment with the association's goals and objectives. Their responsibilities include project management, financial oversight, resource allocation, and stakeholder engagement.",
     bgColor: "bg-teal-500",
     borderColor: "border-teal-500",
   },

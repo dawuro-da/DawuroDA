@@ -31,7 +31,7 @@ const getLastMonthStartAndEnd = () => {
 export async function GET(req: Request) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id || session.user.role === UserRole.Member) {
-    return NextResponse.redirect("/gaadmin/login", 401)
+    return NextResponse.redirect("/gaadmin/login", 401);
   }
 
   try {
@@ -55,18 +55,13 @@ export async function GET(req: Request) {
       })
     )._sum.amount;
 
-    const donationsSinceLastWeek = (
-      await prisma.generalDonation.aggregate({
-        where: {
-          created_at: {
-            gte: sevenDaysBeforeNow,
-          },
+    const donationsSinceLastWeek = await prisma.generalDonation.count({
+      where: {
+        created_at: {
+          gte: sevenDaysBeforeNow,
         },
-        _sum: {
-          amount: true,
-        },
-      })
-    )._sum.amount;
+      },
+    });
 
     const totalContributions = (
       await prisma.contribution.aggregate({
@@ -156,7 +151,7 @@ const getContributionStatus = (
       ((contributionsCurrentMonth - contributionsLastMonth) / denominator) *
       100;
     contributionStatus = {
-      percentage:  parseFloat(percentage.toFixed(2)),
+      percentage: parseFloat(percentage.toFixed(2)),
       isIncreased: true,
     };
   } else if (contributionsLastMonth > contributionsCurrentMonth) {

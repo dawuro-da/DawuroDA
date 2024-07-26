@@ -35,6 +35,29 @@ export async function findById(id: string): Promise<Member | null> {
   }
 }
 
+export async function findProfileById(id: string): Promise<any | null> {
+  try {
+    const member = await prisma.member.findUnique({
+      where: {
+        id,
+      },
+    });
+    return {
+      name: `${
+        member?.firstName
+          ? `${member?.firstName} ${member.lastName}`
+          : `${member?.institutionName}`
+      }`,
+      phone: `${member?.phone}`,
+      email: `${member?.email}`,
+      profileImage: `${member?.profileImage}`,
+    };
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
 export async function findMemberByPhone(phone: string): Promise<Member | null> {
   try {
     return await prisma.member.findUnique({

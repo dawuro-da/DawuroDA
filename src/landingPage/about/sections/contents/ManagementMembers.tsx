@@ -41,9 +41,12 @@ const ManagementMembers = () => {
           <h1 className="font-bold text-lg">Managements</h1>
           <br />
           <p className="mb-8">
-            Board of directors is next to general assembly that has also crucial
-            role in setting and deciding on policy level issues and
-            developmental direction of the organization.
+            {`The management team of the Gammo Development Association is
+            comprised of dedicated and experienced professionals who are
+            passionate about driving the organization's mission and vision. This
+            team is responsible for the day-to-day operations, strategic
+            planning, and implementation of various development programs aimed
+            at improving the socio-economic conditions of the Gammo community.`}
           </p>
         </div>
         <div className="grid grid-cols-3 gap-10 w-full ">

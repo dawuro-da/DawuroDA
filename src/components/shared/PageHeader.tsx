@@ -5,7 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import StyledMenu from "./StyledMenu";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Logout,  PersonOutline } from "@mui/icons-material";
+import { Logout, PersonOutline } from "@mui/icons-material";
 
 const PageHeader = () => {
   const session = useSession();
@@ -43,7 +43,7 @@ const PageHeader = () => {
           className="flex flex-row items-center gap-4 font-bold cursor-pointer"
           onClick={(e) => setAnchorEl(e.currentTarget)}
         >
-          <Avatar />
+          <Avatar src={user?.profileImage} />
           {user?.id ? (
             <span> {`${user.firstName} ${user.lastName}`}</span>
           ) : (

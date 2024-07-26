@@ -57,6 +57,14 @@ const Resources = () => {
 
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
+
+    if (!(typeof values.document === "string") || !values.document[0]) {
+      dispatch(
+        showToastAction({ message: "document is required", type: "error" })
+      );
+      setLoading(false);
+      return;
+    }
     try {
       const formData = new FormData();
       formData.append("name", values.name);
@@ -220,7 +228,7 @@ const Resources = () => {
             <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Document Name</label>
               <TextField
-                {...register("name")}
+                {...register("name", { required: "Name is required" })}
                 variant="outlined"
                 error={Boolean(!!errors.name)}
                 helperText={!!errors.name && errors.name.message?.toString()}
@@ -230,7 +238,9 @@ const Resources = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Description</label>
                 <TextField
-                  {...register("description")}
+                  {...register("description", {
+                    required: "Description is required",
+                  })}
                   variant="outlined"
                   error={Boolean(!!errors.description)}
                   helperText={

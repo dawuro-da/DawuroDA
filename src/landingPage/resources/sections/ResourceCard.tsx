@@ -68,8 +68,14 @@ const ResourceCard = () => {
                 className="w-full shadow-lg space-y-6 py-6 px-4 mb-7"
                 key={item.id}
               >
-                <h1 className="font-bold text-lg">{item.name}</h1>
-                <p className="font-normal h-14">{item.description}</p>
+                <h1 className="font-bold text-lg">
+                  {item.name.slice(0, 70)}
+                  {item.name.length > 70 && "..."}
+                </h1>
+                <p className="font-normal h-14">
+                  {item.description.slice(0, 120)}
+                  {item.description.length > 120 && "..."}
+                </p>
                 <div className="flex flex-row gap-2">
                   <Image
                     src={"/images/file.svg"}
@@ -78,7 +84,7 @@ const ResourceCard = () => {
                     alt=""
                   />
                   <div className="h-full flex flex-row items-center">
-                    <p className="font-semibold text-xs mb-1">
+                    <p className="font-semibold text-xs mb-1 max-w-full truncate text-ellipsis">
                       {item.name + ".pdf"}
                     </p>
                   </div>
