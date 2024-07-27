@@ -2,7 +2,12 @@ import prisma from "@/lib/prisma";
 import { SmsMessage } from "@prisma/client";
 
 export const fetchRecentSmsMessages = async (): Promise<SmsMessage[]> => {
-  return await prisma.smsMessage.findMany();
+  return await prisma.smsMessage.findMany({
+    orderBy: {
+      created_at: "desc",
+    },
+    take: 20,
+  });
 };
 
 export const creatSmsMessage = async ({

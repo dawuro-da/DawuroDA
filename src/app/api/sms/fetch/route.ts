@@ -9,8 +9,6 @@ export async function POST(req: Request) {
     return NextResponse.redirect("/gaadmin/login", 401);
   }
   try {
-    const { phones, message } = await req.json();
-
     const result = await fetchRecentSmsMessages();
 
     if (result) {
