@@ -38,6 +38,7 @@ export async function POST(req: Request) {
         { status: 200 }
       );
     } else {
+      console.error(response.data)
       return NextResponse.json(
         {
           success: false,
