@@ -38,3 +38,21 @@ export const forgotPassword = (props: {
                 <p>&nbsp;</p>\n 
                 <p>&nbsp;</p>\n 
                 <p>&nbsp;</p>`;
+
+export const RegisteredAsAdmin = (props: {
+  name: string;
+  role: string;
+  email: string;
+  password: string;
+}) => `<p>Dear ${props.name},</p>\n 
+    <p>This email is to notify you that you have been registered as ${props.role}. </p>\n
+    <p>here the credentials to login to the system. and to be more secure please change your password by going to forgot password page on login.</p>\n
+    
+    <p>${props.email}</p>\n\n
+    <p>${props.password}</p>\n
+                
+    <p>&nbsp;</p>\n 
+    <p>&nbsp;</p>\n 
+    <p>&nbsp;</p>\n 
+    <p>&nbsp;</p>\n 
+    <p>&nbsp;</p>`;

@@ -4,6 +4,8 @@ import { createUser, findUserByEmail, findByPhone } from "@/db/user";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { hashPassword } from "@/util/hash";
+import { RegisteredAsAdmin } from "@/util/emailTemplate";
+import { transporter } from "@/services/nodemailer";
 
 export async function POST(req: Request) {
   const { firstName, lastName, role, gender, email, phone, password } =
@@ -11,7 +13,7 @@ export async function POST(req: Request) {
 
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id) {
-    return NextResponse.redirect("/gaadmin/login", 401)
+    return NextResponse.redirect("/gaadmin/login", 401);
   }
 
   const emailExist = Boolean(await findUserByEmail(email));
@@ -61,6 +63,21 @@ export async function POST(req: Request) {
         password_salt: salt,
       };
       const result = await createUser(userData);
+
+      const html = RegisteredAsAdmin({
+        name: `${firstName} ${lastName}`,
+        email: email,
+        password: password ? password : "dummypassword",
+        role: role,
+      });
+
+      const emailRes = await transporter.sendMail({
+        to: email,
+        from: "miketesttest6@gmail.com",
+        subject: "Gammoda Password Reset Requiest",
+        text: html,
+        html: html,
+      });
 
       if (result) {
         return NextResponse.json(
