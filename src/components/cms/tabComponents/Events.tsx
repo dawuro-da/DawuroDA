@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import EventEdit from "./EventEdit";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 const Events = () => {
   const dispatch = useDispatch();
@@ -313,6 +314,7 @@ const Events = () => {
                       {...register("startDate", {
                         required: "Start Date is required",
                       })}
+                      minDate={dayjs().add(1, "day")}
                       onChange={(value) => setValue("startDate", value)}
                     />
                   </LocalizationProvider>
@@ -329,6 +331,7 @@ const Events = () => {
                       {...register("endDate", {
                         required: "End Date is required",
                       })}
+                      minDate={dayjs().add(1, "day")}
                       onChange={(value) => setValue("endDate", value)}
                     />
                   </LocalizationProvider>
