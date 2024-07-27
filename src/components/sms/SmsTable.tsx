@@ -138,7 +138,7 @@ const SmsTable = ({
         {members?.map((member, index) => (
           <div
             key={index}
-            className="flex flex-row items-center w-full bg-white gap-10 p-2 rounded-xl"
+            className="flex flex-row items-center min-w-full w-fit bg-white gap-10 p-2 rounded-xl"
           >
             <div className="flex flex-row items-center gap-4 flex-1">
               <Checkbox
