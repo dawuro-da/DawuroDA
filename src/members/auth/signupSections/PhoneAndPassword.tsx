@@ -48,7 +48,7 @@ const PhoneAndPassword = ({
         setError(res.data.error);
       }
     } catch (err: any) {
-      console.log({ err });
+      console.error({ err });
       if (err?.response?.data?.error) setError(err?.response?.data?.error);
     }
     setLoading(false);

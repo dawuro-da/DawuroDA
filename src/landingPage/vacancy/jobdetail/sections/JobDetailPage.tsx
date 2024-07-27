@@ -29,7 +29,7 @@ const JobDetailPage = () => {
         setJob(latestJobs);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     setLoading(false);
   };

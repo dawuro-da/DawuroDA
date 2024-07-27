@@ -6,8 +6,12 @@ import { redirect } from "next/navigation";
 
 export default async function AuctionPage() {
   const session = await getServerSession(OPTIONS);
+
   if (!session?.user?.id || session?.user?.role === UserRole.Member) {
     redirect("/gaadmin/login");
+  } else if (session?.user?.role === UserRole.Admin) {
+    redirect("/admin/dashboard/members");
   }
+
   return <Auction />;
 }

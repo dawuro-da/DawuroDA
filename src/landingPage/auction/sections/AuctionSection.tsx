@@ -29,7 +29,7 @@ const AuctionSection = () => {
         setAuctions([...oldAuctions, ...latestAuctions]);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     setLoading(false);
     setLoadingMore(false);

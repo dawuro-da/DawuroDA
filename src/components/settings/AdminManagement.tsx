@@ -1,5 +1,5 @@
 import { showToastAction } from "@/redux/actions";
-import { Close } from "@mui/icons-material";
+import { Close, RemoveRedEyeOutlined } from "@mui/icons-material";
 import {
   Avatar,
   Button,
@@ -27,6 +27,7 @@ const AdminManagement = () => {
   const [loading, setLoading] = useState(false);
   const [refetch, setRefetch] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -243,6 +244,46 @@ const AdminManagement = () => {
                 <MenuItem value={UserRole.SuperAdmin}>Super Admin</MenuItem>
                 <MenuItem value={UserRole.Admin}>Admin</MenuItem>
               </TextField>
+            </div>
+            <div className="flex flex-col gap-[7px] text-[#555555] h-full w-[300px]">
+              <label className="flex flex-row items-center justify-between">
+                <span>Password</span>
+
+                {showPassword ? (
+                  <Image
+                    onClick={() => setShowPassword(!showPassword)}
+                    src={"/icons/hideEye.svg"}
+                    alt=""
+                    className="cursor-pointer"
+                    height={20}
+                    width={20}
+                  />
+                ) : (
+                  <RemoveRedEyeOutlined
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="cursor-pointer"
+                    style={{ height: 20, width: 20 }}
+                  />
+                )}
+              </label>
+              <TextField
+                {...register("password", {
+                  required: "Password is required",
+                })}
+                autoComplete="false"
+                variant="outlined"
+                type={showPassword ? "text" : "password"}
+                error={Boolean(!!errors.password)}
+                helperText={
+                  !!errors.password && errors.password.message?.toString()
+                }
+                inputProps={{
+                  style: {
+                    padding: 9,
+                    borderRadius: "6px",
+                  },
+                }}
+              />
             </div>
           </div>
           <Button

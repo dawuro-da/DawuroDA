@@ -24,7 +24,7 @@ const InitiativeDetail = () => {
         setInitiative(res.data.value.initiative);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     setLoading(false);
   };
@@ -39,7 +39,7 @@ const InitiativeDetail = () => {
         setInitiativeList(res.data.value.initiatives);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

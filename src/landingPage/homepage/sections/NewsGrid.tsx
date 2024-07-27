@@ -23,7 +23,7 @@ const NewsGrid = () => {
         setNews(latestNews);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     setLoading(false);
   };

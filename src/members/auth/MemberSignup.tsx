@@ -68,7 +68,7 @@ const MemberSignup = ({
         window.open(res.data.value.data.checkout_url);
       }
     } catch (err) {
-      console.log({ err });
+      console.error({ err });
     }
     setLoading(false);
   };

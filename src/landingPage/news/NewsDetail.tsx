@@ -24,7 +24,7 @@ const NewsDetail = () => {
         setNews(res.data.value.news);
       }
     } catch (err) {
-      console.log(err);
+      console.warn(err);
     }
     setLoading(false);
   };
@@ -39,7 +39,7 @@ const NewsDetail = () => {
         setNewsList(res.data.value.newss);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

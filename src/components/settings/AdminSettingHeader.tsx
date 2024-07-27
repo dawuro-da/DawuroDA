@@ -2,6 +2,7 @@
 
 import { Logout } from "@mui/icons-material";
 import { Button } from "@mui/material";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -18,10 +19,12 @@ const AdminSettingHeader = () => {
           Dashboard
         </span>
       </div>
-      <span className="text-4xl text-titleColor xl:lg:block md:block hidden">Admin Settings</span>
+      <span className="text-4xl text-titleColor xl:lg:block md:block hidden">
+        Admin Settings
+      </span>
       <div>
         <Button
-          onClick={() => router.push("/api/auth/signout")}
+          onClick={() => signOut()}
           className="flex text-gray-500 border-gray-500 bg-gray-200 hover:bg-gray-200 capitalize px-4 flex-row items-center justify-center gap-2"
         >
           <Logout /> Logout
