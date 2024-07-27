@@ -214,7 +214,8 @@ const EventEdit = ({
                   {...register("startDate", {
                     required: "Start Date is required",
                   })}
-                  defaultValue={dayjs(watch("startDate"))}
+                  defaultValue={dayjs(selectedEvent?.startDate)}
+                  minDate={dayjs().add(1, "day")}
                   onChange={(value) =>
                     setValue("startDate", value?.toDate() ?? new Date())
                   }
@@ -233,7 +234,8 @@ const EventEdit = ({
                   {...register("endDate", {
                     required: "End Date is required",
                   })}
-                  defaultValue={dayjs(watch("endDate"))}
+                  defaultValue={dayjs(selectedEvent?.endDate)}
+                  minDate={dayjs().add(1, "day")}
                   onChange={(value) =>
                     setValue("endDate", value?.toDate() ?? new Date())
                   }
