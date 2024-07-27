@@ -22,7 +22,7 @@ const Success = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
         window.open(res.data.value.data.checkout_url);
       }
     } catch (err) {
-      console.log({ err });
+      console.error({ err });
     }
     setLoading(false);
   };

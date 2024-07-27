@@ -63,8 +63,6 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
     setLoading(false);
   };
 
-  console.log("profileImage", watch("profileImage")?.[0]);
-  console.log({ previewUrl });
   const handleFileChange = () => {
     if (typeof watch("profileImage") === "string") {
       setPreviewUrl(watch("profileImage") as string);

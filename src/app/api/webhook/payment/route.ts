@@ -56,7 +56,7 @@ export async function POST(req: Request, res: any) {
       { status: 200 }
     );
   } catch (error) {
-    console.log({ error });
+    console.warn({ error });
     return NextResponse.json(
       {
         success: "Can't process payment",
@@ -85,9 +85,7 @@ const addNewContribution = async (member: Member) => {
     contributorId: member.id,
     amount: member.contributionAmount.toString(),
   });
-  console.log("=============================");
-  console.log({ contribution });
-  console.log("============================");
+
   return contribution;
 };
 

@@ -29,7 +29,7 @@ const ProfileMenu = () => {
         setUserData(res.data.value);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

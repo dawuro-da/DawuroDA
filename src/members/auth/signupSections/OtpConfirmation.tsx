@@ -35,7 +35,7 @@ const OtpConfirmation = ({ handleNext, watch }: OtpConfirmationProps) => {
         setError("Invalid OTP code");
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setError("Something Went Wrong");
     }
     setLoading(false);

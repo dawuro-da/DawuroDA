@@ -6,8 +6,11 @@ import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user?.id || session?.user?.role === UserRole.Member) {
+  if (!session?.user || session?.user.role === UserRole.Member) {
     redirect("/gaadmin/login");
+  } else if (session?.user?.role === UserRole.Admin) {
+    redirect("/admin/dashboard/members");
   }
+
   return <Dashboard />;
 }

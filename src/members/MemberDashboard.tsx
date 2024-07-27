@@ -41,7 +41,7 @@ const MemberDashboard = ({
         institutionName: member?.institutionName,
       });
       if (res.data.success) {
-        console.log();
+        console.error();
         window.open(res.data.value.data.checkout_url, "_blank");
       } else {
         dispatch(showToastAction({ message: res.data.error, type: "error" }));

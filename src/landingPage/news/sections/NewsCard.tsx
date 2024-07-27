@@ -34,7 +34,7 @@ const NewsCard = () => {
         setNews([...oldNews, ...latestNews]);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     setLoading(false);
     setLoadingMore(false);

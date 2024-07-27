@@ -106,8 +106,12 @@ export const OPTIONS: NextAuthOptions = {
         return Boolean(user.id && typeof user?.id === "string" && user.role);
       }
     },
-    redirect({ baseUrl }) {
-      return `${baseUrl}/login`;
+    redirect({ url, baseUrl }) {
+      if (url.startsWith(`${baseUrl}/admin/`)) {
+        return `${baseUrl}/gaadmin/login`;
+      } else {
+        return `${baseUrl}/login`;
+      }
     },
     session({ session, token }) {
       const authUser = token as unknown as SessionUser;

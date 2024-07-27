@@ -28,7 +28,7 @@ const VacancySection = () => {
         setJobs([...oldJobs, ...latestJobs]);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     setLoading(false);
     setLoadingMore(false);

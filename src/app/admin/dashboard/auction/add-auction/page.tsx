@@ -5,12 +5,11 @@ import { redirect } from "next/navigation";
 
 export default async function AuctionPage() {
   const session = await getServerSession();
-  if (
-    !session?.user ||
-    session?.user.role === UserRole.Member ||
-    session?.user.role === UserRole.Admin
-  ) {
-    redirect("/admin/dashboard/auction");
+  if (!session?.user || session?.user.role === UserRole.Member) {
+    redirect("/gaadmin/login");
+  } else if (session?.user?.role === UserRole.Admin) {
+    redirect("/admin/dashboard/members");
   }
+
   return <AddNewAuction />;
 }
