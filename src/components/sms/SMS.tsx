@@ -94,7 +94,7 @@ const SMS = () => {
   return (
     <div className="h-full w-full overflow-y-auto">
       <PageHeader />
-      <div className="flex flex-row flex-1 h-full w-full overflow-x-auto">
+      <div className="flex flex-row flex-1 h-full w-full overflow-x-hiddem">
         <div className="hidden lg:pl-[40px] md:pl-[40px] pl-[20px] py-10 w-full xl:lg:flex md:flex flex-col max-w-[350px] min-w-[300px] h-full border-r-2">
           <span className="text-titleColor font-bold text-3xl">Messages</span>
           <span className="text-primaryColor border-b-2 p-[6px] mt-4 ">
@@ -111,11 +111,11 @@ const SMS = () => {
                 <div
                   key={sms.id}
                   onClick={() => setSelectedSMS(sms)}
-                  className="flex flex-row items-center gap-1 w-full px-4 py-2 hover:cursor-pointer hover:bg-[rgb(0,0,0,0.1)]"
+                  className="flex flex-row items-center gap-2 w-full px-4 py-2 hover:cursor-pointer hover:bg-[rgb(0,0,0,0.1)]"
                 >
                   <Avatar className="min-h-[40px] min-w-[40px]" />
-                  <div className="flex-1 flex flex-col gap-2">
-                    <span className="w-full truncate text-ellipsis text-titleColor">
+                  <div className="flex-1 flex flex-col gap-1">
+                    <span className="w-full text-xs truncate text-ellipsis text-titleColor">
                       {sms.message}
                     </span>
                     <span className="font-bold text-sm">{sms.totalPhones}</span>
@@ -125,7 +125,7 @@ const SMS = () => {
             })}
           </div>
         </div>
-        <div className="min-w-[500px] lg:px-[40px] md:px-[40px] px-[20px] py-10 w-full flex flex-col gap-6 h-full overflow-y-auto hiddenscrollbar">
+        <div className="xl:lg:min-w-[500px] md:min-w-[500px] lg:px-[40px] md:px-[40px] px-[20px] py-10 w-full flex flex-col gap-6 h-full overflow-y-auto hiddenscrollbar">
           <div className="flex flex-row gap-6 justify-end w-full">
             <Button
               onClick={() => setSelectedSMS(undefined)}
@@ -136,9 +136,11 @@ const SMS = () => {
             </Button>
           </div>
           {Boolean(selectedSMS) && (
-            <div className="w-full flex flex-col gap-6 h-full text-center justify-center">
-              <span className="text-titleColor min-h-[200px] w-full">{selectedSMS?.message}</span>
-              <span className="font-bold">
+            <div className="w-full flex flex-col gap-6 h-full text-center">
+              <span className="text-titleColor xl:lg:min-h-[200px] md:min-h-[200px] rounded-lg bg-white xl:lg:min-w-[200px] md:min-w-[200px] w-2/3 xl:lg:max-w-2/3 p-4 text-left">
+                {selectedSMS?.message}
+              </span>
+              <span className="font-bold min-w-[200px] w-2/3 text-left">
                 Sent for {selectedSMS?.totalPhones} members
               </span>
             </div>
