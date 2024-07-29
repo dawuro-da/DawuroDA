@@ -19,7 +19,7 @@ export async function POST(req: Request) {
       first_name: `${firstName ? firstName : institutionName}`,
       last_name: `${lastName ? lastName : ""}`,
       phone_number: `${phone}`,
-      tx_ref: `gammoda-ref-${Math.random()}`,
+      tx_ref: `gammoda-reg-${Math.random()}`,
       callback_url: `${process.env.PAYMENT_WEB_HOOK}/api/webhook/payment`,
       return_url: `${process.env.PAYMENT_WEB_HOOK}/login`,
       meta: {
