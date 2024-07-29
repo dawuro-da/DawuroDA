@@ -4,7 +4,12 @@ import { Avatar, MenuItem, Skeleton } from "@mui/material";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Logout, PersonOutline } from "@mui/icons-material";
+import {
+  Dashboard,
+  DashboardOutlined,
+  Logout,
+  PersonOutline,
+} from "@mui/icons-material";
 import StyledMenu from "@/components/shared/StyledMenu";
 import axios from "axios";
 
@@ -41,6 +46,12 @@ const ProfileMenu = () => {
     <>
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <div>
+          <MenuItem onClick={() => router.push("/member/dashboard")}>
+            <div className="flex flex-row items-center gap-2 px-2">
+              <DashboardOutlined sx={{ height: 25, width: 25 }} />
+              <span>Dashboard</span>
+            </div>
+          </MenuItem>
           <MenuItem onClick={() => router.push("/member/profile")}>
             <div className="flex flex-row items-center gap-2 px-2">
               <PersonOutline sx={{ height: 25, width: 25 }} />
@@ -49,7 +60,7 @@ const ProfileMenu = () => {
           </MenuItem>
           <MenuItem onClick={() => signOut()}>
             <div className="flex flex-row items-center gap-2 px-2">
-              <Logout sx={{ height: 23, width: 23 }} />
+              <Logout sx={{ height: 23, width: 25 }} />
               <span>Sign Out</span>
             </div>
           </MenuItem>

@@ -46,7 +46,7 @@ export async function POST(req: Request) {
       );
     }
     return NextResponse.json(
-      { success: false, error: "Unable to create member" },
+      { success: false, error: "Unable to create contribution payment link" },
       { status: 500 }
     );
   } catch (err) {
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         success: false,
-        error: "Unable to create member",
+        error: "Unable to create contribution payment link",
       },
       { status: 500 }
     );
