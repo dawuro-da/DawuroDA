@@ -147,7 +147,7 @@ export async function POST(req: Request) {
       first_name: `${firstName}`,
       last_name: `${lastName}`,
       phone_number: `${phone}`,
-      tx_ref: `chewatatest-${Math.random()}`,
+      tx_ref: `gammo-reg-${Math.random()}`,
       callback_url: `${process.env.PAYMENT_WEB_HOOK}/api/webhook/payment`,
       return_url: `${process.env.PAYMENT_WEB_HOOK}/login`,
       "customization[title]": "Gammoda member's contribution",
