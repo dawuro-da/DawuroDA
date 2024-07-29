@@ -10,8 +10,8 @@ const HeroSection = () => {
   const images = [
     { url: "/images/hero1.svg", alt: "Image 1" },
     { url: "/images/hero2.svg", alt: "Image 2" },
-    { url: "/images/hero3.svg", alt: "Image 3" },
     { url: "/images/hero4.svg", alt: "Image 4" },
+    { url: "/images/hero3.svg", alt: "Image 3" },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
