@@ -2,7 +2,6 @@
 
 import Naviagtion from "@/landingPage/navigation/Navigation";
 import AuctionCard from "./AuctionCard";
-import { AuctionCardData } from "./AuctionData";
 import Footer from "@/landingPage/footer/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
