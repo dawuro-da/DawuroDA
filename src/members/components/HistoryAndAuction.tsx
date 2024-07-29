@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { AuctionCardData } from "./AuctionData";
-import AuctionCard from "./AuctionCard";
 import { Contribution } from "@prisma/client";
 import { getFormattedDate } from "@/util/date";
+import MemberAuction from "./MemberAuction";
 
 enum Tab {
   PaymentHistoryTab,
@@ -62,20 +61,7 @@ const HistoryAndAuction = ({
           })}
         </div>
       )}
-      {Tab.AuctionTab === selectedTab && (
-        <div className="flex flex-col gap-6 w-full mt-10">
-          {AuctionCardData.map((item, id) => (
-            <AuctionCard
-              key={id}
-              startDate={item.startDate}
-              title={item.title}
-              description={item.description}
-              bidder={item.bidder}
-              endDate={item.endDate}
-            />
-          ))}
-        </div>
-      )}
+      {Tab.AuctionTab === selectedTab && <MemberAuction />}
     </div>
   );
 };
