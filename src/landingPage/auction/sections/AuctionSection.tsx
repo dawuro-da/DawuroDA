@@ -9,8 +9,10 @@ import axios from "axios";
 import { Auction } from "@prisma/client";
 import { CircularProgress, Skeleton } from "@mui/material";
 import { getFormattedDate } from "@/util/date";
+import { useRouter } from "next/navigation";
 
 const AuctionSection = () => {
+  const router = useRouter();
   const [auctions, setAuctions] = useState<Auction[]>();
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -58,13 +60,14 @@ const AuctionSection = () => {
               <Skeleton style={{ width: "100%", height: "200px" }} />
             </>
           ) : (
-            auctions?.map((item, id) => (
+            auctions?.map((item, index) => (
               <AuctionCard
-                key={id}
+                key={index}
                 startDate={getFormattedDate(item.startDate)}
                 title={item.title}
                 description={item.description}
                 bidder={64}
+                onClick={() => router.push(`/auctions/${item.id}`)}
                 endDate={getFormattedDate(item.endDate)}
               />
             ))

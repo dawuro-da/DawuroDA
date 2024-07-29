@@ -1,9 +1,12 @@
+import { Button } from "@mui/material";
+
 export interface AuctionCardItems {
   startDate: string;
   title: string;
   description: string;
   bidder: number;
   endDate: string;
+  onClick: () => void;
 }
 
 const AuctionCard = ({
@@ -12,6 +15,7 @@ const AuctionCard = ({
   description,
   bidder,
   endDate,
+  onClick,
 }: AuctionCardItems) => {
   return (
     <div className="bg-[#FFFFFF] mb-9 lg:md:px-10 px-4 py-8 w-full">
@@ -30,9 +34,13 @@ const AuctionCard = ({
         </div>
       </div>
       <div className="flex justify-end">
-        <button className="text-white capitalize bg-[#34a858] font-light shadow-none px-6 py-2 rounded-[5px] cursor-pointer lg:md:mt-0 mt-6">
+        <Button
+          onClick={onClick}
+          variant="contained"
+          className="text-white capitalize bg-[#34a858] font-light shadow-none px-6 py-2 rounded-[5px] cursor-pointer lg:md:mt-0 mt-6"
+        >
           Apply
-        </button>
+        </Button>
       </div>
     </div>
   );

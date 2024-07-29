@@ -3,31 +3,32 @@ import axios from "axios";
 
 export async function POST(req: Request) {
   const {
-    contributionAmount,
+    paymentAmount,
     email,
     firstName,
     lastName,
     phone,
     institutionName,
+    auctionId,
   } = await req.json();
 
   try {
     var raw = JSON.stringify({
-      amount: contributionAmount,
+      amount: paymentAmount,
       currency: "ETB",
       email: email,
       first_name: `${firstName ? firstName : institutionName}`,
       last_name: `${lastName ? lastName : ""}`,
       phone_number: `${phone}`,
-      tx_ref: `gammoda-reg-${Math.random()}`,
+      tx_ref: `gammoda-auction-${Math.random()}`,
       callback_url: `${process.env.PAYMENT_WEB_HOOK}/api/webhook/payment`,
-      return_url: `${process.env.PAYMENT_WEB_HOOK}/login`,
+      return_url: `${process.env.PAYMENT_WEB_HOOK}/auctions/${auctionId}`,
       meta: {
-        paymentType: "registrationPayment",
+        paymentType: "auctionPayment",
       },
-      "customization[title]": "Gammoda member's contribution",
+      "customization[title]": "Gammoda Auction Payment",
       "customization[description]":
-        "this membership contribution should be paid after compeletion of your registration ",
+        "a pre payment to participate in an auction. this payment includes both cpo and non refundable payment for the auction ",
     });
     const res = await axios.post(
       "https://api.chapa.co/v1/transaction/initialize",
@@ -46,7 +47,7 @@ export async function POST(req: Request) {
       );
     }
     return NextResponse.json(
-      { success: false, error: "Unable to create registration payment link" },
+      { success: false, error: "Unable to create auction payment link" },
       { status: 500 }
     );
   } catch (err) {
@@ -54,7 +55,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         success: false,
-        error: "Unable to create registration payment link",
+        error: "Unable to create auction payment link",
       },
       { status: 500 }
     );
