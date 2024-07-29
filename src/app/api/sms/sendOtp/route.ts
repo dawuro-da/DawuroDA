@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
 import { sendOTP } from "@/util/sms";
 
 export async function POST(req: Request) {

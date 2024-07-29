@@ -17,6 +17,7 @@ export async function POST(req: Request) {
       {
         to: [...phones],
         message: message,
+        from: process.env.AFRO_IDENTIFIER_ID,
         sender: process.env.AFRO_SENDER_NAME,
         campaign: "Gammoda",
       },
@@ -26,6 +27,8 @@ export async function POST(req: Request) {
         },
       }
     );
+
+    console.error(response.data);
 
     const result = await creatSmsMessage({
       message,
