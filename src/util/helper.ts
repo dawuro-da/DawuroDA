@@ -31,14 +31,14 @@ const contributionLevels: Record<MembershipType, ContributionLevels> = {
     Platinum: 100,
     Diamond: 80,
     Gold: 50,
-    SilIver: 30,
+    Siliver: 30,
     Bronze: 10,
   },
   Company: {
     Platinum: 100000,
     Diamond: 80000,
     Gold: 50000,
-    Silver: 30000,
+    Siliver: 30000,
     Bronze: 10000,
     Standard: 0,
   },
@@ -69,7 +69,7 @@ export function getMinimumContribution({
           baseContribution = contributionLevels.Individual.Gold;
           break;
         case "Siliver":
-          baseContribution = contributionLevels.Individual.Silver;
+          baseContribution = contributionLevels.Individual.Siliver;
           break;
         case "Bronze":
           baseContribution = contributionLevels.Individual.Bronze;
@@ -93,7 +93,7 @@ export function getMinimumContribution({
           baseContribution = contributionLevels.Company.Gold;
           break;
         case "Siliver":
-          baseContribution = contributionLevels.Company.Silver;
+          baseContribution = contributionLevels.Company.Siliver;
           break;
         case "Bronze":
           baseContribution = contributionLevels.Company.Bronze;
