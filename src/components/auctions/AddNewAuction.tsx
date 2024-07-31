@@ -28,22 +28,19 @@ const AddNewAuction = () => {
 
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
+    const formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("description", values.description);
+    formData.append("CPO", values.CPO);
+    formData.append("formPayment", values.formPayment);
+    formData.append("isPurchasing", values.isPurchasing);
+    formData.append(
+      "formFile",
+      typeof values.formFile === "string" ? values.formFile : values.formFile[0]
+    );
+    formData.append("startDate", values.startDate);
+    formData.append("endDate", values.endDate);
     try {
-      const formData = new FormData();
-      formData.append("title", values.title);
-      formData.append("description", values.description);
-      formData.append("CPO", values.CPO);
-      formData.append("formPayment", values.formPayment);
-      formData.append("isPurchasing", values.isPurchasing);
-      formData.append(
-        "formFile",
-        typeof values.formFile === "string"
-          ? values.formFile
-          : values.formFile[0]
-      );
-      formData.append("startDate", values.startDate);
-      formData.append("endDate", values.endDate);
-
       const res = await axios.post("/api/auction/create", formData);
 
       if (res?.status === 200) {

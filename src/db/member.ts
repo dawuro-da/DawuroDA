@@ -11,7 +11,7 @@ import {
 
 export async function findMemberByEmail(email: string): Promise<Member | null> {
   try {
-    return await prisma.member.findUnique({
+    return await prisma.member.findFirst({
       where: {
         email,
       },

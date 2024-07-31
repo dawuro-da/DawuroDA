@@ -67,9 +67,7 @@ const EditAuction = ({
       formData.append("isPurchasing", values.isPurchasing);
       formData.append(
         "formFile",
-        typeof values.formFile === "string"
-          ? values.formFile
-          : values.formFile[0]
+        typeof values.formFile === "string" ? values.formFile : values.formFile[0]
       );
       formData.append("startDate", values.startDate);
       formData.append("endDate", values.endDate);
@@ -79,7 +77,7 @@ const EditAuction = ({
         onRefresh();
         dispatch(
           showToastAction({
-            message: "Successfully Created",
+            message: "Successfully Updated",
             type: "success",
           })
         );

@@ -399,6 +399,7 @@ model Bidder {
   auction    Auction @relation(fields: [auctionId], references: [id], onDelete: Cascade)
   hasPaidCPO Boolean @default(false)
   hasPaidNRP Boolean @default(false)
+  isSubmitted Boolean @default(false)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt

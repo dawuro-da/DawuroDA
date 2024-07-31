@@ -15,7 +15,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
 
   try {
     const formData = await req.formData();
-    const formFile = formData.get(" formFile") as File;
+    const formFile = formData.get("formFile") as File;
     const formPayment = formData.get("formPayment") as string;
     const CPO = formData.get("CPO") as string;
     const description = formData.get("description") as string;
@@ -24,7 +24,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
     const endDate = formData.get("endDate") as string;
     const isPurchasing = formData.get("isPurchasing") as string;
 
-    const imageUrl = formFile.name
+    const fileUrl = formFile?.name
       ? await uploadFile({
           path: "/auctionFile",
           fileName: formFile.name ?? "name",
@@ -42,7 +42,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       endDate,
       id: auctionId,
       isPurchasing: isPurchasing === "true" ? true : false,
-      formFile: imageUrl ?? "",
+      formFile: fileUrl ?? "",
     });
 
     if (result) {
