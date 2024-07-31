@@ -79,7 +79,7 @@ model Member {
   id                 String             @id @default(uuid())
   memberId           String             @unique
   phone              String             @unique
-  email              String?            @unique
+  email              String?            
   membershipLevel    MembershipLevel    @default(Siliver)
   contributionAmount Int
   contributionSystem ContributionSystem @default(Monthly)
