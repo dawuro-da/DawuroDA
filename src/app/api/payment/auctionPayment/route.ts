@@ -25,6 +25,7 @@ export async function POST(req: Request) {
       return_url: `${process.env.PAYMENT_WEB_HOOK}/auctions/${auctionId}`,
       meta: {
         paymentType: "auctionPayment",
+        auctionId,
       },
       "customization[title]": "Gammoda Auction Payment",
       "customization[description]":

@@ -3,13 +3,11 @@ import { findTempMemberByPhone } from "@/db/tempMember";
 import { generateMemberId } from "@/util/helper";
 import { calculateNextDueDate } from "@/util/date";
 import prisma from "@/lib/prisma";
-import crypto from "crypto";
 import { createContribution } from "@/db/contribution";
-import { Member, TempMember } from "@prisma/client";
+import { Auction, Member, TempMember } from "@prisma/client";
 import { findMemberByPhone } from "@/db/member";
 import { createDonation } from "@/db/donation";
-
-type PaymentTypes = "donation";
+import { findAuctionById } from "@/db/auction";
 
 export async function POST(req: Request, res: any) {
   try {
@@ -27,7 +25,7 @@ export async function POST(req: Request, res: any) {
     } = body;
 
     if (event === "charge.success" && type === "API") {
-      const { paymentType } = JSON.parse(meta);
+      const { paymentType, auctionId } = JSON.parse(meta);
 
       if (paymentType === "registrationPayment") {
         const tempMember = await findTempMemberByPhone(mobile);
@@ -38,6 +36,12 @@ export async function POST(req: Request, res: any) {
         const member = await findMemberByPhone(mobile);
         if (member) {
           await addNewContribution(member);
+        }
+      } else if (paymentType === "auctionPayment") {
+        const member = await findMemberByPhone(mobile);
+        const auction = auctionId && (await findAuctionById(auctionId));
+        if (member) {
+          await addNewBidder({ member, auction });
         }
       }
     } else if (event === "charge.success" && type === "Donation") {
@@ -87,6 +91,29 @@ const addNewContribution = async (member: Member) => {
   });
 
   return contribution;
+};
+
+const addNewBidder = async ({
+  member,
+  auction,
+}: {
+  member: Member;
+  auction: Auction;
+}) => {
+  const bidder = await prisma.bidder.create({
+    data: {
+      fullName: member.firstName
+        ? `${member.firstName} ${member.lastName}`
+        : `${member.institutionName}`,
+      memberId: member.id,
+      offer: 0,
+      auctionId: auction.id,
+      hasPaidCPO: true,
+      hasPaidNRP: true,
+    },
+  });
+
+  return bidder;
 };
 
 const registerNewPaidMember = async (tempMember: TempMember) => {
