@@ -163,12 +163,30 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                   <span className="font-bold">
                     To Apply Please Follow the following{" "}
                   </span>
-                  <span className="text-sm mt-2 text-titleColor">
-                    First pay and download the auction form appropriately{" "}
+                  <span className="text-sm mt-2 text-titleColor max-w-[300px]">
+                    {`Inorder to participate on the auction, 
+                    you have to pay the following pre-payments`}
                   </span>
-                  <span className="text-sm text-titleColor">
-                    then fill the form and upload it by scanning or capturing a
-                    clear photo.
+                  <span className="text-sm text-titleColor flex flex-col gap-2 max-w-[300px]">
+                    {auction.CPO && (
+                      <span className="flex flex-row w-full justify-between">
+                        CPO: <span>{auction.CPO} Birr</span>
+                      </span>
+                    )}
+                    {auction.formPayment && (
+                      <span className="flex flex-row w-full justify-between">
+                        Non-refundable Payment:{" "}
+                        <span>{auction.formPayment} Birr</span>
+                      </span>
+                    )}
+                    {(auction.CPO || auction.formPayment) && (
+                      <span className="flex flex-row w-full justify-between">
+                        Total:{" "}
+                        <span className="font-bold">
+                          {auction.CPO + auction.formPayment} Birr
+                        </span>
+                      </span>
+                    )}
                   </span>
                   <Button
                     onClick={payForForm}
