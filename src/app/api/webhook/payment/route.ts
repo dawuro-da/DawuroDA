@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import { findTempMemberByPhone } from "@/db/tempMember";
+import {
+  deleteTempMemberByPhone,
+  findTempMemberByPhone,
+} from "@/db/tempMember";
 import { generateMemberId } from "@/util/helper";
 import { calculateNextDueDate } from "@/util/date";
 import prisma from "@/lib/prisma";
@@ -163,6 +166,7 @@ const registerNewPaidMember = async (tempMember: TempMember) => {
   });
 
   if (member) {
+    await deleteTempMemberByPhone({ phone: tempMember.phone });
     await createContribution({
       contributionSystem: member.contributionSystem,
       contributorId: member.id,
