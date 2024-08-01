@@ -21,15 +21,9 @@ const AuctionDetail = ({ auction }: { auction: Auction | null }) => {
   const [bidders, setBidders] = useState<Bidder[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
 
-  useEffect(() => {
-    if (window.innerWidth < 900) {
-      setIsSmScreen(true);
-    }
-  }, []);
-
-  const fetchMembers = async ({ page, pageSize }: PageState) => {
+  const fetchBidders = async ({ page, pageSize }: PageState) => {
     setLoading(true);
-    const result = await axios.post("/api/member/fetch", {
+    const result = await axios.post("/api/auction/bidders", {
       page,
       pageSize,
       auctionId: auction?.id,
@@ -47,7 +41,7 @@ const AuctionDetail = ({ auction }: { auction: Auction | null }) => {
   const onDownload = async (bidder: Bidder) => {};
 
   const onPageChange = async ({ page, pageSize }: PageState) => {
-    await fetchMembers({ page, pageSize });
+    await fetchBidders({ page, pageSize: 10 });
   };
 
   // Assuming auction?.endDate is a string representation of a date
@@ -57,6 +51,15 @@ const AuctionDetail = ({ auction }: { auction: Auction | null }) => {
   // Normalize both dates to the start of the day (00:00:00)
   auctionEndDate.setHours(0, 0, 0, 0);
   currentDate.setHours(0, 0, 0, 0);
+
+  useEffect(() => {
+    if (window.innerWidth < 900) {
+      setIsSmScreen(true);
+    }
+    if (auctionEndDate.getTime() === currentDate.getTime()) {
+      fetchBidders({ page: 1, pageSize: 10 });
+    }
+  }, []);
 
   return (
     <div className="h-full w-full overflow-y-auto text-titleColor">
@@ -102,7 +105,7 @@ const AuctionDetail = ({ auction }: { auction: Auction | null }) => {
           <div className="h-[510px] -mt-10">
             <AuctionDataGrid
               columns={getColumnDefinition({ onDownload, isSmScreen })}
-              rows={[]}
+              rows={bidders}
               onPageChange={onPageChange}
               loading={loading}
               totalCount={totalCount}
