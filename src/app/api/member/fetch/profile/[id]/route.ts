@@ -25,6 +25,13 @@ export async function GET(req: Request, context: { params: { id: string } }) {
         { status: 200 }
       );
     }
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Unable to fetch member",
+      },
+      { status: 500 }
+    );
   } catch (err) {
     console.warn(err);
     return NextResponse.json(
