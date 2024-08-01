@@ -71,7 +71,7 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
         auctionId: auction.id,
       });
       if (res.data.success) {
-        window.open(res.data.value.data.checkout_url, "_blank");
+        window.open(res.data.value.data.checkout_url, "_parent");
       }
     } catch (err: any) {
       console.error(err);

@@ -65,7 +65,7 @@ const MemberSignup = ({
       const res = await axios.post("/api/tempMember/register", formData);
       if (res.data.success) {
         setIsSuccessfull(true);
-        window.open(res.data.value.data.checkout_url);
+        window.open(res.data.value.data.checkout_url, "_blank");
       }
     } catch (err) {
       console.error({ err });
