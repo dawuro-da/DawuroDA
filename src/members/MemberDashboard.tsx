@@ -42,7 +42,7 @@ const MemberDashboard = ({
       });
       if (res.data.success) {
         console.error();
-        window.open(res.data.value.data.checkout_url, "_blank");
+        window.open(res.data.value.data.checkout_url, "_parent");
       } else {
         dispatch(showToastAction({ message: res.data.error, type: "error" }));
       }

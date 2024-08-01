@@ -19,7 +19,7 @@ const Success = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
       });
 
       if (res.data.success) {
-        window.open(res.data.value.data.checkout_url);
+        window.open(res.data.value.data.checkout_url, "_blank");
       }
     } catch (err) {
       console.error({ err });
