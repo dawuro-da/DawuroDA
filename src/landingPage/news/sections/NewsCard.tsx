@@ -1,6 +1,6 @@
 "use client";
 import { getFormattedDate } from "@/util/date";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Skeleton } from "@mui/material";
 import { News } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
@@ -49,8 +49,9 @@ const NewsCard = () => {
       <div className="xl:lg:px-40 md:px-20 px-10 w-full min-h-[500px]">
         <h2 className="font-bold lg:text-4xl text-lg text-center">News</h2>
         {loading ? (
-          <div className="flex flex-row items-center justify-center w-full">
-            <CircularProgress />
+          <div className="grid xl:lg:grid-cols-2 md:grid-cols-2 gap-6 w-full md:mt-20 mt-8">
+            <Skeleton className="w-full h-[300px]" />
+            <Skeleton className="w-full h-[300px]" />
           </div>
         ) : (
           news?.length && (
@@ -94,8 +95,8 @@ const NewsCard = () => {
                 >
                   <div className="absolute bottom-0 text-white left-0 pb-6 pl-4 pt-3 text-left bg-gradient-to-t from-black to-transparent cursor-pointer">
                     <h2 className="group-hover:underline text-2xl font-bold mb-3">
-                      {`${news?.[0]?.headline.slice(0, 70)} ${
-                        news?.[0]?.headline.length > 70 && "..."
+                      {`${news?.[4]?.headline.slice(0, 70)} ${
+                        news?.[4]?.headline.length > 70 && "..."
                       }`}
                     </h2>
                     <div className="flex items-center space-x-3">
@@ -106,7 +107,7 @@ const NewsCard = () => {
                         height={20}
                       />
                       <p className="text-white font-light text-sm">
-                        {news?.[0] && getFormattedDate(news?.[0]?.updated_at)}
+                        {news?.[4] && getFormattedDate(news?.[4]?.updated_at)}
                       </p>
                     </div>
                   </div>

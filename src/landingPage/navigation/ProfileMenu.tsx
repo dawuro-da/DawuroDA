@@ -19,7 +19,7 @@ const ProfileMenu = () => {
   const pathname = usePathname();
   const isHome = Boolean(pathname === "/");
   const user = session?.data?.user;
-  const [userData, setUserData] = useState<any>();
+  const [userData, setUserData] = useState<any>(user);
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const open = Boolean(anchorEl);
 
@@ -35,6 +35,7 @@ const ProfileMenu = () => {
       }
     } catch (err) {
       console.error(err);
+      setUserData(user);
     }
   };
 
@@ -72,8 +73,12 @@ const ProfileMenu = () => {
         onClick={(e) => setAnchorEl(e.currentTarget)}
       >
         <Avatar src={userData?.profileImage} />
-        {userData?.name ? (
-          <span className={`${isHome && "text-white"}`}>{userData.name}</span>
+        {user?.firstName ? (
+          <span className={`${isHome && "text-white"}`}>
+            {userData.name
+              ? userData.name
+              : `${user.firstName} ${user.lastName}`}
+          </span>
         ) : (
           <Skeleton style={{ width: "100px", height: "40px" }} />
         )}
