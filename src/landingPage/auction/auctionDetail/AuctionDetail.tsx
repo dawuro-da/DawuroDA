@@ -121,6 +121,7 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
     }
     setLoading(false);
   };
+  console.log({ bidder });
   return (
     <div className=" w-full">
       <Naviagtion />
@@ -139,8 +140,18 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
           <p>Back to auctions</p>
         </div>
         {bidder?.isSubmitted || successfull ? (
-          <div className="w-full h-full text-2xl font-bold text-green-500">
-            <span>Submitted Successfully</span>
+          <div className="flex flex-col items-center justify-center w-full min-h-[400px] font-bold">
+            <span className="text-4xl text-primaryColor">
+              Submitted Successfully
+            </span>
+            <div className="max-w-[400px] text-center text-titleColor text-sm mt-6">
+              <span>
+                you have successfully applied to this auction. please wait until
+                the final date.
+              </span>
+              <br />
+              <span>Good Luck</span>
+            </div>
           </div>
         ) : (
           <>
