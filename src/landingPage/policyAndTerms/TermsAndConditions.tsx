@@ -1,3 +1,4 @@
+import GammodaId from "@/components/shared/GammodaId";
 import Footer from "../footer/Footer";
 import Naviagtion from "../navigation/Navigation";
 
@@ -7,6 +8,7 @@ const TermsAndConditions = () => {
       <Naviagtion />
       <div className="xl:lg:px-40 md:px-20 px-10 w-full my-12 text-[rgb(0,0,0,0.6)]">
         <h2 className="text-4xl font-bold">Conditions for Use</h2>
+        <br />
         <p>
           {`The Ethiopian Council of Gospel Believers’ Churches website (the
         “Website”) is published by the Ethiopian Council of Gospel Believers’
