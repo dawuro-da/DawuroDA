@@ -310,15 +310,18 @@ const AdminManagement = () => {
                 key={admin.id}
                 className="flex flex-row items-center justify-between bg-white p-2 rounded-lg"
               >
-                <div className="flex flex-row items-center gap-3">
+                <div className="flex flex-row items-center gap-3 flex-1">
                   <Checkbox />
                   <Avatar
                     src="/icons/list.png"
                     style={{ width: 30, height: 30 }}
                   />
-                  <span className="flex flex-col">
-                    <span className="capitalize">
-                      {admin.firstName} {admin.lastName}
+                  <span className="flex flex-col w-full flex-1 mr-2">
+                    <span className="flex flex-row items-center justify-between w-full gap-6">
+                      <span className="capitalize">
+                        {admin.firstName} {admin.lastName}
+                      </span>
+                      <span className="capitalize text-xs bg-[rgb(0,0,0,0.09)] px-2 p-1 rounded-lg">{admin.role}</span>
                     </span>
                     <small className="text-[#555555]">{admin.email}</small>
                   </span>
