@@ -1,4 +1,3 @@
-import GammodaId from "@/components/shared/GammodaId";
 import Footer from "../footer/Footer";
 import Naviagtion from "../navigation/Navigation";
 
