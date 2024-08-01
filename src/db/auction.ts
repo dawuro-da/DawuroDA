@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { Prisma, Auction } from "@prisma/client";
+import { Prisma, Auction, Bidder } from "@prisma/client";
 
 export async function findAuctionById(id: string): Promise<Auction | null> {
   return await prisma.auction.findUnique({
@@ -162,6 +162,36 @@ export async function fetchAuctions({
   });
 
   return { auctions, total };
+}
+
+export async function fetchAuctionBidders({
+  page,
+  pageSize,
+  auctionId,
+}: {
+  page: number;
+  pageSize: number;
+  auctionId: string;
+}): Promise<{ bidders: Bidder[] | undefined; total: number }> {
+  const auction = await prisma.auction.findUnique({ where: { id: auctionId } });
+  const bidders = await prisma.bidder.findMany({
+    where: {
+      auctionId,
+    },
+    orderBy: {
+      offer: auction?.isPurchasing ? "desc" : "asc",
+    },
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+  });
+
+  const total = await prisma.bidder.count({
+    where: {
+      auctionId,
+    },
+  });
+
+  return { bidders, total };
 }
 
 export async function deleteAuction({
