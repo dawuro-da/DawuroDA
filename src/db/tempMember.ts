@@ -232,17 +232,14 @@ export async function fetchTempMembers({
   return { tempMembers, total };
 }
 
-export async function deleteTempMember({
+export async function deleteTempMemberByPhone({
   phone,
-  email,
 }: {
   phone: string;
-  email: string;
 }): Promise<boolean> {
   const members = await prisma.tempMember.findMany({
     where: {
       phone,
-      email,
     },
   });
   members.map(async (member) => {
