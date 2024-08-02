@@ -1,0 +1,130 @@
+import { useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { TextField, Button, Modal, IconButton } from "@mui/material";
+import Close from "@mui/icons-material/Close";
+
+const DonationForm = ({
+  open,
+  handleClose,
+  designation,
+}: {
+  open: boolean;
+  handleClose: () => void;
+  designation?: string;
+}) => {
+  const [selectedAmount, setSelectedAmount] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data: FieldValues) => {
+    console.log(data);
+  };
+
+  const handleAmountClick = (amount: any) => {
+    setSelectedAmount(amount);
+    setValue("amount", amount);
+  };
+
+  return (
+    <Modal
+      open={open}
+      onClose={handleClose}
+      className="flex flex-row items-center justify-center"
+    >
+      <div className="bg-white px-6 py-6 rounded-lg xl:lg:w-1/2 md:w-2/3 w-full xl:lg:h-fit md:h-fit h-full overflow-y-auto">
+        <div className="flex flex-row items-center justify-between text-titleColor">
+          <span className="font-bold text-2xl">Donation Form</span>
+          <IconButton onClick={handleClose}>
+            <Close />
+          </IconButton>
+        </div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-4 p-10"
+        >
+          <div className="flex flex-col gap-2 text-titleColor h-full">
+            <label>Full Name</label>
+            <TextField
+              {...register("fullName", { required: "Full Name is required" })}
+              variant="outlined"
+              error={Boolean(errors.fullName)}
+              helperText={errors.fullName?.message?.toString()}
+              inputProps={{ style: { padding: 10 } }}
+            />
+          </div>
+          <div className="flex flex-col gap-2 text-titleColor h-full">
+            <label>Phone Number</label>
+            <TextField
+              {...register("phone", { required: "Phone number is required" })}
+              variant="outlined"
+              error={Boolean(errors.phone)}
+              helperText={errors.phone?.message?.toString()}
+              inputProps={{ style: { padding: 10 } }}
+            />
+          </div>
+          <div className="flex flex-col gap-2 text-titleColor h-full">
+            <label>Donation Designation</label>
+            <TextField
+              {...register("donationDesignation", {
+                required: "Donation designation is required",
+              })}
+              defaultValue={designation}
+              variant="outlined"
+              error={Boolean(errors.donationDesignation)}
+              disabled={Boolean(designation)}
+              helperText={errors.donationDesignation?.message?.toString()}
+              inputProps={{ style: { padding: 10 } }}
+            />
+          </div>
+          <div className="flex flex-col gap-2 text-titleColor h-full col-span-2">
+            <label>Donation Amount</label>
+            <div className="grid xl:lg:grid-cols-5 md:grid-cols-5 grid-cols-3 gap-4">
+              {[100, 200, 500, 1000, 2000].map((amount) => (
+                <Button
+                  key={amount}
+                  variant={selectedAmount === amount ? "contained" : "outlined"}
+                  color="primary"
+                  onClick={() => handleAmountClick(amount)}
+                >
+                  {amount} ETB
+                </Button>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 text-titleColor h-full">
+            <TextField
+              {...register("amount", {
+                required: "Amount is required",
+                validate: (value) =>
+                  value > 0 || "Amount must be greater than zero",
+              })}
+              variant="outlined"
+              type="number"
+              placeholder="Other amount"
+              error={Boolean(errors.amount)}
+              helperText={errors.amount?.message?.toString()}
+              inputProps={{ style: { padding: 10 } }}
+              onChange={() => setSelectedAmount(null)}
+            />
+          </div>
+          <div className="col-span-2 flex justify-end mt-4">
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className="capitalize"
+            >
+              Donate
+            </Button>
+          </div>
+        </form>
+      </div>
+    </Modal>
+  );
+};
+
+export default DonationForm;

@@ -1,3 +1,4 @@
+import DonationForm from "@/landingPage/modals/DonationForm";
 import { getFormattedDate } from "@/util/date";
 import { Button, Skeleton } from "@mui/material";
 import { Campaign } from "@prisma/client";
@@ -8,6 +9,8 @@ import { useEffect, useState } from "react";
 const CampaignSection = () => {
   const [campaigns, setCampaigns] = useState<Campaign[]>();
   const [loading, setLoading] = useState(false);
+  const [openDonationModal, setOpenDonationModal] = useState(false);
+  const [designation, setDesignation] = useState<string>("");
 
   const fetchCampaigns = async () => {
     setLoading(true);
@@ -32,6 +35,11 @@ const CampaignSection = () => {
 
   return (
     <div className="xl:lg:px-40 md:px-20 px-10 w-full py-12 mt-20 mb-20">
+      <DonationForm
+        open={openDonationModal}
+        handleClose={() => setOpenDonationModal(false)}
+        designation={designation}
+      />
       <div className="grid xl:lg:grid-cols-2 gap-6">
         <div className="w-full h-full flex flex-col justify-center gap-6">
           <span className="tracking-tighter text-3xl font-bold max-w-[400px]">
@@ -60,7 +68,8 @@ const CampaignSection = () => {
                     width={40}
                   />
                   <span className="font-bold text-lg capitalize">
-                    {campaign.headline}
+                    {campaign.headline.slice(0, 100)}
+                    {campaign.headline.length > 100 && "..."}
                   </span>
                   <span className="font-light">
                     {getFormattedDate(campaign.startDate)}
@@ -68,11 +77,10 @@ const CampaignSection = () => {
                     {getFormattedDate(campaign.endDate)}
                   </span>
                   <Button
-                    onClick={() =>
-                      window.open(
-                        "https://chapa.link/donation/view/DN-hCHqr7IQf80T"
-                      )
-                    }
+                    onClick={() => {
+                      setOpenDonationModal(true);
+                      setDesignation(campaign.headline);
+                    }}
                     variant="outlined"
                     className="bg-[#13A6D9] border-2 hover:border-2 border-[#13A6D9] hover:border-[#13A6D9] hover:bg-white hover:text-[#13A6D9] text-white font-normal capitalize px-10 py-2 w-fit"
                   >

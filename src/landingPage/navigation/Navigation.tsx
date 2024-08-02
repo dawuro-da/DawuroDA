@@ -17,6 +17,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import ProfileMenu from "./ProfileMenu";
 import Link from "next/link";
+import DonationForm from "../modals/DonationForm";
 
 export default function Naviagtion({ bg }: { bg?: string }) {
   const router = useRouter();
@@ -27,6 +28,7 @@ export default function Naviagtion({ bg }: { bg?: string }) {
   const pathname = usePathname();
   const isHome = Boolean(pathname === "/");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openDonateModal, setOpenDonateModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const open = Boolean(anchorEl);
 
@@ -57,6 +59,10 @@ export default function Naviagtion({ bg }: { bg?: string }) {
           </MenuItem>
         </div>
       </StyledMenu>
+      <DonationForm
+        open={openDonateModal}
+        handleClose={() => setOpenDonateModal(false)}
+      />
       <div className="z-50 relative flex w-full flex-row items-center justify-between xl:lg:px-40 md:px-20 px-10 xl:lg:h-[140px] pt-8 md:h-[140px] h-[100px] bg-transparent overflow-hidden">
         <div
           className={` flex-1 w-full xl:lg:pr-80 md:pr-40  absolute top-[15px] hidden xl:lg:md:flex flex-row justify-end  gap-8 ${
@@ -76,9 +82,7 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             <Instagram />
           </div>
           <span
-            onClick={() =>
-              window.open("https://chapa.link/donation/view/DN-hCHqr7IQf80T")
-            }
+            onClick={() => setOpenDonateModal(true)}
             className="hover:text-primaryColor cursor-pointer text-sm"
           >
             Donate

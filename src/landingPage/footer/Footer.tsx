@@ -40,7 +40,10 @@ const ContactInfo = () => (
           </span>
         </p>
         <p>
-          Email: <Link href="mailto:info@gammoda.com" className="hover:underline">info@gammoda.org</Link>
+          Email:{" "}
+          <Link href="mailto:info@gammoda.com" className="hover:underline">
+            info@gammoda.org
+          </Link>
         </p>
         <p>PO. Box:- 72 Arba minch</p>
       </div>
@@ -152,6 +155,14 @@ const Footer = () => {
         </div>
       </div>
       <div className="container mx-auto w-full md:mt-10 mt-0 pb-4 flex md:justify-between justify-center items-center md:border-t border-[#C8C8C8] pt-4">
+        <span className="flex xl:lg:flex-row md:flex-row flex-col gap-4 items-center justify-center text-sm">
+          <Link href="/privacy-policy">
+            <span className="pl-4 hover:underline">Privacy Policy</span>
+          </Link>
+          <Link href="/terms-and-conditions">
+            <span className="pl-4 hover:underline">Terms and Conditions</span>
+          </Link>
+        </span>
         <p className="text-sm italic text-[#000000]">
           Copyright &copy; 2024. All rights reserved
         </p>

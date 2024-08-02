@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ArrowBack,
   Facebook,
   FacebookRounded,
   RemoveRedEyeOutlined,
@@ -48,8 +49,14 @@ const MemberLogin = ({
   return (
     <form
       onSubmit={handleSubmit(handleLogin)}
-      className="px-10 py-20 xl:lg:mt-0 mt-10 flex flex-col items-center justify-center gap-4 max-w-[600px]"
+      className="relative px-10 py-20 xl:lg:mt-0 mt-10 flex flex-col items-center justify-center gap-4 max-w-[600px]"
     >
+      <Link href={"/"}>
+        <div className="absolute xl:lg:hidden flex flex-row items-center gap-2 top-10 left-10 text-black w-fit z-40 hover:cursor-pointer hover:underline">
+          <ArrowBack />
+          <span>Back to home</span>
+        </div>
+      </Link>
       <div className="font-bold text-4xl">Login</div>
       <div className="flex flex-col gap-1 items-center">
         <span className="text-center">Welcome back to</span>
