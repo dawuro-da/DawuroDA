@@ -74,7 +74,7 @@ const ProfileMenu = () => {
       >
         <Avatar src={userData?.profileImage} />
         {user?.firstName ? (
-          <span className={`${isHome && "text-white"}`}>
+          <span className={`${isHome && "xl:lg:text-white md:text-black"}`}>
             {userData.name
               ? userData.name
               : `${user.firstName} ${user.lastName}`}
