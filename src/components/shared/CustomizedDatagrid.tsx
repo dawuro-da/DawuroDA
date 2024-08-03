@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { DataGrid, GridColDef, GridToolbarContainer } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { PAGINITATION_PAGE_SIZE as pageSize } from "@/constants/variables";
+import { PAGINITATION_PAGE_SIZE as defaultPageSize } from "@/constants/variables";
 
 export interface PageState {
   page?: number;
@@ -164,6 +164,7 @@ interface CustomizedDatagridProps {
   onRowClick?: (data: any) => void;
   generateReport?: (data: any) => void;
   generateLoading?: boolean;
+  customPageSize?: number;
 }
 
 const CustomizedDatagrid = ({
@@ -175,18 +176,23 @@ const CustomizedDatagrid = ({
   onRowClick,
   generateReport,
   generateLoading,
+  customPageSize,
 }: CustomizedDatagridProps) => {
   const [searchText, setSearchText] = useState("");
   const [paginationState, setPaginationState] = useState({
-    pageSize: pageSize,
+    pageSize: customPageSize ? customPageSize : defaultPageSize,
     page: 1,
-    count: Math.ceil(totalCount / pageSize),
+    count: Math.ceil(
+      totalCount / (customPageSize ? customPageSize : defaultPageSize)
+    ),
   });
 
   useEffect(() => {
     setPaginationState({
       ...paginationState,
-      count: Math.ceil(totalCount / pageSize),
+      count: Math.ceil(
+        totalCount / (customPageSize ? customPageSize : defaultPageSize)
+      ),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows, totalCount]);

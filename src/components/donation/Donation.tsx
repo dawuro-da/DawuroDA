@@ -152,6 +152,7 @@ const Donation = () => {
               onPageChange={onPageChange}
               generateLoading={generateLoading}
               generateReport={generateDonationReport}
+              customPageSize={8}
             />
           </div>
         </div>
