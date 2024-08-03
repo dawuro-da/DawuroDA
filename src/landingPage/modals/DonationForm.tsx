@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import {
   TextField,
@@ -57,6 +57,11 @@ const DonationForm = ({
     setValue("amount", amount);
   };
 
+  useEffect(() => {
+    if (designation) {
+      setValue("donationDesignation", designation);
+    }
+  }, [designation]);
   return (
     <Modal
       open={open}
