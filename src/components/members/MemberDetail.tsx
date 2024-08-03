@@ -14,9 +14,11 @@ import { Avatar, Button, CircularProgress, Drawer } from "@mui/material";
 import { Contribution, Member, MembershipLevel } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AddNewPaymentDrawer from "./AddNewPaymentDrawer";
 import Image from "next/image";
+import GammodaId from "../shared/GammodaId";
+import { prepareURL } from "@/util/download";
 
 interface MemberDetailProps {
   member: Member;
@@ -32,6 +34,7 @@ const MemberDetail = ({
   onRefresh,
 }: MemberDetailProps) => {
   const router = useRouter();
+  const gammodaIdRef = useRef<HTMLDivElement | null>(null);
   const [contributions, setContributions] = useState<Contribution[]>();
   const [loading, setLoading] = useState<boolean>();
   const [showAddPaymentModal, setShowAddPaymentModal] =
@@ -54,7 +57,16 @@ const MemberDetail = ({
       fetchMemberContributions(member.id);
     }
   }, [member]);
-  
+
+  const downloadGammodaId = () => {
+    const currTarget = gammodaIdRef.current;
+    console.log("here download");
+    prepareURL(
+      currTarget,
+      `${member.firstName ? member.firstName : member.institutionName}ID`
+    );
+  };
+
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
       <div className="h-full xl:w-[700px] lg:w-[700px] md:w-[500px] w-screen p-8 flex flex-col items-center">
@@ -316,10 +328,14 @@ const MemberDetail = ({
               </span>
             </div>
           )}
-          <div className="relative flex flex-row p-2 h-[200px] w-full bg-[#EBEBEB] rounded-[5px]">
+          <div className="relative flex flex-row p-2 h-[200px] overflow-auto hiddenscrollbar w-full bg-[#EBEBEB] rounded-[5px]">
+            <div className="absolute w-full h-full">
+              <GammodaId gammodaIdRef={gammodaIdRef} member={member} />
+            </div>
             <Button
+              onClick={() => downloadGammodaId()}
               variant="outlined"
-              className="absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white"
+              className="z-10 absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"
             >
               <Image
                 src={"/icons/download.svg"}

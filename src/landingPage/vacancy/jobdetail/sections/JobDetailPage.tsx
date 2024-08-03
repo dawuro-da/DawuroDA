@@ -88,8 +88,15 @@ const JobDetailPage = () => {
               <p>{job?.benefits}</p>
             </div>
           </div>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col gap-4">
             <p className="text-black text-xs">Apply via email</p>
+            <span>
+              <Link href="mailto:">
+                <Button variant="contained" className="px-10 shadow-none">
+                  Apply
+                </Button>
+              </Link>
+            </span>
           </div>
         </>
       )}
