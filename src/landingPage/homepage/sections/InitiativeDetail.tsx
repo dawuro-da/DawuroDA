@@ -2,6 +2,7 @@
 
 import Footer from "@/landingPage/footer/Footer";
 import Naviagtion from "@/landingPage/navigation/Navigation";
+import ImageCarousel from "@/landingPage/shared/ImageCarousel";
 import { Skeleton } from "@mui/material";
 import { Initiative } from "@prisma/client";
 import axios from "axios";
@@ -67,15 +68,7 @@ const InitiativeDetail = () => {
           ) : (
             <div className=" text-titleColor">
               {initiative?.featuredImages?.[0] && (
-                <Image
-                  draggable={false}
-                  src={initiative?.featuredImages?.[0]}
-                  unoptimized
-                  alt=""
-                  width={20}
-                  height={20}
-                  className="w-full mb-14 max-h-[800px]"
-                />
+                <ImageCarousel images={initiative.featuredImages} />
               )}
               <p>{initiative?.body}</p>
             </div>
