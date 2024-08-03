@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { News } from "@prisma/client";
 import axios from "axios";
 import { getFormattedDate } from "@/util/date";
+import Slider from "react-slick";
+import ImageCarousel from "../shared/ImageCarousel";
 
 const NewsDetail = () => {
   const params = useParams();
@@ -47,6 +49,16 @@ const NewsDetail = () => {
     fetchNews();
     fetchNewsList();
   }, []);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <RightArrow />,
+    prevArrow: <LeftArrow />,
+  };
 
   return (
     <div className=" w-full">
@@ -96,15 +108,7 @@ const NewsDetail = () => {
             ) : (
               <div className="w-full text-titleColor">
                 {news?.profileImage?.[0] && (
-                  <Image
-                    draggable={false}
-                    src={news?.profileImage?.[0]}
-                    alt=""
-                    unoptimized
-                    width={20}
-                    height={20}
-                    className="w-full mb-14"
-                  />
+                  <ImageCarousel images={news.profileImage} />
                 )}
                 <p>{news?.body}</p>
               </div>
@@ -120,7 +124,7 @@ const NewsDetail = () => {
                 unoptimized
                 width={20}
                 height={20}
-                className="w-full mt-2"
+                className="w-full mt-2 max-h-[200px]"
               />
             </div>
             <div className="mt-10">
@@ -140,7 +144,7 @@ const NewsDetail = () => {
                         objectFit="cover"
                         width={20}
                         height={20}
-                        className="lg:min-w-[40%] min-w-[38%] h-fit"
+                        className="lg:min-w-[40%] min-w-[38%] h-fit max-h-[200px]"
                       />
                       <div className=" pl-0 w-full">
                         <h2 className="group-hover:underline md:text-sm text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
@@ -231,3 +235,41 @@ const NewsDetail = () => {
 };
 
 export default NewsDetail;
+
+const RightArrow = (props: any) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      onClick={onClick}
+      style={style}
+      className={`${className} rounded-full bg-white flex flex-row items-center justify-center`}
+    >
+      <Image
+        src={"/images/arrowdown.svg"}
+        className="-rotate-90 opacity-55"
+        alt=""
+        height={20}
+        width={20}
+      />
+    </div>
+  );
+};
+
+const LeftArrow = (props: any) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      onClick={onClick}
+      style={style}
+      className={`${className} rounded-full bg-white flex flex-row items-center justify-center`}
+    >
+      <Image
+        src={"/images/arrowdown.svg"}
+        className="rotate-90 opacity-55"
+        alt=""
+        height={20}
+        width={20}
+      />
+    </div>
+  );
+};
