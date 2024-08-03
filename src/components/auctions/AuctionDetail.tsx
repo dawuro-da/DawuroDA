@@ -81,7 +81,7 @@ const AuctionDetail = ({ auction }: { auction: Auction | null }) => {
         <span className="text-3xl text-titleColor font-bold max-w-[500px]">
           {auction?.title}
         </span>
-        <span className="text-titleColor max-w-[600px]">
+        <span className="text-titleColor max-w-[1000px]">
           {auction?.description}
         </span>
         <div className=" flex flex-row items-center gap-6 w-full">

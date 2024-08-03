@@ -254,7 +254,7 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             </div>
             <span
               onClick={() => {
-                window.open("https://chapa.link/donation/view/DN-hCHqr7IQf80T");
+                setOpenDonateModal(true)
                 setMenuOpen(!menuOpen);
               }}
               className={`w-fit cursor-pointer hover:border-b-2 hover:border-primaryColor px-2`}

@@ -1,5 +1,6 @@
 "use client";
 
+import DonationForm from "@/landingPage/modals/DonationForm";
 import { Avatar, Button, Skeleton } from "@mui/material";
 import { Management } from "@prisma/client";
 import axios from "axios";
@@ -11,6 +12,7 @@ import Slider from "react-slick";
 const AboutSection = () => {
   const router = useRouter();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [openDonateModal, setOpenDonateModal] = useState(false);
   const [managers, setManagers] = useState<Management[]>();
   const [loading, setLoading] = useState(false);
 
@@ -52,6 +54,10 @@ const AboutSection = () => {
 
   return (
     <div className="xl:lg:px-40 md:px-20 px-10 grid items-center h-fit lg:grid-cols-2 grid-cols-1 mt-48 mb-36 w-full">
+      <DonationForm
+        open={openDonateModal}
+        handleClose={() => setOpenDonateModal(false)}
+      />
       <div className="lg:text-left text-center  w-full">
         <h6 className="text-[#000000] text-sm mb-7 font-light">About</h6>
         <h2 className="font-bold lg:text-4xl text-lg mb-7">
@@ -75,11 +81,11 @@ const AboutSection = () => {
             About Us
           </Button>
           <Button
-            onClick={() => router.push("/about")}
+            onClick={() => setOpenDonateModal(true)}
             variant="outlined"
             className="px-7 hover:bg-[#292929] border-2 border-[#292929] hover:border-2 hover:border-[#292929] py-2 rounded-md text-[#292929] hover:text-[#ffffff] bg-[#ffffff]"
           >
-            Board
+            Donate
           </Button>
         </div>
       </div>

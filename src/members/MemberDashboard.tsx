@@ -15,17 +15,20 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { prepareURL } from "@/util/download";
+import GammodaId from "@/components/shared/GammodaId";
 
 const MemberDashboard = ({
   contributions,
   member,
 }: {
-  member?: Member;
+  member: Member;
   contributions?: Contribution[];
 }) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const gammodaIdRef = useRef<HTMLDivElement | null>(null);
   const [payLoading, setPayLoading] = useState(false);
   const isCompany = Boolean(member?.membershipType === MembershipType.Company);
 
@@ -51,6 +54,15 @@ const MemberDashboard = ({
       dispatch(showToastAction({ message: "Here is an item", type: "error" }));
     }
     setPayLoading(false);
+  };
+
+  const downloadGammodaId = () => {
+    const currTarget = gammodaIdRef.current;
+    console.log("here download");
+    prepareURL(
+      currTarget,
+      `${member.firstName ? member.firstName : member.institutionName}ID`
+    );
   };
 
   return (
@@ -136,9 +148,13 @@ const MemberDashboard = ({
               <span className="text-titleColor text-[14px]">Your Id</span>
             </Divider>
             <div className="bg-white h-[200px] w-full relative">
+              <div className="absolute w-full h-full overflow-auto hiddenscrollbar">
+                <GammodaId gammodaIdRef={gammodaIdRef} member={member} />
+              </div>
               <Button
+                onClick={() => downloadGammodaId()}
                 variant="outlined"
-                className="absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white"
+                className="absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"
               >
                 <Image
                   src={"/icons/download.svg"}
