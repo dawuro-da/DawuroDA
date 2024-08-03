@@ -28,7 +28,7 @@ export async function POST(req: Request, res: any) {
     } = body;
 
     if (event === "charge.success" && type === "API") {
-      const { paymentType, auctionId } = JSON.parse(meta);
+      const { paymentType, auctionId, donationDesignation } = JSON.parse(meta);
 
       if (paymentType === "registrationPayment") {
         const tempMember = await findTempMemberByPhone(mobile);
@@ -46,14 +46,13 @@ export async function POST(req: Request, res: any) {
         if (member) {
           await addNewBidder({ member, auction });
         }
-      }
-    } else if (event === "charge.success" && type === "Donation") {
-      await createANewDonation({
-        amount: amount,
-        donationDesignation: "",
-        fullName: `${first_name} ${last_name && last_name}`,
-        phone: mobile,
-      });
+      } else if (paymentType === "donationPayment")
+        await createANewDonation({
+          amount: amount,
+          donationDesignation: donationDesignation,
+          fullName: `${first_name ?? "Unknown"}`,
+          phone: mobile,
+        });
     }
 
     return NextResponse.json(
