@@ -186,13 +186,13 @@ const getColumnDefinition = ({
           },
         },
         {
-          field: "tel",
+          field: "phone",
           headerName: "Tel",
           flex: 1,
           minWidth: 110,
         },
         {
-          field: "donationAmount",
+          field: "amount",
           headerName: "Paid",
           flex: 1,
           minWidth: 110,
@@ -205,13 +205,7 @@ const getColumnDefinition = ({
           minWidth: 110,
         },
         {
-          field: "paymentMethod",
-          headerName: "Payment Method",
-          flex: 1,
-          minWidth: 110,
-        },
-        {
-          field: "timestamp",
+          field: "created_at",
           headerName: "Timestamp",
           flex: 1,
           minWidth: 110,

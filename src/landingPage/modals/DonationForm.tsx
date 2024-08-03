@@ -1,7 +1,16 @@
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { TextField, Button, Modal, IconButton } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Modal,
+  IconButton,
+  CircularProgress,
+} from "@mui/material";
 import Close from "@mui/icons-material/Close";
+import axios from "axios";
+import { showToastAction } from "@/redux/actions";
+import { useDispatch } from "react-redux";
 
 const DonationForm = ({
   open,
@@ -12,7 +21,9 @@ const DonationForm = ({
   handleClose: () => void;
   designation?: string;
 }) => {
+  const dispatch = useDispatch();
   const [selectedAmount, setSelectedAmount] = useState(null);
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -20,8 +31,25 @@ const DonationForm = ({
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: FieldValues) => {
-    console.log(data);
+  const onSubmit = async (data: FieldValues) => {
+    setLoading(true);
+    try {
+      const res = await axios.post("/api/payment/donationPayment", {
+        paymentAmount: data.amount,
+        fullName: `${data?.fullName}`,
+        phone: data?.phone,
+        donationDesignation: data?.donationDesignation,
+      });
+      if (res.data.success) {
+        window.open(res.data.value.data.checkout_url, "_parent");
+      }
+    } catch (err: any) {
+      console.error(err);
+      dispatch(
+        showToastAction({ message: err.response.data.error, type: "error" })
+      );
+    }
+    setLoading(false);
   };
 
   const handleAmountClick = (amount: any) => {
@@ -118,7 +146,7 @@ const DonationForm = ({
               color="primary"
               className="capitalize"
             >
-              Donate
+              {loading ? <CircularProgress className="text-white" /> : "Donate"}
             </Button>
           </div>
         </form>
