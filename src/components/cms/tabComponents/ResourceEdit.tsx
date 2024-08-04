@@ -181,6 +181,7 @@ const ResourceEdit = ({
                 id="document"
                 {...register("document")}
                 type="file"
+                accept=".pdf"
                 placeholder=""
                 className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />
