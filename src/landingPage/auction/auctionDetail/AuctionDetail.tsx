@@ -216,13 +216,18 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
               >
                 <div className="xl:lg:order-first md:order-first order-last flex flex-col gap-3 xl:lg:max-w-[500px] md:max-w-[400px]">
                   <span className="font-bold">
-                    To Apply Please Follow The Following
+                    Auction Participation Instructions
+                  </span>
+                  <span className="text-titleColor">
+                    Interested parties are requested to follow the steps below
+                    to participate in the auction:
                   </span>
                   <span className="flex flex-col gap-2">
-                    <span>Step 1:</span>
+                    <span className="text-titleColor font-bold">
+                      1. Download the Auction Document:
+                    </span>
                     <span className="text-sm text-titleColor">
-                      {`Fill this form and upload the filled document. click on the
-                  below button if you didn't downlod it`}
+                      {`Access and download the necessary auction documents from download link provided.`}
                     </span>
                     <div className="flex flex-row gap-2 my-4">
                       <Image
@@ -252,10 +257,11 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                     <p>Download</p>
                   </Button>
                   <div className="flex flex-col gap-2 mt-8">
-                    <span>Step 2:</span>
+                    <span className="text-titleColor font-bold">
+                      2. Fill Out the Form and Upload Proforma Invoice:
+                    </span>
                     <span className="text-sm text-titleColor">
-                      {`Fill this form and upload the filled document. click on the
-                  below button if you didn't downlod it`}
+                      {`Complete the form provided within the auction document.`}
                     </span>
                     <div className="flex flex-col gap-1 text-titleColor my-4">
                       <small>Offer</small>
@@ -311,10 +317,14 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                     </div>
                   </div>
                   <span className="flex flex-col gap-2 mt-4">
-                    <span>Step 3:</span>
+                    <span className="text-titleColor font-bold">
+                      3. Submit the completed form and the proforma invoice
+                    </span>
                     <span className="text-sm text-titleColor">
-                      {`Fill this form and upload the filled document. click on the
-                  below button if you didn't downlod it`}
+                      {`NB: Ensure all required documents are filled out correctly and uploaded.`}
+                      <br />
+                      For any inquiries or further assistance, please contact
+                      our team.
                     </span>
                   </span>
                   <Button

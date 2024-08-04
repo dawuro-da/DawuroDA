@@ -44,7 +44,7 @@ const AuctionCard = ({
           disabled={isApplied}
           className={` capitalize ${
             isInProgress
-              ? "bg-[#eeee0d] text-black font-bold"
+              ? "bg-[#eeee0d] hover-[#eeee0d] text-black font-bold"
               : "bg-[#34a858] text-white"
           } shadow-none px-6 py-2 rounded-[5px] cursor-pointer lg:md:mt-0 mt-6`}
         >
