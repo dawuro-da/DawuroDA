@@ -48,7 +48,7 @@ const AuctionCard = ({
               : "bg-[#34a858] text-white"
           } shadow-none px-6 py-2 rounded-[5px] cursor-pointer lg:md:mt-0 mt-6`}
         >
-          {isApplied ? "Applied" : isInProgress ? "Inprogress" : "Apply"}
+          {isApplied ? "Applied" : isInProgress ? "In Progress" : "Apply"}
         </Button>
       </div>
     </div>
