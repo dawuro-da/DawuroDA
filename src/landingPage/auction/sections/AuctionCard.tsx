@@ -42,7 +42,11 @@ const AuctionCard = ({
           onClick={onClick}
           variant="contained"
           disabled={isApplied}
-          className={`text-white capitalize ${isInProgress?'bg-[#85ad3f]':'bg-[#34a858]'} font-light shadow-none px-6 py-2 rounded-[5px] cursor-pointer lg:md:mt-0 mt-6`}
+          className={` capitalize ${
+            isInProgress
+              ? "bg-[#eeee0d] text-black font-bold"
+              : "bg-[#34a858] text-white"
+          } shadow-none px-6 py-2 rounded-[5px] cursor-pointer lg:md:mt-0 mt-6`}
         >
           {isApplied ? "Applied" : isInProgress ? "Inprogress" : "Apply"}
         </Button>

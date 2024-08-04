@@ -61,8 +61,9 @@ const AuctionSection = ({ bidders }: { bidders: Bidder[] | null }) => {
           ) : (
             auctions?.map((item, index) => {
               const bidder = bidders?.filter(
-                (item) => item.auctionId === item.id
+                (bidder) => bidder.auctionId === item.id
               );
+
               const isApplied = Boolean(bidder?.[0]?.isSubmitted);
               const isInProgress = Boolean(
                 bidder?.[0]?.hasPaidCPO || bidder?.[0]?.hasPaidNRP
