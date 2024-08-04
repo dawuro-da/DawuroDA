@@ -301,6 +301,7 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                           id="formFilled"
                           {...register("formFilled")}
                           type="file"
+                          accept=".pdf"
                           placeholder=""
                           className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                         />
