@@ -5,12 +5,12 @@ import AuctionCard from "./AuctionCard";
 import Footer from "@/landingPage/footer/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Auction } from "@prisma/client";
+import { Auction, Bidder } from "@prisma/client";
 import { CircularProgress, Skeleton } from "@mui/material";
 import { getFormattedDate } from "@/util/date";
 import { useRouter } from "next/navigation";
 
-const AuctionSection = () => {
+const AuctionSection = ({ bidders }: { bidders: Bidder[] | null }) => {
   const router = useRouter();
   const [auctions, setAuctions] = useState<Auction[]>();
   const [loading, setLoading] = useState(false);
@@ -59,17 +59,28 @@ const AuctionSection = () => {
               <Skeleton style={{ width: "100%", height: "200px" }} />
             </>
           ) : (
-            auctions?.map((item, index) => (
-              <AuctionCard
-                key={index}
-                startDate={getFormattedDate(item.startDate)}
-                title={item.title}
-                description={item.description}
-                bidder={64}
-                onClick={() => router.push(`/auctions/${item.id}`)}
-                endDate={getFormattedDate(item.endDate)}
-              />
-            ))
+            auctions?.map((item, index) => {
+              const bidder = bidders?.filter(
+                (item) => item.auctionId === item.id
+              );
+              const isApplied = Boolean(bidder?.[0]?.isSubmitted);
+              const isInProgress = Boolean(
+                bidder?.[0]?.hasPaidCPO || bidder?.[0]?.hasPaidNRP
+              );
+              return (
+                <AuctionCard
+                  key={index}
+                  startDate={getFormattedDate(item.startDate)}
+                  title={item.title}
+                  description={item.description}
+                  bidder={64}
+                  isApplied={isApplied}
+                  isInProgress={isInProgress}
+                  onClick={() => router.push(`/auctions/${item.id}`)}
+                  endDate={getFormattedDate(item.endDate)}
+                />
+              );
+            })
           )}
         </div>
         <div className="w-full my-20">

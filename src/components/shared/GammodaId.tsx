@@ -41,7 +41,7 @@ const GammodaId = ({
               <Image
                 fill
                 className="rounded-full object-cover"
-                src={"/images/alemtsehay.jpg"}
+                src={member?.profileImage ?? ""}
                 alt="Profile-photo"
                 style={{ objectFit: "cover" }}
               />
