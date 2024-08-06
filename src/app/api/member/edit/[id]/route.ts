@@ -68,7 +68,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
 
   const memberId = context.params.id;
 
-  const emailExist = await findMemberByEmail(email);
+  const emailExist = Boolean(email) && (await findMemberByEmail(email));
   const phoneExist = await findMemberByPhone(phone);
 
   if (emailExist) {

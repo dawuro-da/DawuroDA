@@ -178,19 +178,26 @@ const PartnershipEdit = ({
               <input
                 id="logo"
                 {...register("logo", {
-                  required: "logo is required",
-                  // validate: {
-                  //   fileSize: (value: any) => {
-                  //     if (value && value[0]) {
-                  //       return (
-                  //         value[0].size < 1048576 ||
-                  //         "File size must be less than 1MB"
-                  //       );
-                  //     }
-                  //     return true;
-                  //   },
-                  // },
+                  validate: {
+                    fileSize: (value: any) => {
+                      if (!(typeof value === "string") && value && value[0]) {
+                        if (value[0].size > 1048576) {
+                          dispatch(
+                            showToastAction({
+                              message: `logo size must be less than 1MB`,
+                              type: "error",
+                            })
+                          );
+                          return "logo size must be less than 1MB";
+                        } else {
+                          return value[0].size < 1048576;
+                        }
+                      }
+                      return true;
+                    },
+                  },
                 })}
+                accept="image/*"
                 type="file"
                 placeholder=""
                 className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"

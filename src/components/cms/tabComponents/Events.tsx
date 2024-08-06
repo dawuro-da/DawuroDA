@@ -229,7 +229,7 @@ const Events = () => {
             <div className="flex flex-col gap-4 text-titleColor h-full">
               <label>Headline</label>
               <TextField
-                {...register("headline",{required:'required'})}
+                {...register("headline", { required: "required" })}
                 variant="outlined"
                 error={Boolean(!!errors.headline)}
                 helperText={
@@ -241,7 +241,7 @@ const Events = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Headline in Amharic</label>
                 <TextField
-                  {...register("headlineAmharic",{required:'required'})}
+                  {...register("headlineAmharic", { required: "required" })}
                   variant="outlined"
                   error={Boolean(!!errors.headlineAmharic)}
                   helperText={
@@ -278,16 +278,28 @@ const Events = () => {
                       required: "profileImage is required",
                       validate: {
                         fileSize: (value: any) => {
-                          if (value && value[0]) {
-                            return (
-                              value[0].size < 1048576 ||
-                              "File size must be less than 1MB"
-                            );
+                          if (
+                            !(typeof value === "string") &&
+                            value &&
+                            value[0]
+                          ) {
+                            if (value[0].size > 1048576) {
+                              dispatch(
+                                showToastAction({
+                                  message: "Image size must be less than 1MB",
+                                  type: "error",
+                                })
+                              );
+                              return "Image size must be less than 1MB";
+                            } else {
+                              return value[0].size < 1048576;
+                            }
                           }
                           return true;
                         },
                       },
                     })}
+                    accept="image/*"
                     type="file"
                     placeholder=""
                     className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"

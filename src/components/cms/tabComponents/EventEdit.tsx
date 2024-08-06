@@ -187,7 +187,27 @@ const EventEdit = ({
               </span>
               <input
                 id="profileImage"
-                {...register("profileImage")}
+                {...register("profileImage", {
+                  validate: {
+                    fileSize: (value: any) => {
+                      if (!(typeof value === "string") && value && value[0]) {
+                        if (value[0].size > 1048576) {
+                          dispatch(
+                            showToastAction({
+                              message: "Image size must be less than 1MB",
+                              type: "error",
+                            })
+                          );
+                          return "Image size must be less than 1MB";
+                        } else {
+                          return value[0].size < 1048576;
+                        }
+                      }
+                      return true;
+                    },
+                  },
+                })}
+                accept="image/*"
                 type="file"
                 placeholder=""
                 className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
