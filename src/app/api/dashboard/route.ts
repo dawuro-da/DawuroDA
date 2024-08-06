@@ -103,6 +103,8 @@ export async function GET(req: Request) {
       contributionsLastMonth
     );
 
+    const lineChartData = await getMemberRegistrationsByMonth();
+    const pieChartData = await getTotalMembersStatus();
     const result = {
       totalMember: totalMembers,
       memberSinceLastWeek: memberSinceLastWeek,
@@ -114,6 +116,8 @@ export async function GET(req: Request) {
       donationsSinceLastWeek: donationsSinceLastWeek
         ? donationsSinceLastWeek
         : 0,
+      pieChartData,
+      lineChartData,
     };
 
     if (result) {
@@ -127,7 +131,7 @@ export async function GET(req: Request) {
     return NextResponse.json(
       {
         success: false,
-        error: "Unable to fetch auctions",
+        error: "Unable to fetch dashboard data",
       },
       { status: 500 }
     );
@@ -169,4 +173,40 @@ const getContributionStatus = (
   }
 
   return contributionStatus;
+};
+
+async function getMemberRegistrationsByMonth() {
+  const result = await prisma.$queryRaw<any[]>`
+    SELECT 
+      TO_CHAR("created_at", 'Mon') AS name,
+      COUNT(*) AS pv,
+      COUNT(*) AS amt
+    FROM "members"
+    WHERE EXTRACT(YEAR FROM "created_at") = EXTRACT(YEAR FROM CURRENT_DATE)
+    GROUP BY TO_CHAR("created_at", 'Mon')
+    ORDER BY TO_DATE(TO_CHAR("created_at", 'Mon'), 'Mon');
+  `;
+
+  if (result.length > 0) {
+    return result.map((item) => ({
+      name: item.name,
+      pv: parseInt(item.pv, 10),
+      amt: parseInt(item.amt, 10),
+    }));
+  } else {
+    return [{ name: "", pv: 0, amt: 0 }];
+  }
+}
+
+const getTotalMembersStatus = async () => {
+  const totalMemberCount = await prisma.member.count();
+  const totalMemberPaid = await prisma.member.count({
+    where: { hasPaid: true },
+  });
+
+  return {
+    totalMemberCount,
+    totalMemberPaid,
+    totalMemberUnpaid: totalMemberCount - totalMemberPaid,
+  };
 };

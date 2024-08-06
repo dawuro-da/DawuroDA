@@ -23,6 +23,8 @@ interface DashboardData {
   memberSinceLastWeek: number;
   totalContributions: number;
   totalMember: number;
+  lineChartData: any;
+  pieChartData: any;
 }
 
 const Dashboard = () => {
@@ -243,7 +245,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className=" flex-1 w-full max-h-[400px] mt-6">
-                <LineChartGraph />
+                <LineChartGraph data={dashboardData?.lineChartData} />
               </div>
             </div>
             <div className="bg-white py-6 rounded-[8px] flex flex-col xl:min-h-[400px] lg:min-h-[400px] min-h-[300px] xl:lg:px-8 md:px-4 px-2">
@@ -261,7 +263,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className=" flex-1 w-full max-h-[400px] mt-6">
-                <PieChartGraph />
+                <PieChartGraph pieChartData={dashboardData?.pieChartData} />
               </div>
             </div>
           </div>
