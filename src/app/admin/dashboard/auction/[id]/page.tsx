@@ -1,5 +1,5 @@
 import AuctionDetail from "@/components/auctions/AuctionDetail";
-import { findAuctionById } from "@/db/auction";
+import { findAuctionDetailById } from "@/db/auction";
 import { UserRole } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -12,7 +12,7 @@ const AuctionDetailPage = async ({ params }: { params: { id: string } }) => {
     redirect("/admin/dashboard/members");
   }
 
-  const auction = await findAuctionById(params.id);
+  const auction = await findAuctionDetailById(params.id);
 
   return <AuctionDetail auction={auction} />;
 };

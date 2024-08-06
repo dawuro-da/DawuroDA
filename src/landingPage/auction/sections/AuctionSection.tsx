@@ -12,7 +12,13 @@ import { useRouter } from "next/navigation";
 
 const AuctionSection = ({ bidders }: { bidders: Bidder[] | null }) => {
   const router = useRouter();
-  const [auctions, setAuctions] = useState<Auction[]>();
+  const [auctions, setAuctions] = useState<
+    (Auction & {
+      totalBidders: number;
+      totalCPO: number;
+      totalDocumentSales: number;
+    })[]
+  >();
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
@@ -74,7 +80,7 @@ const AuctionSection = ({ bidders }: { bidders: Bidder[] | null }) => {
                   startDate={getFormattedDate(item.startDate)}
                   title={item.title}
                   description={item.description}
-                  bidder={64}
+                  bidder={item.totalBidders}
                   isApplied={isApplied}
                   isInProgress={isInProgress}
                   onClick={() => router.push(`/auctions/${item.id}`)}

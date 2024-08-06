@@ -10,7 +10,7 @@ import { Button, CircularProgress, Divider, TextField } from "@mui/material";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
@@ -19,7 +19,7 @@ const MemberLogin = ({
 }: {
   setIsSignUp: (value: boolean) => void;
 }) => {
-  const router = useRouter();
+  const params = useSearchParams();
   const [loginError, setLoginError] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -39,7 +39,14 @@ const MemberLogin = ({
     });
 
     if (res?.status === 200) {
-      window.open("/member/dashboard", "_parent");
+      if (params.get("redirect_to")) {
+        window.open(
+          params.get("redirect_to") ?? "/member/dashboard",
+          "_parent"
+        );
+      } else {
+        window.open("/member/dashboard", "_parent");
+      }
     } else if (res?.status === 401) {
       setLoginError(res.error ?? "Login Error");
     }

@@ -13,7 +13,17 @@ import { showToastAction } from "@/redux/actions";
 import { useDispatch } from "react-redux";
 import AuctionDataGrid from "./AuctionDatagrid";
 
-const AuctionDetail = ({ auction }: { auction: Auction | null }) => {
+const AuctionDetail = ({
+  auction,
+}: {
+  auction:
+    | (Auction & {
+        totalBidders: number;
+        totalCPO: number;
+        totalDocumentSales: number;
+      })
+    | null;
+}) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isSmScreen, setIsSmScreen] = useState<boolean>(false);
@@ -86,15 +96,15 @@ const AuctionDetail = ({ auction }: { auction: Auction | null }) => {
         </span>
         <div className=" flex flex-row items-center gap-6 w-full">
           <div className="flex flex-col">
-            <span className="font-bold">64</span>
+            <span className="font-bold">{auction?.totalBidders} ETB</span>
             <span className="text-xs">Bidders</span>
           </div>
           <div className="flex flex-col">
-            <span className="font-bold">4,400 ETB</span>
+            <span className="font-bold">{auction?.totalDocumentSales} ETB</span>
             <span className="text-xs">Document sales</span>
           </div>
           <div className="flex flex-col">
-            <span className="font-bold">4,400 ETB</span>
+            <span className="font-bold">{auction?.totalCPO} ETB</span>
             <span className="text-xs">Revenue from CPO sales</span>
           </div>
         </div>

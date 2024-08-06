@@ -9,6 +9,33 @@ export async function findAuctionById(id: string): Promise<Auction | null> {
   });
 }
 
+export async function findAuctionDetailById(id: string): Promise<
+  | (Auction & {
+      totalBidders: number;
+      totalCPO: number;
+      totalDocumentSales: number;
+    })
+  | null
+> {
+  const auction = await prisma.auction.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  if (auction) {
+    const biddersCount = await prisma.bidder.count({
+      where: { auctionId: auction.id },
+    });
+
+    return {
+      ...auction,
+      totalBidders: biddersCount,
+      totalCPO: biddersCount * auction.CPO,
+      totalDocumentSales: biddersCount * auction.formPayment,
+    };
+  } else return null;
+}
+
 export async function createAuction({
   title,
   description,
@@ -109,7 +136,16 @@ export async function fetchAuctions({
     endDate: string;
     searchText: string;
   };
-}): Promise<{ auctions: Auction[] | undefined; total: number }> {
+}): Promise<{
+  auctions:
+    | (Auction & {
+        totalBidders: number;
+        totalCPO: number;
+        totalDocumentSales: number;
+      })[]
+    | undefined;
+  total: number;
+}> {
   const whereClause: Prisma.AuctionWhereInput = {
     ...(filters?.startDate &&
       filters?.endDate && {
@@ -156,12 +192,26 @@ export async function fetchAuctions({
     skip: (page - 1) * pageSize,
     take: pageSize,
   });
+  const auctionWithBiddersCount = await Promise.all(
+    auctions.map(async (auction) => {
+      const biddersCount = await prisma.bidder.count({
+        where: { auctionId: auction.id },
+      });
+
+      return {
+        ...auction,
+        totalBidders: biddersCount,
+        totalCPO: biddersCount * auction.CPO,
+        totalDocumentSales: biddersCount * auction.formPayment,
+      };
+    })
+  );
 
   const total = await prisma.auction.count({
     where: whereClause,
   });
 
-  return { auctions, total };
+  return { auctions: auctionWithBiddersCount, total };
 }
 
 export async function fetchAuctionBidders({
