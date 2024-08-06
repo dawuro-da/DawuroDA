@@ -9,8 +9,8 @@ import { Button, CircularProgress, TextField } from "@mui/material";
 import { Auction, Bidder, UserRole } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 

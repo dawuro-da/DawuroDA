@@ -25,7 +25,13 @@ const AuctionPage = () => {
     endDate: Date;
   }>();
   const [currentPage, setCurrentPage] = useState(1);
-  const [auctions, setAuctions] = useState<Auction[]>();
+  const [auctions, setAuctions] = useState<
+    (Auction & {
+      totalBidders: number;
+      totalCPO: number;
+      totalDocumentSales: number;
+    })[]
+  >();
   const [totalCount, setTotalCount] = useState<number>(0);
   const [selectedAuction, setSelectedAuction] = useState<Auction>();
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
@@ -171,20 +177,25 @@ const AuctionPage = () => {
                   >
                     <div className="flex flex-col flex-1">
                       <small>{item.title}</small>
-                      <span>{item.description}</span>
+                      <span>
+                        {item.description.slice(0, 300)}
+                        {item.description.length > 300 && "..."}
+                      </span>
                     </div>
 
                     <div className="border-l-2 pl-6 flex flex-row items-center justify-center gap-6 flex-1">
                       <div className="flex flex-col">
-                        <span className="font-bold">64</span>
+                        <span className="font-bold">{item.totalBidders}</span>
                         <span className="text-xs">Bidders</span>
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-bold">4,400</span>
+                        <span className="font-bold">
+                          {item.totalDocumentSales} ETB
+                        </span>
                         <span className="text-xs">Document sales</span>
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-bold">4,400</span>
+                        <span className="font-bold">{item.totalCPO} ETB</span>
                         <span className="text-xs">CPO sales</span>
                       </div>
                     </div>

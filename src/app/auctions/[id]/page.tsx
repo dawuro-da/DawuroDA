@@ -1,6 +1,7 @@
 import AuctionDetail from "@/landingPage/auction/auctionDetail/AuctionDetail";
 import prisma from "@/lib/prisma";
 import { OPTIONS } from "@/util/authOptions";
+import { UserRole } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -12,8 +13,8 @@ export default async function AuctionDetailPage({
   };
 }) {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user?.id) {
-    redirect("/login");
+  if (!session?.user?.id || !(session.user.role === UserRole.Member)) {
+    redirect(`/login?redirect_to=/auctions/${params.id}`);
   }
 
   const auction = await prisma.auction.findUnique({ where: { id: params.id } });
