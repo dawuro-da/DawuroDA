@@ -273,7 +273,31 @@ const Resources = () => {
                   </span>
                   <input
                     id="document"
-                    {...register("document")}
+                    {...register("document", {
+                      required: "document is required",
+                      validate: {
+                        fileSize: (value: any) => {
+                          if (
+                            !(typeof value === "string") &&
+                            value &&
+                            value[0]
+                          ) {
+                            if (value[0].size > 20971520) {
+                              dispatch(
+                                showToastAction({
+                                  message: `File size must be less than 20MB`,
+                                  type: "error",
+                                })
+                              );
+                              return "File size must be less than 20MB";
+                            } else {
+                              return value[0].size < 20971520;
+                            }
+                          }
+                          return true;
+                        },
+                      },
+                    })}
                     type="file"
                     accept=".pdf"
                     placeholder=""

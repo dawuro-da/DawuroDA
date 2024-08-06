@@ -179,7 +179,26 @@ const ResourceEdit = ({
               </span>
               <input
                 id="document"
-                {...register("document")}
+                {...register("document", {
+                  validate: {
+                    fileSize: (value: any) => {
+                      if (!(typeof value === "string") && value && value[0]) {
+                        if (value[0].size > 20971520) {
+                          dispatch(
+                            showToastAction({
+                              message: `File size must be less than 20MB`,
+                              type: "error",
+                            })
+                          );
+                          return "File size must be less than 20MB";
+                        } else {
+                          return value[0].size < 20971520;
+                        }
+                      }
+                      return true;
+                    },
+                  },
+                })}
                 type="file"
                 accept=".pdf"
                 placeholder=""

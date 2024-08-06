@@ -54,7 +54,7 @@ const EditAuction = ({
     setValue("formFile", auction.formFile);
     setValue("startDate", auction.startDate);
     setValue("endDate", auction.endDate);
-  }, []);
+  }, [auction]);
 
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
@@ -67,7 +67,9 @@ const EditAuction = ({
       formData.append("isPurchasing", values.isPurchasing);
       formData.append(
         "formFile",
-        typeof values.formFile === "string" ? values.formFile : values.formFile[0]
+        typeof values.formFile === "string"
+          ? values.formFile
+          : values.formFile[0]
       );
       formData.append("startDate", values.startDate);
       formData.append("endDate", values.endDate);
@@ -209,23 +211,27 @@ const EditAuction = ({
                 </span>
                 <input
                   id="formFile"
-                  {...register(
-                    "formFile"
-                    // {
-                    //   required: "formFile is required",
-                    //   validate: {
-                    //     fileSize: (value: any) => {
-                    //       if (value && value[0]) {
-                    //         return (
-                    //           value[0].size < 1048576 ||
-                    //           "File size must be less than 1MB"
-                    //         );
-                    //       }
-                    //       return true;
-                    //     },
-                    //   },
-                    // }
-                  )}
+                  {...register("formFile", {
+                    validate: {
+                      fileSize: (value: any) => {
+                        if (!(typeof value === "string") && value && value[0]) {
+                          if (value[0].size > 1048576) {
+                            dispatch(
+                              showToastAction({
+                                message: "File size must be less than 1MB",
+                                type: "error",
+                              })
+                            );
+                            return "File size must be less than 1MB";
+                          } else {
+                            return value[0].size < 1048576;
+                          }
+                        }
+                        return true;
+                      },
+                    },
+                  })}
+                  accept="image/*"
                   type="file"
                   placeholder=""
                   className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"

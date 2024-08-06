@@ -1,3 +1,4 @@
+import { showToastAction } from "@/redux/actions";
 import { Button, MenuItem, TextField } from "@mui/material";
 import Image from "next/image";
 import {
@@ -6,6 +7,7 @@ import {
   UseFormRegister,
   UseFormWatch,
 } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 interface IndividualFormProps {
   register: UseFormRegister<FieldValues>;
@@ -20,6 +22,8 @@ const IndividualForm = ({
   loginError,
   watch,
 }: IndividualFormProps) => {
+  const dispatch = useDispatch();
+
   return (
     <div className="grid xl:lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 gap-4 px-4">
       <div className="flex flex-col gap-1">
@@ -235,19 +239,27 @@ const IndividualForm = ({
           <input
             id="profileImage"
             {...register("profileImage", {
-              required: "Profile Image is required",
+              required: "profileImage is required",
               validate: {
                 fileSize: (value: any) => {
-                  if (value && value[0]) {
-                    return (
-                      value[0].size < 1048576 ||
-                      "Image size must be 600*600 File size must be less than 1MB"
-                    );
+                  if (!(typeof value === "string") && value && value[0]) {
+                    if (value[0].size > 1048576) {
+                      dispatch(
+                        showToastAction({
+                          message: `Image size must be less than 1MB`,
+                          type: "error",
+                        })
+                      );
+                      return "Image size must be less than 1MB";
+                    } else {
+                      return value[0].size < 1048576;
+                    }
                   }
                   return true;
                 },
               },
             })}
+            accept="image/*"
             type="file"
             placeholder=""
             className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"

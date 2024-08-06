@@ -181,23 +181,28 @@ const AddNewAuction = () => {
                 </span>
                 <input
                   id="formFile"
-                  {...register(
-                    "formFile"
-                    // {
-                    //   required: "formFile is required",
-                    //   validate: {
-                    //     fileSize: (value: any) => {
-                    //       if (value && value[0]) {
-                    //         return (
-                    //           value[0].size < 1048576 ||
-                    //           "File size must be less than 1MB"
-                    //         );
-                    //       }
-                    //       return true;
-                    //     },
-                    //   },
-                    // }
-                  )}
+                  {...register("formFile", {
+                    required: "formFile is required",
+                    validate: {
+                      fileSize: (value: any) => {
+                        if (value && value[0]) {
+                          if (value[0].size > 1048576) {
+                            dispatch(
+                              showToastAction({
+                                message: "File size must be less than 1MB",
+                                type: "error",
+                              })
+                            );
+                            return "File size must be less than 1MB";
+                          } else {
+                            return value[0].size < 1048576;
+                          }
+                        }
+                        return true;
+                      },
+                    },
+                  })}
+                  accept="image/*"
                   type="file"
                   placeholder=""
                   className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
