@@ -7,6 +7,8 @@ export interface AuctionCardItems {
   bidder: number;
   endDate: string;
   onClick: () => void;
+  isApplied: boolean;
+  isInProgress: boolean;
 }
 
 const AuctionCard = ({
@@ -16,6 +18,8 @@ const AuctionCard = ({
   bidder,
   endDate,
   onClick,
+  isApplied,
+  isInProgress,
 }: AuctionCardItems) => {
   return (
     <div className="bg-[#FFFFFF] mb-9 lg:md:px-10 px-4 py-8 w-full">
@@ -37,9 +41,14 @@ const AuctionCard = ({
         <Button
           onClick={onClick}
           variant="contained"
-          className="text-white capitalize bg-[#34a858] font-light shadow-none px-6 py-2 rounded-[5px] cursor-pointer lg:md:mt-0 mt-6"
+          disabled={isApplied}
+          className={` capitalize ${
+            isInProgress
+              ? "bg-[#eeee0d] hover:bg-[#eeee0d] text-black font-bold"
+              : "bg-[#34a858] text-white"
+          } shadow-none px-6 py-2 rounded-[5px] cursor-pointer lg:md:mt-0 mt-6`}
         >
-          Apply
+          {isApplied ? "Applied" : isInProgress ? "In Progress" : "Apply"}
         </Button>
       </div>
     </div>
