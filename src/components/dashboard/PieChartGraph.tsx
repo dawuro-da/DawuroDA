@@ -9,14 +9,23 @@ import {
   ResponsiveContainer,
   Tooltip,
   Label,
+  LabelList,
 } from "recharts";
 
-const PieChartGraph = ({ paidMembers = 700, unpaidMembers = 2500 }) => {
-  const totalCustomers = paidMembers + unpaidMembers;
+const PieChartGraph = ({ pieChartData }: { pieChartData: any }) => {
+  const totalMembersCount = pieChartData?.totalMemberCount ?? 0;
 
   const data = [
-    { name: "Paid Members", value: paidMembers, color: "#34A858" },
-    { name: "Unpaid Members", value: unpaidMembers, color: "#BCE7C9" },
+    {
+      name: "Paid Members",
+      value: pieChartData?.totalMemberPaid ?? 0,
+      color: "#34A858",
+    },
+    {
+      name: "Unpaid Members",
+      value: pieChartData?.totalMemberUnpaid ?? 0,
+      color: "#BCE7C9",
+    },
   ];
 
   const CustomLabel = ({ viewBox, labelText, value }: any) => {
@@ -67,14 +76,18 @@ const PieChartGraph = ({ paidMembers = 700, unpaidMembers = 2500 }) => {
           cx="50%"
           cy="50%"
           innerRadius={"50%"}
-          outerRadius={'100%'}
+          outerRadius={"100%"}
           paddingAngle={0}
+          labelLine={true}
+          label={({ name, value }) => ` ${value}`}
         >
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color} />
           ))}
           <Label
-            content={<CustomLabel labelText="Members" value={totalCustomers} />}
+            content={
+              <CustomLabel labelText="Members" value={totalMembersCount} />
+            }
             position="center"
           />
         </Pie>
