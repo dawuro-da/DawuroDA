@@ -1,4 +1,5 @@
 import { COUNTRIES, Gammo_Branches } from "@/constants/datas";
+import { phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import { Button, MenuItem, TextField } from "@mui/material";
 import Image from "next/image";
@@ -65,6 +66,10 @@ const IndividualForm = ({
           size="small"
           {...register("phone", {
             required: "Phone Number is required",
+            pattern: {
+              message: "Phone is not valid eg: 09...",
+              value: phone_regex,
+            },
           })}
           type="text"
           placeholder=""

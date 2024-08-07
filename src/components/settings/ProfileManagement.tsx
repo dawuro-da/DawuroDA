@@ -1,3 +1,4 @@
+import { phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import {
   Avatar,
@@ -178,7 +179,12 @@ const ProfileManagement = ({ user }: { user: User | null }) => {
           <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
             <label>Phone Number</label>
             <TextField
-              {...register("phone")}
+              {...register("phone", {
+                pattern: {
+                  message: "Phone is not valid eg: 09...",
+                  value: phone_regex,
+                },
+              })}
               variant="outlined"
               error={Boolean(!!errors.phone)}
               helperText={!!errors.phone && errors.phone.message?.toString()}

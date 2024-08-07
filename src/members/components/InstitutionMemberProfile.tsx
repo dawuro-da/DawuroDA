@@ -26,6 +26,7 @@ import { FieldValues } from "react-hook-form";
 import { getMinimumContribution } from "@/util/helper";
 import { getMemberFormData } from "@/util/getMemberFormData";
 import Image from "next/image";
+import { phone_regex } from "@/constants/regex";
 
 const InstitutionMemberProfile = ({ member }: { member: Member }) => {
   const router = useRouter();
@@ -142,6 +143,10 @@ const InstitutionMemberProfile = ({ member }: { member: Member }) => {
                     size="small"
                     {...register("phone", {
                       required: "Phone Number is required",
+                      pattern: {
+                        message: "Phone is not valid eg: 09...",
+                        value: phone_regex,
+                      },
                     })}
                     type="text"
                     placeholder=""

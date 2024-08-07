@@ -48,8 +48,8 @@ const NewsGrid = () => {
         <div className="absolute bottom-0 text-white left-0 pb-6 pl-4 pt-3 text-left bg-gradient-to-t from-black to-transparent">
           <h2 className="group-hover:underline text-2xl font-bold mb-3">
             {news?.[0]?.headline && news?.[0]?.headline.length > 60
-              ? `${news?.[0].headline.slice(0, 60)}...`
-              : news?.[0].headline}
+              ? `${news?.[0]?.headline.slice(0, 60)}...`
+              : news?.[0]?.headline}
           </h2>
           <div className="flex items-center space-x-3">
             <Image
@@ -60,7 +60,7 @@ const NewsGrid = () => {
               height={20}
             />
             <p className="text-white font-light text-sm">
-              {news?.[0].updated_at && getFormattedDate(news?.[0].updated_at)}
+              {news?.[0]?.updated_at && getFormattedDate(news?.[0]?.updated_at)}
             </p>
           </div>
         </div>
