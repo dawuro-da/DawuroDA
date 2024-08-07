@@ -7,6 +7,7 @@ import {
   ContributionSystem,
   MembershipType,
   PaymentMeans,
+  EducationLevel,
 } from "@prisma/client";
 
 export async function findTempMemberByEmailAndPhone({
@@ -67,7 +68,7 @@ export async function createIndividualTempMember({
     firstName: string;
     lastName: string;
     gender: Gender;
-    educationLevel: string;
+    educationLevel: EducationLevel;
     expertise: string;
     dateOfBirth: string;
     workPlace: string;

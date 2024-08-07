@@ -1,7 +1,6 @@
 import prisma from "@/lib/prisma";
 import {
   Prisma,
-  Member,
   MembershipLevel,
   ContributionSystem,
   MembershipType,
@@ -123,11 +122,13 @@ export async function createDonation({
   donationDesignation,
   fullName,
   phone,
+  branch,
 }: {
   amount: string;
   donationDesignation: string;
   fullName: string;
   phone: string;
+  branch: string;
 }) {
   try {
     return await prisma.generalDonation.create({
@@ -136,6 +137,7 @@ export async function createDonation({
         donationDesignation,
         fullName,
         phone,
+        branch,
       },
     });
   } catch (err) {

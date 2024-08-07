@@ -1,8 +1,10 @@
+import { Gammo_Branches } from "@/constants/datas";
 import { showToastAction } from "@/redux/actions";
 import { getMinimumContribution } from "@/util/helper";
 import { Button, MenuItem, TextField } from "@mui/material";
 import {
   ContributionSystem,
+  EducationLevel,
   MembershipLevel,
   MembershipType,
   PaymentMeans,
@@ -88,9 +90,7 @@ const IndividualMember = ({
           <span className="text-titleColor text-sm font-bold">Email</span>
           <TextField
             size="small"
-            {...register("email", {
-              required: "Email is required",
-            })}
+            {...register("email")}
             type="text"
             placeholder=""
             className="border-2 rounded-[16px] py-2"
@@ -141,7 +141,9 @@ const IndividualMember = ({
           />
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-titleColor text-sm font-bold">Region</span>
+          <span className="text-titleColor text-sm font-bold">
+            Region|State|Province
+          </span>
           <TextField
             size="small"
             {...register("region", {
@@ -171,7 +173,9 @@ const IndividualMember = ({
           />
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-titleColor text-sm font-bold">City</span>
+          <span className="text-titleColor text-sm font-bold">
+            City|District
+          </span>
           <TextField
             size="small"
             {...register("city", {
@@ -186,7 +190,7 @@ const IndividualMember = ({
           />
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-titleColor text-sm font-bold">Kebele</span>
+          <span className="text-titleColor text-sm font-bold">Kebele|Ward</span>
           <TextField
             size="small"
             {...register("kebele", {
@@ -247,7 +251,14 @@ const IndividualMember = ({
             inputProps={{ style: { padding: 10 } }}
             error={Boolean(!!errors.branch)}
             helperText={!!errors.branch && errors.branch.message?.toString()}
-          />
+            select
+          >
+            {Gammo_Branches.map((branch, index) => (
+              <MenuItem key={index} value={branch}>
+                {branch}
+              </MenuItem>
+            ))}
+          </TextField>
         </div>
         <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
           <span className="text-titleColor text-sm font-bold">
@@ -336,18 +347,23 @@ const IndividualMember = ({
             >
               <MenuItem value={MembershipLevel?.Platinium}>
                 {MembershipLevel?.Platinium}
+                {"(>100 ETB)"}
               </MenuItem>
               <MenuItem value={MembershipLevel?.Diamond}>
                 {MembershipLevel?.Diamond}
+                {"(80-100 ETB)"}
               </MenuItem>
               <MenuItem value={MembershipLevel?.Gold}>
                 {MembershipLevel?.Gold}
+                {"(50-80 ETB)"}
               </MenuItem>
               <MenuItem value={MembershipLevel?.Siliver}>
                 {MembershipLevel?.Siliver}
+                {"(30-50 ETB)"}
               </MenuItem>
               <MenuItem value={MembershipLevel?.Bronze}>
                 {MembershipLevel?.Bronze}
+                {"(10-30 ETB)"}
               </MenuItem>
             </TextField>
           </div>
@@ -401,7 +417,31 @@ const IndividualMember = ({
               !!errors.educationLevel &&
               errors.educationLevel.message?.toString()
             }
-          />
+            select
+          >
+            <MenuItem value={EducationLevel.PHD}>{EducationLevel.PHD}</MenuItem>
+            <MenuItem value={EducationLevel.Masters}>
+              {EducationLevel.Masters}
+            </MenuItem>
+            <MenuItem value={EducationLevel.Degree}>
+              {EducationLevel.Degree}
+            </MenuItem>
+            <MenuItem value={EducationLevel.Associate_Degree}>
+              {EducationLevel.Associate_Degree}
+            </MenuItem>
+            <MenuItem value={EducationLevel.Diploma}>
+              {EducationLevel.Diploma}
+            </MenuItem>
+            <MenuItem value={EducationLevel.High_School}>
+              {EducationLevel.High_School}
+            </MenuItem>
+            <MenuItem value={EducationLevel.Middle_Elementary_School}>
+              {EducationLevel.Middle_Elementary_School}
+            </MenuItem>
+            <MenuItem value={EducationLevel.Other}>
+              {EducationLevel.Other}
+            </MenuItem>
+          </TextField>
         </div>
         <div className="flex flex-col gap-2">
           <span className="text-titleColor text-sm font-bold">

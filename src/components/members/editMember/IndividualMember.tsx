@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
-import { Member, MembershipType } from "@prisma/client";
+import { EducationLevel, Member, MembershipType } from "@prisma/client";
 import { MenuItem, Switch, TextField } from "@mui/material";
 import {
   ContributionSystem,
@@ -25,6 +25,7 @@ import Image from "next/image";
 import { FieldValues } from "react-hook-form";
 import { getMinimumContribution } from "@/util/helper";
 import { getMemberFormData } from "@/util/getMemberFormData";
+import { Gammo_Branches } from "@/constants/datas";
 
 const IndividualMember = ({ member }: { member: Member }) => {
   const router = useRouter();
@@ -158,9 +159,7 @@ const IndividualMember = ({ member }: { member: Member }) => {
                   </span>
                   <TextField
                     size="small"
-                    {...register("email", {
-                      required: "Email is required",
-                    })}
+                    {...register("email")}
                     type="text"
                     placeholder=""
                     className="border-2 rounded-[16px] py-2"
@@ -219,7 +218,7 @@ const IndividualMember = ({ member }: { member: Member }) => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-titleColor text-sm font-bold">
-                    Region
+                    Region|State|Province
                   </span>
                   <TextField
                     size="small"
@@ -257,7 +256,7 @@ const IndividualMember = ({ member }: { member: Member }) => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-titleColor text-sm font-bold">
-                    City
+                    City|District
                   </span>
                   <TextField
                     size="small"
@@ -276,7 +275,7 @@ const IndividualMember = ({ member }: { member: Member }) => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-titleColor text-sm font-bold">
-                    Kebele
+                    Kebele|Ward
                   </span>
                   <TextField
                     size="small"
@@ -348,7 +347,14 @@ const IndividualMember = ({ member }: { member: Member }) => {
                     helperText={
                       !!errors.branch && errors.branch.message?.toString()
                     }
-                  />
+                    select
+                  >
+                    {Gammo_Branches.map((branch, index) => (
+                      <MenuItem key={index} value={branch}>
+                        {branch}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </div>
                 <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
                   <span className="text-titleColor text-sm font-bold">
@@ -447,18 +453,23 @@ const IndividualMember = ({ member }: { member: Member }) => {
                     >
                       <MenuItem value={MembershipLevel?.Platinium}>
                         {MembershipLevel?.Platinium}
+                        {"(>100 ETB)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Diamond}>
                         {MembershipLevel?.Diamond}
+                        {"(80-100 ETB)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Gold}>
                         {MembershipLevel?.Gold}
+                        {"(50-80 ETB)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Siliver}>
                         {MembershipLevel?.Siliver}
+                        {"(30-50 ETB)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Bronze}>
                         {MembershipLevel?.Bronze}
+                        {"(10-30 ETB)"}
                       </MenuItem>
                     </TextField>
                   </div>
@@ -512,7 +523,33 @@ const IndividualMember = ({ member }: { member: Member }) => {
                       !!errors.educationLevel &&
                       errors.educationLevel.message?.toString()
                     }
-                  />
+                    select
+                  >
+                    <MenuItem value={EducationLevel.PHD}>
+                      {EducationLevel.PHD}
+                    </MenuItem>
+                    <MenuItem value={EducationLevel.Masters}>
+                      {EducationLevel.Masters}
+                    </MenuItem>
+                    <MenuItem value={EducationLevel.Degree}>
+                      {EducationLevel.Degree}
+                    </MenuItem>
+                    <MenuItem value={EducationLevel.Associate_Degree}>
+                      {EducationLevel.Associate_Degree}
+                    </MenuItem>
+                    <MenuItem value={EducationLevel.Diploma}>
+                      {EducationLevel.Diploma}
+                    </MenuItem>
+                    <MenuItem value={EducationLevel.High_School}>
+                      {EducationLevel.High_School}
+                    </MenuItem>
+                    <MenuItem value={EducationLevel.Middle_Elementary_School}>
+                      {EducationLevel.Middle_Elementary_School}
+                    </MenuItem>
+                    <MenuItem value={EducationLevel.Other}>
+                      {EducationLevel.Other}
+                    </MenuItem>
+                  </TextField>
                 </div>
                 <div className="flex flex-col gap-2">
                   <span className="text-titleColor text-sm font-bold">

@@ -116,7 +116,9 @@ const InstitutionForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Region</span>
+        <span className="text-titleColor text-sm font-bold">
+          Region|State|Province
+        </span>
         <TextField
           size="small"
           {...register("region", {
@@ -146,7 +148,7 @@ const InstitutionForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">City</span>
+        <span className="text-titleColor text-sm font-bold">City|District</span>
         <TextField
           size="small"
           {...register("city", {
@@ -161,7 +163,7 @@ const InstitutionForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Kebele</span>
+        <span className="text-titleColor text-sm font-bold">Kebele|Ward</span>
         <TextField
           size="small"
           {...register("kebele", {

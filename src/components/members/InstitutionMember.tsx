@@ -126,7 +126,9 @@ const InstitutionMember = ({
           />
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-titleColor text-sm font-bold">Region</span>
+          <span className="text-titleColor text-sm font-bold">
+            Region|State|Province
+          </span>
           <TextField
             size="small"
             {...register("region", {
@@ -156,7 +158,9 @@ const InstitutionMember = ({
           />
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-titleColor text-sm font-bold">City</span>
+          <span className="text-titleColor text-sm font-bold">
+            City|District
+          </span>
           <TextField
             size="small"
             {...register("city", {
@@ -171,7 +175,7 @@ const InstitutionMember = ({
           />
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-titleColor text-sm font-bold">Kebele</span>
+          <span className="text-titleColor text-sm font-bold">Kebele|Ward</span>
           <TextField
             size="small"
             {...register("kebele", {
@@ -212,18 +216,23 @@ const InstitutionMember = ({
             >
               <MenuItem value={MembershipLevel?.Platinium}>
                 {MembershipLevel?.Platinium}
+                {"(>100K ETB)"}
               </MenuItem>
               <MenuItem value={MembershipLevel?.Diamond}>
                 {MembershipLevel?.Diamond}
+                {"(80K-100K ETB)"}
               </MenuItem>
               <MenuItem value={MembershipLevel?.Gold}>
                 {MembershipLevel?.Gold}
+                {"(50K-80K ETB)"}
               </MenuItem>
               <MenuItem value={MembershipLevel?.Siliver}>
                 {MembershipLevel?.Siliver}
+                {"(30K-50K ETB)"}
               </MenuItem>
               <MenuItem value={MembershipLevel?.Bronze}>
                 {MembershipLevel?.Bronze}
+                {"(10K-30K ETB)"}
               </MenuItem>
             </TextField>
           </div>

@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
   // url      = env("DATABASE_URL")
   url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
@@ -75,11 +75,23 @@ enum PaymentMeans {
   Other
 }
 
+enum EducationLevel {
+  PHD
+  Masters
+  Degree
+  Associate_Degree
+  Diploma
+  Certificate
+  High_School
+  Middle_Elementary_School
+  Other
+}
+
 model Member {
   id                 String             @id @default(uuid())
   memberId           String             @unique
   phone              String             @unique
-  email              String?            
+  email              String?
   membershipLevel    MembershipLevel    @default(Siliver)
   contributionAmount Int
   contributionSystem ContributionSystem @default(Monthly)
@@ -89,6 +101,9 @@ model Member {
   membershipType     MembershipType
   positionAtWork     String?
   paymentMeans       PaymentMeans
+
+  country     String?
+  nationality String?
 
   password_salt String
   password_hash String
@@ -103,7 +118,7 @@ model Member {
   firstName      String?
   lastName       String?
   gender         Gender?
-  educationLevel String?
+  educationLevel EducationLevel?
   expertise      String?
   dateOfBirth    String?
   workPlace      String?
@@ -141,6 +156,9 @@ model TempMember {
   password_salt String
   password_hash String
 
+  country     String?
+  nationality String?
+
   region       String
   zone         String
   city         String
@@ -151,7 +169,7 @@ model TempMember {
   firstName      String?
   lastName       String?
   gender         Gender?
-  educationLevel String?
+  educationLevel EducationLevel?
   expertise      String?
   dateOfBirth    String?
   workPlace      String?
@@ -202,6 +220,7 @@ model GeneralDonation {
   donationDesignation String
   paymentMethod       String?
   amount              Int
+  branch              String?
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -389,16 +408,16 @@ model Auction {
 }
 
 model Bidder {
-  id         String  @id @default(uuid())
-  memberId   String
-  fullName   String
-  message    String?
-  offer      Int
-  filledForm String?
-  auctionId  String
-  auction    Auction @relation(fields: [auctionId], references: [id], onDelete: Cascade)
-  hasPaidCPO Boolean @default(false)
-  hasPaidNRP Boolean @default(false)
+  id          String  @id @default(uuid())
+  memberId    String
+  fullName    String
+  message     String?
+  offer       Int
+  filledForm  String?
+  auctionId   String
+  auction     Auction @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+  hasPaidCPO  Boolean @default(false)
+  hasPaidNRP  Boolean @default(false)
   isSubmitted Boolean @default(false)
 
   created_at DateTime @default(now())

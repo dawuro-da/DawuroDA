@@ -175,7 +175,7 @@ const InstitutionMemberProfile = ({ member }: { member: Member }) => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-titleColor text-sm font-bold">
-                    Region
+                    Region|State|Province
                   </span>
                   <TextField
                     size="small"
@@ -213,7 +213,7 @@ const InstitutionMemberProfile = ({ member }: { member: Member }) => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-titleColor text-sm font-bold">
-                    City
+                    City|District
                   </span>
                   <TextField
                     size="small"
@@ -232,7 +232,7 @@ const InstitutionMemberProfile = ({ member }: { member: Member }) => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-titleColor text-sm font-bold">
-                    Kebele
+                    Kebele|Ward
                   </span>
                   <TextField
                     size="small"
@@ -278,18 +278,23 @@ const InstitutionMemberProfile = ({ member }: { member: Member }) => {
                     >
                       <MenuItem value={MembershipLevel?.Platinium}>
                         {MembershipLevel?.Platinium}
+                        {"(>100K ETB)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Diamond}>
                         {MembershipLevel?.Diamond}
+                        {"(80K-100K ETB)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Gold}>
                         {MembershipLevel?.Gold}
+                        {"(50K-80K ETB)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Siliver}>
                         {MembershipLevel?.Siliver}
+                        {"(30K-50K ETB)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Bronze}>
                         {MembershipLevel?.Bronze}
+                        {"(10K-30K ETB)"}
                       </MenuItem>
                     </TextField>
                   </div>

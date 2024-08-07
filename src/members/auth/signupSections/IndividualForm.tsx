@@ -1,3 +1,4 @@
+import { Gammo_Branches } from "@/constants/datas";
 import { showToastAction } from "@/redux/actions";
 import { Button, MenuItem, TextField } from "@mui/material";
 import Image from "next/image";
@@ -114,7 +115,9 @@ const IndividualForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Region</span>
+        <span className="text-titleColor text-sm font-bold">
+          Region|State|Province
+        </span>
         <TextField
           size="small"
           {...register("region", {
@@ -144,7 +147,7 @@ const IndividualForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">City</span>
+        <span className="text-titleColor text-sm font-bold">City|District</span>
         <TextField
           size="small"
           {...register("city", {
@@ -159,7 +162,7 @@ const IndividualForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Kebele</span>
+        <span className="text-titleColor text-sm font-bold">Kebele|Ward</span>
         <TextField
           size="small"
           {...register("kebele", {
@@ -218,7 +221,14 @@ const IndividualForm = ({
           inputProps={{ style: { padding: 10 } }}
           error={Boolean(!!errors.branch)}
           helperText={!!errors.branch && errors.branch.message?.toString()}
-        />
+          select
+        >
+          {Gammo_Branches.map((branch, index) => (
+            <MenuItem key={index} value={branch}>
+              {branch}
+            </MenuItem>
+          ))}
+        </TextField>
       </div>
       <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
         <span className="text-titleColor text-sm font-bold">Profile Image</span>
