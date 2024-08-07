@@ -61,6 +61,8 @@ export async function POST(req: Request) {
   const idNumber = formData.get("idNumber") as string;
   const password = formData.get("password") as string;
   const branch = formData.get("branch") as string;
+  const country = formData.get("country") as string;
+  const nationality = formData.get("nationality") as string;
 
   const saltRounds = 10;
   const salt = await bcrypt.genSalt(saltRounds);
@@ -120,6 +122,8 @@ export async function POST(req: Request) {
           firstName,
           lastName,
           gender,
+          country,
+          nationality,
           educationLevel,
           expertise,
           dateOfBirth,

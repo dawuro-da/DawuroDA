@@ -1,4 +1,4 @@
-import { Gammo_Branches } from "@/constants/datas";
+import { COUNTRIES, Gammo_Branches } from "@/constants/datas";
 import { showToastAction } from "@/redux/actions";
 import { getMinimumContribution } from "@/util/helper";
 import { Button, MenuItem, TextField } from "@mui/material";
@@ -239,6 +239,52 @@ const IndividualMember = ({
           />
         </div>
         <div className="flex flex-col gap-1">
+          <span className="text-titleColor text-sm font-bold">Country</span>
+          <TextField
+            size="small"
+            {...register("country", {
+              required: "Country is required",
+            })}
+            type="text"
+            placeholder=""
+            className="border-2 rounded-[16px] py-2"
+            inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.country)}
+            helperText={!!errors.country && errors.country.message?.toString()}
+            select
+          >
+            {COUNTRIES.map((country, index) => (
+              <MenuItem key={index} value={country.name}>
+                {country.name}
+              </MenuItem>
+            ))}
+          </TextField>
+        </div>
+        <div className="flex flex-col gap-1">
+          <span className="text-titleColor text-sm font-bold">Nationality</span>
+          <TextField
+            size="small"
+            {...register("nationality", {
+              required: "Nationality is required",
+            })}
+            type="text"
+            placeholder=""
+            className="border-2 rounded-[16px] py-2"
+            inputProps={{ style: { padding: 10 } }}
+            error={Boolean(!!errors.nationality)}
+            helperText={
+              !!errors.nationality && errors.nationality.message?.toString()
+            }
+            select
+          >
+            {COUNTRIES.map((country, index) => (
+              <MenuItem key={index} value={country.name}>
+                {country.name}
+              </MenuItem>
+            ))}
+          </TextField>
+        </div>
+        <div className="flex flex-col gap-1">
           <span className="text-titleColor text-sm font-bold">Branch</span>
           <TextField
             size="small"
@@ -260,7 +306,7 @@ const IndividualMember = ({
             ))}
           </TextField>
         </div>
-        <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
+        <div className="flex flex-col gap-3 xl:col-span-2 md:col-span-2 sm:col-span-2">
           <span className="text-titleColor text-sm font-bold">
             Profile Image
           </span>

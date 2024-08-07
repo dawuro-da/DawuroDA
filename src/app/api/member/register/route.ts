@@ -71,7 +71,8 @@ export async function POST(req: Request) {
   const profileImage = formData.get("profileImage") as File;
   const idNumber = formData.get("idNumber") as string;
   const branch = formData.get("branch") as string;
-
+  const country = formData.get("country") as string;
+  const nationality = formData.get("nationality") as string;
   const emailExist = Boolean(await findMemberByEmail(email));
   const phoneExist = Boolean(await findMemberByPhone(phone));
 

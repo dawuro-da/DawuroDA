@@ -218,6 +218,8 @@ export async function updateIndividualMember({
     profileImage: string;
     idNumber: string;
     branch: string;
+    country: string;
+    nationality: string;
   };
 }) {
   try {

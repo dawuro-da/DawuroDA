@@ -25,7 +25,7 @@ import Image from "next/image";
 import { FieldValues } from "react-hook-form";
 import { getMinimumContribution } from "@/util/helper";
 import { getMemberFormData } from "@/util/getMemberFormData";
-import { Gammo_Branches } from "@/constants/datas";
+import { COUNTRIES, Gammo_Branches } from "@/constants/datas";
 
 const IndividualMember = ({ member }: { member: Member }) => {
   const router = useRouter();
@@ -329,6 +329,61 @@ const IndividualMember = ({ member }: { member: Member }) => {
                       !!errors.idNumber && errors.idNumber.message?.toString()
                     }
                   />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-titleColor text-sm font-bold">
+                    Country
+                  </span>
+                  <TextField
+                    size="small"
+                    {...register("country", {
+                      required: "Country is required",
+                    })}
+                    defaultValue={watch("country")}
+                    type="text"
+                    placeholder=""
+                    className="border-2 rounded-[16px] py-2"
+                    inputProps={{ style: { padding: 10 } }}
+                    error={Boolean(!!errors.country)}
+                    helperText={
+                      !!errors.country && errors.country.message?.toString()
+                    }
+                    select
+                  >
+                    {COUNTRIES.map((country, index) => (
+                      <MenuItem key={index} value={country.name}>
+                        {country.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-titleColor text-sm font-bold">
+                    Nationality
+                  </span>
+                  <TextField
+                    size="small"
+                    {...register("nationality", {
+                      required: "Nationality is required",
+                    })}
+                    defaultValue={watch("nationality")}
+                    type="text"
+                    placeholder=""
+                    className="border-2 rounded-[16px] py-2"
+                    inputProps={{ style: { padding: 10 } }}
+                    error={Boolean(!!errors.nationality)}
+                    helperText={
+                      !!errors.nationality &&
+                      errors.nationality.message?.toString()
+                    }
+                    select
+                  >
+                    {COUNTRIES.map((country, index) => (
+                      <MenuItem key={index} value={country.name}>
+                        {country.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-titleColor text-sm font-bold">
