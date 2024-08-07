@@ -232,6 +232,8 @@ const checkEmptyField = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
       !watch("workPlace") ||
       !watch("idNumber") ||
       !watch("branch") ||
+      !watch("country") ||
+      !watch("nationality") ||
       !watch("profileImage")
     ) {
       return false;

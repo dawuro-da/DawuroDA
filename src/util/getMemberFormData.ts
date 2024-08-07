@@ -4,6 +4,8 @@ export const getMemberFormData = (values: any) => {
   formData.append("hasPaid", values.hasPaid);
   formData.append("firstName", values.firstName);
   formData.append("lastName", values.lastName);
+  formData.append("country", values.country);
+  formData.append("nationality", values.nationality);
   formData.append("institutionName", values.institutionName);
   formData.append("headOrRepresentative", values.headOrRepresentative);
   formData.append("fieldOfWork", values.fieldOfWork);

@@ -159,6 +159,8 @@ const registerNewPaidMember = async (tempMember: TempMember) => {
       memberId: generateMemberId(),
       firstName: tempMember.firstName,
       lastName: tempMember.lastName,
+      country: tempMember.country,
+      nationality: tempMember.nationality,
       gender: tempMember.gender,
       educationLevel: tempMember.educationLevel,
       expertise: tempMember.expertise,

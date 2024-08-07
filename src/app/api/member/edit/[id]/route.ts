@@ -63,6 +63,8 @@ export async function POST(req: Request, context: { params: { id: string } }) {
   const partnershipIdea = formData.get("partnershipIdea") as string;
   const educationLevel = formData.get("educationLevel") as EducationLevel;
   const workPlace = formData.get("workPlace") as string;
+  const country = formData.get("country") as string;
+  const nationality = formData.get("nationality") as string;
   const profileImage = formData.get("profileImage") as File;
   const idNumber = formData.get("idNumber") as string;
   const branch = formData.get("branch") as string;
@@ -138,6 +140,8 @@ export async function POST(req: Request, context: { params: { id: string } }) {
             : (profileImage as unknown as string),
           idNumber,
           branch,
+          country,
+          nationality,
         },
         id: memberId,
       });

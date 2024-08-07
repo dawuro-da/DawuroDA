@@ -75,6 +75,8 @@ export async function createIndividualTempMember({
     profileImage: string;
     idNumber: string;
     branch: string;
+    country: string;
+    nationality: string;
     lastPaidAt: string;
     nextDueDate: string;
     password_hash: string;
