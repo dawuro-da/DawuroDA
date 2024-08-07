@@ -3,7 +3,7 @@
 import Image from "next/image";
 import MemberLogin from "./MemberLogin";
 import MemberSignup from "./MemberSignup";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { ArrowBack } from "@mui/icons-material";
 import Link from "next/link";
 
@@ -84,7 +84,9 @@ const MemberAuth = () => {
         {isSignUp ? (
           <MemberSignup setIsSignUp={setIsSignUp} />
         ) : (
-          <MemberLogin setIsSignUp={setIsSignUp} />
+          <Suspense>
+            <MemberLogin setIsSignUp={setIsSignUp} />
+          </Suspense>
         )}
       </div>
     </div>
