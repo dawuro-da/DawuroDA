@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { phone_regex } from "@/constants/regex";
 
 const SignUp = () => {
   const router = useRouter();
@@ -121,7 +122,13 @@ const SignUp = () => {
                 <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
                   <label>Phone Number</label>
                   <TextField
-                    {...register("phone", { required: "Phone is required" })}
+                    {...register("phone", {
+                      required: "Phone is required",
+                      pattern: {
+                        message: "Phone is not valid eg: 09...",
+                        value: phone_regex,
+                      },
+                    })}
                     variant="outlined"
                     error={Boolean(!!errors.phone)}
                     helperText={

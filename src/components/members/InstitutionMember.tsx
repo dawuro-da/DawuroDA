@@ -1,3 +1,4 @@
+import { phone_regex } from "@/constants/regex";
 import { getMinimumContribution } from "@/util/helper";
 import { MenuItem, Select, Switch, TextField } from "@mui/material";
 import {
@@ -96,6 +97,10 @@ const InstitutionMember = ({
             size="small"
             {...register("phone", {
               required: "Phone Number is required",
+              pattern: {
+                message: "Phone is not valid eg: 09...",
+                value: phone_regex,
+              },
             })}
             type="text"
             placeholder=""

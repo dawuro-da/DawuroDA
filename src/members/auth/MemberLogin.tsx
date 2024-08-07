@@ -1,5 +1,6 @@
 "use client";
 
+import { phone_regex } from "@/constants/regex";
 import {
   ArrowBack,
   Facebook,
@@ -77,6 +78,10 @@ const MemberLogin = ({
           size="small"
           {...register("phone", {
             required: "Phone Number is required",
+            pattern: {
+              message: "Phone is not valid eg: 09...",
+              value: phone_regex,
+            },
           })}
           type="text"
           placeholder="+251..."

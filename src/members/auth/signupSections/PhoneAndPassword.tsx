@@ -1,3 +1,4 @@
+import { phone_regex } from "@/constants/regex";
 import { FacebookRounded, RemoveRedEyeOutlined } from "@mui/icons-material";
 import { Button, CircularProgress, Divider, TextField } from "@mui/material";
 import axios from "axios";
@@ -36,6 +37,10 @@ const PhoneAndPassword = ({
     try {
       if (!watch("phone") || !watch("password")) {
         setError("Phone and password are required");
+        return;
+      }
+      if (watch("phone").test(phone_regex)) {
+        setError("Phone is not valid eg: 09...");
         return;
       }
       const res = await axios.post("/api/member/checkToRegister", {
@@ -85,6 +90,10 @@ const PhoneAndPassword = ({
           autoComplete="off"
           {...register("phone", {
             required: "Phone Number is required",
+            pattern: {
+              message: "Phone is not valid eg: 09...",
+              value: phone_regex,
+            },
           })}
           type="text"
           placeholder="+251..."

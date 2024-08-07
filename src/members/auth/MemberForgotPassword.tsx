@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
 import OtpConfirmation from "./signupSections/OtpConfirmation";
 import MemberPasswordReset from "./MemberPasswordReset";
+import { phone_regex } from "@/constants/regex";
 
 const MemberForgotPassword = () => {
   const router = useRouter();
@@ -84,6 +85,10 @@ const MemberForgotPassword = () => {
                       <TextField
                         {...register("phone", {
                           required: "phone is required",
+                          pattern: {
+                            message: "Phone is not valid eg: 09...",
+                            value: phone_regex,
+                          },
                         })}
                         variant="outlined"
                         error={Boolean(!!errors.phone)}

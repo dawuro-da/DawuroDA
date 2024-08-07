@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
+import { email_regex } from "@/constants/regex";
 
 const Login = () => {
   const router = useRouter();
@@ -55,7 +56,13 @@ const Login = () => {
               <div className="flex flex-col gap-2 text-[#555555] h-full ">
                 <label>Email Address</label>
                 <TextField
-                  {...register("email", { required: "Email is required" })}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      message: "Email is not valid",
+                      value: email_regex,
+                    },
+                  })}
                   variant="outlined"
                   error={Boolean(!!errors.email)}
                   helperText={

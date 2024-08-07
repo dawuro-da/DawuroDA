@@ -1,3 +1,4 @@
+import { phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import { Close, RemoveRedEyeOutlined } from "@mui/icons-material";
 import {
@@ -170,7 +171,13 @@ const AdminManagement = () => {
             <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
               <label>Phone Number</label>
               <TextField
-                {...register("phone", { required: "Phone is required" })}
+                {...register("phone", {
+                  required: "Phone is required",
+                  pattern: {
+                    message: "Phone is not valid eg: 09...",
+                    value: phone_regex,
+                  },
+                })}
                 variant="outlined"
                 error={Boolean(!!errors.phone)}
                 helperText={!!errors.phone && errors.phone.message?.toString()}
@@ -321,7 +328,9 @@ const AdminManagement = () => {
                       <span className="capitalize">
                         {admin.firstName} {admin.lastName}
                       </span>
-                      <span className="capitalize text-xs bg-[rgb(0,0,0,0.09)] px-2 p-1 rounded-lg">{admin.role}</span>
+                      <span className="capitalize text-xs bg-[rgb(0,0,0,0.09)] px-2 p-1 rounded-lg">
+                        {admin.role}
+                      </span>
                     </span>
                     <small className="text-[#555555]">{admin.email}</small>
                   </span>
