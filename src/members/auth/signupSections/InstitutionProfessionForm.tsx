@@ -50,18 +50,23 @@ const InstitutionProfessionForm = ({
           >
             <MenuItem value={MembershipLevel?.Platinium}>
               {MembershipLevel?.Platinium}
+              {"(>100K ETB)"}
             </MenuItem>
             <MenuItem value={MembershipLevel?.Diamond}>
               {MembershipLevel?.Diamond}
+              {"(80K-100K ETB)"}
             </MenuItem>
             <MenuItem value={MembershipLevel?.Gold}>
               {MembershipLevel?.Gold}
+              {"(50K-80K ETB)"}
             </MenuItem>
             <MenuItem value={MembershipLevel?.Siliver}>
               {MembershipLevel?.Siliver}
+              {"(30K-50K ETB)"}
             </MenuItem>
             <MenuItem value={MembershipLevel?.Bronze}>
               {MembershipLevel?.Bronze}
+              {"(10K-30K ETB)"}
             </MenuItem>
           </TextField>
         </div>

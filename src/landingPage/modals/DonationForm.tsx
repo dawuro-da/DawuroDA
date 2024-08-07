@@ -6,11 +6,13 @@ import {
   Modal,
   IconButton,
   CircularProgress,
+  MenuItem,
 } from "@mui/material";
 import Close from "@mui/icons-material/Close";
 import axios from "axios";
 import { showToastAction } from "@/redux/actions";
 import { useDispatch } from "react-redux";
+import { Gammo_Branches } from "@/constants/datas";
 
 const DonationForm = ({
   open,
@@ -39,6 +41,7 @@ const DonationForm = ({
         fullName: `${data?.fullName}`,
         phone: data?.phone,
         donationDesignation: data?.donationDesignation,
+        branch: data.branch,
       });
       if (res.data.success) {
         window.open(res.data.value.data.checkout_url, "_parent");
@@ -62,7 +65,7 @@ const DonationForm = ({
       setValue("donationDesignation", designation);
     }
   }, [designation]);
-  
+
   return (
     <Modal
       open={open}
@@ -100,12 +103,36 @@ const DonationForm = ({
               inputProps={{ style: { padding: 10 } }}
             />
           </div>
+          <div className="flex flex-col gap-1">
+            <span className="text-titleColor text-sm font-bold">Branch</span>
+            <TextField
+              size="small"
+              {...register("branch", {
+                required: "Branch is required",
+              })}
+              type="text"
+              placeholder=""
+              className="border-2 rounded-[16px] py-2"
+              inputProps={{ style: { padding: 10 } }}
+              error={Boolean(!!errors.branch)}
+              helperText={!!errors.branch && errors.branch.message?.toString()}
+              select
+            >
+              {Gammo_Branches.map((branch, index) => (
+                <MenuItem key={index} value={branch}>
+                  {branch}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
           <div className="flex flex-col gap-2 text-titleColor h-full">
             <label>Donation Designation</label>
             <TextField
               {...register("donationDesignation", {
                 required: "Donation designation is required",
               })}
+              rows={3}
+              maxRows={3}
               defaultValue={designation}
               variant="outlined"
               error={Boolean(errors.donationDesignation)}

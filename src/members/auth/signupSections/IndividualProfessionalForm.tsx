@@ -2,6 +2,7 @@ import { getMinimumContribution } from "@/util/helper";
 import { MenuItem, TextField } from "@mui/material";
 import {
   ContributionSystem,
+  EducationLevel,
   MembershipLevel,
   MembershipType,
   PaymentMeans,
@@ -49,18 +50,23 @@ const IndividualProfessionalForm = ({
           >
             <MenuItem value={MembershipLevel?.Platinium}>
               {MembershipLevel?.Platinium}
+              {"(>100 ETB)"}
             </MenuItem>
             <MenuItem value={MembershipLevel?.Diamond}>
               {MembershipLevel?.Diamond}
+              {"(80-100 ETB)"}
             </MenuItem>
             <MenuItem value={MembershipLevel?.Gold}>
               {MembershipLevel?.Gold}
+              {"(50-80 ETB)"}
             </MenuItem>
             <MenuItem value={MembershipLevel?.Siliver}>
               {MembershipLevel?.Siliver}
+              {"(30-50 ETB)"}
             </MenuItem>
             <MenuItem value={MembershipLevel?.Bronze}>
               {MembershipLevel?.Bronze}
+              {"(10-30 ETB)"}
             </MenuItem>
           </TextField>
         </div>
@@ -156,7 +162,31 @@ const IndividualProfessionalForm = ({
           helperText={
             !!errors.educationLevel && errors.educationLevel.message?.toString()
           }
-        />
+          select
+        >
+          <MenuItem value={EducationLevel.PHD}>{EducationLevel.PHD}</MenuItem>
+          <MenuItem value={EducationLevel.Masters}>
+            {EducationLevel.Masters}
+          </MenuItem>
+          <MenuItem value={EducationLevel.Degree}>
+            {EducationLevel.Degree}
+          </MenuItem>
+          <MenuItem value={EducationLevel.Associate_Degree}>
+            {EducationLevel.Associate_Degree}
+          </MenuItem>
+          <MenuItem value={EducationLevel.Diploma}>
+            {EducationLevel.Diploma}
+          </MenuItem>
+          <MenuItem value={EducationLevel.High_School}>
+            {EducationLevel.High_School}
+          </MenuItem>
+          <MenuItem value={EducationLevel.Middle_Elementary_School}>
+            {EducationLevel.Middle_Elementary_School}
+          </MenuItem>
+          <MenuItem value={EducationLevel.Other}>
+            {EducationLevel.Other}
+          </MenuItem>
+        </TextField>
       </div>
       <div className="flex flex-col gap-1">
         <span className="text-titleColor text-sm font-bold">Expertise</span>

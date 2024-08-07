@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import {
   ContributionSystem,
+  EducationLevel,
   Gender,
   MembershipLevel,
   MembershipType,
@@ -36,7 +37,7 @@ async function hashPassword(
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id || session?.user.role === UserRole.Member) {
-    return NextResponse.redirect("/gaadmin/login", 401)
+    return NextResponse.redirect("/gaadmin/login", 401);
   }
 
   const formData = await req.formData();
@@ -65,7 +66,7 @@ export async function POST(req: Request) {
   const headOrRepresentative = formData.get("headOrRepresentative") as string;
   const fieldOfWork = formData.get("fieldOfWork") as string;
   const partnershipIdea = formData.get("partnershipIdea") as string;
-  const educationLevel = formData.get("educationLevel") as string;
+  const educationLevel = formData.get("educationLevel") as EducationLevel;
   const workPlace = formData.get("workPlace") as string;
   const profileImage = formData.get("profileImage") as File;
   const idNumber = formData.get("idNumber") as string;

@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 
 export async function POST(req: Request) {
-  const { paymentAmount, fullName, phone, donationDesignation } = await req.json();
+  const { paymentAmount, fullName, phone, donationDesignation, branch } =
+    await req.json();
 
   try {
     var raw = JSON.stringify({
@@ -18,6 +19,7 @@ export async function POST(req: Request) {
       meta: {
         paymentType: "donationPayment",
         donationDesignation: donationDesignation,
+        branch: branch,
       },
       "customization[title]": "Gammoda Donation Payment",
       "customization[description]":

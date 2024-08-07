@@ -7,6 +7,7 @@ import {
   ContributionSystem,
   MembershipType,
   PaymentMeans,
+  EducationLevel,
 } from "@prisma/client";
 
 export async function findMemberByEmail(email: string): Promise<Member | null> {
@@ -102,7 +103,7 @@ export async function createIndividualMember({
     firstName: string;
     lastName: string;
     gender: Gender;
-    educationLevel: string;
+    educationLevel: EducationLevel;
     expertise: string;
     dateOfBirth: string;
     workPlace: string;
@@ -210,7 +211,7 @@ export async function updateIndividualMember({
     firstName: string;
     lastName: string;
     gender: Gender;
-    educationLevel: string;
+    educationLevel: EducationLevel;
     expertise: string;
     dateOfBirth: string;
     workPlace: string;

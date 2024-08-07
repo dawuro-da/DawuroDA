@@ -28,7 +28,8 @@ export async function POST(req: Request, res: any) {
     } = body;
 
     if (event === "charge.success" && type === "API") {
-      const { paymentType, auctionId, donationDesignation } = JSON.parse(meta);
+      const { paymentType, auctionId, donationDesignation, branch } =
+        JSON.parse(meta);
 
       if (paymentType === "registrationPayment") {
         const tempMember = await findTempMemberByPhone(mobile);
@@ -49,6 +50,7 @@ export async function POST(req: Request, res: any) {
       } else if (paymentType === "donationPayment")
         await createANewDonation({
           amount: amount,
+          branch: branch,
           donationDesignation: donationDesignation,
           fullName: `${first_name ?? "Unknown"}`,
           phone: mobile,
@@ -76,13 +78,21 @@ const createANewDonation = async ({
   donationDesignation,
   fullName,
   phone,
+  branch,
 }: {
   amount: string;
   donationDesignation: string;
   fullName: string;
   phone: string;
+  branch: string;
 }) => {
-  return await createDonation({ amount, donationDesignation, fullName, phone });
+  return await createDonation({
+    amount,
+    donationDesignation,
+    fullName,
+    phone,
+    branch,
+  });
 };
 
 const addNewContribution = async (member: Member) => {

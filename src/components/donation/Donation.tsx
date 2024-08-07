@@ -198,7 +198,12 @@ const getColumnDefinition = ({
           flex: 1,
           minWidth: 110,
         },
-
+        {
+          field: "branch",
+          headerName: "Branch",
+          flex: 1,
+          minWidth: 110,
+        },
         {
           field: "donationDesignation",
           headerName: "Donation Designation",
