@@ -69,7 +69,7 @@ const GammodaId = ({
             </div>
             <div className="flex flex-row items-center gap-2">
               <span className="font-light text-xs">Nationality: </span>
-              <span className="font-black">Ethiopian</span>
+              <span className="font-black">{member?.nationality ?? "-"}</span>
             </div>
             <div className="flex flex-row items-center gap-2">
               <span className="font-light text-xs">Phone: </span>
