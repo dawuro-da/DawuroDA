@@ -18,6 +18,7 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { prepareURL } from "@/util/download";
 import GammodaId from "@/components/shared/GammodaId";
+import { getMinimumContribution } from "@/util/helper";
 
 const MemberDashboard = ({
   contributions,
@@ -31,12 +32,17 @@ const MemberDashboard = ({
   const gammodaIdRef = useRef<HTMLDivElement | null>(null);
   const [payLoading, setPayLoading] = useState(false);
   const isCompany = Boolean(member?.membershipType === MembershipType.Company);
+  const minAmount = getMinimumContribution({
+    membershipType: member?.membershipType,
+    contributionSystem: member.contributionSystem,
+    membershipLevel: member.membershipLevel,
+  });
 
   const handleContributionPayment = async () => {
     setPayLoading(true);
     try {
       const res = await axios.post("/api/payment/contributionPayment", {
-        contributionAmount: member?.contributionAmount,
+        contributionAmount: minAmount,
         email: member?.email,
         firstName: member?.firstName,
         lastName: member?.lastName,

@@ -39,7 +39,7 @@ export async function POST(req: Request, res: any) {
       } else if (paymentType === "contributionPayment") {
         const member = await findMemberByPhone(mobile);
         if (member) {
-          await addNewContribution(member);
+          await addNewContribution(member, amount);
         }
       } else if (paymentType === "auctionPayment") {
         const member = await findMemberByPhone(mobile);
@@ -95,11 +95,11 @@ const createANewDonation = async ({
   });
 };
 
-const addNewContribution = async (member: Member) => {
+const addNewContribution = async (member: Member, amount: string) => {
   const contribution = await createContribution({
     contributionSystem: member.contributionSystem,
     contributorId: member.id,
-    amount: member.contributionAmount.toString(),
+    amount: amount.toString(),
   });
 
   return contribution;
