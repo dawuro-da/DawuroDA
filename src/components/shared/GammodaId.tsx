@@ -30,75 +30,86 @@ const GammodaId = ({
   return (
     <div
       ref={gammodaIdRef}
-      className="absolute flex flex-col pt-1/3 items-center justify-center min-w-[800px] max-w-fit px-8 py-4 bg-white border-2"
+      className={`absolute flex flex-col items-center 
+          justify-center min-w-[800px]
+          max-w-fit p-10 bg-white border-2 `}
+      style={{
+        background: "url('/images/gammoIdPattern.svg')",
+      }}
     >
-      <div className="flex flex-col text-center w-full">
-        <p className="text-sm">Gamo Development Association</p>
-        <p className="text-xl font-black">Members ID Card</p>
-      </div>
       <div className="flex flex-row items-center gap-6 justify-center w-fit">
         <div className="flex flex-col justify-center items-center gap-2 ">
-          <div className="flex flex-row items-center justify-start gap-8 w-full">
-            <div className="relative rounded-full w-[100px] h-[100px]">
-              <Image
-                fill
-                className="rounded-full object-cover"
-                src={member?.profileImage ?? ""}
-                alt="Profile-photo"
-                style={{ objectFit: "cover" }}
-              />
-              <Avatar
-                src={getMembershipImage()}
-                alt="badge"
-                className="absolute -right-3 bottom-0 w-[30px] h-[30px]"
-              />
-            </div>
-            <div className="text-center flex flex-col gap-2">
-              <div className="flex flex-row items-center gap-4">
-                <span className="text-sm font-light">Full Name</span>
-                <span className=" font-black">{`${
-                  member?.firstName
-                    ? `${member?.firstName} ${member?.lastName}`
-                    : `${member?.institutionName}`
-                }`}</span>
-              </div>
-              <div className="flex flex-row items-center gap-4">
-                <span className="text-sm font-light">ID Number: </span>
-                <span className="font-black ">{`${member?.memberId}`}</span>
-              </div>
+          <div className="relative rounded-full w-[150px] h-[150px]">
+            <Image
+              fill
+              className="rounded-full object-cover h-[150px] w-[150px]"
+              src={member?.profileImage ?? ""}
+              alt="Profile-photo"
+            />
+            <Avatar
+              src={getMembershipImage()}
+              alt="badge"
+              className="absolute -right-3 bottom-0 w-[50px] h-[50px]"
+            />
+          </div>
+          <div className="text-center flex flex-col gap-2">
+            <div className="flex flex-col items-center">
+              <span className="text-xs font-light">Full Name</span>
+              <span className="font-black">{`${
+                member?.firstName
+                  ? `${member?.firstName} ${member?.lastName}`
+                  : `${member?.institutionName}`
+              }`}</span>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2 mt-6">
             <div className="flex flex-row items-center gap-2">
-              <span className="font-light text-sm">Nationality: </span>
+              <span className="text-xs font-light">ID Number: </span>
+              <span className="font-black text-sm">{`${member?.memberId}`}</span>
+            </div>
+            <div className="flex flex-row items-center gap-2">
+              <span className="font-light text-xs">Nationality: </span>
               <span className="font-black">Ethiopian</span>
             </div>
             <div className="flex flex-row items-center gap-2">
-              <span className="font-light text-sm">Phone: </span>
-              <span className="font-black">{member?.phone}</span>
+              <span className="font-light text-xs">Phone: </span>
+              <span className="font-black text-sm">{member?.phone}</span>
             </div>
             <div className="flex flex-row items-center gap-2">
-              <span className="font-light text-sm">Sex: </span>
-              <span className="font-black">{member?.gender ?? "-"}</span>
+              <span className="font-light text-xs">Sex: </span>
+              <span className="font-black text-sm">
+                {member?.gender ?? "-"}
+              </span>
             </div>
             <div className="flex flex-row items-center gap-2">
-              <span className="font-light text-sm">Age: </span>
-              <span className="font-black">{member?.dateOfBirth ?? "-"}</span>
+              <span className="font-light text-xs">Address: </span>
+              <span className="font-black text-sm">{member?.city ?? "-"}</span>
             </div>
             <div className="flex flex-row items-center gap-2">
-              <span className="font-light text-sm">Occupation: </span>
-              <span className="font-black">{member?.fieldOfWork ?? "-"}</span>
-            </div>
-            <div className="flex flex-row items-center gap-2">
-              <span className="font-light text-sm">Address: </span>
-              <span className="font-black">{member?.city ?? "-"}</span>
+              <span className="font-light text-xs">Occupation: </span>
+              <span className="font-black text-sm text-ellipsis">
+                {member?.expertise?.slice(0, 25) ?? "-"}
+                {member?.expertise && member?.expertise?.length > 25 && "..."}
+              </span>
             </div>
           </div>
         </div>
 
         {/* container in the right */}
-        <div className="flex flex-col items-center gap-2">
-          <Avatar src={getMembershipImage()} className="w-[80px] h-[80px]" />
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="flex flex-col text-center w-full">
+            <p className="text-sm">Gamo Development Association</p>
+            <p className="text-xl font-black">Members ID Card</p>
+          </div>
+          <div className="w-[150px] h-[120px]">
+            <Image
+              alt=""
+              width={120}
+              height={120}
+              className="w-full"
+              src={getMembershipImage()}
+            />
+          </div>
           <p className="text-center text-xs max-w-[300px]">
             We confirm that the person whose photograph sealed above is a member
             of Gamo Development Association.

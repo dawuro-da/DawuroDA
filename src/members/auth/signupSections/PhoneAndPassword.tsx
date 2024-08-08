@@ -39,7 +39,7 @@ const PhoneAndPassword = ({
         setError("Phone and password are required");
         return;
       }
-      if (watch("phone").test(phone_regex)) {
+      if (!phone_regex.test(watch("phone"))) {
         setError("Phone is not valid eg: 09...");
         return;
       }
