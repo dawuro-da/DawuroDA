@@ -210,7 +210,7 @@ const IndividualMember = ({ member }: { member: Member }) => {
                     {...register("dateOfBirth", {
                       required: "Date of birth is required",
                     })}
-                    type="text"
+                    type="date"
                     placeholder=""
                     className="border-2 rounded-[16px] py-2"
                     inputProps={{ style: { padding: 10 } }}

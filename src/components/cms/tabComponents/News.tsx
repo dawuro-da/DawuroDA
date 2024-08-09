@@ -267,7 +267,7 @@ const NewsPage = () => {
                 >
                   {index === 0 && (
                     <span className="text-titleColor text-sm font-bold">
-                      Profile Images
+                      Images
                     </span>
                   )}
                   <span className="flex flex-row gap-1">
@@ -337,9 +337,11 @@ const NewsPage = () => {
                       </IconButton>
                     )}
                   </span>
-                  {/* <span className="text-[10px] text-titleColor">
-                  Image size must be 600*600 File size must be less than 1MB
-                </span> */}
+                  <span className="text-xs text-red-500">
+                    {errors.profileImage &&
+                      (errors.profileImage as any)?.[index] &&
+                      (errors.profileImage as any)?.[index].message?.toString()}
+                  </span>
                 </div>
               ))}
               <Button

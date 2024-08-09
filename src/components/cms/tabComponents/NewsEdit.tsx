@@ -182,7 +182,7 @@ const NewsEdit = ({
             >
               {index === 0 && (
                 <span className="text-titleColor text-sm font-bold">
-                  Profile Images
+                  Images
                 </span>
               )}
               <span className="flex flex-row gap-1">
