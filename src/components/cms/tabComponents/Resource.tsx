@@ -58,7 +58,7 @@ const Resources = () => {
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
 
-    if (!(typeof values.document === "string") || !values.document[0]) {
+    if (!values.document[0]) {
       dispatch(
         showToastAction({ message: "document is required", type: "error" })
       );
@@ -219,7 +219,7 @@ const Resources = () => {
       ) : createResourceForm ? (
         <div className="min-w-[350px] border-[1px] border-[#d1d1d1] gap-4 flex-1 overflow-y-auto h-full hiddenscrollbar">
           <div className="h-[139px] w-full border-b-[1px] border-[#d1d1d1] lg:pr-[40px] md:pr-[40px] pr-[20px] pl-6 flex flex-row items-center">
-            Creat New Resource
+            Create New Resource
           </div>
           <form
             onSubmit={handleSubmit(handleRegister)}

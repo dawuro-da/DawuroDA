@@ -49,7 +49,7 @@ const ResourceEdit = ({
     setLoading(true);
 
     try {
-      if (!(typeof values.document === "string") || !values.document[0]) {
+      if (!(typeof values.document === "string") && !values.document[0]) {
         dispatch(
           showToastAction({ message: "document is required", type: "error" })
         );
