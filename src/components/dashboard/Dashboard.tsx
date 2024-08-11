@@ -54,6 +54,8 @@ const Dashboard = () => {
   const divRef = useRef(null);
   const divRef1 = useRef(null);
   const divRef2 = useRef(null);
+  const lineChartRef = useRef(null);
+  const pieChartRef = useRef(null);
 
   const cardsData = [
     {
@@ -124,21 +126,16 @@ const Dashboard = () => {
     }
   };
 
-  // const handleGeneratePDF = useReactToPrint({
-  //   content: () =>
-  //     clickedMenu === "Members"
-  //       ? divRef.current
-  //       : clickedMenu === "Donation"
-  //       ? divRef1.current
-  //       : divRef2.current,
-  //   documentTitle: "Card",
-  // });
   const handleGeneratePDF = () => {
     const currTarget =
       clickedMenu === "Members"
         ? divRef.current
         : clickedMenu === "Donation"
         ? divRef1.current
+        : clickedMenu === "linegraph"
+        ? lineChartRef.current
+        : clickedMenu === "piegraph"
+        ? pieChartRef.current
         : divRef2.current;
     prepareURL(currTarget);
   };
@@ -166,6 +163,10 @@ const Dashboard = () => {
           [{ name: "total members", count: dashboardData?.totalMember }],
           "membersCard"
         );
+      case "linegraph":
+        return downloadExcel(dashboardData?.lineChartData, "linechart");
+      case "piegraph":
+        return downloadExcel(dashboardData?.pieChartData, "piechart");
     }
   };
   return (
@@ -176,7 +177,7 @@ const Dashboard = () => {
             {"Download card data(.csv)"}
           </MenuItem>
           <MenuItem onClick={handleGeneratePDF}>
-            {"Download card data(.png)"}
+            {"Download card data(.jpeg)"}
           </MenuItem>
         </div>
       </StyledMenu>
@@ -238,13 +239,20 @@ const Dashboard = () => {
                 <div className="flex flex-row items-center gap-4">
                   <span
                     className="rotate-90 font-bold cursor-pointer hover:scale-125"
-                    onClick={(e) => setAnchorEl(e.currentTarget)}
+                    onClick={(e) => {
+                      setSelectedMenu(e);
+                      setClickedMenu("linegraph");
+                      setAnchorEl(e.currentTarget);
+                    }}
                   >
                     ...
                   </span>
                 </div>
               </div>
-              <div className=" flex-1 w-full max-h-[400px] mt-6">
+              <div
+                ref={lineChartRef}
+                className=" flex-1 w-full max-h-[400px] mt-6"
+              >
                 <LineChartGraph data={dashboardData?.lineChartData} />
               </div>
             </div>
@@ -256,13 +264,20 @@ const Dashboard = () => {
                 <div className="flex flex-row items-center gap-4">
                   <span
                     className="rotate-90 font-bold cursor-pointer hover:scale-125"
-                    onClick={(e) => setAnchorEl(e.currentTarget)}
+                    onClick={(e) => {
+                      setSelectedMenu(e);
+                      setClickedMenu("piegraph");
+                      setAnchorEl(e.currentTarget);
+                    }}
                   >
                     ...
                   </span>
                 </div>
               </div>
-              <div className=" flex-1 w-full max-h-[400px] mt-6">
+              <div
+                ref={pieChartRef}
+                className=" flex-1 w-full max-h-[400px] mt-6"
+              >
                 <PieChartGraph pieChartData={dashboardData?.pieChartData} />
               </div>
             </div>

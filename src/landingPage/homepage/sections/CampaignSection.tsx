@@ -33,7 +33,7 @@ const CampaignSection = () => {
     fetchCampaigns();
   }, []);
 
-  return (
+  return !loading && campaigns && !(campaigns?.length > 0) ? null : (
     <div className="xl:lg:px-40 md:px-20 px-10 w-full py-12 mt-20 mb-20">
       <DonationForm
         open={openDonationModal}

@@ -76,9 +76,9 @@ const PieChartGraph = ({ pieChartData }: { pieChartData: any }) => {
           cx="50%"
           cy="50%"
           innerRadius={"50%"}
-          outerRadius={"100%"}
+          outerRadius={"92%"}
           paddingAngle={0}
-          labelLine={true}
+          labelLine={false}
           label={({ name, value }) => ` ${value}`}
         >
           {data.map((entry, index) => (
@@ -96,7 +96,7 @@ const PieChartGraph = ({ pieChartData }: { pieChartData: any }) => {
           layout="vertical"
           align="right"
           verticalAlign="bottom"
-          wrapperStyle={{ right: 20, bottom: 20 }}
+          wrapperStyle={{ right: 0, bottom: 5 }}
         />
       </PieChart>
     </ResponsiveContainer>

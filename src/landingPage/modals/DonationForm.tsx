@@ -107,9 +107,7 @@ const DonationForm = ({
             <span className="text-titleColor text-sm">GaDA Branch</span>
             <TextField
               size="small"
-              {...register("branch", {
-                required: "Branch is required",
-              })}
+              {...register("branch")}
               type="text"
               placeholder=""
               className="border-2 rounded-[16px] py-2"
