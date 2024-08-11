@@ -176,8 +176,8 @@ const AuctionPage = () => {
                     className="flex xl:flex-row lg:flex-row md:flex-row flex-col items-center gap-6"
                   >
                     <div className="flex flex-col flex-1">
-                      <small>{item.title}</small>
-                      <span>
+                      <span className="font-bold">{item.title}</span>
+                      <span className="text-titleColor">
                         {item.description.slice(0, 300)}
                         {item.description.length > 300 && "..."}
                       </span>

@@ -19,7 +19,7 @@ export async function POST(req: Request) {
       meta: {
         paymentType: "donationPayment",
         donationDesignation: donationDesignation,
-        branch: branch,
+        branch: branch ?? "Other",
       },
       "customization[title]": "Gammoda Donation Payment",
       "customization[description]":

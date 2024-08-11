@@ -42,7 +42,7 @@ const Sidebar = (props: any) => {
             className="pl-6 flex flex-col items-center justify-center gap-2 w-full mb-2 select-none cursor-pointer"
           >
             <Image
-              src={"/icons/logo.svg"}
+              src={"/images/GammodaLogo.svg"}
               priority
               alt="logo"
               height={100}

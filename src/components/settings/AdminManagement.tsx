@@ -318,9 +318,8 @@ const AdminManagement = () => {
                 className="flex flex-row items-center justify-between bg-white p-2 rounded-lg"
               >
                 <div className="flex flex-row items-center gap-3 flex-1">
-                  <Checkbox />
                   <Avatar
-                    src="/icons/list.png"
+                    src={admin.profilePic ?? ""}
                     style={{ width: 30, height: 30 }}
                   />
                   <span className="flex flex-col w-full flex-1 mr-2">

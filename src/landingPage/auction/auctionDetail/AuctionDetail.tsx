@@ -341,21 +341,37 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                   </Button>
                 </div>
                 <div className="flex flex-col gap-3  xl:lg:max-w-[500px] md:max-w-[400px]">
-                  <span className="font-bold text-titleColor">Instruction</span>
+                  <span className="font-bold text-xl text-titleColor">
+                    Auction Participation Instructions
+                  </span>
                   <span className="text-titleColor">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Cum sequi eveniet quam possimus aut commodi optio, in
-                    adipisci inventore quae voluptas incidunt asperiores, iusto
-                    facere quia, rem velit illum minus. <br />
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Accusantium, ullam nemo sed doloribus architecto a alias
-                    sint voluptas magnam unde. Quidem autem totam enim minus
-                    cupiditate. Repellendus consectetur voluptatem fugit.
-                    <br />
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Accusantium, ullam nemo sed doloribus architecto a alias
-                    sint voluptas magnam unde. Quidem autem totam enim minus
-                    cupiditate. Repellendus consectetur voluptatem fugit.
+                    Interested parties are requested to follow the steps below
+                    to participate in the auction:
+                  </span>
+                  <span className="text-titleColor text-sm font-bold">
+                    1. Download the Auction Document:
+                  </span>
+                  <span className="text-titleColor text-sm">
+                    Access and download the necessary auction documents from
+                    download link provided.
+                  </span>
+                  <span className="text-titleColor text-sm font-bold">
+                    2. Fill Out the Form and Upload Proforma Invoice:
+                  </span>
+                  <span className="text-titleColor text-sm">
+                    Complete the form provided within the auction document.
+                  </span>
+                  <span className="text-titleColor text-sm font-bold">
+                    3. Submit the completed form and the proforma invoice
+                  </span>
+
+                  <span className="text-titleColor text-sm">
+                    NB: Ensure all required documents are filled out correctly
+                    and uploaded.
+                  </span>
+                  <span className="text-titleColor text-sm">
+                    For any inquiries or further assistance, please contact our
+                    team.
                   </span>
                 </div>
               </form>

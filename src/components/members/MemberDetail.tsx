@@ -328,12 +328,20 @@ const MemberDetail = ({
               </span>
             </div>
           )}
-          <div className="relative flex flex-row p-2 h-[200px] overflow-auto hiddenscrollbar w-full bg-[#EBEBEB] rounded-[5px]">
-            <div className="absolute w-full h-full">
-              <GammodaId gammodaIdRef={gammodaIdRef} member={member} />
+          <div className="relative flex flex-row p-2 h-[200px] w-full bg-[#EBEBEB] rounded-[5px]">
+            <div className="absolute w-[97%] h-full overflow-auto hiddenscrollbar">
+              {checkMemberThreeMonth({
+                createdAt: member.created_at,
+                nextDueDate: member.nextDueDate,
+              }) && <GammodaId gammodaIdRef={gammodaIdRef} member={member} />}
             </div>
             <Button
-              onClick={() => downloadGammodaId()}
+              onClick={() =>
+                checkMemberThreeMonth({
+                  createdAt: member.created_at,
+                  nextDueDate: member.nextDueDate,
+                }) && downloadGammodaId()
+              }
               variant="outlined"
               className="z-10 absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"
             >

@@ -302,7 +302,7 @@ const Initiatives = () => {
                       <input
                         id="featuredImages"
                         {...register(`featuredImages.${index}`, {
-                          required: "featuredImages is required",
+                          required: "Featured Image is required",
                           validate: {
                             fileSize: (value: any) => {
                               if (
@@ -349,9 +349,13 @@ const Initiatives = () => {
                       </IconButton>
                     )}
                   </span>
-                  {/* <span className="text-[10px] text-titleColor">
-                  Image size must be 600*600 File size must be less than 1MB
-                </span> */}
+                  <span className="text-xs text-red-500">
+                    {errors.featuredImages &&
+                      (errors.featuredImages as any)?.[index] &&
+                      (errors.featuredImages as any)?.[
+                        index
+                      ].message?.toString()}
+                  </span>
                 </div>
               ))}
               <Button

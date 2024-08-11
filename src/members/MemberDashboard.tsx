@@ -10,7 +10,11 @@ import {
   MembershipLevel,
   MembershipType,
 } from "@prisma/client";
-import { getFormattedDate, getMonthsSince } from "@/util/date";
+import {
+  checkMemberThreeMonth,
+  getFormattedDate,
+  getMonthsSince,
+} from "@/util/date";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
@@ -155,10 +159,18 @@ const MemberDashboard = ({
             </Divider>
             <div className="bg-white h-[200px] w-full relative">
               <div className="absolute w-full h-full overflow-auto hiddenscrollbar">
-                <GammodaId gammodaIdRef={gammodaIdRef} member={member} />
+                {checkMemberThreeMonth({
+                  createdAt: member.created_at,
+                  nextDueDate: member.nextDueDate,
+                }) && <GammodaId gammodaIdRef={gammodaIdRef} member={member} />}
               </div>
               <Button
-                onClick={() => downloadGammodaId()}
+                onClick={() =>
+                  checkMemberThreeMonth({
+                    createdAt: member.created_at,
+                    nextDueDate: member.nextDueDate,
+                  }) && downloadGammodaId()
+                }
                 variant="outlined"
                 className="absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"
               >
