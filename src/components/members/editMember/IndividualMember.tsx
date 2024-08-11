@@ -401,6 +401,7 @@ const IndividualMember = ({ member }: { member: Member }) => {
                     })}
                     type="text"
                     placeholder=""
+                    defaultValue={watch("branch")}
                     className="border-2 rounded-[16px] py-2"
                     inputProps={{ style: { padding: 10 } }}
                     error={Boolean(!!errors.branch)}
@@ -576,6 +577,7 @@ const IndividualMember = ({ member }: { member: Member }) => {
                     })}
                     type="text"
                     placeholder=""
+                    defaultValue={watch("educationLevel")}
                     className="border-2 rounded-[16px] "
                     inputProps={{ style: { padding: 10 } }}
                     error={Boolean(!!errors.educationLevel)}
