@@ -452,6 +452,7 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
                       required: "Branch is required",
                     })}
                     type="text"
+                    defaultValue={watch("branch")}
                     placeholder=""
                     className="border-2 rounded-[16px] py-2"
                     inputProps={{ style: { padding: 10 } }}
@@ -560,6 +561,7 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
                     })}
                     type="text"
                     placeholder=""
+                    defaultValue={watch("educationLevel")}
                     className="border-2 rounded-[16px] "
                     inputProps={{ style: { padding: 10 } }}
                     error={Boolean(!!errors.educationLevel)}
