@@ -169,6 +169,6 @@ export const OPTIONS: NextAuthOptions = {
   session: {
     strategy: "jwt",
     maxAge: 1 * 24 * 60 * 60, // Session will expire after 1 day.
-    updateAge: 10 * 60, // 5 minutes to keep the session alive as long as the user is active.
+    updateAge: 10 * 60, // 10 minutes to keep the session alive as long as the user is active.
   },
 };

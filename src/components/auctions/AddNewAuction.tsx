@@ -202,7 +202,7 @@ const AddNewAuction = () => {
                       },
                     },
                   })}
-                  accept="image/*"
+                  accept=".pdf"
                   type="file"
                   placeholder=""
                   className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
