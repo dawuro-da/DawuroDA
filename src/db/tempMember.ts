@@ -38,6 +38,9 @@ export async function findTempMemberByPhone(
       where: {
         phone: phone,
       },
+      orderBy: {
+        created_at: "desc",
+      },
     });
   } catch (err) {
     console.error(err);
