@@ -1,10 +1,9 @@
 import { getMinimumContribution } from "@/util/helper";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { MenuItem, TextField } from "@mui/material";
 import {
   ContributionSystem,
   MembershipLevel,
   MembershipType,
-  PaymentMeans,
 } from "@prisma/client";
 import Image from "next/image";
 import {
@@ -172,38 +171,6 @@ const InstitutionProfessionForm = ({
             !!errors.positionAtWork && errors.positionAtWork.message?.toString()
           }
         />
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <span className="text-titleColor text-sm font-bold">Payment Means</span>
-        <div className="min-w-[130px]">
-          <TextField
-            select
-            className="w-full p-[1px]"
-            defaultValue={watch("paymentMeans")}
-            size="small"
-            {...register("paymentMeans", {
-              required: "Payment Means is required",
-            })}
-            error={Boolean(!!errors.paymentMeans)}
-            helperText={
-              !!errors.paymentMeans && errors.paymentMeans.message?.toString()
-            }
-          >
-            <MenuItem value={PaymentMeans.Office}>
-              {PaymentMeans.Office}
-            </MenuItem>
-            <MenuItem value={PaymentMeans.Edir}>{PaymentMeans.Edir}</MenuItem>
-            <MenuItem value={PaymentMeans.Bank}>{PaymentMeans.Bank}</MenuItem>
-            <MenuItem value={PaymentMeans.Kebele}>
-              {PaymentMeans.Kebele}
-            </MenuItem>
-            <MenuItem value={PaymentMeans.Personal}>
-              {PaymentMeans.Personal}
-            </MenuItem>
-            <MenuItem value={PaymentMeans.Other}>{PaymentMeans.Other}</MenuItem>
-          </TextField>
-        </div>
       </div>
     </div>
   );

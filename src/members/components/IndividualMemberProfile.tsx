@@ -1,31 +1,25 @@
 "use client";
 
-import {
-  Avatar,
-  Button,
-  CircularProgress,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-} from "@mui/material";
+import { Avatar, Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
-import { EducationLevel, Member, MembershipType } from "@prisma/client";
-import { MenuItem, Switch, TextField } from "@mui/material";
 import {
-  ContributionSystem,
-  MembershipLevel,
+  EducationLevel,
+  Member,
+  MembershipType,
   PaymentMeans,
 } from "@prisma/client";
+import { MenuItem, Switch, TextField } from "@mui/material";
+import { ContributionSystem, MembershipLevel } from "@prisma/client";
 import Image from "next/image";
 import { FieldValues } from "react-hook-form";
 import { getMinimumContribution } from "@/util/helper";
 import { getMemberFormData } from "@/util/getMemberFormData";
-import { COUNTRIES, Gammo_Branches } from "@/constants/datas";
+import { COUNTRIES, Gammo_Branches, NATIONALITIES } from "@/constants/datas";
 import { phone_regex } from "@/constants/regex";
 
 const IndividualMemberProfile = ({ member }: { member: Member }) => {
@@ -46,7 +40,10 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
 
   const handleEditMember = async (values: FieldValues) => {
     setLoading(true);
-    const formData = getMemberFormData(values);
+    const formData = getMemberFormData({
+      ...values,
+      paymentMeans: PaymentMeans.Other,
+    });
     try {
       const res = await axios.post(`/api/member/edit/${member?.id}`, formData);
 
@@ -435,9 +432,9 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
                     }
                     select
                   >
-                    {COUNTRIES.map((country, index) => (
-                      <MenuItem key={index} value={country.name}>
-                        {country.name}
+                    {NATIONALITIES.map((nationality, index) => (
+                      <MenuItem key={index} value={nationality}>
+                        {nationality}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -645,12 +642,12 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-titleColor text-sm font-bold">
-                    Expertise
+                    Occupation
                   </span>
                   <TextField
                     size="small"
                     {...register("expertise", {
-                      required: "Expertise is required",
+                      required: "Occupation is required",
                     })}
                     type="text"
                     placeholder=""
@@ -681,46 +678,6 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
                       errors.positionAtWork.message?.toString()
                     }
                   />
-                </div>
-                <div className="flex flex-col gap-3">
-                  <span className="text-titleColor text-sm font-bold">
-                    Payment Means
-                  </span>
-                  <div className="min-w-[130px]">
-                    <TextField
-                      className="w-full p-[1px]"
-                      defaultValue={watch("paymentMeans")}
-                      size="small"
-                      {...register("paymentMeans", {
-                        required: "Payment Means is required",
-                      })}
-                      select
-                      error={Boolean(!!errors.paymentMeans)}
-                      helperText={
-                        !!errors.paymentMeans &&
-                        errors.paymentMeans.message?.toString()
-                      }
-                    >
-                      <MenuItem value={PaymentMeans.Office}>
-                        {PaymentMeans.Office}
-                      </MenuItem>
-                      <MenuItem value={PaymentMeans.Edir}>
-                        {PaymentMeans.Edir}
-                      </MenuItem>
-                      <MenuItem value={PaymentMeans.Bank}>
-                        {PaymentMeans.Bank}
-                      </MenuItem>
-                      <MenuItem value={PaymentMeans.Kebele}>
-                        {PaymentMeans.Kebele}
-                      </MenuItem>
-                      <MenuItem value={PaymentMeans.Personal}>
-                        {PaymentMeans.Personal}
-                      </MenuItem>
-                      <MenuItem value={PaymentMeans.Other}>
-                        {PaymentMeans.Other}
-                      </MenuItem>
-                    </TextField>
-                  </div>
                 </div>
               </div>
             </>

@@ -7,6 +7,7 @@ import PhoneAndPassword from "./signupSections/PhoneAndPassword";
 import MemberRegistration from "./signupSections/MemberRegistration";
 import axios from "axios";
 import { getMemberFormData } from "@/util/getMemberFormData";
+import { PaymentMeans } from "@prisma/client";
 
 const MemberSignup = ({
   setIsSignUp,
@@ -61,7 +62,10 @@ const MemberSignup = ({
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const formData = getMemberFormData({ ...values });
+      const formData = getMemberFormData({
+        ...values,
+        paymentMeans: PaymentMeans.Other,
+      });
       const res = await axios.post("/api/tempMember/register", formData);
       if (res.data.success) {
         setIsSuccessfull(true);

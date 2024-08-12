@@ -1,4 +1,4 @@
-import { COUNTRIES, Gammo_Branches } from "@/constants/datas";
+import { COUNTRIES, Gammo_Branches, NATIONALITIES } from "@/constants/datas";
 import { phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import { Button, MenuItem, TextField } from "@mui/material";
@@ -252,9 +252,9 @@ const IndividualForm = ({
           }
           select
         >
-          {COUNTRIES.map((country, index) => (
-            <MenuItem key={index} value={country.name}>
-              {country.name}
+          {NATIONALITIES.map((nationality, index) => (
+            <MenuItem key={index} value={nationality}>
+              {nationality}
             </MenuItem>
           ))}
         </TextField>

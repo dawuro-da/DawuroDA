@@ -25,7 +25,7 @@ import Image from "next/image";
 import { FieldValues } from "react-hook-form";
 import { getMinimumContribution } from "@/util/helper";
 import { getMemberFormData } from "@/util/getMemberFormData";
-import { COUNTRIES, Gammo_Branches } from "@/constants/datas";
+import { COUNTRIES, Gammo_Branches, NATIONALITIES } from "@/constants/datas";
 import { phone_regex } from "@/constants/regex";
 
 const IndividualMember = ({ member }: { member: Member }) => {
@@ -383,9 +383,9 @@ const IndividualMember = ({ member }: { member: Member }) => {
                     }
                     select
                   >
-                    {COUNTRIES.map((country, index) => (
-                      <MenuItem key={index} value={country.name}>
-                        {country.name}
+                    {NATIONALITIES.map((nationality, index) => (
+                      <MenuItem key={index} value={nationality}>
+                        {nationality}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -661,12 +661,12 @@ const IndividualMember = ({ member }: { member: Member }) => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-titleColor text-sm font-bold">
-                    Expertise
+                    Occupation
                   </span>
                   <TextField
                     size="small"
                     {...register("expertise", {
-                      required: "Expertise is required",
+                      required: "Occupation is required",
                     })}
                     type="text"
                     placeholder=""

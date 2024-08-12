@@ -45,7 +45,10 @@ const InstitutionMemberProfile = ({ member }: { member: Member }) => {
 
   const handleEditMember = async (values: FieldValues) => {
     setLoading(true);
-    const formData = getMemberFormData(values);
+    const formData = getMemberFormData({
+      ...values,
+      paymentMeans: PaymentMeans.Other,
+    });
     try {
       const res = await axios.post(`/api/member/edit/${member?.id}`, formData);
 
@@ -401,47 +404,6 @@ const InstitutionMemberProfile = ({ member }: { member: Member }) => {
                       errors.positionAtWork.message?.toString()
                     }
                   />
-                </div>
-
-                <div className="flex flex-col gap-3">
-                  <span className="text-titleColor text-sm font-bold">
-                    Payment Means
-                  </span>
-                  <div className="min-w-[130px]">
-                    <TextField
-                      select
-                      className="w-full p-[1px]"
-                      defaultValue={member?.paymentMeans}
-                      size="small"
-                      {...register("paymentMeans", {
-                        required: "Payment Means is required",
-                      })}
-                      error={Boolean(!!errors.paymentMeans)}
-                      helperText={
-                        !!errors.paymentMeans &&
-                        errors.paymentMeans.message?.toString()
-                      }
-                    >
-                      <MenuItem value={PaymentMeans.Office}>
-                        {PaymentMeans.Office}
-                      </MenuItem>
-                      <MenuItem value={PaymentMeans.Edir}>
-                        {PaymentMeans.Edir}
-                      </MenuItem>
-                      <MenuItem value={PaymentMeans.Bank}>
-                        {PaymentMeans.Bank}
-                      </MenuItem>
-                      <MenuItem value={PaymentMeans.Kebele}>
-                        {PaymentMeans.Kebele}
-                      </MenuItem>
-                      <MenuItem value={PaymentMeans.Personal}>
-                        {PaymentMeans.Personal}
-                      </MenuItem>
-                      <MenuItem value={PaymentMeans.Other}>
-                        {PaymentMeans.Other}
-                      </MenuItem>
-                    </TextField>
-                  </div>
                 </div>
               </div>
               <div className="flex flex-row items-center justify-between gap-6 my-4">
