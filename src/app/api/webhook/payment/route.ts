@@ -11,6 +11,7 @@ import { Auction, Member, TempMember } from "@prisma/client";
 import { findMemberByPhone } from "@/db/member";
 import { createDonation } from "@/db/donation";
 import { findAuctionById } from "@/db/auction";
+import { metadata } from "@/app/layout";
 
 export async function POST(req: Request, res: any) {
   try {
@@ -28,8 +29,11 @@ export async function POST(req: Request, res: any) {
     } = body;
 
     if (event === "charge.success" && type === "API") {
-      const { paymentType, auctionId, donationDesignation, branch } =
-        JSON.parse(meta);
+      const metaData = JSON.parse(meta);
+      const paymentType = metaData?.paymentType ?? "";
+      const auctionId = metaData?.auctionId ?? "";
+      const donationDesignation = metaData?.donationDesignation ?? "";
+      const branch = metaData?.branch ?? "";
 
       if (paymentType === "registrationPayment") {
         const tempMember = await findTempMemberByPhone(mobile);
