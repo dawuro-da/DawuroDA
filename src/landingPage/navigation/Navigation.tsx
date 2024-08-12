@@ -72,14 +72,14 @@ export default function Naviagtion({ bg }: { bg?: string }) {
           <div className="flex flex-row items-center text-sm justify-center gap-4">
             <span>Join our social media:</span>
             <Telegram />
-            <Twitter />
+            {/* <Twitter /> */}
             <Link
               target="_blank"
               href="https://www.facebook.com/gamodevelopmentassociation?mibextid=ZbWKwL"
             >
               <Facebook />
             </Link>
-            <Instagram />
+            {/* <Instagram /> */}
           </div>
           <span
             onClick={() => setOpenDonateModal(true)}

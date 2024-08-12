@@ -23,6 +23,7 @@ import { useRef, useState } from "react";
 import { prepareURL } from "@/util/download";
 import GammodaId from "@/components/shared/GammodaId";
 import { getMinimumContribution } from "@/util/helper";
+import { InfoOutlined } from "@mui/icons-material";
 
 const MemberDashboard = ({
   contributions,
@@ -78,7 +79,7 @@ const MemberDashboard = ({
   return (
     <div className="w-full">
       <Naviagtion />
-      <div className="h-full w-full xl:lg:px-40 md:px-20 px-10 bg-[#f5f5f5] py-10">
+      <div className="min-h-fit w-full xl:lg:px-40 md:px-20 px-10 bg-[#f5f5f5] py-10">
         <div className="flex xl:lg:flex-row md:flex-row flex-col gap-8">
           <span className="md:hidden block text-center">
             <strong>Welcome</strong>{" "}
@@ -86,7 +87,7 @@ const MemberDashboard = ({
               ? `${member?.firstName} ${member?.lastName}`
               : `${member?.institutionName}`}
           </span>
-          <div className="flex flex-col gap-6 xl:lg:min-w-[340px] xl:lg:w-fit md:w-fit w-full ">
+          <div className="flex flex-col gap-6 xl:lg:min-w-[340px] xl:lg:w-fit md:w-fit w-full h-fit">
             <div className="p-8 rounded-[5px] flex flex-col gap-6 bg-white">
               <div className="flex flex-row items-center justify-between">
                 <Avatar
@@ -157,31 +158,48 @@ const MemberDashboard = ({
             <Divider textAlign="left">
               <span className="text-titleColor text-[14px]">Your Id</span>
             </Divider>
-            <div className="bg-white h-[200px] w-full relative">
-              <div className="absolute w-full h-full overflow-auto hiddenscrollbar">
-                {checkMemberThreeMonth({
-                  createdAt: member.created_at,
-                  nextDueDate: member.nextDueDate,
-                }) && <GammodaId gammodaIdRef={gammodaIdRef} member={member} />}
-              </div>
-              <Button
-                onClick={() =>
-                  checkMemberThreeMonth({
+            <div className="bg-white w-full relative">
+              {!checkMemberThreeMonth({
+                createdAt: member.created_at,
+                nextDueDate: member.nextDueDate,
+              }) && (
+                <div className="flex flex-row max-w-[340px] items-center justify-start border-[1px] border-[#F1CD89] bg-[#F6EDDA] p-4 gap-6 rounded-[5px]">
+                  <InfoOutlined className="text-[#F1CD89] h-[40px] w-[40px] rotate-180" />
+                  <span className="text-titleColor text-xs">
+                    This member has to pay at least <strong>three</strong>{" "}
+                    months be considered a real member so please consider paying
+                    your contributions to be eligible for IDs.
+                  </span>
+                </div>
+              )}
+              <div className="bg-white h-[200px] w-full relative">
+                <div className="absolute w-full h-full overflow-auto hiddenscrollbar">
+                  {checkMemberThreeMonth({
                     createdAt: member.created_at,
                     nextDueDate: member.nextDueDate,
-                  }) && downloadGammodaId()
-                }
-                variant="outlined"
-                className="absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"
-              >
-                <Image
-                  src={"/icons/download.svg"}
-                  alt=""
-                  width={20}
-                  height={20}
-                />
-                Download
-              </Button>
+                  }) && (
+                    <GammodaId gammodaIdRef={gammodaIdRef} member={member} />
+                  )}
+                </div>
+                <Button
+                  onClick={() =>
+                    checkMemberThreeMonth({
+                      createdAt: member.created_at,
+                      nextDueDate: member.nextDueDate,
+                    }) && downloadGammodaId()
+                  }
+                  variant="outlined"
+                  className="absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"
+                >
+                  <Image
+                    src={"/icons/download.svg"}
+                    alt=""
+                    width={20}
+                    height={20}
+                  />
+                  Download
+                </Button>
+              </div>
             </div>
           </div>
           <div className="flex flex-col flex-1 h-full w-full pt-4">

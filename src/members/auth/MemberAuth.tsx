@@ -80,7 +80,7 @@ const MemberAuth = () => {
           ))}
         </div>
       </div>
-      <div className="flex flex-row items-center justify-center w-full">
+      <div className="flex flex-row items-center justify-center w-full h-full overflow-y-auto">
         {isSignUp ? (
           <MemberSignup setIsSignUp={setIsSignUp} />
         ) : (

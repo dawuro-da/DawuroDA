@@ -37,6 +37,12 @@ const ContactInfo = () => (
             <Link href="tel:0911283675">
               <span className="pl-4 hover:underline"> 0911283675</span>
             </Link>
+            <Link href="tel:0468810434">
+              <span className="pl-4 hover:underline"> 0468814846</span>
+            </Link>
+            <Link href="tel:0468810434">
+              <span className="pl-4 hover:underline"> 0468814846</span>
+            </Link>
           </span>
         </p>
         <p>
@@ -97,8 +103,8 @@ const Footer = () => {
           </div>
           <div className="flex space-x-4">
             {[
-              { href: "", src: "/images/twitter.svg", alt: "Twitter" },
-              { href: "", src: "/images/instagram.svg", alt: "Instagram" },
+              // { href: "", src: "/images/twitter.svg", alt: "Twitter" },
+              // { href: "", src: "/images/instagram.svg", alt: "Instagram" },
               {
                 href: "https://www.facebook.com/gamodevelopmentassociation?mibextid=ZbWKwL",
                 src: "/images/facebook.svg",
@@ -154,8 +160,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="container mx-auto w-full md:mt-10 mt-0 pb-4 flex md:justify-between justify-center items-center md:border-t border-[#C8C8C8] pt-4">
-        <span className="flex xl:lg:flex-row md:flex-row flex-col gap-4 items-center justify-center text-sm">
+      <div className="container mx-auto w-full md:mt-10 mt-0 pb-4 flex xl:lg:flex-row md:flex-row gap-4 flex-col md:justify-between justify-center items-center md:border-t border-[#C8C8C8] pt-4">
+        <span className="flex xl:lg:flex-row md:flex-row flex-col xl:lg:gap-4 gap-2 items-center justify-center text-sm">
           <Link href="/privacy-policy">
             <span className="pl-4 hover:underline">Privacy Policy</span>
           </Link>

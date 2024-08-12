@@ -1,4 +1,4 @@
-import { COUNTRIES, Gammo_Branches } from "@/constants/datas";
+import { COUNTRIES, Gammo_Branches, NATIONALITIES } from "@/constants/datas";
 import { phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import { getMinimumContribution } from "@/util/helper";
@@ -282,9 +282,9 @@ const IndividualMember = ({
             }
             select
           >
-            {COUNTRIES.map((country, index) => (
-              <MenuItem key={index} value={country.name}>
-                {country.name}
+            {NATIONALITIES.map((nationality, index) => (
+              <MenuItem key={index} value={nationality}>
+                {nationality}
               </MenuItem>
             ))}
           </TextField>
@@ -538,11 +538,11 @@ const IndividualMember = ({
           />
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-titleColor text-sm font-bold">Expertise</span>
+          <span className="text-titleColor text-sm font-bold">Occupation</span>
           <TextField
             size="small"
             {...register("expertise", {
-              required: "Expertise is required",
+              required: "Occupation is required",
             })}
             type="text"
             placeholder=""

@@ -15,9 +15,9 @@ const Homepage = () => {
       <HeroSection />
       <AboutSection />
       <DevelopmentInitiatives />
+      <LatestNews />
       <CampaignSection />
       <Partners />
-      <LatestNews />
       <WhatsHappening />
       <FAQ />
       <Footer />

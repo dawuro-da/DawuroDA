@@ -37,10 +37,17 @@ const PhoneAndPassword = ({
     try {
       if (!watch("phone") || !watch("password")) {
         setError("Phone and password are required");
+        setLoading(false);
+        return;
+      }
+      if (watch("password") !== watch("confirmPassword")) {
+        setError("Password must match confirm password");
+        setLoading(false);
         return;
       }
       if (!phone_regex.test(watch("phone"))) {
         setError("Phone is not valid eg: 09...");
+        setLoading(false);
         return;
       }
       const res = await axios.post("/api/member/checkToRegister", {
@@ -68,7 +75,7 @@ const PhoneAndPassword = ({
           Gamo Development Association
         </span>
       </div>
-      <div className="flex flex-col gap-1 w-full mt-16">
+      <div className="flex flex-col gap-1 w-full mt-12">
         <span className="text-titleColor text-sm font-bold">
           {"Email (optional)"}
         </span>
@@ -105,7 +112,9 @@ const PhoneAndPassword = ({
       </div>
       <div className="flex flex-col gap-[7px] text-[#555555] h-full w-full">
         <label className="flex flex-row items-center justify-between">
-          <span className="text-titleColor text-sm font-bold">Password</span>
+          <span className="text-titleColor text-sm font-bold">
+            New Password
+          </span>
 
           {showPassword ? (
             <Image
@@ -133,6 +142,49 @@ const PhoneAndPassword = ({
           type={showPassword ? "text" : "password"}
           error={Boolean(!!errors.password)}
           helperText={!!errors.password && errors.password.message?.toString()}
+          inputProps={{
+            style: {
+              padding: 9,
+              borderRadius: "6px",
+            },
+          }}
+        />
+      </div>
+      <div className="flex flex-col gap-[7px] text-[#555555] h-full w-full">
+        <label className="flex flex-row items-center justify-between">
+          <span className="text-titleColor text-sm font-bold">
+            Confirm Password
+          </span>
+
+          {showPassword ? (
+            <Image
+              onClick={() => setShowPassword(!showPassword)}
+              src={"/icons/hideEye.svg"}
+              alt=""
+              className="cursor-pointer"
+              height={20}
+              width={20}
+            />
+          ) : (
+            <RemoveRedEyeOutlined
+              onClick={() => setShowPassword(!showPassword)}
+              className="cursor-pointer"
+              style={{ height: 20, width: 20 }}
+            />
+          )}
+        </label>
+        <TextField
+          {...register("confirmPassword", {
+            required: "Confirm Password is required",
+          })}
+          autoComplete="off"
+          variant="outlined"
+          type={showPassword ? "text" : "password"}
+          error={Boolean(!!errors.confirmPassword)}
+          helperText={
+            !!errors.confirmPassword &&
+            errors.confirmPassword.message?.toString()
+          }
           inputProps={{
             style: {
               padding: 9,

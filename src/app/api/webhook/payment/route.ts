@@ -106,6 +106,18 @@ const addNewContribution = async (member: Member, amount: string) => {
     amount: amount.toString(),
   });
 
+  const nextDueDate = calculateNextDueDate({
+    fromDate: member.nextDueDate,
+    contributionSystem: member.contributionSystem,
+  });
+
+  await prisma.member.update({
+    where: {
+      id: member.id,
+    },
+    data: { nextDueDate },
+  });
+
   return contribution;
 };
 
