@@ -152,12 +152,15 @@ export async function POST(req: Request) {
       first_name: `${firstName}`,
       last_name: `${lastName}`,
       phone_number: `${phone}`,
-      tx_ref: `gammo-reg-${Math.random()}`,
+      tx_ref: `gammoda-reg-${Math.random()}`,
       callback_url: `${process.env.PAYMENT_WEB_HOOK}/api/webhook/payment`,
       return_url: `${process.env.PAYMENT_WEB_HOOK}/login`,
-      "customization[title]": "Gammoda member's contribution",
+      meta: {
+        paymentType: "registrationPayment",
+      },
+      "customization[title]": "Gammoda member's registration",
       "customization[description]":
-        "this membership contribution should be paid after compeletion of your registration ",
+        "this membership registration should be paid after compeletion of your registration ",
     });
     const res = await axios.post(
       "https://api.chapa.co/v1/transaction/initialize",
