@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { email_regex } from "@/constants/regex";
+import Link from "next/link";
 
 const Login = () => {
   const router = useRouter();
@@ -46,9 +47,15 @@ const Login = () => {
             className=" flex flex-col gap-2 my-2 min-w-[300px]"
           >
             <div className="flex flex-col gap-2 w-full items-center mb-6">
-              <span className="font-extrabold text-3xl text-green-500 ">
-                Gammoda
-              </span>
+              <Link href={"/"}>
+                <Image
+                  src={"/images/whitBgLogo.svg"}
+                  height={180}
+                  width={180}
+                  className="w-[200px] h-[200px]"
+                  alt="Gammoda Logo"
+                />
+              </Link>
               <span className="">Welcome back</span>
             </div>
 

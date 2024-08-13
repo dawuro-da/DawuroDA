@@ -129,3 +129,15 @@ export const downloadExcel = (data: any, name?: string) => {
   //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
   XLSX.writeFile(workbook, name ? `${name}.csv` : "DataSheet.csv");
 };
+
+export function convertYouTubeURL(url: string) {
+  const watchPattern = "watch?v=";
+  const embedPattern = "embed/";
+
+  if (url.includes(watchPattern)) {
+    return url.replace(watchPattern, embedPattern);
+  }
+
+  // If the URL doesn't contain "watch?v=", return the original URL
+  return url;
+}

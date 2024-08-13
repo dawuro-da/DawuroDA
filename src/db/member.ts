@@ -329,6 +329,24 @@ export async function fetchMembers({
           },
         },
         {
+          memberId: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          country: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          nationality: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
           institutionName: {
             contains: searchText,
             mode: "insensitive",

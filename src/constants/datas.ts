@@ -1,4 +1,6 @@
 export const Gammo_Branches = [
+  "Head Office Branch",
+  "USA Branch",
   "Arba Minch City Branch",
   "Arba Minch Zuria branch",
   "Birbir branch",

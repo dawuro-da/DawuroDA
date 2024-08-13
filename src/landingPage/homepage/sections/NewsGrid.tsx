@@ -79,7 +79,7 @@ const NewsGrid = () => {
                 width={20}
                 unoptimized
                 height={20}
-                className="lg:w-[31%] w-[38%]"
+                className="lg:w-[31%] w-[38%] object-cover"
               />
               <div className="mt-2 md:pl-6 pl-0 lg:w-2/4">
                 <h2 className="group-hover:underline md:text-xl text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
@@ -113,6 +113,7 @@ const NewsGrid = () => {
           alt=""
           width={200}
           height={100}
+          className="object-cover"
         />
         <div className="mt-6 w-4/5 text-left">
           <h2 className="group-hover:underline text-xl font-bold mb-1 text-[#1E1E1E]">
