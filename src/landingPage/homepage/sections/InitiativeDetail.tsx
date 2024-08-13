@@ -3,6 +3,7 @@
 import Footer from "@/landingPage/footer/Footer";
 import Naviagtion from "@/landingPage/navigation/Navigation";
 import ImageCarousel from "@/landingPage/shared/ImageCarousel";
+import { convertYouTubeURL } from "@/util/helper";
 import { Skeleton } from "@mui/material";
 import { Initiative } from "@prisma/client";
 import axios from "axios";
@@ -70,7 +71,20 @@ const InitiativeDetail = () => {
               {initiative?.featuredImages?.[0] && (
                 <ImageCarousel images={initiative.featuredImages} />
               )}
-              <p>{initiative?.body}</p>
+              {!initiative?.featuredImages?.[0] && initiative?.youtubeLink && (
+                <div className="relative w-full h-fit min-h-[600px]">
+                  <iframe
+                    width="853"
+                    height="480"
+                    src={convertYouTubeURL(initiative?.youtubeLink)}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title="Embedded youtube"
+                    className="absolute w-full left-0 top-0 min-h-full"
+                  />
+                </div>
+              )}
+              <p className="mt-6">{initiative?.body}</p>
             </div>
           )}
         </div>

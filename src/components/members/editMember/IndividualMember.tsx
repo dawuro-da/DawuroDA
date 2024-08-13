@@ -441,7 +441,6 @@ const IndividualMember = ({ member }: { member: Member }) => {
                     <input
                       id="profileImage"
                       {...register("profileImage", {
-                        required: "profileImage is required",
                         validate: {
                           fileSize: (value: any) => {
                             if (

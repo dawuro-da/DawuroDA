@@ -205,7 +205,6 @@ const NewsEdit = ({
                   <input
                     id="profileImage"
                     {...register(`profileImage.${index}`, {
-                      required: "Image is required",
                       validate: {
                         fileSize: (value: any) => {
                           if (

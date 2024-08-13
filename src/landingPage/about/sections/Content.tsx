@@ -21,8 +21,8 @@ export const contentData: {
     bgColor: "bg-[#D2232C]",
     borderColor: "border-[#D2232C]",
   },
-  "President Message": {
-    title: "President Message",
+  "CEO Message": {
+    title: "CEO Message",
     description:
       "The reform of the association has focused on 7 thematic areas of education‚ health, clean drinking water‚ environmental protection and other infrastructure focus areas have been developed, and by investing a lot of resources in the sector, various sections of the society have been able to benefit.",
     bgColor: "bg-[#13A6D9]",

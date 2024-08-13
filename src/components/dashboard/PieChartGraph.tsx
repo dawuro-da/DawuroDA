@@ -9,7 +9,6 @@ import {
   ResponsiveContainer,
   Tooltip,
   Label,
-  LabelList,
 } from "recharts";
 
 const PieChartGraph = ({ pieChartData }: { pieChartData: any }) => {
@@ -24,7 +23,7 @@ const PieChartGraph = ({ pieChartData }: { pieChartData: any }) => {
     {
       name: "Unpaid Members",
       value: pieChartData?.totalMemberUnpaid ?? 0,
-      color: "#BCE7C9",
+      color: "#98D4A4",
     },
   ];
 
@@ -61,6 +60,12 @@ const PieChartGraph = ({ pieChartData }: { pieChartData: any }) => {
     );
   };
 
+  // Formatter function for the legend to show name and value
+  const renderLegendText = (value: string, entry: any) => {
+    const correspondingData = data.find((item) => item.name === value);
+    return `${value} (${correspondingData?.value ?? 0})`;
+  };
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <PieChart startAngle={180}>
@@ -79,7 +84,6 @@ const PieChartGraph = ({ pieChartData }: { pieChartData: any }) => {
           outerRadius={"92%"}
           paddingAngle={0}
           labelLine={false}
-          label={({ name, value }) => ` ${value}`}
         >
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color} />
@@ -97,6 +101,7 @@ const PieChartGraph = ({ pieChartData }: { pieChartData: any }) => {
           align="right"
           verticalAlign="bottom"
           wrapperStyle={{ right: 0, bottom: 5 }}
+          formatter={renderLegendText}
         />
       </PieChart>
     </ResponsiveContainer>

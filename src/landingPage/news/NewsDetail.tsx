@@ -8,8 +8,8 @@ import { useEffect, useState } from "react";
 import { News } from "@prisma/client";
 import axios from "axios";
 import { getFormattedDate } from "@/util/date";
-import Slider from "react-slick";
 import ImageCarousel from "../shared/ImageCarousel";
+import { convertYouTubeURL } from "@/util/helper";
 
 const NewsDetail = () => {
   const params = useParams();
@@ -109,6 +109,19 @@ const NewsDetail = () => {
               <div className="w-full text-titleColor">
                 {news?.profileImage?.[0] && (
                   <ImageCarousel images={news.profileImage} />
+                )}
+                {!news?.profileImage?.[0] && news?.youtubeLink && (
+                  <div className="relative w-full h-fit min-h-[600px]">
+                    <iframe
+                      width="853"
+                      height="480"
+                      src={convertYouTubeURL(news?.youtubeLink)}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="Embedded youtube"
+                      className="absolute w-full left-0 top-0 min-h-full"
+                    />
+                  </div>
                 )}
                 <p>{news?.body}</p>
               </div>
