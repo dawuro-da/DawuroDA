@@ -272,6 +272,7 @@ type Filters = {
   paymentMeans?: PaymentMeans;
   startDate?: Date;
   endDate?: Date;
+  branch?: string;
 };
 
 export async function fetchMembers({
@@ -310,6 +311,9 @@ export async function fetchMembers({
       }),
     ...(filters.membershipLevel && {
       membershipLevel: filters.membershipLevel,
+    }),
+    ...(filters.branch && {
+      branch: filters.branch,
     }),
     ...(filters.membershipType && {
       membershipType: filters.membershipType,

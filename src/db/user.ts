@@ -16,7 +16,7 @@ export async function findUserByEmail(email: string): Promise<User | null> {
 
 export async function findByPhone(phone: string): Promise<User | null> {
   try {
-    return await prisma.user.findUnique({
+    return await prisma.user.findFirst({
       where: {
         phone: phone,
       },
@@ -60,6 +60,7 @@ export async function createUser({
   phone,
   password,
   password_salt,
+  branch,
 }: {
   firstName: string;
   lastName: string;
@@ -69,6 +70,7 @@ export async function createUser({
   phone?: string;
   password: string;
   password_salt: string;
+  branch: string;
 }) {
   try {
     const user = await prisma.user.create({
@@ -81,6 +83,7 @@ export async function createUser({
         password_hash: password,
         password_salt,
         phone,
+        branch,
       },
     });
     return user;

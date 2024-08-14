@@ -1,3 +1,4 @@
+import { Gammo_Branches } from "@/constants/datas";
 import { phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import { Close, RemoveRedEyeOutlined } from "@mui/icons-material";
@@ -7,10 +8,12 @@ import {
   Checkbox,
   CircularProgress,
   Dialog,
+  LinearProgress,
   MenuItem,
   Modal,
   TextField,
 } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import { Gender, User, UserRole } from "@prisma/client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -112,6 +115,81 @@ const AdminManagement = () => {
     }
     setFetchLoading(false);
   };
+
+  const columns = [
+    {
+      field: "fullName",
+      headerName: "Full Name",
+      minWidth: 200,
+      flex: 1,
+      renderCell: (params: any) => (
+        <div className="flex flex-row items-center gap-3">
+          <Avatar
+            src={params.row.profilePic ?? ""}
+            style={{ width: 30, height: 30 }}
+          />
+          <span className="capitalize">
+            {params.row.firstName} {params.row.lastName}
+          </span>
+        </div>
+      ),
+    },
+    { field: "email", headerName: "Email", minWidth: 200, flex: 1 },
+    {
+      field: "branch",
+      headerName: "Branch",
+      minWidth: 200,
+      flex: 1,
+    },
+    {
+      field: "role",
+      headerName: "Role",
+      minWidth: 200,
+      flex: 1,
+      renderCell: (params: any) => (
+        <span className="capitalize text-xs bg-[rgb(0,0,0,0.09)] px-2 p-1 rounded-lg">
+          {params.row.role}
+        </span>
+      ),
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      minWidth: 150,
+      flex: 1,
+      renderCell: (params: any) => (
+        <div className="h-full items-center flex flex-row ">
+          <span
+            onClick={() => {
+              if (session.data?.user?.id !== params.row.id) {
+                setSelectedUser(params.row);
+              }
+            }}
+            className={`bg-[#F7DEDE] cursor-pointer text-red-500 
+            ${
+              session.data?.user?.id === params.row.id &&
+              "bg-[#f7f7f7] text-[#000000]"
+            }
+            flex flex-row items-center gap-2 p-1 px-3 max-h-[40px] rounded-lg capitalize`}
+          >
+            {session.data?.user?.id !== params.row.id && (
+              <Image
+                src={"/icons/minusOutlined.svg"}
+                alt=""
+                height={20}
+                width={20}
+              />
+            )}
+            <span>
+              {session.data?.user?.id === params.row.id
+                ? "current admin"
+                : "Remove"}
+            </span>
+          </span>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div className="flex flex-col items-center justify-center mt-5">
@@ -229,6 +307,35 @@ const AdminManagement = () => {
               </TextField>
             </div>
             <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
+              <label>Branch</label>
+              <TextField
+                size="small"
+                {...register("branch", {
+                  required: "Branch is required",
+                })}
+                select
+                variant="outlined"
+                error={Boolean(!!errors.branch)}
+                helperText={
+                  !!errors.branch && errors.branch.message?.toString()
+                }
+                inputProps={{
+                  style: {
+                    padding: 10,
+                    borderRadius: "6px",
+                  },
+                }}
+              >
+                {Gammo_Branches.map((item, index) => {
+                  return (
+                    <MenuItem key={index} value={item}>
+                      {item}
+                    </MenuItem>
+                  );
+                })}
+              </TextField>
+            </div>
+            <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
               <label>Role</label>
               <TextField
                 size="small"
@@ -307,64 +414,38 @@ const AdminManagement = () => {
         </form>
       )}
       <div className="border-b-2 w-full h-1 my-6" />
-      <div className="flex flex-col gap-2 w-full">
-        {fetchLoading ? (
-          <CircularProgress />
-        ) : (
-          adminUsers?.map((admin) => {
-            return (
-              <div
-                key={admin.id}
-                className="flex flex-row items-center justify-between bg-white p-2 rounded-lg"
-              >
-                <div className="flex flex-row items-center gap-3 flex-1">
-                  <Avatar
-                    src={admin.profilePic ?? ""}
-                    style={{ width: 30, height: 30 }}
-                  />
-                  <span className="flex flex-col w-full flex-1 mr-2">
-                    <span className="flex flex-row items-center justify-between w-full gap-6">
-                      <span className="capitalize">
-                        {admin.firstName} {admin.lastName}
-                      </span>
-                      <span className="capitalize text-xs bg-[rgb(0,0,0,0.09)] px-2 p-1 rounded-lg">
-                        {admin.role}
-                      </span>
-                    </span>
-                    <small className="text-[#555555]">{admin.email}</small>
-                  </span>
-                </div>
-                <span
-                  onClick={() => {
-                    if (session.data?.user?.id !== admin.id) {
-                      setSelectedUser(admin);
-                    }
-                  }}
-                  className={`bg-[#F7DEDE] cursor-pointer text-red-500 
-                    ${
-                      session.data?.user?.id === admin.id &&
-                      "bg-[#f7f7f7] text-[#000000]"
-                    }
-                    flex flex-row items-center gap-2 p-1 px-3 rounded-lg capitalize`}
-                >
-                  {session.data?.user?.id !== admin.id && (
-                    <Image
-                      src={"/icons/minusOutlined.svg"}
-                      alt=""
-                      height={20}
-                      width={20}
-                    />
-                  )}
-                  <span>
-                    {session.data?.user?.id === admin.id
-                      ? "current admin"
-                      : "Remove"}
-                  </span>
-                </span>
-              </div>
-            );
-          })
-        )}
+      <div style={{ height: 600, width: "100%" }}>
+        <DataGrid
+          columns={columns}
+          loading={fetchLoading}
+          rows={adminUsers ?? []}
+          slots={{
+            pagination: () => <></>,
+            loadingOverlay: () => (
+              <LinearProgress
+                color="info"
+                sx={{
+                  marginRight: "15px",
+                  marginLeft: "15px",
+                  "& .MuiLinearProgress-bar": {
+                    backgroundColor: "#009ED3",
+                  },
+                }}
+              />
+            ),
+          }}
+          disableDensitySelector
+          disableColumnFilter
+          disableColumnMenu
+          disableColumnSelector
+          disableRowSelectionOnClick
+          sx={{
+            ...datagridStyle,
+            "&, [class^=MuiDataGrid]": { border: "none", borderBottom: "none" },
+          }}
+          pagination
+          getRowClassName={() => "paxton-table--row"}
+        />
       </div>
       <Dialog
         open={Boolean(selectedUser)}
@@ -421,3 +502,47 @@ const AdminManagement = () => {
 };
 
 export default AdminManagement;
+
+const datagridStyle = {
+  height: "100%",
+  width: "100%",
+  border: "none",
+  paddingBottom: "0px",
+  borderRadius: "0px",
+  background: "transparent",
+  overflowX: "auto",
+  "& .MuiDataGrid-iconSeparator": {
+    display: "none",
+  },
+  "& .MuiDataGrid-columnHeaderTitle": {
+    fontWeight: 600,
+    fontSize: "14px",
+    minHeight: "34px",
+  },
+  "& .MuiDataGrid-columnHeaders": {
+    background: "#000000",
+    borderBottom: "none",
+    borderRadius: "0px",
+  },
+  "& .MuiDataGrid-cell": {
+    color: "#757575",
+    borderBottom: "none",
+    outline: "none !important",
+    alignItems: "center",
+  },
+  "& .MuiPaginationItem-root": {
+    borderRadius: 0,
+  },
+  // Datagrid Row Styling
+  "& .paxton-table--row": {
+    marginBottom: 1,
+    marginTop: 2,
+    borderRadius: "16px",
+    cursor: "pointer",
+    background: "white",
+  },
+  // remove borders and separators
+  "& .paxton-table--cell": {
+    border: "none",
+  },
+};
