@@ -2,7 +2,6 @@ import { getServerSession } from "next-auth";
 import AdminSettingHeader from "./AdminSettingHeader";
 import { OPTIONS } from "@/util/authOptions";
 import { redirect } from "next/navigation";
-import prisma from "@/lib/prisma";
 import { findUserById } from "@/db/user";
 import UserSetting from "./UserSetting";
 

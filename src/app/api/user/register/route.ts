@@ -8,7 +8,7 @@ import { RegisteredAsAdmin } from "@/util/emailTemplate";
 import { transporter } from "@/services/nodemailer";
 
 export async function POST(req: Request) {
-  const { firstName, lastName, role, gender, email, phone, password } =
+  const { firstName, lastName, role, gender, email, phone, branch, password } =
     await req.json();
 
   const session = await getServerSession(OPTIONS);
@@ -58,10 +58,12 @@ export async function POST(req: Request) {
         role,
         gender,
         phone,
+        branch,
         password: hashedPassword,
         email,
         password_salt: salt,
       };
+      
       const result = await createUser(userData);
 
       const html = RegisteredAsAdmin({

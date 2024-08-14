@@ -32,7 +32,8 @@ model User {
   firstName     String
   lastName      String
   email         String   @unique
-  phone         String?  @unique
+  branch        String?
+  phone         String?
   role          UserRole @default(Member)
   profilePic    String?
   gender        Gender?

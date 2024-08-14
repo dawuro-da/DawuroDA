@@ -34,6 +34,7 @@ import { showToastAction } from "@/redux/actions";
 import { useDispatch } from "react-redux";
 import { downloadExcel } from "@/util/helper";
 import { Session } from "next-auth";
+import { Gammo_Branches } from "@/constants/datas";
 
 const Members = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ const Members = () => {
     contributionSystem: "",
     membershipType: "",
     paymentStatus: "",
+    branch: "",
   });
   const [generateLoading, setGenerateLoading] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -442,6 +444,29 @@ const Members = () => {
                     <MenuItem value={PaymentMeans.Other}>
                       {PaymentMeans.Other}
                     </MenuItem>
+                  </Select>
+                </div>
+                <div className="w-[190px] bg-white">
+                  <Select
+                    className="w-full border-none"
+                    defaultValue={" "}
+                    size="small"
+                    sx={selectStyle}
+                    onChange={(e) => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        branch: e.target.value !== " " ? e.target.value : "",
+                      }));
+                    }}
+                  >
+                    <MenuItem value=" ">branch</MenuItem>
+                    {Gammo_Branches.map((item, index) => {
+                      return (
+                        <MenuItem key={index} value={item}>
+                          {item}
+                        </MenuItem>
+                      );
+                    })}
                   </Select>
                 </div>
               </div>
