@@ -1,6 +1,8 @@
 {
+  "institution_name": "Gamo Development Association ",
   "welcomeText": {
-    "message": "Welcome to"
+    "message": "Welcome to",
+    "heading_1": "Empowering Communities Through Sustainable Development"
   },
   "nav": {
     "t1": "Home",
