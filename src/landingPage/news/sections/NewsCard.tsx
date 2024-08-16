@@ -1,4 +1,3 @@
-"use client";
 import { getFormattedDate } from "@/util/date";
 import { CircularProgress, Skeleton } from "@mui/material";
 import { News } from "@prisma/client";
