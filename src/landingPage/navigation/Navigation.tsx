@@ -14,10 +14,12 @@ import { Avatar, Button, IconButton, MenuItem } from "@mui/material";
 import { UserRole } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileMenu from "./ProfileMenu";
 import Link from "next/link";
 import DonationForm from "../modals/DonationForm";
+import { useTranslation } from "react-i18next";
+import useLanguageStore from "@/redux/languageStore";
 
 export default function Naviagtion({ bg }: { bg?: string }) {
   const router = useRouter();
@@ -31,6 +33,16 @@ export default function Naviagtion({ bg }: { bg?: string }) {
   const [openDonateModal, setOpenDonateModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const open = Boolean(anchorEl);
+  const { i18n, t } = useTranslation();
+  const { language, setLanguage } = useLanguageStore();
+
+  useEffect(() => {
+    i18n.changeLanguage(language);
+  }, [language, i18n]);
+
+  const handleChangeLanguage = (newLanguage: any) => {
+    setLanguage(newLanguage);
+  };
 
   const menuItems = [
     { name: "Home", link: "/" },
@@ -100,14 +112,17 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             FAQ
           </span>
           <select
-            defaultValue={"en"}
+            value={i18n.language}
+            onChange={(e) => {
+              handleChangeLanguage(e.target.value);
+            }}
             className={`bg-transparent outline-none border-none px-1 hover:cursor-pointer text-sm -mt-1`}
           >
             <option value={"en"} className="text-black">
               English
             </option>
             <option value={"am"} className="text-black">
-              Amharic
+              አማርኛ
             </option>
           </select>
         </div>
@@ -254,7 +269,7 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             </div>
             <span
               onClick={() => {
-                setOpenDonateModal(true)
+                setOpenDonateModal(true);
                 setMenuOpen(!menuOpen);
               }}
               className={`w-fit cursor-pointer hover:border-b-2 hover:border-primaryColor px-2`}
@@ -278,16 +293,19 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             <span className="flex flex-col font-normal gap-1 mt-2">
               <span className="text-xs">Language</span>
               <select
-                defaultValue={"en"}
+                value={i18n.language}
                 className={`${
                   isHome && "bg-transparent"
                 } outline-none border-none px-1 hover:cursor-pointer`}
+                onChange={(e) => {
+                  handleChangeLanguage(e.target.value);
+                }}
               >
                 <option value={"en"} className="text-black">
                   English
                 </option>
                 <option value={"am"} className="text-black">
-                  Amharic
+                  አማርኛ
                 </option>
               </select>
             </span>

@@ -6,6 +6,7 @@ import CEOMessage from "./contents/CEOMessage";
 import MissionContent from "./contents/MissionContent";
 import BoardMember from "./contents/BoardMember";
 import ManagementMembers from "./contents/ManagementMembers";
+import { useTranslation } from "react-i18next";
 
 const ContentRender = ({ content }: { content: string }) => {
   switch (content) {
