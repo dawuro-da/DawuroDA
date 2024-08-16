@@ -4,8 +4,10 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const HeroSection = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const images = [
     { url: "/images/hero1.svg", alt: "Image 1" },
@@ -58,7 +60,7 @@ const HeroSection = () => {
         </div>
       ))}
       <div className="leading-10 xl:lg:px-40 md:px-20 px-10 absolute text-white h-full w-full xl:max-w-[80%] lg:max-w-[90%] flex flex-col items-center justify-center xl:lg:gap-6 gap-2 z-20">
-        {renderText(currentIndex, router)}
+        {renderText(currentIndex, router, t)}
       </div>
 
       <button
@@ -91,14 +93,18 @@ const HeroSection = () => {
 
 export default HeroSection;
 
-const renderText = (currentIndex: number, router: AppRouterInstance) => {
+const renderText = (
+  currentIndex: number,
+  router: AppRouterInstance,
+  t: any
+) => {
   switch (currentIndex) {
     case 0:
       return (
         <>
-          <span className="w-full mt-16">Gamo Development Association</span>
+          <span className="w-full mt-16">{t("institution_name")}</span>
           <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20 ">
-            Empowering Communities Through Sustainable <br />
+            {t("welcomeText.heading_1")} <br />
             <span className="w-[300px] -ml-6 pl-6 z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
               Development
             </span>
@@ -127,7 +133,7 @@ const renderText = (currentIndex: number, router: AppRouterInstance) => {
     case 1:
       return (
         <>
-          <span className="w-full mt-16">Gamo Development Association</span>
+          <span className="w-full mt-16">{t("institution_name")}</span>
           <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
             Advancing Sustainable Agriculture & Industry
             <br />
@@ -157,7 +163,7 @@ const renderText = (currentIndex: number, router: AppRouterInstance) => {
     case 2:
       return (
         <>
-          <span className="w-full mt-16">Gamo Development Association</span>
+          <span className="w-full mt-16">{t("institution_name")}</span>
           <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
             Safeguarding Forests and Enviroments for <br />
             <span className="w-[300px] -ml-6 pl-6 z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
@@ -186,7 +192,7 @@ const renderText = (currentIndex: number, router: AppRouterInstance) => {
     default:
       return (
         <>
-          <span className="w-full mt-16">Gamo Development Association</span>
+          <span className="w-full mt-16">{t("institution_name")}</span>
           <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
             Elevating Education & Health Services for a
             <br />

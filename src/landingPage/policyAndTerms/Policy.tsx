@@ -1,21 +1,33 @@
+"use client";
+import { I18nextProvider, useTranslation } from "react-i18next";
 import Footer from "../footer/Footer";
 import Naviagtion from "../navigation/Navigation";
+import useLanguageStore from "@/redux/languageStore";
+import { useEffect } from "react";
+import i18n from "../../../i18n";
 
 const Policy = () => {
+  const { i18n: i18nn } = useTranslation();
+  const { language } = useLanguageStore();
+
+  useEffect(() => {
+    i18nn.changeLanguage(language);
+  }, [language, i18nn]);
   return (
-    <div>
-      <Naviagtion />
-      <div className="xl:lg:px-40 md:px-20 px-10 w-full my-12 text-[rgb(0,0,0,0.6)]">
-        <h2 className="text-4xl font-bold ">Privacy policy</h2>
-        <p>
-          {`You may use our Website without providing any personal data. However, in
+    <I18nextProvider i18n={i18n}>
+      <div>
+        <Naviagtion />
+        <div className="xl:lg:px-40 md:px-20 px-10 w-full my-12 text-[rgb(0,0,0,0.6)]">
+          <h2 className="text-4xl font-bold ">Privacy policy</h2>
+          <p>
+            {`You may use our Website without providing any personal data. However, in
         order to access certain reserved areas and contents, we may ask you to
         provide certain personal data relating to you.`}
-        </p>
-        <br />
-        <h4 className="text-xl font-bold ">1. What data do we collect?</h4>
-        <p>
-          {`a. Personal information such as, where appropriate, name, address,
+          </p>
+          <br />
+          <h4 className="text-xl font-bold ">1. What data do we collect?</h4>
+          <p>
+            {`a. Personal information such as, where appropriate, name, address,
         telephone number, e-mail address, etc. We collect this information only
         in connection with specific activities, such as campaigns, feedback,
         surveys, email newsletter subscriptions, etc. You do not have to
@@ -30,46 +42,49 @@ const Policy = () => {
         your browser to notify you when a cookie is sent or to refuse cookies
         altogether, but certain features of our Website may not work without
         cookies.`}
-        </p>
-        <br />
-        <h4 className="text-xl font-bold ">2. Where will the data be held?</h4>
-        <p>
-          {` Data submitted through the forms on our Website is held on our servers
+          </p>
+          <br />
+          <h4 className="text-xl font-bold ">
+            2. Where will the data be held?
+          </h4>
+          <p>
+            {` Data submitted through the forms on our Website is held on our servers
         in UK and/or on servers pertaining to Yegara Hosting, Inc., which is
         based in Ethiopia.`}
-        </p>
-        <br />
-        <h4 className="text-xl font-bold ">3. Confidentiality</h4>
-        <p>
-          {`We will not disclose the data you provide us to any third party unless
+          </p>
+          <br />
+          <h4 className="text-xl font-bold ">3. Confidentiality</h4>
+          <p>
+            {`We will not disclose the data you provide us to any third party unless
         you have specifically given us permission to do so, or unless we believe
         that such disclosure is necessary to comply with applicable law or legal
         process.`}
-        </p>
-        <br />
-        <h4 className="text-xl font-bold ">4. Information from under 18s.</h4>
-        <p>
-          {`If you are under 18, be sure to obtain your parent's or guardian's
+          </p>
+          <br />
+          <h4 className="text-xl font-bold ">4. Information from under 18s.</h4>
+          <p>
+            {`If you are under 18, be sure to obtain your parent's or guardian's
         permission before you send any information about yourself (your name,
         address, e-mail address, etc.) to us or anyone else over the internet.
         We encourage parents to get involved with their children's usage of the
         internet and to be aware of the activities in which they are
         participating.`}
-        </p>
-        <br />
-        <h4 className="text-xl font-bold ">
-          6. Your right to access the information
-        </h4>
-        <p>
-          {`By contacting media@ecgbc.org, you may ask us for a copy of the personal
+          </p>
+          <br />
+          <h4 className="text-xl font-bold ">
+            6. Your right to access the information
+          </h4>
+          <p>
+            {`By contacting media@ecgbc.org, you may ask us for a copy of the personal
         information that we hold about you or request a correction or deletion
         of information. If you have any questions about our privacy policy,
         please contact media@ecgbc.org.`}
-        </p>
-        <br />
+          </p>
+          <br />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </I18nextProvider>
   );
 };
 
