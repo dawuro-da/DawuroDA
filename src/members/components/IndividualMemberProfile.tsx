@@ -77,7 +77,6 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
     }
   };
 
-  console.log({ errors });
   useEffect(() => {
     handleFileChange();
   }, [watch("profileImage")]);

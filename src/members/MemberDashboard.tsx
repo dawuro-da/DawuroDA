@@ -78,7 +78,6 @@ const MemberDashboard = ({
 
   const downloadGammodaId = () => {
     const currTarget = gammodaIdRef.current;
-    console.log("here download");
     prepareURL(
       currTarget,
       `${member.firstName ? member.firstName : member.institutionName}ID`

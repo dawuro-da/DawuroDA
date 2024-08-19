@@ -56,3 +56,17 @@ export const RegisteredAsAdmin = (props: {
     <p>&nbsp;</p>\n 
     <p>&nbsp;</p>\n 
     <p>&nbsp;</p>`;
+
+export const ConfirmationEmail = (props: {
+  email: string;
+  OTP: string;
+}) => `<p>Dear User,</p>\n 
+        <p>Here is your OTP confirmation code requested using ${props.email} email.</p>\n
+        
+        <p>${props.OTP}</p>\n\n
+                    
+        <p>&nbsp;</p>\n 
+        <p>&nbsp;</p>\n 
+        <p>&nbsp;</p>\n 
+        <p>&nbsp;</p>\n 
+        <p>&nbsp;</p>`;

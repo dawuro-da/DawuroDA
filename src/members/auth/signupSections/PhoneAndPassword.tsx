@@ -1,6 +1,12 @@
-import { phone_regex } from "@/constants/regex";
+import { international_phone_regex, phone_regex } from "@/constants/regex";
 import { FacebookRounded, RemoveRedEyeOutlined } from "@mui/icons-material";
-import { Button, CircularProgress, Divider, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  CircularProgress,
+  Divider,
+  TextField,
+} from "@mui/material";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,15 +51,31 @@ const PhoneAndPassword = ({
         setLoading(false);
         return;
       }
-      if (!phone_regex.test(watch("phone"))) {
-        setError("Phone is not valid eg: 09...");
+      if (watch("international") && !watch("email")) {
+        setError("Email is required for international user");
         setLoading(false);
         return;
       }
+      if (watch("international")) {
+        if (!international_phone_regex.test(watch("phone"))) {
+          setError("Phone is not valid");
+          setLoading(false);
+          return;
+        }
+      } else {
+        if (!phone_regex.test(watch("phone"))) {
+          setError("Phone is not valid eg: 09...");
+          setLoading(false);
+          return;
+        }
+      }
+
       const res = await axios.post("/api/member/checkToRegister", {
         phone: watch("phone"),
         email: watch("email"),
+        isInternational: watch("international"),
       });
+
       if (res.data.success) {
         handleNext();
       } else {
@@ -103,7 +125,7 @@ const PhoneAndPassword = ({
             },
           })}
           type="text"
-          placeholder="09..."
+          placeholder={watch("international") ? "251..." : "09..."}
           className="border-2 rounded-[16px] py-2"
           inputProps={{ style: { padding: 10 } }}
           error={Boolean(!!errors.phone)}
@@ -214,6 +236,13 @@ const PhoneAndPassword = ({
           <span>Google</span>
         </div>
       </div> */}
+      <div className="flex flex-row items-center w-full text-titleColor">
+        <Checkbox
+          {...register("international")}
+          checked={Boolean(watch("international"))}
+        />
+        <span>International user</span>
+      </div>
       <span className="text-red-500">{error}</span>
       <Button
         onClick={sendOtp}

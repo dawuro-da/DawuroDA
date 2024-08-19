@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
 import { sendOTP } from "@/util/sms";
 import { findMemberByEmail, findMemberByPhone } from "@/db/member";
+import { transporter } from "@/services/nodemailer";
+import { ConfirmationEmail } from "@/util/emailTemplate";
+import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
   try {
-    const { phone, email } = await req.json();
+    const { phone, email, isInternational } = await req.json();
 
     const emailExist = email ? Boolean(await findMemberByEmail(email)) : "";
     const phoneExist = Boolean(await findMemberByPhone(phone));
@@ -27,26 +30,53 @@ export async function POST(req: Request) {
       );
     }
 
-    const response = await sendOTP({ phone });
+    if (isInternational) {
+      const OTP = Math.floor(1000 + Math.random() * 9000);
 
-    if (response.data.acknowledge === "success") {
-      return NextResponse.json(
-        {
-          success: true,
-          value: "Verifcation OTP sent",
-        },
-        { status: 200 }
-      );
+      cookies().set("memberRegOTP", `${OTP}`, { secure: true });
+
+      const html = ConfirmationEmail({
+        email: email,
+        OTP: `${OTP}`,
+      });
+
+      const response = await transporter.sendMail({
+        to: email,
+        from: "miketesttest6@gmail.com",
+        subject: "Gammoda OTP Confirmation",
+        text: html,
+        html: html,
+      });
+
+      if (response) {
+        return NextResponse.json(
+          {
+            success: true,
+            value: "Verifcation OTP sent",
+          },
+          { status: 200 }
+        );
+      }
     } else {
-      console.error(response.data)
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Unable to send OTP",
-        },
-        { status: 500 }
-      );
+      const response = await sendOTP({ phone });
+      if (response.data.acknowledge === "success") {
+        return NextResponse.json(
+          {
+            success: true,
+            value: "Verifcation OTP sent",
+          },
+          { status: 200 }
+        );
+      }
     }
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Unable to send OTP",
+      },
+      { status: 500 }
+    );
   } catch (err) {
     console.warn(err);
     return NextResponse.json(

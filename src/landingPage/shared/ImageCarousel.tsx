@@ -1,28 +1,35 @@
-import Navigation from "@/landingPage/navigation/Navigation";
-import { Button } from "@mui/material";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { convertYouTubeURL } from "@/util/helper";
 import { useEffect, useState } from "react";
 
-const ImageCarousel = ({ images }: { images: string[] }) => {
+const ImageCarousel = ({
+  images,
+  youtubeLink,
+}: {
+  images: string[];
+  youtubeLink?: string | null;
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const imagesList = youtubeLink ? [youtubeLink, ...images] : images;
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 10000); // Change slide every 10 seconds
-    return () => clearInterval(interval);
-  }, []);
+    if (!playing) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % imagesList.length);
+      }, 10000); // Change slide every 10 seconds
+      return () => clearInterval(interval);
+    }
+  }, [playing]);
 
   const prevSlide = () => {
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length
+      (prevIndex) => (prevIndex - 1 + imagesList.length) % imagesList.length
     );
   };
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % imagesList.length);
   };
 
   const goToSlide = (index: number) => {
@@ -31,21 +38,42 @@ const ImageCarousel = ({ images }: { images: string[] }) => {
 
   return (
     <div className="relative min-h-[600px] w-full bg-[#333333] z-10 overflow-hidden">
-      {images.map((image, index) => (
-        <div
-          key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentIndex ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <Image
-            src={image}
-            alt={`image${index}`}
-            fill
-            className="w-[100%] h-[100%] object-cover filter brightness-30"
-          />
-        </div>
-      ))}
+      {imagesList.map((image, index) => {
+        return youtubeLink && index === 0 ? (
+          <div
+            onClick={() => setPlaying(true)}
+            className={`z-20 w-full h-fit min-h-[600px] absolute inset-0 transition-opacity duration-1000 ${
+              index === currentIndex ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <iframe
+              onMouseEnter={() => setPlaying(true)}
+              onMouseLeave={() => setPlaying(false)}
+              width="853"
+              height="480"
+              src={convertYouTubeURL(youtubeLink)}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="Embedded youtube"
+              className="absolute w-full left-0 top-0 min-h-full"
+            />
+          </div>
+        ) : (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentIndex ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Image
+              src={image}
+              alt={`image${index}`}
+              fill
+              className="w-[100%] h-[100%] object-cover filter brightness-30"
+            />
+          </div>
+        );
+      })}
 
       <button
         onClick={prevSlide}
@@ -61,7 +89,7 @@ const ImageCarousel = ({ images }: { images: string[] }) => {
       </button>
 
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
-        {images.map((_, index) => (
+        {imagesList.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
