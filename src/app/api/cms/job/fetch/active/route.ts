@@ -1,19 +1,11 @@
 import { NextResponse } from "next/server";
-import { fetchJobs } from "@/db/job";
-import { getServerSession } from "next-auth";
-import { UserRole } from "@prisma/client";
-import { OPTIONS } from "@/util/authOptions";
+import { fetchActiveJobs } from "@/db/job";
 
 export async function POST(req: Request) {
-  const session = await getServerSession(OPTIONS);
-  if (!session?.user?.id && session?.user.role === UserRole.Member) {
-    return NextResponse.redirect("/gaadmin/login", 401);
-  }
-
   const { page, pageSize, searchText } = await req.json();
 
   try {
-    const result = await fetchJobs({ page, pageSize, searchText });
+    const result = await fetchActiveJobs({ page, pageSize, searchText });
 
     if (result) {
       return NextResponse.json(

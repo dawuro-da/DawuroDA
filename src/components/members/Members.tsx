@@ -326,8 +326,8 @@ const Members = () => {
                     }}
                   >
                     <MenuItem value=" ">Membership Level</MenuItem>
-                    <MenuItem value={MembershipLevel?.Platinium}>
-                      {MembershipLevel?.Platinium}
+                    <MenuItem value={MembershipLevel?.Platinum}>
+                      {MembershipLevel?.Platinum}
                     </MenuItem>
                     <MenuItem value={MembershipLevel?.Diamond}>
                       {MembershipLevel?.Diamond}
@@ -335,8 +335,8 @@ const Members = () => {
                     <MenuItem value={MembershipLevel?.Gold}>
                       {MembershipLevel?.Gold}
                     </MenuItem>
-                    <MenuItem value={MembershipLevel?.Siliver}>
-                      {MembershipLevel?.Siliver}
+                    <MenuItem value={MembershipLevel?.Silver}>
+                      {MembershipLevel?.Silver}
                     </MenuItem>
                     <MenuItem value={MembershipLevel?.Bronze}>
                       {MembershipLevel?.Bronze}
@@ -577,13 +577,13 @@ const getColumnDefinition = ({
               <div className="flex flex-row items-center gap-2 justify-center h-full">
                 <span
                   className={`flex  flex-row items-center justify-center w-fit ${
-                    params.value === MembershipLevel.Platinium
+                    params.value === MembershipLevel.Platinum
                       ? "bg-[#34A8A8] text-white"
                       : params.value === MembershipLevel.Diamond
                       ? "bg-[#B0E0E62E] text-titleColor"
                       : params.value === MembershipLevel.Gold
                       ? "bg-[#FFD7002E]"
-                      : params.value === MembershipLevel.Siliver
+                      : params.value === MembershipLevel.Silver
                       ? "bg-[#C0C0C02E]"
                       : "bg-transparent"
                   }  rounded-[8px] min-w-20 text-center px-4 h-8 `}

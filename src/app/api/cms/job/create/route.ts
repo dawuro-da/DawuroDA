@@ -3,10 +3,11 @@ import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { createJob } from "@/db/job";
 import { uploadFile } from "@/util/uploadFile";
+import { UserRole } from "@prisma/client";
 
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
-  if (!session?.user?.id) {
+  if (!session?.user?.id && session?.user.role === UserRole.Member) {
     return NextResponse.redirect("/gaadmin/login", 401);
   }
 
@@ -17,6 +18,7 @@ export async function POST(req: Request) {
   const document = formData.get("document") as File;
   const jobDescriptionAmharic = formData.get("jobDescriptionAmharic") as string;
   const jobTitleAmharic = formData.get("jobTitleAmharic") as string;
+  const deadlineDate = formData.get("deadlineDate") as string;
 
   try {
     const imageUrl = document.name
@@ -34,7 +36,8 @@ export async function POST(req: Request) {
       jobDescriptionAmharic,
       jobTitleAmharic,
       document: imageUrl ? imageUrl : "",
-      isDraft:isDraft === "true" ? true : false,
+      isDraft: isDraft === "true" ? true : false,
+      deadlineDate,
     });
 
     if (result) {

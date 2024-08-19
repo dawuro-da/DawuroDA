@@ -48,10 +48,10 @@ model User {
 }
 
 enum MembershipLevel {
-  Platinium
+  Platinum
   Diamond
   Gold
-  Siliver
+  Silver
   Bronze
   Standard
 }
@@ -93,7 +93,7 @@ model Member {
   memberId           String             @unique
   phone              String             @unique
   email              String?
-  membershipLevel    MembershipLevel    @default(Siliver)
+  membershipLevel    MembershipLevel    @default(Silver)
   contributionAmount Int
   contributionSystem ContributionSystem @default(Monthly)
   lastPaidAt         DateTime
@@ -144,7 +144,7 @@ model TempMember {
   id                 String             @id @default(uuid())
   phone              String
   email              String?
-  membershipLevel    MembershipLevel    @default(Siliver)
+  membershipLevel    MembershipLevel    @default(Silver)
   contributionAmount Int
   contributionSystem ContributionSystem @default(Monthly)
   lastPaidAt         DateTime
@@ -361,13 +361,13 @@ model Partnership {
 }
 
 model Job {
-  id                    String @id @default(uuid())
+  id                    String   @id @default(uuid())
   jobTitle              String
   jobTitleAmharic       String
   jobDescription        String
   jobDescriptionAmharic String
   document              String
-  deadlineDate          String
+  deadlineDate          DateTime
 
   isDraft Boolean @default(false)
 
@@ -424,14 +424,4 @@ model Bidder {
   updated_at DateTime @default(now()) @updatedAt
 
   @@map(name: "bidder")
-}
-
-model Automation {
-  id            String @unique @default(uuid())
-  intitalizedBy String
-
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
-
-  @@map(name: "automation")
 }

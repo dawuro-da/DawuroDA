@@ -9,8 +9,11 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Job } from "@prisma/client";
 import axios from "axios";
+import dayjs from "dayjs";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -45,6 +48,7 @@ const JobEdit = ({
     setValue("jobDescription", selectedJob?.jobDescription);
     setValue("jobDescriptionAmharic", selectedJob?.jobDescriptionAmharic);
     setValue("document", selectedJob?.document);
+    setValue("deadlineDate", selectedJob?.deadlineDate);
     setValue("isDraft", selectedJob?.isDraft);
   }, [selectedJob]);
 
@@ -61,6 +65,7 @@ const JobEdit = ({
           ? values.document
           : values.document[0]
       );
+      formData.append("deadlineDate", values.deadlineDate);
       formData.append("jobDescription", values.jobDescription);
       formData.append("jobDescriptionAmharic", values.jobDescriptionAmharic);
 
@@ -248,6 +253,25 @@ const JobEdit = ({
               {errors.document && errors.document.message?.toString()}
             </span>
           </div>
+          <div className="flex flex-col  text-titleColor w-full">
+            <label>Deadline Date</label>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                {...register("deadlineDate", {
+                  required: "Deadline is required",
+                })}
+                defaultValue={dayjs(selectedJob?.deadlineDate)}
+                minDate={dayjs().add(1, "day")}
+                onChange={(value) => setValue("deadlineDate", value)}
+              />
+            </LocalizationProvider>
+            {errors?.deadlineDate && !watch("deadlineDate") && (
+              <small className="text-red-500">
+                {errors?.deadlineDate?.message?.toString()}
+              </small>
+            )}
+          </div>
+
           <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
             <div className="flex flex-row items-center gap-1">
               <Checkbox

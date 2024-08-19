@@ -47,8 +47,8 @@ const InstitutionProfessionForm = ({
               errors.membershipLevel.message?.toString()
             }
           >
-            <MenuItem value={MembershipLevel?.Platinium}>
-              {MembershipLevel?.Platinium}
+            <MenuItem value={MembershipLevel?.Platinum}>
+              {MembershipLevel?.Platinum}
               {" (>100K ETB)"}
             </MenuItem>
             <MenuItem value={MembershipLevel?.Diamond}>
@@ -59,8 +59,8 @@ const InstitutionProfessionForm = ({
               {MembershipLevel?.Gold}
               {" (50K-80K ETB)"}
             </MenuItem>
-            <MenuItem value={MembershipLevel?.Siliver}>
-              {MembershipLevel?.Siliver}
+            <MenuItem value={MembershipLevel?.Silver}>
+              {MembershipLevel?.Silver}
               {" (30K-50K ETB)"}
             </MenuItem>
             <MenuItem value={MembershipLevel?.Bronze}>

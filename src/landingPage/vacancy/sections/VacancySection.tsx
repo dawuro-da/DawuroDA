@@ -18,7 +18,7 @@ const VacancySection = () => {
   const fetchJobs = async () => {
     page === 1 ? setLoading(true) : setLoadingMore(true);
     try {
-      const res = await axios.post("/api/cms/job/fetch", {
+      const res = await axios.post("/api/cms/job/fetch/active", {
         page: page,
         pageSize: 10,
       });

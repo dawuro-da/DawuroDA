@@ -99,7 +99,7 @@ const PhoneAndPassword = ({
       </div>
       <div className="flex flex-col gap-1 w-full mt-12">
         <span className="text-titleColor text-sm font-bold">
-          {"Email (optional)"}
+          {"Email (optional for local users)"}
         </span>
         <TextField
           size="small"
@@ -125,7 +125,7 @@ const PhoneAndPassword = ({
             },
           })}
           type="text"
-          placeholder={watch("international") ? "251..." : "09..."}
+          placeholder={watch("international") ? "eg: 12403149934" : "09..."}
           className="border-2 rounded-[16px] py-2"
           inputProps={{ style: { padding: 10 } }}
           error={Boolean(!!errors.phone)}

@@ -47,8 +47,8 @@ const IndividualProfessionalForm = ({
               errors.membershipLevel.message?.toString()
             }
           >
-            <MenuItem value={MembershipLevel?.Platinium}>
-              {MembershipLevel?.Platinium}
+            <MenuItem value={MembershipLevel?.Platinum}>
+              {MembershipLevel?.Platinum}
               {" (>100 ETB)"}
             </MenuItem>
             <MenuItem value={MembershipLevel?.Diamond}>
@@ -59,8 +59,8 @@ const IndividualProfessionalForm = ({
               {MembershipLevel?.Gold}
               {" (50-80 ETB)"}
             </MenuItem>
-            <MenuItem value={MembershipLevel?.Siliver}>
-              {MembershipLevel?.Siliver}
+            <MenuItem value={MembershipLevel?.Silver}>
+              {MembershipLevel?.Silver}
               {" (30-50 ETB)"}
             </MenuItem>
             <MenuItem value={MembershipLevel?.Bronze}>

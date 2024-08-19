@@ -73,7 +73,7 @@ export async function POST(req: Request) {
   const branch = formData.get("branch") as string;
   const country = formData.get("country") as string;
   const nationality = formData.get("nationality") as string;
-  const emailExist = Boolean(await findMemberByEmail(email));
+  const emailExist = Boolean(email!=='undefined') && Boolean(await findMemberByEmail(email));
   const phoneExist = Boolean(await findMemberByPhone(phone));
 
   if (emailExist) {
@@ -154,6 +154,8 @@ export async function POST(req: Request) {
             firstName,
             lastName,
             gender,
+            country,
+            nationality,
             educationLevel,
             expertise,
             dateOfBirth,

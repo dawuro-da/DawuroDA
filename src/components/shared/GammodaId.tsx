@@ -18,9 +18,9 @@ const GammodaId = ({
         return "/badges/bronze-member.png";
       case "Diamond":
         return "/badges/diamond-member.png";
-      case "Platinium":
-        return "/badges/platinium-member.png";
-      case "Siliver":
+      case "Platinum":
+        return "/badges/platinum-member.png";
+      case "Silver":
         return "/badges/silver-member.png";
       default:
         return "";

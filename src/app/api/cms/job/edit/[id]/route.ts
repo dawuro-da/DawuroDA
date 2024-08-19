@@ -17,6 +17,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
   const document = formData.get("document") as File;
   const jobDescriptionAmharic = formData.get("jobDescriptionAmharic") as string;
   const jobTitleAmharic = formData.get("jobTitleAmharic") as string;
+  const deadlineDate = formData.get("deadlineDate") as string;
   const jobId = context.params.id;
 
   try {
@@ -37,6 +38,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       id: jobId,
       document: imageUrl ? imageUrl : "",
       isDraft: isDraft === "true" ? true : false,
+      deadlineDate,
     });
 
     if (result) {
