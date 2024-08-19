@@ -15,18 +15,16 @@ export async function createJob({
   jobDescriptionAmharic,
   jobTitleAmharic,
   isDraft,
-  responsiblities,
-  qualification,
-  benefits,
+  document,
+  deadlineDate,
 }: {
   isDraft: boolean;
   jobTitle: string;
   jobDescription: string;
   jobDescriptionAmharic: string;
   jobTitleAmharic: string;
-  responsiblities?: string;
-  qualification?: string;
-  benefits?: string;
+  document: string;
+  deadlineDate: string;
 }) {
   try {
     const job = await prisma.job.create({
@@ -36,9 +34,8 @@ export async function createJob({
         jobDescription,
         jobDescriptionAmharic,
         jobTitleAmharic,
-        responsiblities,
-        qualification,
-        benefits,
+        document,
+        deadlineDate,
       },
     });
 
@@ -59,9 +56,8 @@ export async function updateJob({
   jobTitleAmharic,
   id,
   isDraft,
-  responsiblities,
-  qualification,
-  benefits,
+  document,
+  deadlineDate,
 }: {
   id: string;
   jobTitle: string;
@@ -69,9 +65,8 @@ export async function updateJob({
   jobDescriptionAmharic: string;
   jobTitleAmharic: string;
   isDraft: boolean;
-  responsiblities?: string;
-  qualification?: string;
-  benefits?: string;
+  document: string;
+  deadlineDate: string;
 }) {
   try {
     const job = await prisma.job.update({
@@ -82,9 +77,8 @@ export async function updateJob({
         jobDescription,
         jobDescriptionAmharic,
         jobTitleAmharic,
-        responsiblities,
-        qualification,
-        benefits,
+        document,
+        deadlineDate,
       },
     });
 
@@ -107,6 +101,65 @@ export async function fetchJobs({
   searchText?: string;
 }): Promise<{ jobs: Job[] | undefined; total: number }> {
   const whereClause: Prisma.JobWhereInput = {
+    ...(searchText && {
+      OR: [
+        {
+          jobTitle: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          jobTitleAmharic: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          jobDescription: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          jobDescriptionAmharic: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+      ],
+    }),
+  };
+
+  const jobs = await prisma.job.findMany({
+    where: whereClause,
+    orderBy: {
+      created_at: "desc",
+    },
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+  });
+
+  const total = await prisma.job.count({
+    where: whereClause,
+  });
+
+  return { jobs, total };
+}
+
+export async function fetchActiveJobs({
+  page,
+  pageSize,
+  searchText,
+}: {
+  page: number;
+  pageSize: number;
+  searchText?: string;
+}): Promise<{ jobs: Job[] | undefined; total: number }> {
+  const whereClause: Prisma.JobWhereInput = {
+    deadlineDate: {
+      gte: Date.now().toLocaleString(),
+    },
     ...(searchText && {
       OR: [
         {

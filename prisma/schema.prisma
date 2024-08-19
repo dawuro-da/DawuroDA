@@ -286,7 +286,7 @@ model Campaign {
   id              String  @id @default(uuid())
   headline        String
   headlineAmharic String
-  description    String
+  description     String
   isDraft         Boolean @default(false)
 
   startDate DateTime
@@ -361,14 +361,13 @@ model Partnership {
 }
 
 model Job {
-  id                    String  @id @default(uuid())
+  id                    String @id @default(uuid())
   jobTitle              String
   jobTitleAmharic       String
   jobDescription        String
   jobDescriptionAmharic String
-  responsiblities       String?
-  qualification         String?
-  benefits              String?
+  document              String
+  deadlineDate          String
 
   isDraft Boolean @default(false)
 

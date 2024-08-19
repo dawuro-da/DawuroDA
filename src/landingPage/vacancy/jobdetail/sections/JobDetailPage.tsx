@@ -2,6 +2,7 @@
 
 import { showToastAction } from "@/redux/actions";
 import { getFormattedDate } from "@/util/date";
+import { ArrowDownward } from "@mui/icons-material";
 import { Button, Skeleton } from "@mui/material";
 import { Job } from "@prisma/client";
 import axios from "axios";
@@ -47,6 +48,26 @@ const JobDetailPage = () => {
     }
   };
 
+  const downloadPDF = async ({ name, url }: { name: string; url: string }) => {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const blob = await response.blob();
+      const urlBlob = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = urlBlob;
+      a.download = `${name}.pdf`; // Set the file name here
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(urlBlob);
+    } catch (error) {
+      console.error("Error downloading the PDF:", error);
+    }
+  };
+
   return (
     <div className="min-h-screen p-8">
       <Link href="/vacancies" className="w-fit font-light flex flex-row gap-4">
@@ -80,12 +101,16 @@ const JobDetailPage = () => {
             <h2 className="text-xl font-bold">Description:</h2>
             <div className="mt-2">
               <p>{job?.jobDescription}</p>
-              <h3 className="mt-4 font-semibold">Responsibilities:</h3>
-              <p>{job?.responsiblities}</p>
-              <h3 className="mt-4 font-semibold">Qualifications:</h3>
-              <p>{job?.qualification}</p>
-              <h3 className="mt-4 font-semibold">Benefits:</h3>
-              <p>{job?.benefits}</p>
+              <Button
+                onClick={() =>
+                  job && downloadPDF({ name: job.jobTitle.slice(0,40), url: job.document })
+                }
+                variant="outlined"
+                className="text-white w-fit px-12 mt-6 flex flex-row py-3 rounded-md bg-primaryColor hover:text-primaryColor justify-center items-center gap-2"
+              >
+                <ArrowDownward />
+                <p>Download Detail</p>
+              </Button>
             </div>
           </div>
           <div className="mt-8 flex flex-col gap-4">

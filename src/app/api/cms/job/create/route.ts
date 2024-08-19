@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { createJob } from "@/db/job";
+import { uploadFile } from "@/util/uploadFile";
 
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
@@ -9,26 +10,31 @@ export async function POST(req: Request) {
     return NextResponse.redirect("/gaadmin/login", 401);
   }
 
-  const {
-    jobTitle,
-    jobDescription,
-    isDraft,
-    jobDescriptionAmharic,
-    jobTitleAmharic,
-    responsiblities,
-    qualification,
-    benefits,
-  } = await req.json();
+  const formData = await req.formData();
+  const isDraft = formData.get("isDraft") as string;
+  const jobTitle = formData.get("jobTitle") as string;
+  const jobDescription = formData.get("jobDescription") as string;
+  const document = formData.get("document") as File;
+  const jobDescriptionAmharic = formData.get("jobDescriptionAmharic") as string;
+  const jobTitleAmharic = formData.get("jobTitleAmharic") as string;
+
   try {
+    const imageUrl = document.name
+      ? await uploadFile({
+          path: "/jobDocs",
+          fileName: document.name ?? "name",
+          file: document,
+          mimeType: document.type,
+        })
+      : (document as unknown as string);
+
     const result = await createJob({
       jobTitle,
       jobDescription,
       jobDescriptionAmharic,
       jobTitleAmharic,
-      isDraft,
-      responsiblities,
-      qualification,
-      benefits,
+      document: imageUrl ? imageUrl : "",
+      isDraft:isDraft === "true" ? true : false,
     });
 
     if (result) {
