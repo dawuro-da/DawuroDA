@@ -9,7 +9,6 @@ import { News } from "@prisma/client";
 import axios from "axios";
 import { getFormattedDate } from "@/util/date";
 import ImageCarousel from "../shared/ImageCarousel";
-import { convertYouTubeURL } from "@/util/helper";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import useLanguageStore from "@/redux/languageStore";
 import i18n from "../../../i18n";
@@ -44,10 +43,12 @@ const NewsDetail = () => {
     try {
       const res = await axios.post(`/api/cms/news/fetch`, {
         page: 1,
-        pageSize: 7,
+        pageSize: 8,
       });
       if (res.data.success) {
-        setNewsList(res.data.value.newss);
+        setNewsList(
+          res.data.value.newss.filter((item: any) => item.id !== params?.id)
+        );
       }
     } catch (err) {
       console.error(err);
@@ -118,22 +119,13 @@ const NewsDetail = () => {
               ) : (
                 <div className="w-full text-titleColor">
                   {news?.profileImage?.[0] && (
-                    <ImageCarousel images={news.profileImage} />
+                    <ImageCarousel
+                      youtubeLink={news?.youtubeLink}
+                      images={news.profileImage}
+                    />
                   )}
-                  {!news?.profileImage?.[0] && news?.youtubeLink && (
-                    <div className="relative w-full h-fit min-h-[600px]">
-                      <iframe
-                        width="853"
-                        height="480"
-                        src={convertYouTubeURL(news?.youtubeLink)}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        title="Embedded youtube"
-                        className="absolute w-full left-0 top-0 min-h-full"
-                      />
-                    </div>
-                  )}
-                  <p>{news?.body}</p>
+
+                  <p className="mt-8">{news?.body}</p>
                 </div>
               )}
             </div>

@@ -35,10 +35,14 @@ const InitiativeDetail = () => {
     try {
       const res = await axios.post(`/api/cms/initiative/fetch`, {
         page: 1,
-        pageSize: 4,
+        pageSize: 5,
       });
       if (res.data.success) {
-        setInitiativeList(res.data.value.initiatives);
+        setInitiativeList(
+          res.data.value.initiatives.filter(
+            (item: any) => item.id !== params.id
+          )
+        );
       }
     } catch (err) {
       console.error(err);
@@ -69,20 +73,10 @@ const InitiativeDetail = () => {
           ) : (
             <div className=" text-titleColor">
               {initiative?.featuredImages?.[0] && (
-                <ImageCarousel images={initiative.featuredImages} />
-              )}
-              {!initiative?.featuredImages?.[0] && initiative?.youtubeLink && (
-                <div className="relative w-full h-fit min-h-[600px]">
-                  <iframe
-                    width="853"
-                    height="480"
-                    src={convertYouTubeURL(initiative?.youtubeLink)}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    title="Embedded youtube"
-                    className="absolute w-full left-0 top-0 min-h-full"
-                  />
-                </div>
+                <ImageCarousel
+                  youtubeLink={initiative?.youtubeLink}
+                  images={initiative.featuredImages}
+                />
               )}
               <p className="mt-6">{initiative?.body}</p>
             </div>

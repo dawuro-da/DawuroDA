@@ -63,7 +63,7 @@ export async function POST(req: Request) {
         email,
         password_salt: salt,
       };
-      
+
       const result = await createUser(userData);
 
       const html = RegisteredAsAdmin({
@@ -76,7 +76,7 @@ export async function POST(req: Request) {
       const emailRes = await transporter.sendMail({
         to: email,
         from: "miketesttest6@gmail.com",
-        subject: "Gammoda Password Reset Requiest",
+        subject: "Gammoda admin registration",
         text: html,
         html: html,
       });

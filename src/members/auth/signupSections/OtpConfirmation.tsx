@@ -25,10 +25,14 @@ const OtpConfirmation = ({ handleNext, watch }: OtpConfirmationProps) => {
         setError("Please enter the OTP code");
         return;
       }
-      const res = await axios.post("/api/sms/verifyOtp", {
-        code: otp,
-        phone: watch("phone"),
-      });
+      const res = watch("international")
+        ? await axios.post("/api/email/verifyOTPConfirmation", {
+            OTP: otp,
+          })
+        : await axios.post("/api/sms/verifyOtp", {
+            code: otp,
+            phone: watch("phone"),
+          });
       if (res.data.success) {
         handleNext();
       } else {
@@ -45,7 +49,9 @@ const OtpConfirmation = ({ handleNext, watch }: OtpConfirmationProps) => {
     <div className="flex flex-col items-center justify-center gap-4 max-w-[300px] w-full">
       <div className="font-bold text-3xl">OTP Confirmation</div>
       <span className="max-w-[250px] text-black text-center">
-        {`We've sent you confirmation text to your phone`}
+        {watch("international")
+          ? `We've sent you confirmation text to your email. Please check your email`
+          : `We've sent you confirmation text to your phone`}
       </span>
       <div className="w-full flex flex-row mt-14 mb-14">
         <OtpInput
