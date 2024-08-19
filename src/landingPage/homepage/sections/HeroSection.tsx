@@ -1,5 +1,7 @@
 import Navigation from "@/landingPage/navigation/Navigation";
 import { Button } from "@mui/material";
+import { UserRole } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -7,6 +9,8 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const HeroSection = () => {
+  const session = useSession();
+  const user = session.data?.user;
   const { t } = useTranslation();
   const router = useRouter();
   const images = [
@@ -60,7 +64,7 @@ const HeroSection = () => {
         </div>
       ))}
       <div className="leading-10 xl:lg:px-40 md:px-20 px-10 absolute text-white h-full w-full xl:max-w-[80%] lg:max-w-[90%] flex flex-col items-center justify-center xl:lg:gap-6 gap-2 z-20">
-        {renderText(currentIndex, router, t)}
+        {renderText(currentIndex, router, t, user)}
       </div>
 
       <button
@@ -96,7 +100,8 @@ export default HeroSection;
 const renderText = (
   currentIndex: number,
   router: AppRouterInstance,
-  t: any
+  t: any,
+  user: any
 ) => {
   switch (currentIndex) {
     case 0:
@@ -113,13 +118,15 @@ const renderText = (
             Fostering sustainable growth and community well-being in Gamo Zone.
           </p>
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
-            <Button
-              onClick={() => router.push("/login")}
-              variant="outlined"
-              className="bg-primaryColor border-2 hover:border-2 border-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
-            >
-              Join Us
-            </Button>
+            {user?.role !== UserRole.Member && (
+              <Button
+                onClick={() => router.push("/login")}
+                variant="outlined"
+                className="bg-primaryColor border-2 hover:border-2 border-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
+              >
+                Join Us
+              </Button>
+            )}
             <Button
               onClick={() => router.push("/about")}
               variant="outlined"
@@ -145,12 +152,15 @@ const renderText = (
             Fostering sustainable growth and community well-being in Gamo Zone.
           </p>
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
-            <Button
-              variant="outlined"
-              className="bg-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
-            >
-              Join Us
-            </Button>
+            {user?.role !== UserRole.Member && (
+              <Button
+                onClick={() => router.push("/login")}
+                variant="outlined"
+                className="bg-primaryColor border-2 hover:border-2 border-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
+              >
+                Join Us
+              </Button>
+            )}
             <Button
               variant="outlined"
               className="bg-transparent border-2 border-white capitalize hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
@@ -174,12 +184,15 @@ const renderText = (
             Fostering sustainable growth and community well-being in Gamo Zone.
           </p>
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
-            <Button
-              variant="outlined"
-              className="bg-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
-            >
-              Join Us
-            </Button>
+            {user?.role !== UserRole.Member && (
+              <Button
+                onClick={() => router.push("/login")}
+                variant="outlined"
+                className="bg-primaryColor border-2 hover:border-2 border-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
+              >
+                Join Us
+              </Button>
+            )}
             <Button
               variant="outlined"
               className="bg-transparent border-2 border-white capitalize hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
@@ -204,12 +217,15 @@ const renderText = (
             Fostering sustainable growth and community well-being in Gamo Zone.
           </p>
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
-            <Button
-              variant="outlined"
-              className="bg-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
-            >
-              Join Us
-            </Button>
+            {user?.role !== UserRole.Member && (
+              <Button
+                onClick={() => router.push("/login")}
+                variant="outlined"
+                className="bg-primaryColor border-2 hover:border-2 border-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
+              >
+                Join Us
+              </Button>
+            )}
             <Button
               variant="outlined"
               className="bg-transparent border-2 border-white capitalize hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
