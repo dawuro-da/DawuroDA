@@ -43,7 +43,7 @@ const CampaignEdit = ({
   useEffect(() => {
     setValue("headline", selectedCampaign?.headline);
     setValue("headlineAmharic", selectedCampaign?.headlineAmharic);
-    setValue("campaignLink", selectedCampaign?.campaignLink);
+    setValue("description", selectedCampaign?.description);
     setValue("isDraft", selectedCampaign?.isDraft);
   }, [selectedCampaign]);
 
@@ -148,13 +148,13 @@ const CampaignEdit = ({
           </div>
 
           <div className="flex flex-col gap-1 text-titleColor">
-            <label>Campaign Link</label>
+            <label>Description</label>
             <TextField
-              {...register("campaignLink", { required: "required" })}
+              {...register("description")}
               variant="outlined"
-              error={Boolean(!!errors.campaignLink)}
+              error={Boolean(!!errors.description)}
               helperText={
-                !!errors.campaignLink && errors.campaignLink.message?.toString()
+                !!errors.description && errors.description.message?.toString()
               }
               sx={{ backgroundColor: "white" }}
               inputProps={{ style: { padding: 10 } }}

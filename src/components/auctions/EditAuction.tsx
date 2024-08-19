@@ -246,9 +246,9 @@ const EditAuction = ({
                   <span>Upload</span>
                 </Button>
               </span>
-              {/* <span className="text-[10px] text-titleColor">
-                Image size must be 600*600 File size must be less than 1MB
-              </span> */}{" "}
+              <span className="text-xs text-red-500">
+                {errors.formFile && errors.formFile.message?.toString()}
+              </span>
               <div className="flex flex-col gap-4 text-titleColor h-full">
                 <label>Discription</label>
                 <TextField

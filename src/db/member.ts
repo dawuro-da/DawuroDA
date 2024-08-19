@@ -457,6 +457,12 @@ export async function fetchAllMembers({
           },
         },
         {
+          memberId: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
           email: {
             contains: searchText,
             mode: "insensitive",

@@ -286,7 +286,7 @@ model Campaign {
   id              String  @id @default(uuid())
   headline        String
   headlineAmharic String
-  campaignLink    String
+  description    String
   isDraft         Boolean @default(false)
 
   startDate DateTime

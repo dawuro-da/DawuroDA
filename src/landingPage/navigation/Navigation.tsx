@@ -83,7 +83,9 @@ export default function Naviagtion({ bg }: { bg?: string }) {
         >
           <div className="flex flex-row items-center text-sm justify-center gap-4">
             <span>Join our social media:</span>
-            <Telegram />
+            <Link target="_blank" href={"https://t.me/gammoda"}>
+              <Telegram />
+            </Link>
             {/* <Twitter /> */}
             <Link
               target="_blank"
@@ -312,15 +314,17 @@ export default function Naviagtion({ bg }: { bg?: string }) {
             <span className="flex flex-col font-normal gap-1 mt-2">
               <span className="text-xs">Join our social media</span>
               <span className="flex flex-row gap-2 text-[#474747]">
-                <Telegram />
-                <Twitter />
+                <Link target="_blank" href={"https://t.me/gammoda"}>
+                  <Telegram />
+                </Link>
+                {/* <Twitter /> */}
                 <Link
                   target="_blank"
                   href="https://www.facebook.com/gamodevelopmentassociation?mibextid=ZbWKwL"
                 >
                   <Facebook />
                 </Link>
-                <Instagram />
+                {/* <Instagram /> */}
               </span>
             </span>
           </div>

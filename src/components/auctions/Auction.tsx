@@ -122,7 +122,7 @@ const AuctionPage = () => {
                 }
               }}
               hiddenLabel
-              placeholder="Search by name, id, phone..."
+              placeholder="Search by auction name"
               InputProps={{
                 startAdornment: (
                   <IconButton
@@ -155,7 +155,7 @@ const AuctionPage = () => {
               variant="contained"
               className="font-bold border-none bg-primaryColor text-white capitalize flex flex-row items-center gap-2 shadow-none"
             >
-              <span>Add New Bid</span>
+              <span>Add New Auction</span>
             </Button>
           </div>
         </div>

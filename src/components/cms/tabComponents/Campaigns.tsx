@@ -238,14 +238,14 @@ const Campaigns = () => {
                 />
               </div>
               <div className="flex flex-col gap-1 text-titleColor">
-                <label>CampaignLink</label>
+                <label>Description</label>
                 <TextField
-                  {...register("campaignLink", { required: "required" })}
+                  {...register("description")}
                   variant="outlined"
-                  error={Boolean(!!errors.campaignLink)}
+                  error={Boolean(!!errors.description)}
                   helperText={
-                    !!errors.campaignLink &&
-                    errors.campaignLink.message?.toString()
+                    !!errors.description &&
+                    errors.description.message?.toString()
                   }
                   sx={{ backgroundColor: "white" }}
                   inputProps={{ style: { padding: 10 } }}

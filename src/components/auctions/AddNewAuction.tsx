@@ -182,7 +182,7 @@ const AddNewAuction = () => {
                 <input
                   id="formFile"
                   {...register("formFile", {
-                    required: "formFile is required",
+                    required: "Form file is required",
                     validate: {
                       fileSize: (value: any) => {
                         if (value && value[0]) {
@@ -217,9 +217,9 @@ const AddNewAuction = () => {
                   <span>Upload</span>
                 </Button>
               </span>
-              {/* <span className="text-[10px] text-titleColor">
-                Image size must be 600*600 File size must be less than 1MB
-              </span> */}{" "}
+              <span className="text-xs text-red-500">
+                {errors.formFile && errors.formFile.message?.toString()}
+              </span>
               <div className="flex flex-col gap-4 text-titleColor h-full">
                 <label>Description</label>
                 <TextField

@@ -78,7 +78,7 @@ const InitiativeDetail = () => {
                   images={initiative.featuredImages}
                 />
               )}
-              <p className="mt-6">{initiative?.body}</p>
+              <p className="mt-8">{initiative?.body}</p>
             </div>
           )}
         </div>

@@ -16,8 +16,8 @@ export function generateRandomString(length: number) {
 }
 
 export function generateMemberId() {
-  const prefix = "MEM";
-  const randomString = generateRandomString(6);
+  const prefix = "GaDA";
+  const randomString = generateRandomString(8);
   const memberId = `${prefix}${randomString}`;
   return memberId;
 }

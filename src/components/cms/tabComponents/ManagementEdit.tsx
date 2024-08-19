@@ -243,11 +243,9 @@ const ManagementEdit = ({
                 <span>Upload</span>
               </Button>
             </span>
-            {false && (
-              <span className="text-[10px] text-titleColor">
-                Image size must be 600*600 File size must be less than 1MB
-              </span>
-            )}
+            <span className="text-xs text-red-500">
+              {errors.photo && errors.photo.message?.toString()}
+            </span>
           </div>
           <div className="flex flex-col gap-1 text-titleColor">
             <label>Bio</label>
