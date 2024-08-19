@@ -116,6 +116,8 @@ export async function createIndividualMember({
     password_hash: string;
     password_salt: string;
     memberId: string;
+    country: string;
+    nationality: string;
   };
 }) {
   try {
@@ -496,15 +498,25 @@ export async function fetchMembersWithUpcomingPayments() {
   // Get the current date
   const currentDate = new Date();
 
-  // Calculate the date 3 days from now
-  const dateThreeDaysFromNow = new Date();
-  dateThreeDaysFromNow.setDate(currentDate.getDate() + 3);
+  // Calculate the start of today to exclude past dates
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-  // Fetch members whose nextPaymentDate is within the next 3 days
+  // Calculate the start of the day 3 days from now
+  const startDate = new Date();
+  startDate.setDate(currentDate.getDate() + 3);
+  startDate.setHours(0, 0, 0, 0); // Set to start of the day
+
+  // Calculate the end of the day 3 days from now
+  const endDate = new Date(startDate);
+  endDate.setHours(23, 59, 59, 999); // Set to end of the day
+
+  // Fetch members whose nextDueDate is exactly 3 days from now and not in the past
   const members = await prisma.member.findMany({
     where: {
       nextDueDate: {
-        lte: dateThreeDaysFromNow,
+        gte: startDate,
+        lte: endDate,
       },
     },
   });

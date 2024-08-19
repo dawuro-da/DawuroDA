@@ -212,8 +212,8 @@ const SMS = () => {
                     }}
                   >
                     <MenuItem value=" ">Membership Level</MenuItem>
-                    <MenuItem value={MembershipLevel?.Platinium}>
-                      {MembershipLevel?.Platinium}
+                    <MenuItem value={MembershipLevel?.Platinum}>
+                      {MembershipLevel?.Platinum}
                     </MenuItem>
                     <MenuItem value={MembershipLevel?.Diamond}>
                       {MembershipLevel?.Diamond}
@@ -221,8 +221,8 @@ const SMS = () => {
                     <MenuItem value={MembershipLevel?.Gold}>
                       {MembershipLevel?.Gold}
                     </MenuItem>
-                    <MenuItem value={MembershipLevel?.Siliver}>
-                      {MembershipLevel?.Siliver}
+                    <MenuItem value={MembershipLevel?.Silver}>
+                      {MembershipLevel?.Silver}
                     </MenuItem>
                     <MenuItem value={MembershipLevel?.Bronze}>
                       {MembershipLevel?.Bronze}

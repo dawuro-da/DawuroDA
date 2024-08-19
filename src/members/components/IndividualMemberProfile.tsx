@@ -492,8 +492,8 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
                         errors.membershipLevel.message?.toString()
                       }
                     >
-                      <MenuItem value={MembershipLevel?.Platinium}>
-                        {MembershipLevel?.Platinium}
+                      <MenuItem value={MembershipLevel?.Platinum}>
+                        {MembershipLevel?.Platinum}
                         {" (>100 ETB)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Diamond}>
@@ -504,8 +504,8 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
                         {MembershipLevel?.Gold}
                         {" (50-80 ETB)"}
                       </MenuItem>
-                      <MenuItem value={MembershipLevel?.Siliver}>
-                        {MembershipLevel?.Siliver}
+                      <MenuItem value={MembershipLevel?.Silver}>
+                        {MembershipLevel?.Silver}
                         {" (30-50 ETB)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Bronze}>
@@ -630,7 +630,7 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
                     className="border-2 rounded-[16px] "
                     inputProps={{ style: { padding: 10 } }}
                     // helperText={
-                    //   "As per your Platinium Level membership, the contribution amount is >=100"
+                    //   "As per your Platinum Level membership, the contribution amount is >=100"
                     // }
                     error={Boolean(!!errors.contributionAmount)}
                     helperText={

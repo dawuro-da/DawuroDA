@@ -15,6 +15,9 @@ import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import JobEdit from "./JobsEdit";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 const Jobs = () => {
   const dispatch = useDispatch();
@@ -32,6 +35,7 @@ const Jobs = () => {
     formState: { errors },
     reset,
     watch,
+    setValue,
   } = useForm();
 
   const fetchjob = async ({ page, pageSize }: PageState) => {
@@ -68,6 +72,7 @@ const Jobs = () => {
           ? values.document
           : values.document[0]
       );
+      formData.append("deadlineDate", values.deadlineDate);
       formData.append("jobDescription", values.jobDescription);
       formData.append("jobDescriptionAmharic", values.jobDescriptionAmharic);
 
@@ -174,13 +179,6 @@ const Jobs = () => {
                     selectedJob?.id === item.id && "bg-[#e5e5e6]"
                   } gap-2 hover:bg-[#e5e5e6] cursor-pointer`}
                 >
-                  {/* <Image
-                    src={"/icons/list.png"}
-                    alt=""
-                    height={50}
-                    width={50}
-                    className="h-full"
-                  /> */}
                   <span className=" overflow-clip text-ellipsis text-nowrap flex-1 max-w-[70%]">
                     {item.jobTitle}
                   </span>
@@ -344,6 +342,22 @@ const Jobs = () => {
                 <span className="text-xs text-red-500">
                   {errors.document && errors.document.message?.toString()}
                 </span>
+              </div>
+              <div className="flex flex-col  text-titleColor w-full">
+                <label>Deadline Date</label>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    {...register("deadlineDate", {
+                      required: "Deadline is required",
+                    })}
+                    onChange={(value) => setValue("deadlineDate", value)}
+                  />
+                </LocalizationProvider>
+                {errors?.deadlineDate && !watch("deadlineDate") && (
+                  <small className="text-red-500">
+                    {errors?.deadlineDate?.message?.toString()}
+                  </small>
+                )}
               </div>
 
               <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">

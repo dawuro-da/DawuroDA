@@ -123,13 +123,13 @@ const MemberDashboard = ({
                     <span>Subscription Level</span>
                     <span
                       className={`flex  flex-row items-center justify-center w-fit px-3 py-1 rounded-2xl ${
-                        member?.membershipLevel === MembershipLevel.Platinium
+                        member?.membershipLevel === MembershipLevel.Platinum
                           ? "bg-[#34A8A8] text-white"
                           : member?.membershipLevel === MembershipLevel.Diamond
                           ? "bg-[#B0E0E62E] text-[#222222]"
                           : member?.membershipLevel === MembershipLevel.Gold
                           ? "bg-[#FFD7002E]"
-                          : member?.membershipLevel === MembershipLevel.Siliver
+                          : member?.membershipLevel === MembershipLevel.Silver
                           ? "bg-[#C0C0C02E]"
                           : "bg-transparent"
                       }  rounded-[8px] min-w-20 text-center px-4 h-8 `}

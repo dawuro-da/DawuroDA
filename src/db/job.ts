@@ -156,9 +156,10 @@ export async function fetchActiveJobs({
   pageSize: number;
   searchText?: string;
 }): Promise<{ jobs: Job[] | undefined; total: number }> {
+  const now = new Date();
   const whereClause: Prisma.JobWhereInput = {
     deadlineDate: {
-      gte: Date.now().toLocaleString(),
+      gte: now.toISOString(),
     },
     ...(searchText && {
       OR: [

@@ -1,6 +1,6 @@
 "use client";
 
-import { phone_regex } from "@/constants/regex";
+import { international_phone_regex, phone_regex } from "@/constants/regex";
 import {
   ArrowBack,
   Facebook,
@@ -11,7 +11,7 @@ import { Button, CircularProgress, Divider, TextField } from "@mui/material";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
@@ -79,12 +79,12 @@ const MemberLogin = ({
           {...register("phone", {
             required: "Phone Number is required",
             pattern: {
-              message: "Phone is not valid eg: 09...",
-              value: phone_regex,
+              message: "Phone is not valid",
+              value: international_phone_regex,
             },
           })}
           type="text"
-          placeholder="09..."
+          placeholder="enter your phone"
           className="border-2 rounded-[16px] py-2"
           inputProps={{ style: { padding: 10 } }}
           error={Boolean(!!errors.phone)}

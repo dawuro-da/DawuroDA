@@ -10,6 +10,7 @@ import {
   Select,
   Switch,
   TextField,
+  Typography,
 } from "@mui/material";
 import PageHeader from "../shared/PageHeader";
 import { useRouter } from "next/navigation";
@@ -107,8 +108,18 @@ const AddNewMember = () => {
             <div className="flex flex-row items-center justify-between gap-6 my-4">
               <span className="font-bold flex flex-row items-center gap-6">
                 <span>Payment</span>
-                <Switch defaultChecked={false} {...register("hasPaid")} />
+                <Switch
+                  defaultChecked={false}
+                  {...register("hasPaid", {
+                    validate: (value) => value || "Confirm the payment",
+                  })}
+                />
               </span>
+              {errors.hasPaid && (
+                <Typography className="text-sm" color="error">
+                  {errors.hasPaid.message?.toString()}
+                </Typography>
+              )}
               <div className="border-b-[1px] flex-1 border-b-titleColor opacity-25" />
             </div>
           </div>
