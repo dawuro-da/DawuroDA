@@ -12,14 +12,14 @@ export async function findCampaignById(id: string): Promise<Campaign | null> {
 export async function createCampaign({
   headline,
   headlineAmharic,
-  campaignLink,
+  description,
   isDraft,
   startDate,
   endDate,
 }: {
   headline: string;
   headlineAmharic: string;
-  campaignLink: string;
+  description: string;
   isDraft: boolean;
   startDate: string;
   endDate: string;
@@ -29,7 +29,7 @@ export async function createCampaign({
       data: {
         headline,
         headlineAmharic,
-        campaignLink,
+        description,
         isDraft,
         startDate,
         endDate,
@@ -49,7 +49,7 @@ export async function createCampaign({
 export async function updateCampaign({
   headline,
   headlineAmharic,
-  campaignLink,
+  description,
   isDraft,
   startDate,
   endDate,
@@ -58,7 +58,7 @@ export async function updateCampaign({
   id: string;
   headline: string;
   headlineAmharic: string;
-  campaignLink: string;
+  description: string;
   isDraft: boolean;
   startDate: string;
   endDate: string;
@@ -70,7 +70,7 @@ export async function updateCampaign({
         headline,
         headlineAmharic,
         isDraft,
-        campaignLink,
+        description,
         startDate: new Date(startDate).toISOString(),
         endDate: new Date(endDate).toISOString(),
       },
@@ -110,7 +110,7 @@ export async function fetchCampaigns({
           },
         },
         {
-          campaignLink: {
+          description: {
             contains: searchText,
             mode: "insensitive",
           },

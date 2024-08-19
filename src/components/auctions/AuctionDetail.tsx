@@ -96,7 +96,7 @@ const AuctionDetail = ({
         </span>
         <div className=" flex flex-row items-center gap-6 w-full">
           <div className="flex flex-col">
-            <span className="font-bold">{auction?.totalBidders} ETB</span>
+            <span className="font-bold">{auction?.totalBidders}</span>
             <span className="text-xs">Bidders</span>
           </div>
           <div className="flex flex-col">

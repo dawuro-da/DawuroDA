@@ -49,7 +49,7 @@ const EventEdit = ({
     setValue("bodyAmharic", selectedEvent?.bodyAmharic);
     setValue("startDate", selectedEvent?.startDate);
     setValue("endDate", selectedEvent?.endDate);
-    setValue("profileImage", selectedEvent?.profileImage);
+    // setValue("profileImage", selectedEvent?.profileImage);
     setValue("isDraft", selectedEvent?.isDraft);
   }, [selectedEvent]);
 
@@ -59,12 +59,12 @@ const EventEdit = ({
     formData.append("isDraft", values.isDraft);
     formData.append("startDate", values.startDate);
     formData.append("endDate", values.endDate);
-    formData.append(
-      "profileImage",
-      typeof values.profileImage === "string"
-        ? values.profileImage
-        : values.profileImage[0]
-    );
+    // formData.append(
+    //   "profileImage",
+    //   typeof values.profileImage === "string"
+    //     ? values.profileImage
+    //     : values.profileImage[0]
+    // );
     formData.append("body", values.body);
     formData.append("bodyAmharic", values.bodyAmharic);
     formData.append("headline", values.headline);
@@ -165,7 +165,7 @@ const EventEdit = ({
               inputProps={{ style: { padding: 10 } }}
             />
           </div>
-          <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
+          {/* <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
             <span className="text-titleColor text-sm font-bold">
               Profile Image
             </span>
@@ -222,10 +222,7 @@ const EventEdit = ({
                 <span>Upload</span>
               </Button>
             </span>
-            {/* <span className="text-[10px] text-titleColor">
-            Image size must be 600*600 File size must be less than 1MB
-          </span> */}
-          </div>
+          </div> */}
           <div className="flex xl:flex-row lg:flex-row md:flex-row flex-col items-center w-full gap-6">
             <div className="flex flex-col gap-1 text-titleColor w-full">
               <label>Start Date</label>

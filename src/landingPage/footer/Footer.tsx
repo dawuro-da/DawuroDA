@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 const SocialLink = ({
   href,
@@ -13,7 +12,7 @@ const SocialLink = ({
   src: string;
   alt: string;
 }) => (
-  <Link href={href}>
+  <Link href={href} target="_blank">
     <Image src={src} height={24} width={24} alt={alt} className="w-6 h-6" />
   </Link>
 );
@@ -37,11 +36,11 @@ const ContactInfo = () => (
             <Link href="tel:0911283675">
               <span className="pl-4 hover:underline"> 0911283675</span>
             </Link>
-            <Link href="tel:0468810434">
+            <Link href="tel:0468814846">
               <span className="pl-4 hover:underline"> 0468814846</span>
             </Link>
             <Link href="tel:0468810434">
-              <span className="pl-4 hover:underline"> 0468814846</span>
+              <span className="pl-4 hover:underline"> 0468810434</span>
             </Link>
           </span>
         </p>
@@ -110,7 +109,11 @@ const Footer = () => {
                 src: "/images/facebook.svg",
                 alt: "Facebook",
               },
-              { href: "", src: "/images/telegram.svg", alt: "Telegram" },
+              {
+                href: "https://t.me/gammoda",
+                src: "/images/telegram.svg",
+                alt: "Telegram",
+              },
             ].map((social, index) => (
               <SocialLink
                 key={index}

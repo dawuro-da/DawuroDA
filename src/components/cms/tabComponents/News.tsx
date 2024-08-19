@@ -368,7 +368,7 @@ const NewsPage = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Body</label>
                 <TextField
-                  {...register("body")}
+                  {...register("body", { required: "Body is required" })}
                   variant="outlined"
                   multiline
                   rows={4}
@@ -381,7 +381,9 @@ const NewsPage = () => {
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Body in Amharic</label>
                 <TextField
-                  {...register("bodyAmharic")}
+                  {...register("bodyAmharic", {
+                    required: "Body in Amharic is required",
+                  })}
                   variant="outlined"
                   multiline
                   rows={4}

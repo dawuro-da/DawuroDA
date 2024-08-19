@@ -101,7 +101,7 @@ const GammodaId = ({
             <p className="text-sm">Gamo Development Association</p>
             <p className="text-xl font-black">Members ID Card</p>
           </div>
-          <div className="w-[150px] h-[120px]">
+          <div className="w-[150px] h-[120px] p-1 mb-4">
             <Image
               alt=""
               width={120}

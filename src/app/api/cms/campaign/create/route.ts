@@ -13,13 +13,13 @@ export async function POST(req: Request) {
     isDraft,
     startDate,
     endDate,
-    campaignLink,
+    description,
     headline,
     headlineAmharic,
   } = await req.json();
   try {
     const result = await createCampaign({
-      campaignLink,
+      description,
       headline,
       headlineAmharic,
       isDraft,

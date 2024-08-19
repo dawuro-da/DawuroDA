@@ -10,7 +10,10 @@ const CampaignSection = () => {
   const [campaigns, setCampaigns] = useState<Campaign[]>();
   const [loading, setLoading] = useState(false);
   const [openDonationModal, setOpenDonationModal] = useState(false);
-  const [designation, setDesignation] = useState<string>("");
+  const [designation, setDesignation] = useState<{
+    title: string;
+    description: string;
+  }>();
 
   const fetchCampaigns = async () => {
     setLoading(true);
@@ -79,7 +82,10 @@ const CampaignSection = () => {
                   <Button
                     onClick={() => {
                       setOpenDonationModal(true);
-                      setDesignation(campaign.headline);
+                      setDesignation({
+                        title: campaign.headline,
+                        description: campaign.description,
+                      });
                     }}
                     variant="outlined"
                     className="bg-[#13A6D9] border-2 hover:border-2 border-[#13A6D9] hover:border-[#13A6D9] hover:bg-white hover:text-[#13A6D9] text-white font-normal capitalize px-10 py-2 w-fit"

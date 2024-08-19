@@ -230,7 +230,7 @@ const Dashboard = () => {
           <div className="flex flex-row items-center justify-between gap-6 mt-10">
             <div className="border-b-[1px] flex-1 border-b-titleColor opacity-50" />
           </div>
-          <div className="grid xl:lg:grid-cols-2 xl:gap-12 lg:gap-8  mt-6">
+          <div className="grid xl:lg:grid-cols-2 xl:gap-12 gap-8 mt-6">
             <div className="bg-white py-6 rounded-[8px] flex flex-col xl:min-h-[400px] lg:min-h-[400px] min-h-[300px] xl:lg:px-8 md:px-4 px-2">
               <div className="flex flex-row items-stretch justify-between lg:pl-10 md:pl-6 pl-2">
                 <span className="text-[#555555] font-[800]">
@@ -276,7 +276,7 @@ const Dashboard = () => {
               </div>
               <div
                 ref={pieChartRef}
-                className=" flex-1 w-full max-h-[400px] mt-6"
+                className=" flex-1 w-full xl:lg:max-h-[400px] max-h-[500px] mt-6"
               >
                 <PieChartGraph pieChartData={dashboardData?.pieChartData} />
               </div>

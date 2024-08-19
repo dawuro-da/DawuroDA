@@ -289,7 +289,7 @@ const Resources = () => {
                                   type: "error",
                                 })
                               );
-                              return "File size must be less than 20MB";
+                              return "File size must be less than 20 MB";
                             } else {
                               return value[0].size < 20971520;
                             }
@@ -313,9 +313,9 @@ const Resources = () => {
                     <span>Upload</span>
                   </Button>
                 </span>
-                {/* <span className="text-[10px] text-titleColor">
-            Image size must be 600*600 File size must be less than 1MB
-          </span> */}
+                <span className="text-xs text-red-500">
+                  {errors.document && errors.document.message?.toString()}
+                </span>
               </div>
               <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
                 <div className="flex flex-row items-center gap-1">

@@ -13,7 +13,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
     isDraft,
     headline,
     headlineAmharic,
-    campaignLink,
+    description,
     startDate,
     endDate,
   } = await req.json();
@@ -25,7 +25,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       startDate,
       endDate,
       headlineAmharic,
-      campaignLink,
+      description,
       isDraft,
       id: campaignId,
     });

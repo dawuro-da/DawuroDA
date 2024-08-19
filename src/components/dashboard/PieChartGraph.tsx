@@ -1,5 +1,6 @@
 "use client";
 
+import { formatNumberToKOrM } from "@/util/date";
 import React from "react";
 import {
   PieChart,
@@ -63,7 +64,7 @@ const PieChartGraph = ({ pieChartData }: { pieChartData: any }) => {
   // Formatter function for the legend to show name and value
   const renderLegendText = (value: string, entry: any) => {
     const correspondingData = data.find((item) => item.name === value);
-    return `${value} (${correspondingData?.value ?? 0})`;
+    return `${value} (${formatNumberToKOrM(correspondingData?.value) ?? 0})`;
   };
 
   return (
@@ -78,10 +79,10 @@ const PieChartGraph = ({ pieChartData }: { pieChartData: any }) => {
         <Pie
           data={data}
           dataKey="value"
-          cx="50%"
-          cy="50%"
-          innerRadius={"50%"}
-          outerRadius={"92%"}
+          cx={window.innerWidth <= 450 ? "140%" : "70%"}
+          cy={window.innerWidth <= 450 ? "40%" : "50%"}
+          innerRadius={window.innerWidth <= 450 ? "80%" : "47%"}
+          outerRadius={window.innerWidth <= 450 ? "150%" : "92%"}
           paddingAngle={0}
           labelLine={false}
         >

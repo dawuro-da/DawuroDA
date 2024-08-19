@@ -21,7 +21,10 @@ const DonationForm = ({
 }: {
   open: boolean;
   handleClose: () => void;
-  designation?: string;
+  designation?: {
+    title: string;
+    description: string;
+  };
 }) => {
   const dispatch = useDispatch();
   const [selectedAmount, setSelectedAmount] = useState(null);
@@ -62,7 +65,7 @@ const DonationForm = ({
 
   useEffect(() => {
     if (designation) {
-      setValue("donationDesignation", designation);
+      setValue("donationDesignation", designation.title);
     }
   }, [designation]);
 
@@ -129,16 +132,32 @@ const DonationForm = ({
               {...register("donationDesignation", {
                 required: "Donation designation is required",
               })}
-              rows={3}
+              multiline
+              rows={2}
               maxRows={3}
-              defaultValue={designation}
+              defaultValue={designation?.title}
               variant="outlined"
               error={Boolean(errors.donationDesignation)}
               disabled={Boolean(designation)}
               helperText={errors.donationDesignation?.message?.toString()}
-              inputProps={{ style: { padding: 10 } }}
+              inputProps={{ style: { padding: 2 } }}
             />
           </div>
+          {designation?.description && (
+            <div className="flex flex-col gap-2 text-titleColor h-full">
+              <label>Campaign Description</label>
+              <TextField
+                multiline
+                rows={3}
+                maxRows={5}
+                defaultValue={designation?.description}
+                variant="outlined"
+                disabled={true}
+                helperText={errors.donationDesignation?.message?.toString()}
+                inputProps={{ style: { padding: 2 } }}
+              />
+            </div>
+          )}
           <div className="flex flex-col gap-2 text-titleColor h-full col-span-2">
             <label>Donation Amount</label>
             <div className="grid xl:lg:grid-cols-5 md:grid-cols-5 grid-cols-3 gap-4">
