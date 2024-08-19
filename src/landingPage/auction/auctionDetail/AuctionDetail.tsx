@@ -276,7 +276,7 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                         {`Complete the form provided within the auction document.`}
                       </span>
                       <div className="flex flex-col gap-1 text-titleColor my-4">
-                        <small>Offer</small>
+                        <small>Offer (write the total price including tax)</small>
                         <TextField
                           {...register("offer", {
                             required: "Please add your offer",

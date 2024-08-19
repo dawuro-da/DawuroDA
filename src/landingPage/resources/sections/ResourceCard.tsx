@@ -72,7 +72,7 @@ const ResourceCard = () => {
                   {item.name.slice(0, 70)}
                   {item.name.length > 70 && "..."}
                 </h1>
-                <p className="font-normal h-14">
+                <p className="font-normal min-h-fit">
                   {item.description.slice(0, 120)}
                   {item.description.length > 120 && "..."}
                 </p>
