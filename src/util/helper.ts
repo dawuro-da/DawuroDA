@@ -35,11 +35,11 @@ const contributionLevels: Record<MembershipType, ContributionLevels> = {
     Bronze: 10,
   },
   Company: {
-    Platinum: 100000,
-    Diamond: 80000,
-    Gold: 50000,
-    Silver: 30000,
-    Bronze: 10000,
+    Platinum: 8330,
+    Diamond: 6660,
+    Gold: 4160,
+    Silver: 2500,
+    Bronze: 833,
     Standard: 0,
   },
 };
