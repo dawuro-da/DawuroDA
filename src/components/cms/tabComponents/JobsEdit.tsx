@@ -44,19 +44,30 @@ const JobEdit = ({
     setValue("jobTitleAmharic", selectedJob?.jobTitleAmharic);
     setValue("jobDescription", selectedJob?.jobDescription);
     setValue("jobDescriptionAmharic", selectedJob?.jobDescriptionAmharic);
-    setValue("responsiblities", selectedJob?.responsiblities);
-    setValue("qualification", selectedJob?.qualification);
-    setValue("benefits", selectedJob?.benefits);
+    setValue("document", selectedJob?.document);
     setValue("isDraft", selectedJob?.isDraft);
   }, [selectedJob]);
 
   const handleUpdate = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const res = await axios.post(`/api/cms/job/edit/${selectedJob?.id}`, {
-        ...values,
-        profileImage: "/mike/new",
-      });
+      const formData = new FormData();
+      formData.append("jobTitle", values.jobTitle);
+      formData.append("isDraft", values.isDraft);
+      formData.append("jobTitleAmharic", values.jobTitleAmharic);
+      formData.append(
+        "document",
+        typeof values.document === "string"
+          ? values.document
+          : values.document[0]
+      );
+      formData.append("jobDescription", values.jobDescription);
+      formData.append("jobDescriptionAmharic", values.jobDescriptionAmharic);
+
+      const res = await axios.post(
+        `/api/cms/job/edit/${selectedJob?.id}`,
+        formData
+      );
 
       if (res?.status === 200) {
         dispatch(
@@ -178,52 +189,64 @@ const JobEdit = ({
               inputProps={{ style: { padding: 0 } }}
             />
           </div>
-          <div className="flex flex-col gap-1 text-titleColor">
-            <label>Responsiblities</label>
-            <TextField
-              {...register("responsiblities", { required: "required" })}
-              variant="outlined"
-              multiline
-              rows={4}
-              error={Boolean(!!errors.responsiblities)}
-              helperText={
-                !!errors.responsiblities &&
-                errors.responsiblities.message?.toString()
-              }
-              sx={{ backgroundColor: "white" }}
-              inputProps={{ style: { padding: 0 } }}
-            />
-          </div>
-          <div className="flex flex-col gap-1 text-titleColor">
-            <label>Qualification</label>
-            <TextField
-              {...register("qualification", { required: "required" })}
-              variant="outlined"
-              multiline
-              rows={4}
-              error={Boolean(!!errors.qualification)}
-              helperText={
-                !!errors.qualification &&
-                errors.qualification.message?.toString()
-              }
-              sx={{ backgroundColor: "white" }}
-              inputProps={{ style: { padding: 0 } }}
-            />
-          </div>
-          <div className="flex flex-col gap-1 text-titleColor">
-            <label>Benefits</label>
-            <TextField
-              {...register("benefits", { required: "required" })}
-              variant="outlined"
-              multiline
-              rows={4}
-              error={Boolean(!!errors.benefits)}
-              helperText={
-                !!errors.benefits && errors.benefits.message?.toString()
-              }
-              sx={{ backgroundColor: "white" }}
-              inputProps={{ style: { padding: 0 } }}
-            />
+          <div className="flex flex-col gap-3 xl:col-span-1 md:col-span-2 sm:col-span-2">
+            <span className="text-titleColor text-sm font-bold">Document</span>
+            <span className="relative flex flex-row items-center px-6 border-2 border-dashed rounded-[3px] py-2 cursor-pointer h-[65px]">
+              <span className="flex flex-row items-center px-2 gap-2 text-titleColor cursor-pointer">
+                <Image
+                  src={"/icons/greyGallery.svg"}
+                  alt=""
+                  height={20}
+                  width={20}
+                />
+                <span>
+                  {typeof watch("document") === "string"
+                    ? watch("document").slice(0, 40)
+                    : watch("document")?.[0]?.name
+                    ? watch("document")?.[0]?.name
+                    : "Upload"}
+                </span>
+              </span>
+              <input
+                id="document"
+                {...register("document", {
+                  validate: {
+                    fileSize: (value: any) => {
+                      if (!(typeof value === "string") && value && value[0]) {
+                        if (value[0].size > 1048576) {
+                          dispatch(
+                            showToastAction({
+                              message: `Image size must be less than 1MB`,
+                              type: "error",
+                            })
+                          );
+                          return "Image size must be less than 1MB";
+                        } else {
+                          return value[0].size < 1048576;
+                        }
+                      }
+                      return true;
+                    },
+                  },
+                })}
+                accept=".pdf"
+                type="file"
+                placeholder=""
+                className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <Button className="flex flex-row items-center justify-center outline-none z-0 gap-2 absolute bg-white text-titleColor right-4 px-4 py-2 cursor-pointer">
+                <Image
+                  src={"/icons/uploadIcon.svg"}
+                  alt=""
+                  height={20}
+                  width={20}
+                />
+                <span>Upload</span>
+              </Button>
+            </span>
+            <span className="text-xs text-red-500">
+              {errors.document && errors.document.message?.toString()}
+            </span>
           </div>
           <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
             <div className="flex flex-row items-center gap-1">
