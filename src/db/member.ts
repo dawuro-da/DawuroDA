@@ -136,17 +136,17 @@ export async function createIndividualMember({
 }
 
 export async function updateMemberPassword({
-  phone,
+  memberId,
   passwordSalt,
   newPassword,
 }: {
-  phone: string;
+  memberId: string;
   passwordSalt: string;
   newPassword: string;
 }): Promise<Member | undefined> {
   return await prisma.member.update({
     where: {
-      phone: phone,
+      id: memberId,
     },
     data: {
       password_salt: passwordSalt,

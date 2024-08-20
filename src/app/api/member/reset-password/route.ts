@@ -2,16 +2,20 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { v4 } from "uuid";
 import { hashPassword } from "@/util/hash";
-import { findMemberByPhone, updateMemberPassword } from "@/db/member";
+import {
+  findMemberByEmail,
+  findMemberByPhone,
+  updateMemberPassword,
+} from "@/db/member";
 
 export async function POST(req: Request) {
-  const { phone, password } = await req.json();
+  const { phone, email, password } = await req.json();
 
-  if (!phone || !password)
+  if ((!phone && !email) || !password)
     return NextResponse.json(
       {
         success: false,
-        error: "password and phone are required",
+        error: "password and phone or email are required",
       },
       { status: 400 }
     );
@@ -30,10 +34,13 @@ export async function POST(req: Request) {
         { status: 500 }
       );
 
-    const member = await findMemberByPhone(phone);
+    const member = phone
+      ? await findMemberByPhone(phone)
+      : await findMemberByEmail(email);
+
     if (member) {
       await updateMemberPassword({
-        phone: phone,
+        memberId: member.id,
         newPassword: hashedPassword,
         passwordSalt: salt,
       });

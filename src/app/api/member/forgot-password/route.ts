@@ -1,30 +1,64 @@
 import { NextResponse } from "next/server";
-import { findMemberByPhone } from "@/db/member";
+import { findMemberByEmail, findMemberByPhone } from "@/db/member";
 import { sendOTP } from "@/util/sms";
+import { transporter } from "@/services/nodemailer";
+import { ConfirmationEmail } from "@/util/emailTemplate";
+import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
-  const { phone } = await req.json();
+  const { phone, email, international } = await req.json();
 
   try {
-    const member = await findMemberByPhone(phone);
+    const member = email
+      ? await findMemberByEmail(email)
+      : await findMemberByPhone(phone);
 
     if (member) {
-      const result = await sendOTP({ phone });
+      if (international) {
+        const OTP = Math.floor(1000 + Math.random() * 9000);
 
-      if (result.data.acknowledge === "success") {
+        cookies().set("memberAuthOTP", `${OTP}`, { secure: true });
+
+        const html = ConfirmationEmail({
+          email: email,
+          OTP: `${OTP}`,
+        });
+
+        const response = await transporter.sendMail({
+          to: email,
+          from: "miketesttest6@gmail.com",
+          subject: "Gammoda OTP Confirmation",
+          text: html,
+          html: html,
+        });
+
+        if (response) {
+          return NextResponse.json(
+            {
+              success: true,
+              value: "Verifcation OTP sent",
+            },
+            { status: 200 }
+          );
+        }
+      } else {
+        const result = await sendOTP({ phone });
+
+        if (result.data.acknowledge === "success") {
+          return NextResponse.json(
+            { success: true, value: "Successfully sent" },
+            { status: 200 }
+          );
+        }
+
         return NextResponse.json(
-          { success: true, value: "Successfully sent" },
-          { status: 200 }
+          {
+            success: false,
+            error: "Unable to send forgot password OTP",
+          },
+          { status: 500 }
         );
       }
-
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Unable to send forgot password OTP",
-        },
-        { status: 500 }
-      );
     }
     return NextResponse.json(
       {

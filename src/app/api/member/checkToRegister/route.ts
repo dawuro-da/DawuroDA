@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     if (isInternational) {
       const OTP = Math.floor(1000 + Math.random() * 9000);
 
-      cookies().set("memberRegOTP", `${OTP}`, { secure: true });
+      cookies().set("memberAuthOTP", `${OTP}`, { secure: true });
 
       const html = ConfirmationEmail({
         email: email,

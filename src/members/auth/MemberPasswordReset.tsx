@@ -10,7 +10,13 @@ import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
 import { useRouter } from "next/navigation";
 
-const MemberPasswordReset = ({ phone }: { phone: string }) => {
+const MemberPasswordReset = ({
+  phone,
+  email,
+}: {
+  phone?: string;
+  email?: string;
+}) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [ResetError, setResetError] = useState<string>("");
@@ -30,6 +36,7 @@ const MemberPasswordReset = ({ phone }: { phone: string }) => {
     setLoading(true);
     const res = await axios.post("/api/member/reset-password", {
       phone,
+      email,
       password,
     });
 
