@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, CircularProgress, TextField } from "@mui/material";
+import { Button, Checkbox, CircularProgress, TextField } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import axios from "axios";
@@ -27,8 +27,12 @@ const MemberForgotPassword = () => {
   const handleForgot = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const { phone } = values;
-      const res = await axios.post("/api/member/forgot-password", { phone });
+      const { phone, email, international } = values;
+      const res = await axios.post("/api/member/forgot-password", {
+        phone,
+        email,
+        international,
+      });
       if (res.data.success && res.status === 200) {
         handleNextResetStep();
       } else {
@@ -58,7 +62,9 @@ const MemberForgotPassword = () => {
           </div>
         );
       case 2:
-        return <MemberPasswordReset phone={watch("phone")} />;
+        return (
+          <MemberPasswordReset phone={watch("phone")} email={watch("email")} />
+        );
       default:
         return (
           <div className="flex-1 flex flex-col items-center justify-center bg-white h-screen w-screen">
@@ -73,35 +79,68 @@ const MemberForgotPassword = () => {
                       Forgot Password
                     </span>
                     <small className="text-titleColor max-w-[400px]">
-                      {`Please enter your phone number and you will recieve an OTP code.
+                      {watch("international")
+                        ? `Please enter your Email and you will recieve an OTP code.
+                      and please don't share your OTP with anyone.`
+                        : `Please enter your phone number and you will recieve an OTP code.
                       and please don't share your OTP with anyone.`}
                     </small>
                   </div>
 
                   <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-[7px] text-[#555555] h-full ">
-                      <span>Phone</span>
+                    {watch("international") ? (
+                      <div className="flex flex-col gap-[7px] text-[#555555] h-full ">
+                        <span>Email</span>
 
-                      <TextField
-                        {...register("phone", {
-                          required: "phone is required",
-                          pattern: {
-                            message: "Phone is not valid eg: 09...",
-                            value: phone_regex,
-                          },
-                        })}
-                        variant="outlined"
-                        error={Boolean(!!errors.phone)}
-                        helperText={
-                          !!errors.phone && errors.phone.message?.toString()
-                        }
-                        inputProps={{
-                          style: {
-                            padding: 9,
-                            borderRadius: "6px",
-                          },
-                        }}
+                        <TextField
+                          {...register("email", {
+                            required: "email is required",
+                          })}
+                          variant="outlined"
+                          error={Boolean(!!errors.email)}
+                          helperText={
+                            !!errors.email && errors.email.message?.toString()
+                          }
+                          inputProps={{
+                            style: {
+                              padding: 9,
+                              borderRadius: "6px",
+                            },
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex flex-col gap-[7px] text-[#555555] h-full ">
+                        <span>Phone</span>
+
+                        <TextField
+                          {...register("phone", {
+                            required: "phone is required",
+                            pattern: {
+                              message: "Phone is not valid eg: 09...",
+                              value: phone_regex,
+                            },
+                          })}
+                          variant="outlined"
+                          error={Boolean(!!errors.phone)}
+                          helperText={
+                            !!errors.phone && errors.phone.message?.toString()
+                          }
+                          inputProps={{
+                            style: {
+                              padding: 9,
+                              borderRadius: "6px",
+                            },
+                          }}
+                        />
+                      </div>
+                    )}
+                    <div className="flex flex-row items-center w-full text-titleColor">
+                      <Checkbox
+                        {...register("international")}
+                        checked={Boolean(watch("international"))}
                       />
+                      <span>International user</span>
                     </div>
                   </div>
                   <span className="my-2 text-red-500 px-3">

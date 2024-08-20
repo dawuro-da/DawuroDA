@@ -5,7 +5,7 @@ export async function POST(req: Request) {
   const { OTP } = await req.json();
 
   try {
-    const result = cookies().get("memberRegOTP");
+    const result = cookies().get("memberAuthOTP");
 
     if (result?.value.toString() === OTP.toString()) {
       return NextResponse.json(
