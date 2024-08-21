@@ -1,5 +1,5 @@
 import { COUNTRIES, Gammo_Branches, NATIONALITIES } from "@/constants/datas";
-import { phone_regex } from "@/constants/regex";
+import { international_phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import { getMinimumContribution } from "@/util/helper";
 import { Button, MenuItem, TextField } from "@mui/material";
@@ -15,18 +15,22 @@ import {
   FieldErrors,
   FieldValues,
   UseFormRegister,
+  UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { PhoneNumberInput } from "../shared/PhoneNumberInput";
 
 const IndividualMember = ({
   register,
   watch,
   errors,
+  setValue,
 }: {
   register: UseFormRegister<FieldValues>;
   watch: UseFormWatch<FieldValues>;
   errors: FieldErrors<FieldValues>;
+  setValue: UseFormSetValue<FieldValues>;
 }) => {
   const dispatch = useDispatch();
   return (
@@ -74,19 +78,22 @@ const IndividualMember = ({
           <span className="text-titleColor text-sm font-bold">
             Phone Number
           </span>
-          <TextField
+          <PhoneNumberInput
             size="small"
             {...register("phone", {
               required: "Phone Number is required",
               pattern: {
-                message: "Phone is not valid eg: 09...",
-                value: phone_regex,
+                message: "Phone is not valid",
+                value: international_phone_regex,
               },
             })}
-            type="text"
-            placeholder=""
+            variant="outlined"
             className="border-2 rounded-[16px] py-2"
             inputProps={{ style: { padding: 10 } }}
+            value={watch("phone")}
+            onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
+            type="text"
+            placeholder=""
             error={Boolean(!!errors.phone)}
             helperText={!!errors.phone && errors.phone.message?.toString()}
           />

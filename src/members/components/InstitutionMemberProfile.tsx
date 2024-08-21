@@ -26,7 +26,8 @@ import { FieldValues } from "react-hook-form";
 import { getMinimumContribution } from "@/util/helper";
 import { getMemberFormData } from "@/util/getMemberFormData";
 import Image from "next/image";
-import { phone_regex } from "@/constants/regex";
+import { international_phone_regex, phone_regex } from "@/constants/regex";
+import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
 
 const InstitutionMemberProfile = ({ member }: { member: Member }) => {
   const router = useRouter();
@@ -142,19 +143,22 @@ const InstitutionMemberProfile = ({ member }: { member: Member }) => {
                   <span className="text-titleColor text-sm font-bold">
                     Phone Number
                   </span>
-                  <TextField
+                  <PhoneNumberInput
                     size="small"
                     {...register("phone", {
                       required: "Phone Number is required",
                       pattern: {
-                        message: "Phone is not valid eg: 09...",
-                        value: phone_regex,
+                        message: "Phone is not valid",
+                        value: international_phone_regex,
                       },
                     })}
-                    type="text"
-                    placeholder=""
+                    disabled={true}
+                    variant="outlined"
                     className="border-2 rounded-[16px] py-2"
                     inputProps={{ style: { padding: 10 } }}
+                    value={watch("phone")}
+                    onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
+                    type="text"
                     error={Boolean(!!errors.phone)}
                     helperText={
                       !!errors.phone && errors.phone.message?.toString()

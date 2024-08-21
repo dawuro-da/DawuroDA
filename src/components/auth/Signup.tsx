@@ -11,7 +11,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { phone_regex } from "@/constants/regex";
+import { international_phone_regex, phone_regex } from "@/constants/regex";
+import { PhoneNumberInput } from "../shared/PhoneNumberInput";
 
 const SignUp = () => {
   const router = useRouter();
@@ -23,6 +24,8 @@ const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    watch,
   } = useForm();
 
   const handleRegister = async (values: FieldValues) => {
@@ -121,25 +124,25 @@ const SignUp = () => {
                 </div>
                 <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
                   <label>Phone Number</label>
-                  <TextField
+                  <PhoneNumberInput
+                    size="small"
                     {...register("phone", {
-                      required: "Phone is required",
+                      required: "Phone Number is required",
                       pattern: {
-                        message: "Phone is not valid eg: 09...",
-                        value: phone_regex,
+                        message: "Phone is not valid",
+                        value: international_phone_regex,
                       },
                     })}
                     variant="outlined"
+                    inputProps={{ style: { padding: 10, borderRadius: "6px" } }}
+                    value={watch("phone")}
+                    onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
+                    type="text"
+                    placeholder=""
                     error={Boolean(!!errors.phone)}
                     helperText={
                       !!errors.phone && errors.phone.message?.toString()
                     }
-                    inputProps={{
-                      style: {
-                        padding: 10,
-                        borderRadius: "6px",
-                      },
-                    }}
                   />
                 </div>
                 <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">

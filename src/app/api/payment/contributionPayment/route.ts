@@ -24,6 +24,7 @@ export async function POST(req: Request) {
       return_url: `${process.env.PAYMENT_WEB_HOOK}/member/dashboard`,
       meta: {
         paymentType: "contributionPayment",
+        phone_number: phone,
       },
       "customization[title]": "Gammoda member's contribution",
       "customization[description]":

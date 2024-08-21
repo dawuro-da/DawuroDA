@@ -13,6 +13,8 @@ import axios from "axios";
 import { showToastAction } from "@/redux/actions";
 import { useDispatch } from "react-redux";
 import { Gammo_Branches } from "@/constants/datas";
+import { international_phone_regex } from "@/constants/regex";
+import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
 
 const DonationForm = ({
   open,
@@ -33,6 +35,7 @@ const DonationForm = ({
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -98,12 +101,27 @@ const DonationForm = ({
           </div>
           <div className="flex flex-col gap-2 text-titleColor h-full">
             <label>Phone Number</label>
-            <TextField
-              {...register("phone", { required: "Phone number is required" })}
+            <PhoneNumberInput
+              size="small"
+              {...register("phone", {
+                required: "Phone Number is required",
+                pattern: {
+                  message: "Phone is not valid",
+                  value: international_phone_regex,
+                },
+              })}
               variant="outlined"
-              error={Boolean(errors.phone)}
-              helperText={errors.phone?.message?.toString()}
-              inputProps={{ style: { padding: 10 } }}
+              inputProps={{
+                style: {
+                  padding: 10,
+                },
+              }}
+              value={watch("phone")}
+              onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
+              type="text"
+              placeholder=""
+              error={Boolean(!!errors.phone)}
+              helperText={!!errors.phone && errors.phone.message?.toString()}
             />
           </div>
           <div className="flex flex-col gap-1">
