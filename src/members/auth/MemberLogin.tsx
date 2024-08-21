@@ -1,5 +1,6 @@
 "use client";
 
+import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
 import { international_phone_regex, phone_regex } from "@/constants/regex";
 import {
   ArrowBack,
@@ -28,6 +29,8 @@ const MemberLogin = ({
     register,
     formState: { errors },
     handleSubmit,
+    watch,
+    setValue,
   } = useForm();
 
   const handleLogin = async (values: FieldValues) => {
@@ -74,7 +77,7 @@ const MemberLogin = ({
       </div>
       <div className="flex flex-col gap-1 w-full mt-16">
         <span className="text-titleColor text-sm font-bold">Phone Number</span>
-        <TextField
+        <PhoneNumberInput
           size="small"
           {...register("phone", {
             required: "Phone Number is required",
@@ -83,10 +86,12 @@ const MemberLogin = ({
               value: international_phone_regex,
             },
           })}
-          type="text"
-          placeholder="enter your phone"
+          variant="outlined"
           className="border-2 rounded-[16px] py-2"
           inputProps={{ style: { padding: 10 } }}
+          value={watch("phone")}
+          onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
+          type="text"
           error={Boolean(!!errors.phone)}
           helperText={!!errors.phone && errors.phone.message?.toString()}
         />

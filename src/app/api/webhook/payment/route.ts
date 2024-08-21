@@ -11,22 +11,11 @@ import { Auction, Member, TempMember } from "@prisma/client";
 import { findMemberByPhone } from "@/db/member";
 import { createDonation } from "@/db/donation";
 import { findAuctionById } from "@/db/auction";
-import { metadata } from "@/app/layout";
 
 export async function POST(req: Request, res: any) {
   try {
     const body = await req.json();
-    const {
-      event,
-      email,
-      mobile,
-      meta,
-      amount,
-      first_name,
-      last_name,
-      fullName,
-      type,
-    } = body;
+    const { event, mobile, meta, amount, first_name, type } = body;
 
     if (event === "charge.success" && type === "API") {
       const metaData = JSON.parse(meta);
@@ -34,19 +23,20 @@ export async function POST(req: Request, res: any) {
       const auctionId = metaData?.auctionId ?? "";
       const donationDesignation = metaData?.donationDesignation ?? "";
       const branch = metaData?.branch ?? "";
+      const phone_number = metaData?.phone_number ?? mobile;
 
       if (paymentType === "registrationPayment") {
-        const tempMember = await findTempMemberByPhone(mobile);
+        const tempMember = await findTempMemberByPhone(phone_number);
         if (tempMember) {
           await registerNewPaidMember(tempMember);
         }
       } else if (paymentType === "contributionPayment") {
-        const member = await findMemberByPhone(mobile);
+        const member = await findMemberByPhone(phone_number);
         if (member) {
           await addNewContribution(member, amount);
         }
       } else if (paymentType === "auctionPayment") {
-        const member = await findMemberByPhone(mobile);
+        const member = await findMemberByPhone(phone_number);
         const auction = auctionId && (await findAuctionById(auctionId));
         if (member) {
           await addNewBidder({ member, auction });
@@ -57,7 +47,7 @@ export async function POST(req: Request, res: any) {
           branch: branch,
           donationDesignation: donationDesignation,
           fullName: `${first_name ?? "Unknown"}`,
-          phone: mobile,
+          phone: phone_number,
         });
     }
 

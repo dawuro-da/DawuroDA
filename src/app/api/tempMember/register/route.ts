@@ -157,6 +157,7 @@ export async function POST(req: Request) {
       return_url: `${process.env.PAYMENT_WEB_HOOK}/login`,
       meta: {
         paymentType: "registrationPayment",
+        phone_number: phone,
       },
       "customization[title]": "Gammoda member's registration",
       "customization[description]":

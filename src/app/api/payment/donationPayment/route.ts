@@ -20,6 +20,7 @@ export async function POST(req: Request) {
         paymentType: "donationPayment",
         donationDesignation: donationDesignation,
         branch: branch ?? "Other",
+        phone_number: phone,
       },
       "customization[title]": "Gammoda Donation Payment",
       "customization[description]":

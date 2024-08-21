@@ -69,6 +69,7 @@ const MemberRegistration = ({
             errors={errors}
             loginError={loginError}
             watch={watch}
+            setValue={setValue}
           />
         ) : (
           <InstitutionForm
@@ -76,6 +77,7 @@ const MemberRegistration = ({
             errors={errors}
             loginError={loginError}
             watch={watch}
+            setValue={setValue}
           />
         );
       case 3:

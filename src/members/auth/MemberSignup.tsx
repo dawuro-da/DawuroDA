@@ -40,6 +40,7 @@ const MemberSignup = ({
             setIsSignUp={setIsSignUp}
             handleNext={handleNext}
             watch={watch}
+            setValue={setValue}
           />
         );
       case 1:

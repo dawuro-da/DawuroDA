@@ -9,7 +9,8 @@ import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
 import OtpConfirmation from "./signupSections/OtpConfirmation";
 import MemberPasswordReset from "./MemberPasswordReset";
-import { phone_regex } from "@/constants/regex";
+import { international_phone_regex, phone_regex } from "@/constants/regex";
+import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
 
 const MemberForgotPassword = () => {
   const router = useRouter();
@@ -22,6 +23,7 @@ const MemberForgotPassword = () => {
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
   } = useForm();
 
   const handleForgot = async (values: FieldValues) => {
@@ -113,25 +115,30 @@ const MemberForgotPassword = () => {
                       <div className="flex flex-col gap-[7px] text-[#555555] h-full ">
                         <span>Phone</span>
 
-                        <TextField
+                        <PhoneNumberInput
+                          size="small"
                           {...register("phone", {
-                            required: "phone is required",
+                            required: "Phone Number is required",
                             pattern: {
-                              message: "Phone is not valid eg: 09...",
-                              value: phone_regex,
+                              message: "Phone is not valid",
+                              value: international_phone_regex,
                             },
                           })}
                           variant="outlined"
-                          error={Boolean(!!errors.phone)}
-                          helperText={
-                            !!errors.phone && errors.phone.message?.toString()
-                          }
                           inputProps={{
                             style: {
                               padding: 9,
                               borderRadius: "6px",
                             },
                           }}
+                          value={watch("phone") ?? ""}
+                          onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
+                          type="text"
+                          placeholder=""
+                          error={Boolean(!!errors.phone)}
+                          helperText={
+                            !!errors.phone && errors.phone.message?.toString()
+                          }
                         />
                       </div>
                     )}

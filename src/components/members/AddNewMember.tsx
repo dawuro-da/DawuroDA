@@ -37,6 +37,7 @@ const AddNewMember = () => {
     formState: { errors },
     reset,
     watch,
+    setValue,
   } = useForm();
 
   const handleRegister = async (values: FieldValues) => {
@@ -97,12 +98,14 @@ const AddNewMember = () => {
                 register={register}
                 watch={watch}
                 errors={errors}
+                setValue={setValue}
               />
             ) : (
               <InstitutionMember
                 register={register}
                 watch={watch}
                 errors={errors}
+                setValue={setValue}
               />
             )}
             <div className="flex flex-row items-center justify-between gap-6 my-4">

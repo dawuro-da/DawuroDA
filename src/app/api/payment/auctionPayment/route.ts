@@ -26,6 +26,7 @@ export async function POST(req: Request) {
       meta: {
         paymentType: "auctionPayment",
         auctionId,
+        phone_number: phone,
       },
       "customization[title]": "Gammoda Auction Payment",
       "customization[description]":

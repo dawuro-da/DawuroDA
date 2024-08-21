@@ -1,3 +1,4 @@
+import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
 import { international_phone_regex, phone_regex } from "@/constants/regex";
 import { FacebookRounded, RemoveRedEyeOutlined } from "@mui/icons-material";
 import {
@@ -26,6 +27,7 @@ interface PhoneAndPasswordProps {
   errors: FieldErrors<FieldValues>;
   handleNext: () => void;
   watch: UseFormWatch<FieldValues>;
+  setValue: UseFormSetValue<FieldValues>;
 }
 const PhoneAndPassword = ({
   register,
@@ -33,6 +35,7 @@ const PhoneAndPassword = ({
   handleNext,
   watch,
   errors,
+  setValue,
 }: PhoneAndPasswordProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -114,20 +117,22 @@ const PhoneAndPassword = ({
       </div>
       <div className="flex flex-col gap-1 w-full">
         <span className="text-titleColor text-sm font-bold">Phone Number</span>
-        <TextField
+        <PhoneNumberInput
           size="small"
-          autoComplete="off"
           {...register("phone", {
             required: "Phone Number is required",
             pattern: {
-              message: "Phone is not valid eg: 09...",
-              value: phone_regex,
+              message: "Phone is not valid",
+              value: international_phone_regex,
             },
           })}
-          type="text"
-          placeholder={watch("international") ? "eg: 12403149934" : "09..."}
+          disabled={true}
+          variant="outlined"
           className="border-2 rounded-[16px] py-2"
           inputProps={{ style: { padding: 10 } }}
+          value={watch("phone")}
+          onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
+          type="text"
           error={Boolean(!!errors.phone)}
           helperText={!!errors.phone && errors.phone.message?.toString()}
         />

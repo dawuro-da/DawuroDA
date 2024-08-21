@@ -1,4 +1,4 @@
-import { phone_regex } from "@/constants/regex";
+import { international_phone_regex, phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import {
   Avatar,
@@ -13,6 +13,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { PhoneNumberInput } from "../shared/PhoneNumberInput";
 
 const ProfileManagement = ({ user }: { user: User | null }) => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const ProfileManagement = ({ user }: { user: User | null }) => {
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
   } = useForm({ defaultValues: { ...user } });
 
   const handleFileChange = () => {
@@ -178,16 +180,16 @@ const ProfileManagement = ({ user }: { user: User | null }) => {
           </div>
           <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
             <label>Phone Number</label>
-            <TextField
+            <PhoneNumberInput
+              size="small"
               {...register("phone", {
+                required: "Phone Number is required",
                 pattern: {
-                  message: "Phone is not valid eg: 09...",
-                  value: phone_regex,
+                  message: "Phone is not valid",
+                  value: international_phone_regex,
                 },
               })}
               variant="outlined"
-              error={Boolean(!!errors.phone)}
-              helperText={!!errors.phone && errors.phone.message?.toString()}
               inputProps={{
                 style: {
                   padding: 10,
@@ -196,6 +198,12 @@ const ProfileManagement = ({ user }: { user: User | null }) => {
                   borderRadius: "6px",
                 },
               }}
+              value={watch("phone") ?? ""}
+              onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
+              type="text"
+              placeholder=""
+              error={Boolean(!!errors.phone)}
+              helperText={!!errors.phone && errors.phone.message?.toString()}
             />
           </div>
           <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">

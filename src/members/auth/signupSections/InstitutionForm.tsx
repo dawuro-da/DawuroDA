@@ -1,10 +1,12 @@
-import { phone_regex } from "@/constants/regex";
+import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
+import { international_phone_regex, phone_regex } from "@/constants/regex";
 import { Button, MenuItem, TextField } from "@mui/material";
 import Image from "next/image";
 import {
   FieldErrors,
   FieldValues,
   UseFormRegister,
+  UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
 
@@ -13,6 +15,7 @@ interface InstitutionFormProps {
   loginError: string;
   errors: FieldErrors<FieldValues>;
   watch: UseFormWatch<FieldValues>;
+  setValue: UseFormSetValue<FieldValues>;
 }
 
 const InstitutionForm = ({
@@ -20,6 +23,7 @@ const InstitutionForm = ({
   errors,
   watch,
   loginError,
+  setValue,
 }: InstitutionFormProps) => {
   return (
     <div className="grid xl:lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 gap-4 py-12 px-4">
@@ -82,20 +86,22 @@ const InstitutionForm = ({
       </div>
       <div className="flex flex-col gap-1">
         <span className="text-titleColor text-sm font-bold">Phone Number</span>
-        <TextField
+        <PhoneNumberInput
           size="small"
           {...register("phone", {
             required: "Phone Number is required",
             pattern: {
-              message: "Phone is not valid eg: 09...",
-              value: phone_regex,
+              message: "Phone is not valid",
+              value: international_phone_regex,
             },
           })}
-          type="text"
-          placeholder=""
           disabled={true}
+          variant="outlined"
           className="border-2 rounded-[16px] py-2"
           inputProps={{ style: { padding: 10 } }}
+          value={watch("phone")}
+          onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
+          type="text"
           error={Boolean(!!errors.phone)}
           helperText={!!errors.phone && errors.phone.message?.toString()}
         />
