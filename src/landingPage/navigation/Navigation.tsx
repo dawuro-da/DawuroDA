@@ -1,11 +1,11 @@
 import FacebookChat from "../shared/FacebookChat";
 import MainNaviagtion from "./MainNavigation";
 
-const Navigation = () => {
+const Navigation = ({ bg }: { bg?: string }) => {
   return (
     <>
       <FacebookChat />
-      <MainNaviagtion />
+      <MainNaviagtion bg={bg} />
     </>
   );
 };
