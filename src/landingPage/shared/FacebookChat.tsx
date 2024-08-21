@@ -6,7 +6,7 @@ function FacebookChat() {
       <div id="fb-root"></div>
 
       <div id="fb-customer-chat" className="fb-customerchat"></div>
-      <Script strategy="lazyOnload">
+      <Script id="fb-chabot-script-id" strategy="lazyOnload">
         {`
               var chatbox = document.getElementById('fb-customer-chat');
               chatbox.setAttribute("app_id", "${process.env.NEXT_PUBLIC_MESSENGER_APP_ID}");
