@@ -152,7 +152,6 @@ const InstitutionMemberProfile = ({ member }: { member: Member }) => {
                         value: international_phone_regex,
                       },
                     })}
-                    disabled={true}
                     variant="outlined"
                     className="border-2 rounded-[16px] py-2"
                     inputProps={{ style: { padding: 10 } }}
