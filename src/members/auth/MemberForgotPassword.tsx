@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
 import OtpConfirmation from "./signupSections/OtpConfirmation";
 import MemberPasswordReset from "./MemberPasswordReset";
-import { international_phone_regex, phone_regex } from "@/constants/regex";
+import { international_phone_regex  } from "@/constants/regex";
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
 
 const MemberForgotPassword = () => {

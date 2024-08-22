@@ -1,17 +1,9 @@
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
-import { international_phone_regex, phone_regex } from "@/constants/regex";
-import { FacebookRounded, RemoveRedEyeOutlined } from "@mui/icons-material";
-import {
-  Button,
-  Checkbox,
-  CircularProgress,
-  Divider,
-  TextField,
-} from "@mui/material";
+import { international_phone_regex } from "@/constants/regex";
+import { RemoveRedEyeOutlined } from "@mui/icons-material";
+import { Button, Checkbox, CircularProgress, TextField } from "@mui/material";
 import axios from "axios";
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   FieldErrors,
@@ -62,12 +54,6 @@ const PhoneAndPassword = ({
       if (watch("international")) {
         if (!international_phone_regex.test(watch("phone"))) {
           setError("Phone is not valid");
-          setLoading(false);
-          return;
-        }
-      } else {
-        if (!phone_regex.test(watch("phone"))) {
-          setError("Phone is not valid eg: 09...");
           setLoading(false);
           return;
         }

@@ -1,7 +1,7 @@
 "use client";
 
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
-import { international_phone_regex, phone_regex } from "@/constants/regex";
+import { international_phone_regex  } from "@/constants/regex";
 import {
   ArrowBack,
   Facebook,

@@ -25,7 +25,7 @@ import {
 import { FieldValues } from "react-hook-form";
 import { getMinimumContribution } from "@/util/helper";
 import { getMemberFormData } from "@/util/getMemberFormData";
-import { international_phone_regex, phone_regex } from "@/constants/regex";
+import { international_phone_regex  } from "@/constants/regex";
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
 
 const InstitutionMember = ({ member }: { member: Member }) => {

@@ -1,4 +1,4 @@
-import { international_phone_regex, phone_regex } from "@/constants/regex";
+import { international_phone_regex  } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import {
   Avatar,

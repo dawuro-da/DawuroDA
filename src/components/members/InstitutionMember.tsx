@@ -1,4 +1,4 @@
-import { international_phone_regex, phone_regex } from "@/constants/regex";
+import { international_phone_regex  } from "@/constants/regex";
 import { getMinimumContribution } from "@/util/helper";
 import { MenuItem, Select, Switch, TextField } from "@mui/material";
 import {
