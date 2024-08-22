@@ -9,14 +9,16 @@ function FacebookChat() {
       <Script id="fb-chabot-script-id" strategy="lazyOnload">
         {`
               var chatbox = document.getElementById('fb-customer-chat');
-              chatbox.setAttribute("app_id", "${process.env.NEXT_PUBLIC_MESSENGER_APP_ID}");
               chatbox.setAttribute("page_id", "${process.env.NEXT_PUBLIC_MESSENGER_PAGE_ID}");
               chatbox.setAttribute("attribution", "biz_inbox");
         
               window.fbAsyncInit = function() {
                 FB.init({
-                  xfbml            : true,
-                  version          : 'v12.0'
+                  appId: '${process.env.NEXT_PUBLIC_MESSENGER_APP_ID}',
+                  xfbml: true,
+                  status: true, 
+                  cookie: true,
+                  version: 'v20.0'
                 });
               };
         
