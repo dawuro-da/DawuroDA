@@ -1,5 +1,5 @@
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
-import { international_phone_regex, phone_regex } from "@/constants/regex";
+import { international_phone_regex  } from "@/constants/regex";
 import { Button, MenuItem, TextField } from "@mui/material";
 import Image from "next/image";
 import {

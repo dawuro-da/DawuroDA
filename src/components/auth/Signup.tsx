@@ -11,7 +11,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { international_phone_regex, phone_regex } from "@/constants/regex";
+import { international_phone_regex } from "@/constants/regex";
 import { PhoneNumberInput } from "../shared/PhoneNumberInput";
 
 const SignUp = () => {
@@ -136,7 +136,9 @@ const SignUp = () => {
                     variant="outlined"
                     inputProps={{ style: { padding: 10, borderRadius: "6px" } }}
                     value={watch("phone")}
-                    onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
+                    onChange={(value) =>
+                      setValue("phone", value.replace(/\s+/g, ""))
+                    }
                     type="text"
                     placeholder=""
                     error={Boolean(!!errors.phone)}

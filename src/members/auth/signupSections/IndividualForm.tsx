@@ -1,6 +1,6 @@
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
 import { COUNTRIES, Gammo_Branches, NATIONALITIES } from "@/constants/datas";
-import { international_phone_regex, phone_regex } from "@/constants/regex";
+import { international_phone_regex  } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import { Button, MenuItem, TextField } from "@mui/material";
 import Image from "next/image";

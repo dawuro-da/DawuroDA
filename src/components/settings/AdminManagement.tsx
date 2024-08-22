@@ -1,5 +1,5 @@
 import { Gammo_Branches } from "@/constants/datas";
-import { international_phone_regex, phone_regex } from "@/constants/regex";
+import { international_phone_regex  } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import { Close, RemoveRedEyeOutlined } from "@mui/icons-material";
 import {
