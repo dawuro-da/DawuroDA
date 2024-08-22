@@ -3,6 +3,7 @@ import { Faq } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface AccordionItemProps {
   title: string;
@@ -81,13 +82,14 @@ const Accordion = () => {
 };
 
 const FAQ = () => {
+  const { t } = useTranslation();
   return (
     <div className="py-10 pb-28">
       <h2 className="font-bold lg:text-4xl md:text-2xl text-xl mb-6 text-center">
-        FAQ
+        {t("home.faq_heading")}
       </h2>
       <p className="md:mb-20 mb-10 font-light lg:w-3/12 w-4/5 mx-auto text-center">
-        Find Answers to Common Questions About Our Programs and initiatives
+        {t("home.faq_subheading")}
       </p>
       <Accordion />
     </div>

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const SocialLink = ({
   href,
@@ -17,11 +18,11 @@ const SocialLink = ({
   </Link>
 );
 
-const ContactInfo = () => (
+const ContactInfo = ({ t }: { t: any }) => (
   <div className="flex-1 flex flex-col items-center">
     <div id="contact-us" className="mb-6 md:mb-0">
       <h3 className="font-bold text-base mb-2 md:text-left text-center">
-        Contact
+        {t("footer.contact")}
       </h3>
       <div className="font-light text-sm space-y-4 md:text-left text-center">
         <p className="flex flex-row gap-1 justify-start items-start">
@@ -56,15 +57,17 @@ const ContactInfo = () => (
   </div>
 );
 
-const FooterLinks = () => {
+const FooterLinks = ({ t }: { t: any }) => {
   return (
     <div className="flex-1 flex flex-col items-center">
       <div className="mb-6 md:mb-0 lg:block hidden">
-        <h3 className="font-bold text-base mb-2 text-left">Links</h3>
+        <h3 className="font-bold text-base mb-2 text-left">
+          {t("footer.links")}
+        </h3>
         <ul className="space-y-2">
           {[
             { link: "/about", name: "About Us" },
-            { link: "/about", name: "Board Members" },
+            { link: "/news", name: "News" },
             { link: "/#initiatives", name: "Initiatives" },
             { link: "/vacancies", name: "Vacancies" },
             { link: "/resources", name: "Resources" },
@@ -86,6 +89,7 @@ const FooterLinks = () => {
 };
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <div className="bg-[#F1F1F1] xl:lg:px-40 md:px-20 px-10">
       <div className="px-6  container pt-20 md:pb-6 pb-0 w-full grid md:grid-cols-4 gap-6 items-center">
@@ -98,7 +102,7 @@ const Footer = () => {
             className="mb-4 w-full max-w-[200px]"
           />
           <div className="font-light text-xs flex items-center justify-center w-full mb-4">
-            Find us on
+            {t("footer.social_media_footer")}
           </div>
           <div className="flex space-x-4">
             {[
@@ -135,14 +139,14 @@ const Footer = () => {
               className="w-10"
             />
             <div className="font-extrabold text-lg w-full text-center">
-              {`Empowering Sustainable Futures"`}
+              {`${t("footer.motto")}"`}
             </div>
-            <p className="mt-2 text-sm">Empowering Sustainable Futures</p>
+            <p className="mt-2 text-sm">{t("footer.motto")}</p>
           </div>
         </div>
 
-        <ContactInfo />
-        <FooterLinks />
+        <ContactInfo t={t} />
+        <FooterLinks t={t} />
         <div className="min-w-fit flex-1 flex flex-row justify-end">
           <div className="md:block hidden">
             <div className="md:flex hidden flex-col items-start w-fit ">
@@ -154,11 +158,11 @@ const Footer = () => {
                 className="w-10 -ml-10"
               />
               <div className=" font-extrabold text-2xl text-left">
-                {`Empowering`}
+                {`${t("footer.motto1")}`}
                 <br />
-                {`Sustainable Futures"`}
+                {`${t("footer.motto2")}"`}
               </div>
-              <p className="mt-2 text-sm">Empowering Sustainable Futures</p>
+              <p className="mt-2 text-sm">{t("footer.motto")}</p>
             </div>
           </div>
         </div>
@@ -166,15 +170,17 @@ const Footer = () => {
       <div className="container mx-auto w-full md:mt-10 mt-0 pb-4 flex xl:lg:flex-row md:flex-row gap-4 flex-col md:justify-between justify-center items-center md:border-t border-[#C8C8C8] pt-4">
         <span className="flex xl:lg:flex-row md:flex-row flex-col xl:lg:gap-4 gap-2 items-center justify-center text-sm">
           <Link href="/privacy-policy">
-            <span className="pl-4 hover:underline">Privacy Policy</span>
+            <span className="pl-4 hover:underline">
+              {t("footer.privacy_policy")}
+            </span>
           </Link>
           <Link href="/terms-and-conditions">
-            <span className="pl-4 hover:underline">Terms and Conditions</span>
+            <span className="pl-4 hover:underline">
+              {t("footer.terms_and_conditions")}
+            </span>
           </Link>
         </span>
-        <p className="text-sm italic text-[#000000]">
-          Copyright &copy; 2024. All rights reserved
-        </p>
+        <p className="text-sm italic text-[#000000]">{t("footer.copyright")}</p>
       </div>
     </div>
   );

@@ -5,8 +5,11 @@ import { Campaign } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const CampaignSection = () => {
+  const { i18n, t } = useTranslation();
+  const isAmharic = Boolean(i18n.language === "am");
   const [campaigns, setCampaigns] = useState<Campaign[]>();
   const [loading, setLoading] = useState(false);
   const [openDonationModal, setOpenDonationModal] = useState(false);
@@ -46,12 +49,9 @@ const CampaignSection = () => {
       <div className="grid xl:lg:grid-cols-2 gap-6">
         <div className="w-full h-full flex flex-col justify-center gap-6">
           <span className="tracking-tighter text-3xl font-bold max-w-[400px]">
-            Join the Campaign: Support Those in Need, Rebuild Lives
+            {t("home.campaign_heading")}
           </span>
-          <span className="max-w-[400px]">
-            Together, We Can Provide Urgent Relief and Restore Hope to
-            Communities in Crisis
-          </span>
+          <span className="max-w-[400px]">{t("home.campaign_subheading")}</span>
         </div>
         {loading ? (
           <Skeleton className="min-h-[500px]" />
@@ -71,7 +71,9 @@ const CampaignSection = () => {
                     width={40}
                   />
                   <span className="font-bold text-lg capitalize">
-                    {campaign.headline.slice(0, 100)}
+                    {isAmharic
+                      ? campaign.headlineAmharic.slice(0, 100)
+                      : campaign.headline.slice(0, 100)}
                     {campaign.headline.length > 100 && "..."}
                   </span>
                   <span className="font-light">
@@ -90,7 +92,7 @@ const CampaignSection = () => {
                     variant="outlined"
                     className="bg-[#13A6D9] border-2 hover:border-2 border-[#13A6D9] hover:border-[#13A6D9] hover:bg-white hover:text-[#13A6D9] text-white font-normal capitalize px-10 py-2 w-fit"
                   >
-                    Support
+                    {t("home.support")}
                   </Button>
                 </div>
               );

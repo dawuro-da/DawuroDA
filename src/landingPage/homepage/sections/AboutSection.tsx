@@ -1,16 +1,20 @@
 "use client";
 
 import DonationForm from "@/landingPage/modals/DonationForm";
+import useLanguageStore from "@/redux/languageStore";
 import { Avatar, Button, Skeleton } from "@mui/material";
 import { Management } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Slider from "react-slick";
 
 const AboutSection = () => {
   const router = useRouter();
+  const { i18n, t } = useTranslation();
+  const isAmharic = Boolean(i18n.language === "am");
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [openDonateModal, setOpenDonateModal] = useState(false);
   const [managers, setManagers] = useState<Management[]>();
@@ -59,18 +63,14 @@ const AboutSection = () => {
         handleClose={() => setOpenDonateModal(false)}
       />
       <div className="lg:text-left text-center  w-full">
-        <h6 className="text-[#000000] text-sm mb-7 font-light">About</h6>
+        <h6 className="text-[#000000] text-sm mb-7 font-light">
+          {t("home.about")}
+        </h6>
         <h2 className="font-bold lg:text-4xl text-lg mb-7">
-          Gamo Development Association
+          {t("home.about_heading")}
         </h2>
         <p className="text-[#6A6A6A] font-light mb-7 lg:max-w-[70%]">
-          Gamo development association/GaDA/ envisions to create prosperous
-          society through bringing holistic and sustainable development building
-          up on Gamo culture of peace and coexistence. Building its
-          institutional capacity, GaDA`s mission is to bring sustainable
-          development in Gamo zone, which satisfy real community needs, through
-          mobilizing natural and human resources closely working with local
-          community and stakeholders.
+          {t("home.about_highlight")}
         </p>
         <div className="flex space-x-5 lg:justify-start justify-center">
           <Button
@@ -78,14 +78,14 @@ const AboutSection = () => {
             variant="outlined"
             className="px-7 hover:bg-[#ffffff] border-2 border-[#292929] hover:border-2 hover:border-[#292929] py-2 rounded-md text-white hover:text-[#222222] bg-[#222222]"
           >
-            About Us
+            {t("home.about_us")}
           </Button>
           <Button
             onClick={() => setOpenDonateModal(true)}
             variant="outlined"
             className="px-7 hover:bg-[#292929] border-2 border-[#292929] hover:border-2 hover:border-[#292929] py-2 rounded-md text-[#292929] hover:text-[#ffffff] bg-[#ffffff]"
           >
-            Donate
+            {t("home.donate_button")}
           </Button>
         </div>
       </div>
@@ -105,10 +105,14 @@ const AboutSection = () => {
                         src={manager.photo}
                       />
                       <p className="font-bold text-base ">
-                        {manager.managerName.slice(0, 30)}
+                        {isAmharic
+                          ? manager.managerNameAmharic.slice(0, 30)
+                          : manager.managerName.slice(0, 30)}
                       </p>
                       <p className="text-[#000000] text-sm">
-                        {manager.job.slice(0, 30)}
+                        {isAmharic
+                          ? manager.jobAmharic.slice(0, 30)
+                          : manager.job.slice(0, 30)}
                       </p>
                     </div>
                   </div>

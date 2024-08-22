@@ -5,11 +5,14 @@ import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const NewsGrid = () => {
   const router = useRouter();
   const [news, setNews] = useState<News[]>();
   const [loading, setLoading] = useState(false);
+  const { i18n } = useTranslation();
+  const isAmharic = Boolean(i18n.language === "am");
 
   const fetchNews = async () => {
     setLoading(true);
@@ -48,7 +51,11 @@ const NewsGrid = () => {
         <div className="absolute bottom-0 text-white left-0 pb-6 pl-4 pt-3 text-left bg-gradient-to-t from-black to-transparent">
           <h2 className="group-hover:underline text-2xl font-bold mb-3">
             {news?.[0]?.headline && news?.[0]?.headline.length > 60
-              ? `${news?.[0]?.headline.slice(0, 60)}...`
+              ? isAmharic
+                ? `${news?.[0]?.headlineAmharic.slice(0, 60)}...`
+                : `${news?.[0]?.headline.slice(0, 60)}...`
+              : isAmharic
+              ? news?.[0]?.headlineAmharic
               : news?.[0]?.headline}
           </h2>
           <div className="flex items-center space-x-3">
@@ -84,7 +91,11 @@ const NewsGrid = () => {
               <div className="mt-2 md:pl-6 pl-0 lg:w-2/4">
                 <h2 className="group-hover:underline md:text-xl text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
                   {item.headline.length > 60
-                    ? `${item.headline.slice(0, 60)}...`
+                    ? isAmharic
+                      ? `${item.headlineAmharic.slice(0, 60)}...`
+                      : `${item.headline.slice(0, 60)}...`
+                    : isAmharic
+                    ? item.headlineAmharic
                     : item.headline}
                 </h2>
                 <div className="flex items-center space-x-3">
@@ -118,7 +129,11 @@ const NewsGrid = () => {
         <div className="mt-6 w-4/5 text-left">
           <h2 className="group-hover:underline text-xl font-bold mb-1 text-[#1E1E1E]">
             {news?.[4]?.headline && news?.[4]?.headline.length > 60
-              ? `${news?.[4]?.headline.slice(0, 60)}...`
+              ? isAmharic
+                ? `${news?.[4]?.headlineAmharic.slice(0, 60)}...`
+                : `${news?.[4]?.headline.slice(0, 60)}...`
+              : isAmharic
+              ? news?.[4]?.headlineAmharic
               : news?.[4]?.headline}
           </h2>
           <div className="flex items-center space-x-3">

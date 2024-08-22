@@ -107,16 +107,14 @@ const renderText = (
     case 0:
       return (
         <>
-          <span className="w-full mt-16">{t("institution_name")}</span>
+          <span className="w-full mt-16">{t("home.institution_name")}</span>
           <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20 ">
-            {t("welcomeText.heading_1")} <br />
+            {t("home.heading_1")} <br />
             <span className="w-[300px] -ml-6 pl-6 z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
-              Development
+              {t("home.heading_1_1")}
             </span>
           </span>
-          <p className="text-lg md:text-2xl mb-6 w-full">
-            Fostering sustainable growth and community well-being in Gamo Zone.
-          </p>
+          <p className="text-lg md:text-2xl mb-6 w-full">{t("home.slogan")}</p>
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
             {user?.role !== UserRole.Member && (
               <Button
@@ -124,7 +122,7 @@ const renderText = (
                 variant="outlined"
                 className="bg-primaryColor border-2 hover:border-2 border-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
               >
-                Join Us
+                {t("home.join_us")}
               </Button>
             )}
             <Button
@@ -132,7 +130,7 @@ const renderText = (
               variant="outlined"
               className="bg-transparent border-2 border-white capitalize hover:border-2 hover:border-white hover:bg-transparent hover:text-black text-white font-bold py-2 px-4 rounded"
             >
-              About Us
+              {t("home.about_us")}
             </Button>
           </div>
         </>
@@ -140,17 +138,15 @@ const renderText = (
     case 1:
       return (
         <>
-          <span className="w-full mt-16">{t("institution_name")}</span>
+          <span className="w-full mt-16">{t("home.institution_name")}</span>
           <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
-            Advancing Sustainable Agriculture & Industry
+            {t("home.heading_2")}
             <br />
             <span className="relative w-[300px] -ml-6 pl-6 z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
-              Gamo Zone
+              {t("home.heading_2_2")}
             </span>
           </span>
-          <p className="text-lg md:text-2xl mb-6 w-full">
-            Fostering sustainable growth and community well-being in Gamo Zone.
-          </p>
+          <p className="text-lg md:text-2xl mb-6 w-full">{t("home.slogan")}</p>
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
             {user?.role !== UserRole.Member && (
               <Button
@@ -158,14 +154,14 @@ const renderText = (
                 variant="outlined"
                 className="bg-primaryColor border-2 hover:border-2 border-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
               >
-                Join Us
+                {t("home.join_us")}
               </Button>
             )}
             <Button
               variant="outlined"
               className="bg-transparent border-2 border-white capitalize hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
             >
-              About Us
+              {t("home.about_us")}
             </Button>
           </div>
         </>
@@ -173,16 +169,14 @@ const renderText = (
     case 2:
       return (
         <>
-          <span className="w-full mt-16">{t("institution_name")}</span>
-          <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
-            Safeguarding Forests and Enviroments for <br />
+          <span className="w-full mt-16">{t("home.institution_name")}</span>
+          <span className="w-full tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
+            {t("home.heading_3")} <br />
             <span className="w-[300px] -ml-6 pl-6 z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
-              Generation
+              {t("home.heading_3_3")}
             </span>
           </span>
-          <p className="text-lg md:text-2xl mb-6 w-full">
-            Fostering sustainable growth and community well-being in Gamo Zone.
-          </p>
+          <p className="text-lg md:text-2xl mb-6 w-full">{t("home.slogan")}</p>
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
             {user?.role !== UserRole.Member && (
               <Button
@@ -190,14 +184,14 @@ const renderText = (
                 variant="outlined"
                 className="bg-primaryColor border-2 hover:border-2 border-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
               >
-                Join Us
+                {t("home.join_us")}
               </Button>
             )}
             <Button
               variant="outlined"
               className="bg-transparent border-2 border-white capitalize hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
             >
-              About Us
+              {t("home.about_us")}
             </Button>
           </div>
         </>
@@ -205,17 +199,15 @@ const renderText = (
     default:
       return (
         <>
-          <span className="w-full mt-16">{t("institution_name")}</span>
-          <span className="tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
-            Elevating Education & Health Services for a
+          <span className="w-full mt-16">{t("home.institution_name")}</span>
+          <span className="text-left tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
+            {t("home.heading_4")}
             <br />
             <span className="w-[300px] -ml-6 pl-6 z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
-              Brighter Future
+              {t("home.heading_4_4")}
             </span>
           </span>
-          <p className="text-lg md:text-2xl mb-6 w-full">
-            Fostering sustainable growth and community well-being in Gamo Zone.
-          </p>
+          <p className="text-lg md:text-2xl mb-6 w-full">{t("home.slogan")}</p>
           <div className="w-full flex flex-row xl:lg:justify-start md:justify-start gap-8 justify-between items-center ">
             {user?.role !== UserRole.Member && (
               <Button
@@ -223,14 +215,14 @@ const renderText = (
                 variant="outlined"
                 className="bg-primaryColor border-2 hover:border-2 border-primaryColor hover:bg-white capitalize hover:text-primaryColor text-white font-bold py-2 px-4 rounded"
               >
-                Join Us
+                {t("home.join_us")}
               </Button>
             )}
             <Button
               variant="outlined"
               className="bg-transparent border-2 border-white capitalize hover:border-2 hover:border-white hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded"
             >
-              About Us
+              {t("home.about_us")}
             </Button>
           </div>
         </>
