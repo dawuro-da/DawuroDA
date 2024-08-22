@@ -45,10 +45,10 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
   };
 
   const menuItems = [
-    { name: "Home", link: "/" },
-    { name: "About", link: "/about" },
-    { name: "News", link: "/news" },
-    { name: "Resources", link: "/resources" },
+    { name: t("navigation.home"), link: "/" },
+    { name: t("navigation.about"), link: "/about" },
+    { name: t("navigation.news"), link: "/news" },
+    { name: t("navigation.resources"), link: "/resources" },
   ];
 
   return (
@@ -61,12 +61,12 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
         <div>
           <MenuItem onClick={() => router.push("/auctions")}>
             <div className="flex flex-row items-center gap-2 px-2">
-              <span>Auctions</span>
+              <span>{t("navigation.auctions")}</span>
             </div>
           </MenuItem>
           <MenuItem onClick={() => router.push("/vacancies")}>
             <div className="flex flex-row items-center gap-2 px-2">
-              <span>Vacancy</span>
+              <span>{t("navigation.vacancy")}</span>
             </div>
           </MenuItem>
         </div>
@@ -82,7 +82,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
           }`}
         >
           <div className="flex flex-row items-center text-sm justify-center gap-4">
-            <span>Join our social media:</span>
+            <span>{t("navigation.social_media")}:</span>
             <Link target="_blank" href={"https://t.me/gammoda"}>
               <Telegram />
             </Link>
@@ -99,19 +99,19 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
             onClick={() => setOpenDonateModal(true)}
             className="hover:text-primaryColor cursor-pointer text-sm"
           >
-            Donate
+            {t("navigation.donate")}
           </span>
           <span
             onClick={() => router.push("/#contact-us")}
             className="hover:text-primaryColor cursor-pointer text-sm"
           >
-            Contact
+            {t("navigation.contact")}
           </span>
           <span
             onClick={() => router.push("/#faqs")}
             className="hover:text-primaryColor cursor-pointer text-sm"
           >
-            FAQ
+            {t("navigation.faq")}
           </span>
           <select
             value={i18n.language}
@@ -169,7 +169,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
               } text-center cursor-pointer rounded-[5px]`}
               onClick={(e) => setAnchorEl(e.currentTarget)}
             >
-              Opportunity
+              {t("navigation.opportunities")}
               <ArrowDropDown className="absolute right-2 top-2" />
             </div>
           </div>
@@ -183,7 +183,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
               onClick={() => router.push("/login")}
               className="text-white capitalize bg-primaryColor hover:text-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer "
             >
-              Join
+              {t("navigation.join")}
             </Button>
           )}
         </div>
@@ -249,7 +249,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
                       }
                      hover:border-b-2 hover:border-primaryColor py-2 px-2`}
               >
-                Auctions
+                {t("navigation.auctions")}
               </span>
             </div>
             <div className="w-full">
@@ -266,7 +266,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
                       }
                      hover:border-b-2 hover:border-primaryColor py-2 px-2`}
               >
-                Vacancy
+                {t("navigation.vacancy")}
               </span>
             </div>
             <span
@@ -276,7 +276,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
               }}
               className={`w-fit cursor-pointer hover:border-b-2 hover:border-primaryColor px-2`}
             >
-              Donate
+              {t("navigation.donate")}
             </span>
             {hasValidSession ? (
               <ProfileMenu />
@@ -289,7 +289,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
                 }}
                 className=" text-white capitalize bg-primaryColor hover:text-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer "
               >
-                Join
+                {t("navigation.join")}
               </Button>
             )}
             <span className="flex flex-col font-normal gap-1 mt-2">
@@ -312,7 +312,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
               </select>
             </span>
             <span className="flex flex-col font-normal gap-1 mt-2">
-              <span className="text-xs">Join our social media</span>
+              <span className="text-xs">{t("navigation.social_media")}</span>
               <span className="flex flex-row gap-2 text-[#474747]">
                 <Link target="_blank" href={"https://t.me/gammoda"}>
                   <Telegram />

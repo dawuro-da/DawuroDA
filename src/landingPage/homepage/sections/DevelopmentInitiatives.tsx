@@ -1,13 +1,16 @@
-import { Avatar, Button, Skeleton } from "@mui/material";
+import { Button, Skeleton } from "@mui/material";
 import { Initiative } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Slider from "react-slick";
 
 const DevelopmentInitiatives = () => {
   const router = useRouter();
+  const { i18n, t } = useTranslation();
+  const isAmharic = Boolean(i18n.language === "am");
   const [screenSize, setScreenSize] = useState<number>();
   const [initiatives, setInitiatives] = useState<Initiative[]>();
   const [loading, setLoading] = useState(false);
@@ -47,11 +50,10 @@ const DevelopmentInitiatives = () => {
   return (
     <div id="initiatives" className="bg-[#F7F7F7] py-16">
       <h1 className="text-[#1E1E1E] font-bold lg:text-4xl text-lg mb-1 text-center">
-        Development Initiatives
+        {t("home.development_initiatives_heading")}
       </h1>
       <p className="text-[#1E1E1E] font-light md:max-w-[25%] max-w-[65%] mx-auto text-center">
-        Bringing sustainable development in Gamo zone, which satisfy real
-        community needs and sustainable development
+        {t("home.development_initiatives_subheading")}
       </p>
       <div className="w-4/5 mx-auto lg:mt-28 mt-16">
         <Slider {...settings} className="pb-10">
@@ -76,11 +78,15 @@ const DevelopmentInitiatives = () => {
                       }}
                     />
                     <p className="w-[85%] group-hover:underline text-start font-bold text-xl">
-                      {initiative.nameOfInitiative.slice(0, 60)}
+                      {!isAmharic
+                        ? initiative.nameOfInitiative.slice(0, 60)
+                        : initiative.nameOfInitiativeAmharic.slice(0, 60)}
                       {initiative.nameOfInitiative.length > 60 && "..."}
                     </p>
                     <p className="text-[#000000] text-start text-sm w-[85%]">
-                      {initiative.body.slice(0, 200)}
+                      {!isAmharic
+                        ? initiative.body.slice(0, 200)
+                        : initiative.bodyAmharic.slice(0, 200)}
                       {initiative.body.length > 200 && "..."}
                     </p>
                     <div className="flex w-4/5 mt-6 items-center justify-start cursor-pointer">
@@ -88,7 +94,9 @@ const DevelopmentInitiatives = () => {
                         variant="outlined"
                         className="text-black border-none hover:border-none capitalize hover:bg-none bg-none flex flex-row"
                       >
-                        <span className="font-light">Learn More</span>
+                        <span className="font-light">
+                          {t("home.learn_more")}
+                        </span>
                         <Image
                           src={"/images/diagonalarrow.svg"}
                           height={30}

@@ -3,14 +3,12 @@ import CountdownTimer from "./CountdownTimer";
 import { Event } from "@prisma/client";
 import axios from "axios";
 import { Skeleton } from "@mui/material";
-import { getDay, getMonth, getTime } from "date-fns";
-import {
-  getFormattedDate,
-  getFormattedMonthAndDay,
-  getFormattedhourAndMinute,
-} from "@/util/date";
+import { getFormattedDate, getFormattedMonthAndDay } from "@/util/date";
+import { useTranslation } from "react-i18next";
 
 const WhatsHappening = () => {
+  const { i18n, t } = useTranslation();
+  const isAmharic = Boolean(i18n.language === "am");
   const [events, setEvents] = useState<Event[]>();
   const [loading, setLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -40,10 +38,10 @@ const WhatsHappening = () => {
   return (
     <div className="md:py-24 py-12 ">
       <h2 className="font-bold md:w-full w-4/5 mx-auto lg:text-4xl md:text-2xl text-xl mb-6 text-center">
-        {`What's Happening Next: Key Events`}
+        {t("home.event_heading")}
       </h2>
       <p className="md:mb-20 mb-10 font-light lg:w-[23%] mx-auto text-center">
-        {`Don't Miss These Exciting Events`}
+        {t("home.event_subheading")}
       </p>
       {loading ? (
         <Skeleton className="min-h-[300px]" />
@@ -59,7 +57,7 @@ const WhatsHappening = () => {
               <div className="w-4/5 space-y-10 mx-auto grid md:grid-cols-4 bg-gradient-to-b from-blue-100 to-white px-14 xl:lg:px-14 md:px-0 py-20 border border-[#13A6D9]">
                 <div className="text-[#000000] md:text-left text-center lg:max-w-full max-w-[80%] mx-auto items-center flex justify-center">
                   <h2 className="text-sm font-normal md:max-w-[50%]">
-                    {event.headline}
+                    {isAmharic ? event.headlineAmharic : event.headline}
                   </h2>
                 </div>
                 <div className="text-center flex flex-col items-center justify-center">
@@ -80,7 +78,13 @@ const WhatsHappening = () => {
               </div> */}
                 <div className="text-center md:col-span-2 w-full flex flex-col items-end justify-center">
                   <p className="text-sm mb-2">
-                    {isActive ? event.body : event.body.slice(0, 300)}
+                    {isActive
+                      ? isAmharic
+                        ? event.bodyAmharic
+                        : event.body
+                      : isAmharic
+                      ? event.body.slice(0, 300)
+                      : event.body.slice(0, 300)}
                   </p>
                   <span
                     onClick={() => {
