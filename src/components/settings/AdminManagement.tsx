@@ -212,7 +212,7 @@ const AdminManagement = () => {
           onSubmit={handleSubmit(handleRegister)}
           className="flex flex-col items-center justify-center"
         >
-          <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 gap-6 ">
+          <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 gap-6 mb-6">
             <div className="flex flex-col gap-2 text-[#555555] h-full w-[300px]">
               <label>First Name</label>
               <TextField
