@@ -19,7 +19,8 @@ const NewsDetail = () => {
   const [news, setNews] = useState<News>();
   const [newsList, setNewsList] = useState<News[]>();
   const [loading, setLoading] = useState(false);
-  const { i18n: i18nn } = useTranslation();
+  const { i18n: i18nn, t } = useTranslation();
+  const isAmharic = Boolean(i18nn.language === "am");
   const { language } = useLanguageStore();
 
   useEffect(() => {
@@ -86,7 +87,7 @@ const NewsDetail = () => {
               width={20}
               height={20}
             />
-            <p>Back to News</p>
+            <p>{t("news.back_to_news")}</p>
           </div>
           <div className="grid xl:lg:grid-cols-4 gap-7 font-light">
             <div className="xl:lg:col-span-3 mt-12 ">
@@ -96,7 +97,7 @@ const NewsDetail = () => {
                 ) : (
                   <>
                     <h2 className="font-extrabold xl:lg:text-4xl text-3xl w-full">
-                      {news?.headline}
+                      {isAmharic ? news?.headlineAmharic : news?.headline}
                     </h2>
 
                     <div className="flex flex-row mt-5 space-x-3">
@@ -125,7 +126,9 @@ const NewsDetail = () => {
                     />
                   )}
 
-                  <p className="mt-8">{news?.body}</p>
+                  <p className="mt-8">
+                    {isAmharic ? news?.bodyAmharic : news?.body}
+                  </p>
                 </div>
               )}
             </div>
@@ -164,7 +167,13 @@ const NewsDetail = () => {
                         <div className=" pl-0 w-full">
                           <h2 className="group-hover:underline md:text-sm text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
                             {item.headline.length > 60
-                              ? `${item.headline.slice(0, 60)}...`
+                              ? `${
+                                  isAmharic
+                                    ? item.headlineAmharic.slice(0, 60)
+                                    : item.headline.slice(0, 60)
+                                }...`
+                              : isAmharic
+                              ? item.headlineAmharic
                               : item.headline}
                           </h2>
                           <div className="flex flex-row items-center gap-2">
@@ -190,7 +199,7 @@ const NewsDetail = () => {
           <div className="my-10">
             <div className="xl:lg:w-1/3 w-fit my-10">
               <span className="font-bold text-center text-3xl">
-                You May Also Like
+                {t("news.you_may_also_like")}
               </span>
               <Image
                 draggable={false}
@@ -230,12 +239,24 @@ const NewsDetail = () => {
                       </p>
                       <p className="group-hover:underline cursor-pointer w-full text-start font-bold text-xl my-2">
                         {NewsList.headline.length > 60
-                          ? `${NewsList.headline.slice(0, 60)}...`
+                          ? `${
+                              isAmharic
+                                ? NewsList.headlineAmharic.slice(0, 60)
+                                : NewsList.headline.slice(0, 60)
+                            }...`
+                          : isAmharic
+                          ? NewsList.headlineAmharic
                           : NewsList.headline}
                       </p>
                       <p className="text-start text-sm w-full text-titleColor">
                         {NewsList.body.length > 200
-                          ? `${NewsList.body.slice(0, 200)}...`
+                          ? `${
+                              isAmharic
+                                ? NewsList.bodyAmharic.slice(0, 200)
+                                : NewsList.body.slice(0, 200)
+                            }...`
+                          : isAmharic
+                          ? NewsList.bodyAmharic
                           : NewsList.body}
                       </p>
                     </div>

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import GridNews from "./GridNews";
+import { useTranslation } from "react-i18next";
 
 interface NewsItem {
   title: string;
@@ -19,6 +20,8 @@ const NewsCard = () => {
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
+  const { i18n, t } = useTranslation();
+  const isAmharic = Boolean(i18n.language === "am");
 
   const fetchNews = async () => {
     page === 1 ? setLoading(true) : setLoadingMore(true);
@@ -46,7 +49,9 @@ const NewsCard = () => {
   return (
     <>
       <div className="xl:lg:px-40 md:px-20 px-10 w-full min-h-[500px]">
-        <h2 className="font-bold lg:text-4xl text-lg text-center">News</h2>
+        <h2 className="font-bold lg:text-4xl text-lg text-center">
+          {t("news.news")}
+        </h2>
         {loading ? (
           <div className="grid xl:lg:grid-cols-2 md:grid-cols-2 gap-6 w-full md:mt-20 mt-8">
             <Skeleton className="w-full h-[300px]" />
@@ -65,7 +70,9 @@ const NewsCard = () => {
             >
               <div className="absolute bottom-0 text-white left-0 pb-6 pl-4 pt-3 text-left bg-gradient-to-t from-black to-transparent">
                 <span className="text-2xl font-bold group-hover:underline">
-                  {news?.[0]?.headline.slice(0, 70)}
+                  {isAmharic
+                    ? news?.[0]?.headlineAmharic.slice(0, 70)
+                    : news?.[0]?.headline.slice(0, 70)}
                   {news?.[0]?.headline.length > 70 && "..."}
                 </span>
                 <div className="flex items-center space-x-3">
@@ -93,9 +100,11 @@ const NewsCard = () => {
               >
                 <div className="absolute bottom-0 text-white left-0 pb-6 pl-4 pt-3 text-left bg-gradient-to-t from-black to-transparent cursor-pointer">
                   <h2 className="group-hover:underline text-2xl font-bold mb-3">
-                    {`${news?.[4]?.headline.slice(0, 70)} ${
-                      news?.[4]?.headline.length > 70 && "..."
-                    }`}
+                    {`${
+                      isAmharic
+                        ? news?.[4]?.headlineAmharic.slice(0, 70)
+                        : news?.[4]?.headline.slice(0, 70)
+                    } ${news?.[4]?.headline.length > 70 && "..."}`}
                   </h2>
                   <div className="flex items-center space-x-3">
                     <Image
@@ -130,7 +139,9 @@ const NewsCard = () => {
                     />
                     <div className="mt-2 md:pl-6 pl-0 lg:w-2/4">
                       <h2 className="group-hover:underline md:text-xl text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
-                        {item.headline.slice(0, 70)}
+                        {isAmharic
+                          ? item.headlineAmharic.slice(0, 70)
+                          : item.headline.slice(0, 70)}
                         {item.headline.length > 70 && "..."}
                       </h2>
                       <div className="flex items-center space-x-3">
@@ -168,7 +179,9 @@ const NewsCard = () => {
                     />
                     <div className="mt-2 md:pl-6 pl-0 lg:w-2/4">
                       <h2 className="group-hover:underline md:text-xl text-xs font-bold md:mb-1 mb-2 text-[#1E1E1E]">
-                        {item.headline.slice(0, 70)}
+                        {isAmharic
+                          ? item.headlineAmharic.slice(0, 70)
+                          : item.headline.slice(0, 70)}
                         {news?.[0]?.headline.length > 70 && "..."}
                       </h2>
                       <div className="flex items-center space-x-3">
