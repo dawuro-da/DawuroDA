@@ -3,6 +3,7 @@ import { Button, CircularProgress } from "@mui/material";
 import { News } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 const GridNews = ({
   news,
@@ -14,6 +15,8 @@ const GridNews = ({
   loadingMore: boolean;
 }) => {
   const router = useRouter();
+  const { i18n, t } = useTranslation();
+  const isAmharic = Boolean(i18n.language === "am");
 
   return (
     <div>
@@ -36,11 +39,15 @@ const GridNews = ({
                   unoptimized
                 />
                 <p className="w-[100%] text-start font-bold text-xl group-hover:underline">
-                  {newsItem.headline.slice(0, 70)}
+                  {isAmharic
+                    ? newsItem.headlineAmharic.slice(0, 70)
+                    : newsItem.headline.slice(0, 70)}
                   {newsItem.headline.length > 70 && "..."}
                 </p>
                 <p className="text-[#000000] text-start text-sm w-[100%]">
-                  {newsItem.body.slice(0, 200)}
+                  {isAmharic
+                    ? newsItem.bodyAmharic.slice(0, 200)
+                    : newsItem.body.slice(0, 200)}
                   {newsItem.body.length > 200 && "..."}
                 </p>
                 <div className="flex flex-row w-full mt-6 items-center justify-start cursor-pointer">
@@ -48,7 +55,7 @@ const GridNews = ({
                     variant="outlined"
                     className="text-black border-none hover:border-none capitalize hover:bg-none bg-none flex flex-row"
                   >
-                    <span className="font-light">Learn More</span>
+                    <span className="font-light">{t('news.learn_more')}</span>
                     <Image
                       src={"/images/diagonalarrow.svg"}
                       height={30}
@@ -65,7 +72,7 @@ const GridNews = ({
           onClick={loadMore}
           className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
         >
-          {loadingMore ? <CircularProgress className="h-full" /> : "Load More"}
+          {loadingMore ? <CircularProgress className="h-full" /> : t('news.load_more')}
         </div>
       </div>
     </div>
