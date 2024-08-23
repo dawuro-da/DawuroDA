@@ -3,12 +3,15 @@ import BoardMemberProfile from "./BoardMemberProfile";
 import axios from "axios";
 import { Management } from "@prisma/client";
 import { Skeleton } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const BoardMember = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState<any>();
   const [managers, setManagers] = useState<Management[]>();
   const [loading, setLoading] = useState(false);
+  const { i18n, t } = useTranslation();
+  const isAmharic = Boolean(i18n.language === "am");
 
   const fetchManagers = async () => {
     setLoading(true);
@@ -39,19 +42,11 @@ const BoardMember = () => {
     <>
       <div className="font-light w-full overflow-x-clip">
         <div className="mb-4">
-          <h1 className="font-bold text-lg">Board Members</h1>
+          <h1 className="font-bold text-lg">
+            {t("about.board_members_heading_1")}
+          </h1>
           <br />
-          <p className="mb-8">
-            {`The Board of Directors of the Gammo Development Association
-            comprises a diverse group of professionals dedicated to the
-            advancement and well-being of the Gammo community. Each board member
-            brings a unique set of skills and experiences that contribute to the
-            strategic direction and governance of the association. The board's
-            collective expertise spans various sectors including education,
-            healthcare, business, and community development. This diverse
-            background ensures a holistic approach to addressing the needs of
-            the Gammo people.`}
-          </p>
+          <p className="mb-8">{t("about.board_members_description")}</p>
         </div>
         <div className="grid grid-cols-3 gap-10 w-full ">
           {loading
@@ -67,7 +62,7 @@ const BoardMember = () => {
                     key={index}
                     className="relative w-full h-[300px] rounded-lg hover:cursor-pointer"
                     style={{
-                      background: `url('${manager.photo}')`,
+                      background: `url('${manager?.photo}')`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}
@@ -78,10 +73,12 @@ const BoardMember = () => {
                   >
                     <div className="absolute flex flex-col w-full text-white bottom-0 left-0 pb-6 pl-2 pt-6 bg-gradient-to-t from-[rgb(0,0,0,0.9)] to-transparent">
                       <span className="font-bold text-xl w-[200px]">
-                        {manager.managerName}
+                        {isAmharic
+                          ? manager?.managerNameAmharic
+                          : manager?.managerName}
                       </span>
                       <span className="max-w-[200px] truncate text-ellipsis text-lg">
-                        {manager.job}
+                        {isAmharic ? manager?.jobAmharic : manager?.job}
                       </span>
                     </div>
                   </div>
