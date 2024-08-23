@@ -170,10 +170,11 @@ const renderText = (
       return (
         <>
           <span className="w-full mt-16">{t("home.institution_name")}</span>
-          <span className="w-full tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
-            {t("home.heading_3")} <br />
+          <span className="text-left tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
+            {t("home.heading_4")}
+            <br />
             <span className="w-[300px] -ml-6 pl-6 z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
-              {t("home.heading_3_3")}
+              {t("home.heading_4_4")}
             </span>
           </span>
           <p className="text-lg md:text-2xl mb-6 w-full">{t("home.slogan")}</p>
@@ -200,11 +201,10 @@ const renderText = (
       return (
         <>
           <span className="w-full mt-16">{t("home.institution_name")}</span>
-          <span className="text-left tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
-            {t("home.heading_4")}
-            <br />
+          <span className="w-full tracking-[-2px] xl:text-6xl lg:text-6xl text-4xl font-black mb-4 z-20">
+            {t("home.heading_3")} <br />
             <span className="w-[300px] -ml-6 pl-6 z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
-              {t("home.heading_4_4")}
+              {t("home.heading_3_3")}
             </span>
           </span>
           <p className="text-lg md:text-2xl mb-6 w-full">{t("home.slogan")}</p>

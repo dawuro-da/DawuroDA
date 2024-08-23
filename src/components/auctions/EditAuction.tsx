@@ -4,6 +4,7 @@ import {
   Button,
   Checkbox,
   CircularProgress,
+  Dialog,
   Drawer,
   IconButton,
   TextField,
@@ -37,12 +38,16 @@ const EditAuction = ({
   const router = useRouter();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteLoading1, setDeleteLoading1] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     watch,
+    reset,
   } = useForm();
 
   useEffect(() => {
@@ -94,6 +99,37 @@ const EditAuction = ({
       );
     }
     setLoading(false);
+  };
+
+  const handleDelete = async (id: string) => {
+    setDeleteLoading(true);
+    try {
+      const res = await axios.delete(`/api/auction/delete/${auction?.id}`);
+
+      if (res?.status === 200) {
+        dispatch(
+          showToastAction({
+            message: "Successfully Deleted",
+            type: "success",
+          })
+        );
+        reset();
+        onRefresh();
+      }
+    } catch (err: any) {
+      console.error(err);
+      dispatch(
+        showToastAction({
+          message: err?.response?.data?.error ?? "something went wrong",
+          type: "error",
+        })
+      );
+    }
+    setShowDeleteDialog(false);
+    setDeleteLoading(false);
+    setLoading(false);
+    onRefresh()
+    onClose();
   };
 
   return (
@@ -273,21 +309,84 @@ const EditAuction = ({
                 />
                 <span>Save as Draft</span>
               </div>
-              <Button
-                type="submit"
-                variant="contained"
-                className="bg-primaryColor text-white px-10 py-4 font-bold w-[250px] h-[60px]"
-              >
-                {loading ? (
-                  <CircularProgress className="text-white" />
-                ) : (
-                  "Post Bid"
-                )}
-              </Button>
+              <div className="flex xl:lg:flex-row md:flex-row flex-col items-center gap-2 justify-between">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  className="bg-primaryColor text-white px-10 py-4 font-bold w-[250px] h-[60px]"
+                >
+                  {loading ? (
+                    <CircularProgress className="text-white" />
+                  ) : (
+                    "Post Bid"
+                  )}
+                </Button>
+                <Button
+                  onClick={() => {
+                    setShowDeleteDialog(true);
+                    setDeleteLoading1(true);
+                  }}
+                  disabled={deleteLoading1}
+                  variant="contained"
+                  className="bg-red-500 hover:bg-red-500 text-white px-10 py-4 font-bold w-fit h-[40px]"
+                >
+                  {deleteLoading1 ? (
+                    <CircularProgress className="text-white" />
+                  ) : (
+                    "Delete"
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
         </form>
       </div>
+      <Dialog
+        open={Boolean(showDeleteDialog)}
+        onClose={() => setShowDeleteDialog(false)}
+      >
+        <div className="flex flex-col items-center max-w-[600px] p-6">
+          <div className="w-full flex flex-row justify-end">
+            <Close
+              onClick={() => {
+                setShowDeleteDialog(false);
+              }}
+              className="cursor-pointer"
+            />
+          </div>
+          <div className="flex flex-col items-center gap-6 px-12 py-6">
+            <span className="font-bold text-3xl">
+              Are you sure you want to remove this Auction?
+            </span>
+            <span className="capitalize flex flex-row items-center gap-2">
+              <span>{auction.title}</span>
+            </span>
+            <div className="flex flex-row gap-6 items-center mt-10">
+              <Button
+                variant="outlined"
+                className="text-black border-black"
+                onClick={() => setShowDeleteDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="outlined"
+                disabled={deleteLoading}
+                className="bg-red-700 border-red-700 hover:bg-red-700 hover:border-red-700 text-white h-[40px]"
+                onClick={async () => {
+                  await handleDelete(auction.id);
+                }}
+              >
+                {deleteLoading ? (
+                  <CircularProgress className="h-[40px] w-[40px]" />
+                ) : (
+                  "Remove"
+                )}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Dialog>
     </Drawer>
   );
 };
