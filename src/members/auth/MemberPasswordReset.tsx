@@ -93,6 +93,10 @@ const MemberPasswordReset = ({
                   <TextField
                     {...register("password", {
                       required: "Password is required",
+                       minLength: {
+                        value: 6,
+                        message: "password must be at least 6 chars",
+                      },
                     })}
                     variant="outlined"
                     type={showPassword ? "text" : "password"}

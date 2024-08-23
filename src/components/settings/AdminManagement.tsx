@@ -1,5 +1,5 @@
 import { Gammo_Branches } from "@/constants/datas";
-import { international_phone_regex  } from "@/constants/regex";
+import { international_phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import { Close, RemoveRedEyeOutlined } from "@mui/icons-material";
 import {
@@ -263,7 +263,9 @@ const AdminManagement = () => {
                 variant="outlined"
                 inputProps={{ style: { padding: 10, borderRadius: "6px" } }}
                 value={watch("phone")}
-                onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
+                onChange={(value) =>
+                  setValue("phone", value.replace(/\s+/g, ""))
+                }
                 type="text"
                 placeholder=""
                 error={Boolean(!!errors.phone)}
@@ -386,6 +388,10 @@ const AdminManagement = () => {
               <TextField
                 {...register("password", {
                   required: "Password is required",
+                   minLength: {
+                        value: 6,
+                        message: "password must be at least 6 chars",
+                      },
                 })}
                 autoComplete="false"
                 variant="outlined"

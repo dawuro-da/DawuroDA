@@ -41,6 +41,11 @@ const PhoneAndPassword = ({
         setLoading(false);
         return;
       }
+      if (watch("password") && !(watch("password")?.length >= 6)) {
+        setError("Password must be at least 6 chars");
+        setLoading(false);
+        return;
+      }
       if (watch("password") !== watch("confirmPassword")) {
         setError("Password must match confirm password");
         setLoading(false);
@@ -51,12 +56,10 @@ const PhoneAndPassword = ({
         setLoading(false);
         return;
       }
-      if (watch("international")) {
-        if (!international_phone_regex.test(watch("phone"))) {
-          setError("Phone is not valid");
-          setLoading(false);
-          return;
-        }
+      if (!international_phone_regex.test(watch("phone"))) {
+        setError("Phone is not valid");
+        setLoading(false);
+        return;
       }
 
       const res = await axios.post("/api/member/checkToRegister", {
@@ -148,6 +151,11 @@ const PhoneAndPassword = ({
         <TextField
           {...register("password", {
             required: "Password is required",
+             minLength: {
+                        value: 6,
+                        message: "password must be at least 6 chars",
+                      },
+            min: 6,
           })}
           autoComplete="off"
           variant="outlined"

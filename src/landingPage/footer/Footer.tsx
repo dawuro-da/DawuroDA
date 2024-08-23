@@ -66,12 +66,12 @@ const FooterLinks = ({ t }: { t: any }) => {
         </h3>
         <ul className="space-y-2">
           {[
-            { link: "/about", name: "About Us" },
-            { link: "/news", name: "News" },
-            { link: "/#initiatives", name: "Initiatives" },
-            { link: "/vacancies", name: "Vacancies" },
-            { link: "/resources", name: "Resources" },
-            { link: "/#faqs", name: "FAQ" },
+            { link: "/about", name: `${t("navigation.about")}` },
+            { link: "/news", name: `${t("navigation.news")}` },
+            { link: "/#initiatives", name: `${t("navigation.initiatives")}` },
+            { link: "/vacancies", name: `${t("navigation.vacancy")}` },
+            { link: "/resources", name: `${t("navigation.resources")}` },
+            { link: "/#faqs", name: `${t("navigation.faq")}` },
           ].map((item, index) => (
             <li key={index} className="text-left">
               <Link
@@ -179,6 +179,16 @@ const Footer = () => {
               {t("footer.terms_and_conditions")}
             </span>
           </Link>
+          <span className="xl:lg:ml-4 text-xs">
+            Designed and Developed by{" "}
+            <a
+              target="_blank"
+              className="no-underline hover:underline text-blue-700"
+              href={"http://www.nicomasdigitals.com/"}
+            >
+              Nicomas Digitals
+            </a>
+          </span>
         </span>
         <p className="text-sm italic text-[#000000]">{t("footer.copyright")}</p>
       </div>
