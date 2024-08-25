@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 
 const JobDetailPage = () => {
@@ -17,6 +18,7 @@ const JobDetailPage = () => {
   const params = useParams();
   const [job, setJob] = useState<Job>();
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const fetchJob = async () => {
     setLoading(true);
@@ -72,7 +74,7 @@ const JobDetailPage = () => {
     <div className="min-h-screen p-8">
       <Link href="/vacancies" className="w-fit font-light flex flex-row gap-4">
         <Image src={"/images/back.svg"} height={20} width={20} alt="" />
-        <p>Back to Vacancies</p>
+        <p>{t("vacancies.back_to_vacancies")}</p>
       </Link>
       {loading ? (
         <Skeleton className="min-h-[500px]" />
@@ -103,7 +105,11 @@ const JobDetailPage = () => {
               <p>{job?.jobDescription}</p>
               <Button
                 onClick={() =>
-                  job && downloadPDF({ name: job.jobTitle.slice(0,40), url: job.document })
+                  job &&
+                  downloadPDF({
+                    name: job.jobTitle.slice(0, 40),
+                    url: job.document,
+                  })
                 }
                 variant="outlined"
                 className="text-white w-fit px-12 mt-6 flex flex-row py-3 rounded-md bg-primaryColor hover:text-primaryColor justify-center items-center gap-2"
@@ -114,11 +120,13 @@ const JobDetailPage = () => {
             </div>
           </div>
           <div className="mt-8 flex flex-col gap-4">
-            <p className="text-black text-xs">Apply via email</p>
+            <p className="text-black text-xs">
+              {t("vacancies.apply_via_email")}
+            </p>
             <span>
               <Link href="mailto:">
                 <Button variant="contained" className="px-10 shadow-none">
-                  Apply
+                  {t("vacancies.apply")}
                 </Button>
               </Link>
             </span>

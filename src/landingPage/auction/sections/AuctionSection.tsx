@@ -64,10 +64,10 @@ const AuctionSection = ({ bidders }: { bidders: Bidder[] | null }) => {
         <div className="xl:lg:px-40 md:px-20 px-10 w-full">
           <div className="text-center lg:mt-[180px] mt-[100px] mb-16">
             <h1 className="lg:text-4xl md:text-2xl text-lg font-extrabold mb-6">
-              Auctions
+              {t("auctions.auctions_heading")}
             </h1>
             <p className="font-light text-[#7C7C7C]">
-              Get involved in auctions
+              {t("auctions.auctions_subheading")}
             </p>
           </div>
           <div>
@@ -97,6 +97,7 @@ const AuctionSection = ({ bidders }: { bidders: Bidder[] | null }) => {
                     isInProgress={isInProgress}
                     onClick={() => router.push(`/auctions/${item.id}`)}
                     endDate={getFormattedDate(item.endDate)}
+                    t={t}
                   />
                 );
               })
@@ -110,7 +111,7 @@ const AuctionSection = ({ bidders }: { bidders: Bidder[] | null }) => {
               {loadingMore ? (
                 <CircularProgress className="h-full" />
               ) : (
-                "Load More"
+                t("auctions.load_more")
               )}
             </div>
           </div>

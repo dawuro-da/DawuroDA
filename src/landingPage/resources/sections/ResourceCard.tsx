@@ -6,10 +6,12 @@ import { Resource } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const ResourceCard = () => {
   const [resources, setResources] = useState<Resource[]>();
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
 
@@ -97,7 +99,7 @@ const ResourceCard = () => {
                   className="text-white w-full flex flex-row py-3 rounded-md bg-primaryColor hover:text-primaryColor justify-center items-center gap-2"
                 >
                   <ArrowDownward />
-                  <p>Download</p>
+                  <p>{t("resources.download")}</p>
                 </Button>
               </div>
             ))}
@@ -107,7 +109,11 @@ const ResourceCard = () => {
           onClick={() => setPage(page + 1)}
           className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
         >
-          {loadingMore ? <CircularProgress className="h-full" /> : "Load More"}
+          {loadingMore ? (
+            <CircularProgress className="h-full" />
+          ) : (
+            t("resources.load_more")
+          )}
         </div>
       </div>
     </div>
