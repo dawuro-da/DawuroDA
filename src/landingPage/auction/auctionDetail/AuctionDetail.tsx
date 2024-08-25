@@ -42,7 +42,8 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
     handleSubmit,
     watch,
   } = useForm();
-  const { i18n: i18nn } = useTranslation();
+  const { i18n: i18nn, t } = useTranslation();
+  const isAmharic = Boolean(i18n.language === "am");
   const { language } = useLanguageStore();
 
   useEffect(() => {
@@ -147,7 +148,7 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
               width={20}
               height={20}
             />
-            <p>Back to auctions</p>
+            <p>{t("auctions.back_to_auctions")}</p>
           </div>
           {bidder?.isSubmitted || successfull ? (
             <div className="flex flex-col items-center justify-center w-full min-h-[400px] font-bold">
@@ -168,14 +169,18 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
               {!bidder?.hasPaidNRP && (
                 <div className="grid xl:lg:grid-cols-3 md:grid-cols-3 gap-6 mt-6">
                   <div className="flex flex-col gap-3 col-span-2 xl:lg:max-w-[90%] md:max-w-[96%]">
-                    <span className="font-bold text-4xl ">Auction Detail</span>
+                    <span className="font-bold text-4xl ">
+                      {t("auctions.auction_detail_page.auction_detail")}
+                    </span>
                     <span className="flex flex-col gap-1">
                       <span className="text-2xl">{auction.title}</span>
                       <small className="text-titleColor">
-                        Start Date: {getFormattedDate(auction.startDate)}
+                        {t("auctions.start_date")}:{" "}
+                        {getFormattedDate(auction.startDate)}
                       </small>
                       <small className="text-titleColor">
-                        End Date: {getFormattedDate(auction.endDate)}
+                        {t("auctions.end_date")}:{" "}
+                        {getFormattedDate(auction.endDate)}
                       </small>
                     </span>
                     <span className="text-titleColor">
@@ -184,29 +189,41 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                   </div>
                   <div className="flex flex-col gap-3 ">
                     <span className="font-bold">
-                      To Apply Please Follow the following{" "}
+                      {t("auctions.auction_detail_page.payment_info_heading")}{" "}
                     </span>
                     <span className="text-sm mt-2 text-titleColor max-w-[300px]">
-                      {`Inorder to participate on the auction, 
-                    you have to pay the following pre-payments`}
+                      {t(
+                        "auctions.auction_detail_page.payment_info_subheading"
+                      )}
                     </span>
                     <span className="text-sm text-titleColor flex flex-col gap-2 max-w-[300px]">
                       {auction.CPO && (
                         <span className="flex flex-row w-full justify-between">
-                          CPO: <span>{auction.CPO} Birr</span>
+                          {t("auctions.auction_detail_page.CPO")}:{" "}
+                          <span>
+                            {auction.CPO}{" "}
+                            {t("auctions.auction_detail_page.birr")}
+                          </span>
                         </span>
                       )}
                       {auction.formPayment && (
                         <span className="flex flex-row w-full justify-between">
-                          Non-refundable Payment:{" "}
-                          <span>{auction.formPayment} Birr</span>
+                          {t(
+                            "auctions.auction_detail_page.non-refundable_payment"
+                          )}
+                          :{" "}
+                          <span>
+                            {auction.formPayment}{" "}
+                            {t("auctions.auction_detail_page.birr")}
+                          </span>
                         </span>
                       )}
                       {(auction.CPO || auction.formPayment) && (
                         <span className="flex flex-row w-full justify-between">
-                          Total:{" "}
+                          {t("auctions.auction_detail_page.total")}:{" "}
                           <span className="font-bold">
-                            {auction.CPO + auction.formPayment} Birr
+                            {auction.CPO + auction.formPayment}{" "}
+                            {t("auctions.auction_detail_page.birr")}
                           </span>
                         </span>
                       )}
@@ -216,7 +233,7 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                       variant="contained"
                       className=" max-w-[240px] mt-4"
                     >
-                      Pay
+                      {t("auctions.auction_detail_page.pay")}
                     </Button>
                   </div>
                 </div>
@@ -228,18 +245,25 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                 >
                   <div className="xl:lg:order-first md:order-first order-last flex flex-col gap-3 xl:lg:max-w-[500px] md:max-w-[400px]">
                     <span className="font-bold">
-                      Auction Participation Instructions
+                      {t(
+                        "auctions.auction_detail_page.auction_submission_page.instructions_heading"
+                      )}
                     </span>
                     <span className="text-titleColor">
-                      Interested parties are requested to follow the steps below
-                      to participate in the auction:
+                      {t(
+                        "auctions.auction_detail_page.auction_submission_page.instructions_subheading"
+                      )}
                     </span>
                     <span className="flex flex-col gap-2">
                       <span className="text-titleColor font-bold">
-                        1. Download the Auction Document:
+                        {t(
+                          "auctions.auction_detail_page.auction_submission_page.instructions_heading_1"
+                        )}
                       </span>
                       <span className="text-sm text-titleColor">
-                        {`Access and download the necessary auction documents from download link provided.`}
+                        {t(
+                          "auctions.auction_detail_page.auction_submission_page.instructions_subheading_1"
+                        )}
                       </span>
                       <div className="flex flex-row gap-2 my-4">
                         <Image
@@ -266,17 +290,29 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                       className="text-white w-full flex flex-row py-3 rounded-md bg-primaryColor hover:text-primaryColor justify-center items-center gap-2"
                     >
                       <ArrowDownward />
-                      <p>Download</p>
+                      <p>
+                        {t(
+                          "auctions.auction_detail_page.auction_submission_page.download"
+                        )}
+                      </p>
                     </Button>
                     <div className="flex flex-col gap-2 mt-8">
                       <span className="text-titleColor font-bold">
-                        2. Fill Out the Form and Upload Proforma Invoice:
+                        {t(
+                          "auctions.auction_detail_page.auction_submission_page.instructions_heading_2"
+                        )}
                       </span>
                       <span className="text-sm text-titleColor">
-                        {`Complete the form provided within the auction document.`}
+                        {t(
+                          "auctions.auction_detail_page.auction_submission_page.instructions_subheading_2"
+                        )}
                       </span>
                       <div className="flex flex-col gap-1 text-titleColor my-4">
-                        <small>Offer (write the total price including tax)</small>
+                        <small>
+                          {t(
+                            "auctions.auction_detail_page.auction_submission_page.offer"
+                          )}
+                        </small>
                         <TextField
                           {...register("offer", {
                             required: "Please add your offer",
@@ -292,7 +328,11 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                         />
                       </div>
                       <div className="flex flex-col gap-1 text-titleColor my-2">
-                        <small>Filled Document</small>
+                        <small>
+                          {t(
+                            "auctions.auction_detail_page.auction_submission_page.filled_document"
+                          )}
+                        </small>
                         <span className="relative flex flex-row items-center px-6 border-2 border-dashed rounded-[3px] py-2 cursor-pointer h-[65px]">
                           <span className="flex flex-row items-center px-2 gap-2 text-titleColor cursor-pointer">
                             <Image
@@ -324,20 +364,29 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                               height={20}
                               width={20}
                             />
-                            <span>Upload</span>
+                            <span>
+                              {t(
+                                "auctions.auction_detail_page.auction_submission_page.upload"
+                              )}
+                            </span>
                           </Button>
                         </span>
                       </div>
                     </div>
                     <span className="flex flex-col gap-2 mt-4">
                       <span className="text-titleColor font-bold">
-                        3. Submit the completed form and the proforma invoice
+                        {t(
+                          "auctions.auction_detail_page.auction_submission_page.instructions_heading_3"
+                        )}
                       </span>
                       <span className="text-sm text-titleColor">
-                        {`NB: Ensure all required documents are filled out correctly and uploaded.`}
+                        {t(
+                          "auctions.auction_detail_page.auction_submission_page.instructions_subheading_3"
+                        )}
                         <br />
-                        For any inquiries or further assistance, please contact
-                        our team.
+                        {t(
+                          "auctions.auction_detail_page.auction_submission_page.instructions_subheading_3_1"
+                        )}
                       </span>
                     </span>
                     <Button
@@ -348,42 +397,60 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                       {loading ? (
                         <CircularProgress className="text-white" />
                       ) : (
-                        <p>Submit your bid</p>
+                        <p>
+                          {t(
+                            "auctions.auction_detail_page.auction_submission_page.submit_your_bid"
+                          )}
+                        </p>
                       )}
                     </Button>
                   </div>
                   <div className="flex flex-col gap-3  xl:lg:max-w-[500px] md:max-w-[400px]">
                     <span className="font-bold text-xl text-titleColor">
-                      Auction Participation Instructions
+                      {t(
+                        "auctions.auction_detail_page.auction_submission_page.instructions_heading"
+                      )}
                     </span>
                     <span className="text-titleColor">
-                      Interested parties are requested to follow the steps below
-                      to participate in the auction:
+                      {t(
+                        "auctions.auction_detail_page.auction_submission_page.instructions_subheading"
+                      )}
                     </span>
                     <span className="text-titleColor text-sm font-bold">
-                      1. Download the Auction Document:
+                      {t(
+                        "auctions.auction_detail_page.auction_submission_page.instructions_heading_1"
+                      )}
                     </span>
                     <span className="text-titleColor text-sm">
-                      Access and download the necessary auction documents from
-                      download link provided.
+                      {t(
+                        "auctions.auction_detail_page.auction_submission_page.instructions_sub_heading_1"
+                      )}
                     </span>
                     <span className="text-titleColor text-sm font-bold">
-                      2. Fill Out the Form and Upload Proforma Invoice:
+                      {t(
+                        "auctions.auction_detail_page.auction_submission_page.instructions_heading_2"
+                      )}
                     </span>
                     <span className="text-titleColor text-sm">
-                      Complete the form provided within the auction document.
+                      {t(
+                        "auctions.auction_detail_page.auction_submission_page.instructions_sub_heading_2"
+                      )}
                     </span>
                     <span className="text-titleColor text-sm font-bold">
-                      3. Submit the completed form and the proforma invoice
+                      {t(
+                        "auctions.auction_detail_page.auction_submission_page.instructions_heading_3"
+                      )}
                     </span>
 
                     <span className="text-titleColor text-sm">
-                      NB: Ensure all required documents are filled out correctly
-                      and uploaded.
+                      {t(
+                        "auctions.auction_detail_page.auction_submission_page.instructions_subheading_3"
+                      )}
                     </span>
                     <span className="text-titleColor text-sm">
-                      For any inquiries or further assistance, please contact
-                      our team.
+                      {t(
+                        "auctions.auction_detail_page.auction_submission_page.instructions_subheading_3_1"
+                      )}
                     </span>
                   </div>
                 </form>

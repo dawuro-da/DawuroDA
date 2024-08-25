@@ -159,7 +159,8 @@
         "filled_document": "Filled Document",
         "upload": "Upload",
         "instructions_heading_3": "3. Submit the completed form and the proforma invoice",
-        "instructions_subheading_3": "NB: Ensure all required documents are filled out correctly and uploaded. For any inquiries or further assistance, please contact our team.",
+        "instructions_subheading_3": "NB: Ensure all required documents are filled out correctly and uploaded.",
+        "instructions_subheading_3_1": "For any inquiries or further assistance, please contact our team.",
         "submit_your_bid": "Submit Your Bid"
       }
     }

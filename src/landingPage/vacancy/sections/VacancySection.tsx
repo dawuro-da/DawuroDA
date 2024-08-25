@@ -8,12 +8,14 @@ import axios from "axios";
 import { Job } from "@prisma/client";
 import { CircularProgress, Skeleton } from "@mui/material";
 import { getRelativeTimeSinceDate } from "@/util/date";
+import { useTranslation } from "react-i18next";
 
 const VacancySection = () => {
   const [jobs, setJobs] = useState<Job[]>();
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
+  const { t } = useTranslation();
 
   const fetchJobs = async () => {
     page === 1 ? setLoading(true) : setLoadingMore(true);
@@ -46,9 +48,11 @@ const VacancySection = () => {
       <div className="w-4/5 mx-auto">
         <div className="text-center lg:mt-[180px] mt-[100px] mb-16">
           <h1 className="lg:text-4xl md:text-2xl text-lg font-extrabold mb-6">
-            Vacancies
+            {t("vacancies.vacancies_heading")}
           </h1>
-          <p className="font-light text-[#7C7C7C]">Our Job Openings</p>
+          <p className="font-light text-[#7C7C7C]">
+            {t("vacancies.vacancies_subheading")}
+          </p>
         </div>
       </div>
       <div className="mb-48 min-h-[300px]">
@@ -63,7 +67,11 @@ const VacancySection = () => {
           onClick={() => setPage(page + 1)}
           className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
         >
-          {loadingMore ? <CircularProgress className="h-full" /> : "Load More"}
+          {loadingMore ? (
+            <CircularProgress className="h-full" />
+          ) : (
+            t("vacancies.load_more")
+          )}
         </div>
       </div>
       <Footer />
