@@ -1,7 +1,7 @@
 "use client";
 
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
-import { international_phone_regex  } from "@/constants/regex";
+import { international_phone_regex } from "@/constants/regex";
 import {
   ArrowBack,
   Facebook,
@@ -15,12 +15,14 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 const MemberLogin = ({
   setIsSignUp,
 }: {
   setIsSignUp: (value: boolean) => void;
 }) => {
+  const { t } = useTranslation();
   const params = useSearchParams();
   const [loginError, setLoginError] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -65,18 +67,24 @@ const MemberLogin = ({
       <Link href={"/"}>
         <div className="absolute xl:lg:hidden flex flex-row items-center gap-2 top-10 left-10 text-black w-fit z-40 hover:cursor-pointer hover:underline">
           <ArrowBack />
-          <span>Back to home</span>
+          <span>{t("members_dashboard.login.back_to_home")}</span>
         </div>
       </Link>
-      <div className="font-bold text-4xl">Login</div>
+      <div className="font-bold text-4xl">
+        {t("members_dashboard.login.login_button")}
+      </div>
       <div className="flex flex-col gap-1 items-center">
-        <span className="text-center">Welcome back to</span>
+        <span className="text-center">
+          {t("members_dashboard.login.welcome_back_to")}
+        </span>
         <span className="text-2xl font-[500] text-center">
-          Gamo Development Association
+          {t("members_dashboard.login.gamo_development_association")}
         </span>
       </div>
       <div className="flex flex-col gap-1 w-full mt-16">
-        <span className="text-titleColor text-sm font-bold">Phone Number</span>
+        <span className="text-titleColor text-sm font-bold">
+          {t("members_dashboard.login.phone_number")}
+        </span>
         <PhoneNumberInput
           size="small"
           {...register("phone", {
@@ -98,7 +106,9 @@ const MemberLogin = ({
       </div>
       <div className="flex flex-col gap-[7px] text-[#555555] h-full w-full">
         <label className="flex flex-row items-center justify-between">
-          <span className="text-titleColor text-sm font-bold">Password</span>
+          <span className="text-titleColor text-sm font-bold">
+            {t("members_dashboard.login.password")}
+          </span>
 
           {showPassword ? (
             <Image
@@ -145,7 +155,7 @@ const MemberLogin = ({
       <div className="flex flex-row items-center justify-end w-full">
         <Link href={"/member/forgot-password"}>
           <span className="text-[#13A6D9] hover:underline">
-            Forgot password?
+            {t("members_dashboard.login.forgot_password")}
           </span>
         </Link>
       </div>
@@ -178,13 +188,13 @@ const MemberLogin = ({
         {loading ? <CircularProgress className="text-white" /> : "Login"}
       </Button>
       <div className="flex flex-row items-center gap-2 justify-end w-full">
-        <span>Are you new here?</span>
+        <span>{t("members_dashboard.login.are_you_new_here")}</span>
 
         <span
           onClick={() => setIsSignUp(true)}
           className="text-[#13A6D9] hover:underline cursor-pointer"
         >
-          Sign up
+          {t("members_dashboard.login.sign_up_link")}
         </span>
       </div>
     </form>

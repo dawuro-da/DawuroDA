@@ -212,9 +212,9 @@
         "sign_up_heading": "Sign Up",
         "sign_up_subheading_1": "welcome to",
         "sign_up_subheading_2": "Gamo Development Association",
-        "email_optional": "Email(optional only for local users)",
+        "email_optional": "Email (optional only for local users)",
         "sign_up_button": "Sign Up",
-        "have_an_account": "",
+        "have_an_account": "have an account?",
         "login_link": "Login",
         "progress_bar_1": {
           "GaDA_heading": "Gamo Development Association",
