@@ -95,7 +95,9 @@ const AdminPasswordReset = ({ email }: { email: string }) => {
                     type={showPassword ? "text" : "password"}
                     error={Boolean(!!errors.password)}
                     helperText={
-                      !!errors.password && errors.password.message?.toString()
+                      !!errors.password
+                        ? errors.password.message?.toString()
+                        : "password must be at least 6 chars"
                     }
                     inputProps={{
                       style: {

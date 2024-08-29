@@ -18,7 +18,8 @@ export async function POST(req: Request, res: any) {
     const { event, mobile, meta, amount, first_name, type } = body;
 
     if (event === "charge.success" && type === "API") {
-      const metaData = JSON.parse(meta);
+      const metaData = JSON.parse(JSON.stringify(meta));
+      
       const paymentType = metaData?.paymentType ?? "";
       const auctionId = metaData?.auctionId ?? "";
       const donationDesignation = metaData?.donationDesignation ?? "";

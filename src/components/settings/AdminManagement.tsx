@@ -388,17 +388,19 @@ const AdminManagement = () => {
               <TextField
                 {...register("password", {
                   required: "Password is required",
-                   minLength: {
-                        value: 6,
-                        message: "password must be at least 6 chars",
-                      },
+                  minLength: {
+                    value: 6,
+                    message: "password must be at least 6 chars",
+                  },
                 })}
                 autoComplete="false"
                 variant="outlined"
                 type={showPassword ? "text" : "password"}
                 error={Boolean(!!errors.password)}
                 helperText={
-                  !!errors.password && errors.password.message?.toString()
+                  !!errors.password
+                    ? errors.password.message?.toString()
+                    : "password must be at least 6 chars"
                 }
                 inputProps={{
                   style: {

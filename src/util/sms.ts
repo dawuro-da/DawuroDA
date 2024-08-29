@@ -10,5 +10,6 @@ export const sendOTP = async ({ phone }: { phone: string }) => {
       },
     }
   );
+  console.warn(response.data.response)
   return response;
 };
