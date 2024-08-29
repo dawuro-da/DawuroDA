@@ -12,6 +12,7 @@ import {
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 interface PhoneAndPasswordProps {
   register: UseFormRegister<FieldValues>;
@@ -32,6 +33,7 @@ const PhoneAndPassword = ({
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   const sendOtp = async () => {
     setLoading(true);
@@ -82,16 +84,20 @@ const PhoneAndPassword = ({
 
   return (
     <div className="px-10 py-20 flex flex-col items-center justify-center gap-4 max-w-[450px] w-full">
-      <div className="font-bold text-4xl">Sign Up</div>
+      <div className="font-bold text-4xl">
+        {t("members_dashboard.login.sign_up.sign_up_heading")}
+      </div>
       <div className="flex flex-col gap-1 items-center">
-        <span className="text-center">Welcome to</span>
+        <span className="text-center">
+          {t("members_dashboard.login.sign_up.sign_up_subheading_1")}
+        </span>
         <span className="text-2xl font-[500] text-center">
-          Gamo Development Association
+          {t("members_dashboard.login.sign_up.sign_up_subheading_2")}
         </span>
       </div>
       <div className="flex flex-col gap-1 w-full mt-12">
         <span className="text-titleColor text-sm font-bold">
-          {"Email (optional for local users)"}
+          {t("members_dashboard.login.sign_up.email_optional")}
         </span>
         <TextField
           size="small"
@@ -105,7 +111,9 @@ const PhoneAndPassword = ({
         />
       </div>
       <div className="flex flex-col gap-1 w-full">
-        <span className="text-titleColor text-sm font-bold">Phone Number</span>
+        <span className="text-titleColor text-sm font-bold">
+          {t("members_dashboard.login.phone_number")}
+        </span>
         <PhoneNumberInput
           size="small"
           {...register("phone", {
@@ -128,7 +136,7 @@ const PhoneAndPassword = ({
       <div className="flex flex-col gap-[7px] text-[#555555] h-full w-full">
         <label className="flex flex-row items-center justify-between">
           <span className="text-titleColor text-sm font-bold">
-            New Password
+            {t("members_dashboard.login.new_password")}
           </span>
 
           {showPassword ? (
@@ -177,7 +185,7 @@ const PhoneAndPassword = ({
       <div className="flex flex-col gap-[7px] text-[#555555] h-full w-full">
         <label className="flex flex-row items-center justify-between">
           <span className="text-titleColor text-sm font-bold">
-            Confirm Password
+            {t("members_dashboard.login.confirm_password")}
           </span>
 
           {showPassword ? (
@@ -254,12 +262,12 @@ const PhoneAndPassword = ({
         {loading ? <CircularProgress className="text-white" /> : "Sign up"}
       </Button>
       <div className="flex flex-row items-center gap-2 justify-end w-full">
-        <span>have an account?</span>
+        <span>{t("members_dashboard.login.sign_up.have_an_account")}</span>
         <span
           onClick={() => setIsSignUp(false)}
           className="text-[#13A6D9] hover:underline cursor-pointer"
         >
-          Log in
+          {t("members_dashboard.login.sign_up.login_link")}
         </span>
       </div>
     </div>
