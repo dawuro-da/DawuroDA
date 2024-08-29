@@ -308,14 +308,14 @@ const Jobs = () => {
                             value &&
                             value[0]
                           ) {
-                            if (value[0].size > 1048576) {
+                            if (value[0].size > 2097152) {
                               dispatch(
                                 showToastAction({
-                                  message: `Image size must be less than 1MB`,
+                                  message: `File size must be less than 2MB`,
                                   type: "error",
                                 })
                               );
-                              return "Image size must be less than 1MB";
+                              return "File size must be less than 2MB";
                             } else {
                               return value[0].size < 1048576;
                             }

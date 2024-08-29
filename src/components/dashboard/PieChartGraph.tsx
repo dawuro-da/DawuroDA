@@ -77,12 +77,12 @@ const PieChartGraph = ({ pieChartData }: { pieChartData: any }) => {
           </radialGradient>
         </defs>
         <Pie
-          data={data}
+          data={data ?? []}
           dataKey="value"
-          cx={window.innerWidth <= 450 ? "140%" : "70%"}
-          cy={window.innerWidth <= 450 ? "40%" : "50%"}
-          innerRadius={window.innerWidth <= 450 ? "80%" : "47%"}
-          outerRadius={window.innerWidth <= 450 ? "150%" : "92%"}
+          cx={window?.innerWidth <= 450 ? "140%" : "70%"}
+          cy={window?.innerWidth <= 450 ? "40%" : "50%"}
+          innerRadius={window?.innerWidth <= 450 ? "80%" : "47%"}
+          outerRadius={window?.innerWidth <= 450 ? "150%" : "92%"}
           paddingAngle={0}
           labelLine={false}
         >

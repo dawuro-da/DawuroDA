@@ -35,7 +35,7 @@ export async function createJob({
         jobDescriptionAmharic,
         jobTitleAmharic,
         document,
-        deadlineDate,
+        deadlineDate: new Date(deadlineDate),
       },
     });
 
@@ -78,7 +78,7 @@ export async function updateJob({
         jobDescriptionAmharic,
         jobTitleAmharic,
         document,
-        deadlineDate,
+        deadlineDate: new Date(deadlineDate),
       },
     });
 

@@ -78,7 +78,7 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   } catch (err) {
-    console.warn(err);
+    console.error(err);
     return NextResponse.json(
       {
         success: false,
