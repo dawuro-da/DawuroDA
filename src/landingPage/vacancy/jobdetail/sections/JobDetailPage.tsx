@@ -115,7 +115,7 @@ const JobDetailPage = () => {
                 className="text-white w-fit px-12 mt-6 flex flex-row py-3 rounded-md bg-primaryColor hover:text-primaryColor justify-center items-center gap-2"
               >
                 <ArrowDownward />
-                <p>Download Detail</p>
+                <p>{t("vacancies.download_detail")}</p>
               </Button>
             </div>
           </div>
@@ -126,7 +126,7 @@ const JobDetailPage = () => {
             <span>
               <Link href="mailto:">
                 <Button variant="contained" className="px-10 shadow-none">
-                  {t("vacancies.apply")}
+                  {t("vacancies.apply_button")}
                 </Button>
               </Link>
             </span>

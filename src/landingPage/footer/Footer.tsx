@@ -28,20 +28,14 @@ const ContactInfo = ({ t }: { t: any }) => (
         <p className="flex flex-row gap-1 justify-start items-start">
           <span className="flex flex-row items-center w-fit">Tel:</span>
           <span className="flex flex-col gap-2">
-            <Link href="tel:0910324567">
-              <span className="pl-4 hover:underline">0910324567</span>
-            </Link>
-            <Link href="tel:0910600719">
-              <span className="pl-4 hover:underline"> 0910600719</span>
-            </Link>
-            <Link href="tel:0911283675">
-              <span className="pl-4 hover:underline"> 0911283675</span>
-            </Link>
             <Link href="tel:0468814846">
               <span className="pl-4 hover:underline"> 0468814846</span>
             </Link>
             <Link href="tel:0468810434">
               <span className="pl-4 hover:underline"> 0468810434</span>
+            </Link>
+            <Link href="tel:0911283675">
+              <span className="pl-4 hover:underline"> 0911283675</span>
             </Link>
           </span>
         </p>

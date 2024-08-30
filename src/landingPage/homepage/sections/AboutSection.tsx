@@ -1,5 +1,6 @@
 "use client";
 
+import BoardMemberProfile from "@/landingPage/about/sections/contents/BoardMemberProfile";
 import DonationForm from "@/landingPage/modals/DonationForm";
 import useLanguageStore from "@/redux/languageStore";
 import { Avatar, Button, Skeleton } from "@mui/material";
@@ -17,6 +18,8 @@ const AboutSection = () => {
   const isAmharic = Boolean(i18n.language === "am");
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [openDonateModal, setOpenDonateModal] = useState(false);
+  const [openProfileModal, setOpenProfileModal] = useState(false);
+  const [selectedManager, setSelectedManager] = useState<Management>();
   const [managers, setManagers] = useState<Management[]>();
   const [loading, setLoading] = useState(false);
 
@@ -56,12 +59,27 @@ const AboutSection = () => {
     prevArrow: <LeftArrow />,
   };
 
+  const handleShowProfile = (manager: Management) => {
+    setSelectedManager(manager);
+    setOpenProfileModal(true);
+  };
+
   return (
     <div className="xl:lg:px-40 md:px-20 px-10 grid items-center h-fit lg:grid-cols-2 grid-cols-1 mt-48 mb-36 w-full">
       <DonationForm
         open={openDonateModal}
         handleClose={() => setOpenDonateModal(false)}
       />
+      {selectedManager && (
+        <BoardMemberProfile
+          open={openProfileModal}
+          handleClose={() => {
+            setOpenProfileModal(false);
+            setSelectedManager(undefined);
+          }}
+          manager={selectedManager}
+        />
+      )}
       <div className="lg:text-left text-center  w-full">
         <h6 className="text-[#000000] text-sm mb-7 font-light">
           {t("home.about")}
@@ -97,7 +115,11 @@ const AboutSection = () => {
                   <Skeleton key={item} className="w-full min-h-[100px]" />
                 ))
               : managers?.map((manager, index) => (
-                  <div key={manager.id} className="px-2 w-full h-fit">
+                  <div
+                    key={manager.id}
+                    className="px-2 w-full h-fit"
+                    onClick={() => handleShowProfile(manager)}
+                  >
                     <div className="text-center flex flex-col items-center justify-center gap-1">
                       <Avatar
                         style={{ height: 85, width: 85 }}
