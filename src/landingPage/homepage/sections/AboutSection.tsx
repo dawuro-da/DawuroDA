@@ -65,7 +65,7 @@ const AboutSection = () => {
   };
 
   return (
-    <div className="xl:lg:px-40 md:px-20 px-10 grid items-center h-fit lg:grid-cols-2 grid-cols-1 mt-48 mb-36 w-full">
+    <div className="xl:lg:px-40 md:px-20 px-10 grid items-center h-fit lg:grid-cols-2 grid-cols-1 mt-32 mb-32 w-full">
       <DonationForm
         open={openDonateModal}
         handleClose={() => setOpenDonateModal(false)}

@@ -36,7 +36,7 @@ const WhatsHappening = () => {
   }, []);
 
   return (
-    <div className="md:py-24 py-12 ">
+    <div className="md:py-18 py-8 ">
       <h2 className="font-bold md:w-full w-4/5 mx-auto lg:text-4xl md:text-2xl text-xl mb-6 text-center">
         {t("home.event_heading")}
       </h2>
