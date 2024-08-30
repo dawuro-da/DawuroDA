@@ -40,7 +40,10 @@ const CampaignSection = () => {
   }, []);
 
   return !loading && campaigns && !(campaigns?.length > 0) ? null : (
-    <div className="xl:lg:px-40 md:px-20 px-10 w-full py-10 mt-16 mb-16">
+    <div
+      id="campaign"
+      className="xl:lg:px-40 md:px-20 px-10 w-full py-10 mt-16 mb-16"
+    >
       <DonationForm
         open={openDonationModal}
         handleClose={() => setOpenDonationModal(false)}
