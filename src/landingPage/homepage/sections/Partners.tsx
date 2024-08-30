@@ -1,3 +1,4 @@
+import DonationForm from "@/landingPage/modals/DonationForm";
 import { Button, Skeleton } from "@mui/material";
 import { Partnership } from "@prisma/client";
 import axios from "axios";
@@ -9,6 +10,7 @@ import Slider from "react-slick";
 const Partners = () => {
   const { t } = useTranslation();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [openDonateModal, setOpenDonateModal] = useState(false);
   const [partnerships, setPartnerships] = useState<Partnership[]>();
   const [loading, setLoading] = useState(false);
 
@@ -54,7 +56,11 @@ const Partners = () => {
   };
 
   return (
-    <div className="lg:py-24 py-16">
+    <div id="donate" className="lg:py-24 py-16">
+      <DonationForm
+        open={openDonateModal}
+        handleClose={() => setOpenDonateModal(false)}
+      />
       <h2 className="font-bold lg:text-4xl md:text-2xl text-xl mb-10 text-center">
         {t("home.partners")}
       </h2>
@@ -90,9 +96,7 @@ const Partners = () => {
         </h3>
         <p className="mb-3 font-light">{t("home.donate_subheading")}</p>
         <Button
-          onClick={() =>
-            window.open("https://chapa.link/donation/view/DN-hCHqr7IQf80T")
-          }
+          onClick={() => setOpenDonateModal(true)}
           variant="outlined"
           className="px-8 py-2 rounded bg-primaryColor capitalize text-white hover:text-primaryColor"
         >
