@@ -50,8 +50,12 @@ const GammodaId = ({
               <span className="absolute top-[363px] left-[345px] font-black text-sm">
                 {member?.phone}
               </span>
-              <img
-                src={getProfileImage()}
+              <div
+                style={{
+                  backgroundImage: `url('${getProfileImage()}')`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
                 className="absolute top-[187px] right-[24px] h-[210px] w-[172px] rounded-xl"
               />
             </div>
@@ -94,8 +98,12 @@ const GammodaId = ({
               <span className="absolute top-[370px] left-[325px] font-black text-sm">
                 {member?.phone}
               </span>
-              <img
-                src={getProfileImage()}
+              <div
+                style={{
+                  backgroundImage: `url('${getProfileImage()}')`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
                 className="absolute top-[187px] right-[34px] h-[210px] w-[180px] rounded-xl"
               />
             </div>
@@ -138,8 +146,12 @@ const GammodaId = ({
               <span className="absolute top-[365px] left-[325px] font-black text-sm">
                 {member?.phone}
               </span>
-              <img
-                src={getProfileImage()}
+              <div
+                style={{
+                  backgroundImage: `url('${getProfileImage()}')`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
                 className="absolute top-[187px] right-[34px] h-[210px] w-[152px] rounded-xl"
               />
             </div>
@@ -182,8 +194,12 @@ const GammodaId = ({
               <span className="absolute top-[365px] left-[325px] font-black text-sm">
                 {member?.phone}
               </span>
-              <img
-                src={getProfileImage()}
+              <div
+                style={{
+                  backgroundImage: `url('${getProfileImage()}')`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
                 className="absolute top-[187px] right-[35px] h-[210px] w-[152px] rounded-xl"
               />
             </div>
@@ -226,8 +242,12 @@ const GammodaId = ({
               <span className="absolute top-[358px] left-[325px] font-black text-sm">
                 {member?.phone}
               </span>
-              <img
-                src={getProfileImage()}
+              <div
+                style={{
+                  backgroundImage: `url('${getProfileImage()}')`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
                 className="absolute top-[187px] right-[24px] h-[210px] w-[172px] rounded-xl"
               />
             </div>
