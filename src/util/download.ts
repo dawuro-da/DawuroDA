@@ -1,26 +1,39 @@
-export const prepareURL = async (currTarget: any, name:string) => {
-    const cardElement = currTarget;
-    if (!cardElement) return;
+export const prepareURL = async (currTarget: any, name: string) => {
+  const cardElement = currTarget;
+  if (!cardElement) return;
 
-    try {
-      // lazy load this package
-      const html2canvas = await import(
-        /* webpackPrefetch: true */ "html2canvas"
-      );
+  try {
+    // Lazy load the html2canvas package
+    const html2canvas = await import(/* webpackPrefetch: true */ "html2canvas");
 
-      const result = await html2canvas.default(cardElement);
+    // Ensure all images are loaded
+    const images = cardElement.querySelectorAll("img");
+    await Promise.all(
+      Array.from(images).map((img: any) => {
+        if (!img.complete) {
+          return new Promise<void>((resolve) => {
+            img.onload = () => resolve();
+            img.onerror = () => resolve(); // Handle errors as well
+          });
+        }
+      })
+    );
 
-      const asURL = result.toDataURL("image/jpeg");
-      // as far as I know this is a quick and dirty solution
-      const anchor = document.createElement("a");
-      anchor.href = asURL;
-      anchor.download = `${name}.jpeg`;
-      anchor.click();
-      anchor.remove();
-      // maybe this part should set state with `setURLData(asURL)`
-      // and when that's set to something you show the download button
-      // which has `href=URLData`, so that people can click on it
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    // Capture the element
+    const result = await html2canvas.default(cardElement, {
+      useCORS: true, // This might help with cross-origin issues
+      scale: 2, // Increase resolution if needed
+    });
+
+    const asURL = result.toDataURL("image/jpeg");
+
+    // Trigger the download
+    const anchor = document.createElement("a");
+    anchor.href = asURL;
+    anchor.download = `${name}.jpeg`;
+    anchor.click();
+    anchor.remove();
+  } catch (err) {
+    console.error("Error capturing the element:", err);
+  }
+};

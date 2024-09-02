@@ -105,6 +105,24 @@ export function calculateNextDueDate({
       );
   }
 }
+export function calculateAge(birthdate: string) {
+  // Parse the birthdate into a Date object
+  const birthDate = new Date(birthdate);
+  const today = new Date();
+
+  // Calculate the difference in years
+  let age = today.getFullYear() - birthDate.getFullYear();
+
+  // Adjust if the birth date hasn't occurred yet this year
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+  const dayDifference = today.getDate() - birthDate.getDate();
+
+  if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+    age--;
+  }
+
+  return age;
+}
 
 export const checkMemberThreeMonth = ({
   createdAt,

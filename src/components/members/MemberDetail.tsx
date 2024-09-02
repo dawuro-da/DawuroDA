@@ -334,15 +334,14 @@ const MemberDetail = ({
                 nextDueDate: member.nextDueDate,
               }) && <GammodaId gammodaIdRef={gammodaIdRef} member={member} />}
             </div>
-            <Button
+            <button
               onClick={() =>
                 checkMemberThreeMonth({
                   createdAt: member.created_at,
                   nextDueDate: member.nextDueDate,
                 }) && downloadGammodaId()
               }
-              variant="outlined"
-              className="z-10 absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"
+              className="p-2 hover:border-primaryColor hover:border border border-transparent h-[40px] z-10 absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"
             >
               <Image
                 src={"/icons/download.svg"}
@@ -351,7 +350,7 @@ const MemberDetail = ({
                 height={20}
               />
               Download
-            </Button>
+            </button>
           </div>
         </div>
       </div>
