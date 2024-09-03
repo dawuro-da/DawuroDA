@@ -1,13 +1,9 @@
 import OtpInput from "react-otp-input";
-import { Button, CircularProgress, TextField } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useState } from "react";
-import {
-  FieldErrors,
-  FieldValues,
-  UseFormRegister,
-  UseFormWatch,
-} from "react-hook-form";
+import { FieldValues, UseFormWatch } from "react-hook-form";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 interface OtpConfirmationProps {
   handleNext: () => void;
@@ -16,6 +12,7 @@ interface OtpConfirmationProps {
 const OtpConfirmation = ({ handleNext, watch }: OtpConfirmationProps) => {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+  const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(false);
 
   const verifyOtp = async () => {
@@ -47,11 +44,13 @@ const OtpConfirmation = ({ handleNext, watch }: OtpConfirmationProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 max-w-[300px] w-full">
-      <div className="font-bold text-3xl">OTP Confirmation</div>
+      <div className="font-bold text-3xl">
+        {t("members_dashboard.login.otp_confirmation_heading")}
+      </div>
       <span className="max-w-[250px] text-black text-center">
         {watch("international")
-          ? `We've sent you confirmation text to your email. Please check your email`
-          : `We've sent you confirmation text to your phone`}
+          ? `${t("members_dashboard.login.otp_confirmation_email_subheading")}`
+          : `${t("members_dashboard.login.otp_confirmation_phone_subheading")}`}
       </span>
       <div className="w-full flex flex-row mt-14 mb-14">
         <OtpInput
@@ -80,7 +79,11 @@ const OtpConfirmation = ({ handleNext, watch }: OtpConfirmationProps) => {
           variant="outlined"
           className="capitalize font-bold bg-primaryColor hover:bg-primaryColor text-white w-full"
         >
-          {loading ? <CircularProgress className="text-white" /> : "Confirm"}
+          {loading ? (
+            <CircularProgress className="text-white" />
+          ) : (
+            `${t("members_dashboard.login.confirm_button")}`
+          )}
         </Button>
       </div>
     </div>

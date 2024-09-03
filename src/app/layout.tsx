@@ -6,6 +6,7 @@ import { Lexend } from "next/font/google";
 import { getServerSession } from "next-auth";
 import { NextAuthAndStoreProvider } from "./NextAuthAndStoreProvider";
 import { OPTIONS } from "@/util/authOptions";
+import Script from "next/script";
 
 const lexend = Lexend({ subsets: ["latin"] });
 
@@ -22,6 +23,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={lexend.className}>
+        {/* Google Analytics */}
+        {/* <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=YOUR_TRACKING_ID`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'YOUR_TRACKING_ID', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script> */}
         <NextAuthAndStoreProvider font={lexend}>
           {children}
         </NextAuthAndStoreProvider>

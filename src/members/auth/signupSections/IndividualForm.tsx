@@ -1,6 +1,6 @@
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
 import { COUNTRIES, Gammo_Branches, NATIONALITIES } from "@/constants/datas";
-import { international_phone_regex  } from "@/constants/regex";
+import { international_phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import { Button, MenuItem, TextField } from "@mui/material";
 import Image from "next/image";
@@ -11,6 +11,7 @@ import {
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 
 interface IndividualFormProps {
@@ -28,12 +29,15 @@ const IndividualForm = ({
   watch,
   setValue,
 }: IndividualFormProps) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   return (
     <div className="grid xl:lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 gap-4 px-4">
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">First Name</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.first_name")}`}
+        </span>
         <TextField
           size="small"
           {...register("firstName", {
@@ -50,7 +54,9 @@ const IndividualForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Last Name</span>
+        <span className="text-titleColor text-sm font-bold">{`${t(
+          "members_dashboard.profile_overview.last_name"
+        )}`}</span>
         <TextField
           size="small"
           {...register("lastName", {
@@ -65,7 +71,9 @@ const IndividualForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Phone Number</span>
+        <span className="text-titleColor text-sm font-bold">{`${t(
+          "members_dashboard.profile_overview.phone_number"
+        )}`}</span>
         <PhoneNumberInput
           size="small"
           {...register("phone", {
@@ -87,7 +95,9 @@ const IndividualForm = ({
         />
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-titleColor text-sm font-bold">Gender</span>
+        <span className="text-titleColor text-sm font-bold">{`${t(
+          "members_dashboard.profile_overview.gender"
+        )}`}</span>
         <div className="min-w-[130px]">
           <TextField
             select
@@ -109,7 +119,9 @@ const IndividualForm = ({
         </div>
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Date of birth</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.date_of_birth")}`}
+        </span>
         <TextField
           size="small"
           {...register("dateOfBirth", {
@@ -127,7 +139,7 @@ const IndividualForm = ({
       </div>
       <div className="flex flex-col gap-1">
         <span className="text-titleColor text-sm font-bold">
-          Region|State|Province
+          {`${t("members_dashboard.profile_overview.region_state_province")}`}
         </span>
         <TextField
           size="small"
@@ -143,7 +155,9 @@ const IndividualForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Zone</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.zone")}`}
+        </span>
         <TextField
           size="small"
           {...register("zone", {
@@ -158,7 +172,9 @@ const IndividualForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">City|District</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.city_district")}`}
+        </span>
         <TextField
           size="small"
           {...register("city", {
@@ -173,7 +189,9 @@ const IndividualForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Kebele|Ward</span>
+        <span className="text-titleColor text-sm font-bold">{`${t(
+          "members_dashboard.profile_overview.kebele_ward"
+        )}`}</span>
         <TextField
           size="small"
           {...register("kebele", {
@@ -188,7 +206,9 @@ const IndividualForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Work place</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.work_place")}`}
+        </span>
         <TextField
           size="small"
           {...register("workPlace", {
@@ -205,7 +225,9 @@ const IndividualForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">ID Number</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.id_number")}`}
+        </span>
         <TextField
           size="small"
           {...register("idNumber", {
@@ -220,7 +242,9 @@ const IndividualForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Country</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.country")}`}
+        </span>
         <TextField
           size="small"
           {...register("country", {
@@ -242,7 +266,9 @@ const IndividualForm = ({
         </TextField>
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Nationality</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.nationality")}`}
+        </span>
         <TextField
           size="small"
           {...register("nationality", {
@@ -266,7 +292,9 @@ const IndividualForm = ({
         </TextField>
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">GaDA branch</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.GaDA_branch")}`}
+        </span>
         <TextField
           size="small"
           {...register("branch", {
