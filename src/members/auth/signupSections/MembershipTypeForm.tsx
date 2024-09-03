@@ -8,6 +8,7 @@ import {
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 interface MembershipTypeFormProps {
   register: UseFormRegister<FieldValues>;
@@ -18,6 +19,8 @@ interface MembershipTypeFormProps {
 }
 
 const MembershipTypeForm = ({ setValue, watch }: MembershipTypeFormProps) => {
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (!watch("membershipType")) {
       setValue("membershipType", MembershipType.Individual);
@@ -27,7 +30,7 @@ const MembershipTypeForm = ({ setValue, watch }: MembershipTypeFormProps) => {
   return (
     <>
       <span className="text-3xl font-light tracking-tight mt-12 w-full">
-        Please choose what represents you
+        {`${t("members_dashboard.login.sign_up.progress_bar_1.choose")}`}
       </span>
       <div className="flex flex-col w-full my-10">
         <RadioGroup
@@ -40,13 +43,17 @@ const MembershipTypeForm = ({ setValue, watch }: MembershipTypeFormProps) => {
           <FormControlLabel
             value={MembershipType.Individual}
             control={<Radio size="small" />}
-            label={MembershipType.Individual}
+            label={`${t(
+              "members_dashboard.login.sign_up.progress_bar_1.individual"
+            )}`}
             className="text-titleColor"
           />
           <FormControlLabel
             value={MembershipType.Company}
             control={<Radio size="small" />}
-            label={MembershipType.Company}
+            label={`${t(
+              "members_dashboard.login.sign_up.progress_bar_1.company"
+            )}`}
             className="text-titleColor"
           />
         </RadioGroup>

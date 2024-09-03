@@ -15,6 +15,7 @@ import { MembershipType } from "@prisma/client";
 import InstitutionForm from "./InstitutionForm";
 import InstitutionProfessionForm from "./InstitutionProfessionForm";
 import Success from "./Success";
+import { useTranslation } from "react-i18next";
 
 interface MemberRegistrationProps {
   register: UseFormRegister<FieldValues>;
@@ -35,13 +36,32 @@ const MemberRegistration = ({
   loading,
   isSuccessfull,
 }: MemberRegistrationProps) => {
+  const { t } = useTranslation();
   const btnRef = useRef<HTMLButtonElement | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const steps = [
-    { label: "Membership Type", step: 1 },
-    { label: "Personal Info", step: 2 },
-    { label: "Professional Info", step: 3 },
-    { label: "Success", step: 4 },
+    {
+      label: `${t(
+        "members_dashboard.login.sign_up.progress_bar_1.membership_type"
+      )}`,
+      step: 1,
+    },
+    {
+      label: `${t(
+        "members_dashboard.login.sign_up.progress_bar_1.personal_info"
+      )}`,
+      step: 2,
+    },
+    {
+      label: `${t(
+        "members_dashboard.login.sign_up.progress_bar_1.professional_info"
+      )}`,
+      step: 3,
+    },
+    {
+      label: `${t("members_dashboard.login.sign_up.progress_bar_1.success")}`,
+      step: 4,
+    },
   ];
 
   useEffect(() => {
@@ -127,9 +147,13 @@ const MemberRegistration = ({
       className="px-10 flex flex-col items-center  gap-6 h-full w-full overflow-y-auto hiddenscrollbar py-12"
     >
       <div className="flex flex-col gap-2 w-full">
-        <span className="tracking-tight">Gamo Development Association</span>
+        <span className="tracking-tight">{`${t(
+          "members_dashboard.login.sign_up.progress_bar_1.GaDA_heading"
+        )}`}</span>
         <span className="text-3xl font-bold tracking-tight">
-          Registration Form
+          {`${t(
+            "members_dashboard.login.sign_up.progress_bar_1.registration_form"
+          )}`}
         </span>
       </div>
       <div className=" flex flex-row items-center w-full min-h-[120px] gap-2 justify-between mt-2 overflow-hidden">
@@ -196,7 +220,7 @@ const MemberRegistration = ({
               setCurrentStep(currentStep - 1);
             }}
           >
-            Back
+            {`${t("members_dashboard.login.sign_up.progress_bar_1.back")}`}
           </Button>
         ) : (
           <span></span>
@@ -209,7 +233,11 @@ const MemberRegistration = ({
             variant="contained"
             onClick={handleNextStep}
           >
-            {loading ? <CircularProgress className="text-white" /> : "Next"}
+            {loading ? (
+              <CircularProgress className="text-white" />
+            ) : (
+              `${t("members_dashboard.login.sign_up.progress_bar_1.next")}`
+            )}
           </Button>
         )}
       </div>

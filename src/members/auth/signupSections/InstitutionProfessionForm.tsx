@@ -12,6 +12,7 @@ import {
   UseFormRegister,
   UseFormWatch,
 } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 interface InstitutionProfessionFormProps {
   register: UseFormRegister<FieldValues>;
@@ -26,11 +27,13 @@ const InstitutionProfessionForm = ({
   errors,
   watch,
 }: InstitutionProfessionFormProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="grid xl:lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 gap-4 py-12 px-4">
       <div className="flex flex-col gap-2">
         <span className="text-titleColor text-sm font-bold">
-          Membership Level
+          {`${t("members_dashboard.profile_overview.membership_level")}`}
         </span>
         <div className="min-w-[130px]">
           <TextField
@@ -72,7 +75,7 @@ const InstitutionProfessionForm = ({
       </div>
       <div className="flex flex-col gap-2">
         <span className="text-titleColor text-sm font-bold">
-          Contribution system
+          {`${t("members_dashboard.profile_overview.contribution_system")}`}
         </span>
         <div className="min-w-[130px]">
           <TextField
@@ -104,7 +107,7 @@ const InstitutionProfessionForm = ({
 
       <div className="flex flex-col gap-2">
         <span className="text-titleColor text-sm font-bold">
-          Contribution Amount
+          {`${t("members_dashboard.profile_overview.contribution_amount")}`}
         </span>
         <TextField
           size="small"
@@ -155,7 +158,7 @@ const InstitutionProfessionForm = ({
       </div>
       <div className="flex flex-col gap-1">
         <span className="text-titleColor text-sm font-bold">
-          Position at work
+          {`${t("members_dashboard.profile_overview.position_at_work")}`}
         </span>
         <TextField
           size="small"

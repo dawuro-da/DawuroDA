@@ -194,9 +194,11 @@
       "sign_up_link": "Sign up",
       "forgot_password_heading": "የይለፍ ቃል ረስተዋል",
       "forgot_password_subheading": "እባክዎን ስልክ ቁጥርዎን ያስገቡ እና የኦቲፒ ኮድ ይደርሰዎታል። እና እባክዎ የእርስዎን OTP ለማንም አያጋሩ።",
+      "forgot_password_subheading2": "እባክዎን ኢሜይልዎን ያስገቡ እና የኦቲፒ ኮድ ይደርሰዎታል። እና እባክዎ የእርስዎን OTP ለማንም አያጋሩ።",
       "send_otp_button": "OTP ይላክልኝ",
       "otp_confirmation_heading": "የOTP ማረጋገጫ",
-      "otp_confirmation_subheading": "የማረጋገጫ ጽሁፍ ወደ ስልክዎ ልከናል።",
+      "otp_confirmation_phone_subheading": "የማረጋገጫ ጽሁፍ ወደ ስልክዎ ልከናል።",
+      "otp_confirmation_email_subheading": "የማረጋገጫ ጽሁፍ ወደ ኢሜይልዎ ልከናል።",
       "confirm_button": "ያረጋግጡ",
       "reset_password_heading": "የይለፍ ቃል ይቀይሩ",
       "reset_password_subheading": "የይለፍ ቃልዎን እዚህ ይቀይሩ። እናም እባክዎ አዲሱ የይለፍ ቃልዎ ከማረጋገጫ የይለፍ ቃል ጋር የሚዛመድ መሆኑን ያረጋግጡ",
@@ -226,7 +228,9 @@
           "personal_info": "ግላዊ መረጃ",
           "professional_info": "ሙያዊ መረጃ",
           "success": "በስኬት ተጠናቋል",
-          "success_subheading": "በተሳካ ሁኔታ ተመዝግበዋል። እባክዎን የአባልነት አስተዋጽኦ መጠንዎን ይክፈሉ። ወደ የክፍያ ማገናኛ ካልተዛወርክ እዚህ ጠቅ አድርግ።",
+          "success_subheading": "በተሳካ ሁኔታ ተመዝግበዋል። ",
+          "success_subheading1": "እባክዎን የአባልነት አስተዋጽኦ መጠንዎን ይክፈሉ።",
+          "success_subheading2": "ወደ የክፍያ ማገናኛ ካልተዛወርክ እዚህ ጠቅ አድርግ።",
           "pay_button": "ይክፈሉ"
         }
       }

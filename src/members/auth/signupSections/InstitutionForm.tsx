@@ -1,5 +1,5 @@
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
-import { international_phone_regex  } from "@/constants/regex";
+import { international_phone_regex } from "@/constants/regex";
 import { Button, MenuItem, TextField } from "@mui/material";
 import Image from "next/image";
 import {
@@ -9,6 +9,7 @@ import {
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 interface InstitutionFormProps {
   register: UseFormRegister<FieldValues>;
@@ -25,11 +26,13 @@ const InstitutionForm = ({
   loginError,
   setValue,
 }: InstitutionFormProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="grid xl:lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 gap-4 py-12 px-4">
       <div className="flex flex-col gap-1">
         <span className="text-titleColor text-sm font-bold">
-          Institution Name
+          {`${t("members_dashboard.profile_overview.institution_name")}`}
         </span>
         <TextField
           size="small"
@@ -49,7 +52,7 @@ const InstitutionForm = ({
       </div>
       <div className="flex flex-col gap-1">
         <span className="text-titleColor text-sm font-bold">
-          Head | Representative
+          {`${t("members_dashboard.profile_overview.head_representative")}`}
         </span>
         <TextField
           size="small"
@@ -68,7 +71,9 @@ const InstitutionForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Field of Work</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.field_of_work")}`}
+        </span>
         <TextField
           size="small"
           {...register("fieldOfWork", {
@@ -85,7 +90,9 @@ const InstitutionForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Phone Number</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.phone_number")}`}
+        </span>
         <PhoneNumberInput
           size="small"
           {...register("phone", {
@@ -108,7 +115,7 @@ const InstitutionForm = ({
       </div>
       <div className="flex flex-col gap-1">
         <span className="text-titleColor text-sm font-bold">
-          Partnership ideas
+          {`${t("members_dashboard.profile_overview.partnership_ideas")}`}
         </span>
         <TextField
           size="small"
@@ -128,7 +135,7 @@ const InstitutionForm = ({
       </div>
       <div className="flex flex-col gap-1">
         <span className="text-titleColor text-sm font-bold">
-          Region|State|Province
+          {`${t("members_dashboard.profile_overview.region_state_province")}`}
         </span>
         <TextField
           size="small"
@@ -144,7 +151,9 @@ const InstitutionForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Zone</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.zone")}`}
+        </span>
         <TextField
           size="small"
           {...register("zone", {
@@ -159,7 +168,9 @@ const InstitutionForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">City|District</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.city_district")}`}
+        </span>
         <TextField
           size="small"
           {...register("city", {
@@ -174,7 +185,9 @@ const InstitutionForm = ({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-titleColor text-sm font-bold">Kebele|Ward</span>
+        <span className="text-titleColor text-sm font-bold">
+          {`${t("members_dashboard.profile_overview.kebele_ward")}`}
+        </span>
         <TextField
           size="small"
           {...register("kebele", {
