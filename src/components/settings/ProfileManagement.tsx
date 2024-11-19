@@ -1,4 +1,4 @@
-import { international_phone_regex  } from "@/constants/regex";
+import { international_phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import {
   Avatar,
@@ -44,6 +44,7 @@ const ProfileManagement = ({ user }: { user: User | null }) => {
 
   useEffect(() => {
     handleFileChange();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch("profilePic")]);
 
   const handleUpdate = async (values: FieldValues) => {
@@ -55,12 +56,13 @@ const ProfileManagement = ({ user }: { user: User | null }) => {
       formData.append("gender", values.gender);
       formData.append("email", values.email);
       formData.append("phone", values.phone);
-      formData.append(
-        "profilePic",
-        typeof values.profilePic === "string"
-          ? values.profilePic
-          : values.profilePic[0]
-      );
+      values.profilePic &&
+        formData.append(
+          "profilePic",
+          typeof values.profilePic === "string"
+            ? values.profilePic
+            : values.profilePic[0]
+        );
 
       const res = await axios.post(`/api/user/edit/${user?.id}`, formData);
 
@@ -103,7 +105,6 @@ const ProfileManagement = ({ user }: { user: User | null }) => {
             <input
               id="profile Picu"
               {...register("profilePic", {
-                required: "profilePic is required",
                 validate: {
                   fileSize: (value: any) => {
                     if (!(typeof value === "string") && value && value[0]) {

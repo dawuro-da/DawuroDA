@@ -60,7 +60,12 @@ const SignUp = () => {
     } catch (err: any) {
       console.error(err);
       setSignUpError(err?.response?.data?.error);
-      dispatch(showToastAction({ message: signupError, type: "error" }));
+      dispatch(
+        showToastAction({
+          message: err?.response?.data?.error ?? "Something went wrong",
+          type: "error",
+        })
+      );
     }
     setLoading(false);
   };

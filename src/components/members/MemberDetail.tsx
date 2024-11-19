@@ -19,6 +19,9 @@ import AddNewPaymentDrawer from "./AddNewPaymentDrawer";
 import Image from "next/image";
 import GammodaId from "../shared/GammodaId";
 import { prepareURL } from "@/util/download";
+import { useSession } from "next-auth/react";
+import { showToastAction } from "@/redux/actions";
+import { useDispatch } from "react-redux";
 
 interface MemberDetailProps {
   member: Member;
@@ -33,6 +36,8 @@ const MemberDetail = ({
   onClose,
   onRefresh,
 }: MemberDetailProps) => {
+  const dispatch = useDispatch();
+  const session = useSession();
   const router = useRouter();
   const gammodaIdRef = useRef<HTMLDivElement | null>(null);
   const [contributions, setContributions] = useState<Contribution[]>();
@@ -71,7 +76,21 @@ const MemberDetail = ({
       <div className="h-full xl:w-[700px] lg:w-[700px] md:w-[500px] w-screen p-8 flex flex-col items-center">
         <div className="flex flex-row justify-between items-center w-full">
           <div
-            onClick={() => router.push(`/admin/dashboard/members/${member.id}`)}
+            onClick={() => {
+              if (
+                session?.data?.user?.role === "Owner" ||
+                session?.data?.user?.id === member.registeredBy
+              ) {
+                router.push(`/admin/dashboard/members/${member.id}`);
+              } else {
+                dispatch(
+                  showToastAction({
+                    message: "you have no permission",
+                    type: "error",
+                  })
+                );
+              }
+            }}
             className="flex flex-row justify-center gap-2 items-center text-titleColor cursor-pointer"
           >
             <EditNoteOutlined />
