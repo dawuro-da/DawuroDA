@@ -35,7 +35,21 @@ export async function POST(req: Request) {
           { status: 200 }
         );
       }
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Unable to send message to your email",
+        },
+        { status: 500 }
+      );
     }
+    return NextResponse.json(
+      {
+        success: false,
+        error: "User not found with this email",
+      },
+      { status: 400 }
+    );
   } catch (err) {
     console.warn(err);
     return NextResponse.json(

@@ -46,7 +46,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       }
     }
 
-    const imageUrl = profilePic.name
+    const imageUrl = profilePic?.name
       ? await uploadFile({
           path: "/adminProfilePic",
           fileName: profilePic.name ?? "name",

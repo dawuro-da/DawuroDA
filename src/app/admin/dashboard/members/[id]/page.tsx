@@ -13,11 +13,17 @@ export default async function EditMembers({
   const session = await getServerSession();
   if (!session?.user || session?.user.role === UserRole.Member) {
     redirect("/gaadmin/login");
-  } else if (session?.user?.role === UserRole.Admin) {
-    redirect("/admin/dashboard/members");
   }
 
   const member = await findMemberById(params.id);
+
+  if (
+    session?.user?.role !== UserRole.Owner &&
+    session?.user?.id !== member?.registeredBy
+  ) {
+    redirect("/admin/dashboard/members");
+  }
+
   if (member?.membershipType === MembershipType.Individual) {
     return <IndividualMember member={member} />;
   } else if (member?.membershipType === MembershipType.Company) {

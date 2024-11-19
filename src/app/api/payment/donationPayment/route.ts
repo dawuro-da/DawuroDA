@@ -15,7 +15,7 @@ export async function POST(req: Request) {
       phone_number: `${phone}`,
       tx_ref: `gammoda-donation-${Math.random()}`,
       callback_url: `${process.env.PAYMENT_WEB_HOOK}/api/webhook/payment`,
-      return_url: `${process.env.PAYMENT_WEB_HOOK}`,
+      return_url: ``,
       meta: {
         paymentType: "donationPayment",
         donationDesignation: donationDesignation,

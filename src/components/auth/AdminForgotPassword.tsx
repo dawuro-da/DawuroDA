@@ -22,12 +22,21 @@ const AdminForgotPassword = () => {
 
   const handleForgot = async (values: FieldValues) => {
     const { email } = values;
-    setLoading(true);
-    const res = await axios.post("/api/user/forgot-password", { email });
-    if (res.data.success && res.status === 200) {
-      setIsSuccessfull(true);
-    } else {
-      dispatch(showToastAction({ message: res.data.error, type: "error" }));
+    try {
+      setLoading(true);
+      const res = await axios.post("/api/user/forgot-password", { email });
+      if (res.data.success && res.status === 200) {
+        setIsSuccessfull(true);
+      } else {
+        dispatch(showToastAction({ message: res.data.error, type: "error" }));
+      }
+    } catch (err: any) {
+      dispatch(
+        showToastAction({
+          message: err?.response?.data?.error ?? "something went wrong",
+          type: "error",
+        })
+      );
     }
     setLoading(false);
   };
