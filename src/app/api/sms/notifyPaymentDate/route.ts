@@ -1,21 +1,18 @@
 import { NextResponse } from "next/server";
 import { creatSmsMessage } from "@/db/sms";
 import axios from "axios";
-import cron from "node-cron";
 import {
   fetchMembersWithUpcomingPayments,
   updateMembersPaymentStatus,
 } from "@/db/member";
-import { getServerSession } from "next-auth";
-import { OPTIONS } from "@/util/authOptions";
 
-// the cron job will be initialized
-const initializeCronJob = async (userId: string) => {
+const initializeCronJob = async () => {
   try {
     const members = await fetchMembersWithUpcomingPayments();
-    const message = ` Hello,
+    const message = `Hello,
               your payment is due. Please pay soon to avoid service disruption.
-              thank you!`;
+              Thank you!`;
+
     if (members.length) {
       const memberIds = members.map((member) => member.id);
       const phones = members.map((member) => member.phone);
@@ -41,7 +38,7 @@ const initializeCronJob = async (userId: string) => {
         totalPhones: phones.length,
       });
 
-      Promise.all(
+      await Promise.all(
         memberIds.map(async (id) => {
           await updateMembersPaymentStatus({
             memberId: id,
@@ -56,21 +53,25 @@ const initializeCronJob = async (userId: string) => {
 };
 
 export async function GET(req: Request) {
-  const session = await getServerSession(OPTIONS);
-  if (!session?.user?.id) {
-    return NextResponse.redirect("/gaadmin/login", 401);
+  // Check for a secure token in the request headers or query parameters
+  const url = new URL(req.url);
+  const token =
+    req.headers.get("x-cron-token") || url.searchParams.get("token");
+
+  if (token !== process.env.CRON_JOB_TOKEN) {
+    return NextResponse.json(
+      { success: false, error: "Unauthorized" },
+      { status: 401 }
+    );
   }
 
   try {
-    initializeCronJob(session.user.id);
+    await initializeCronJob();
     return NextResponse.json({ success: true, value: "OK" }, { status: 200 });
   } catch (err) {
-    console.warn(err);
+    console.error(err);
     return NextResponse.json(
-      {
-        success: false,
-        error: "Unable to create user",
-      },
+      { success: false, error: "Internal Server Error" },
       { status: 500 }
     );
   }
