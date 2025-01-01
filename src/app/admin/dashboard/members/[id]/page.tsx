@@ -1,6 +1,7 @@
 import IndividualMember from "@/components/members/editMember/IndividualMember";
 import InstitutionMember from "@/components/members/editMember/InstitutionMember";
 import { findMemberById } from "@/db/member";
+import { OPTIONS } from "@/util/authOptions";
 import { MembershipType, UserRole } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -10,7 +11,7 @@ export default async function EditMembers({
 }: {
   params: { id: string };
 }) {
-  const session = await getServerSession();
+  const session = await getServerSession(OPTIONS);
   if (!session?.user || session?.user.role === UserRole.Member) {
     redirect("/gaadmin/login");
   }
