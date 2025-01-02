@@ -55,9 +55,8 @@ const initializeCronJob = async () => {
 export async function GET(req: Request) {
   // Check for a secure token in the request headers or query parameters
   const url = new URL(req.url);
-  const token =
-    req.headers.get("x-cron-token") || url.searchParams.get("token");
-
+  const token = url.searchParams.get("cronToken");
+  
   if (token !== process.env.CRON_JOB_TOKEN) {
     return NextResponse.json(
       { success: false, error: "Unauthorized" },

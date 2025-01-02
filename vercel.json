@@ -1,11 +1,8 @@
 {
   "crons": [
     {
-      "path": "/api/sms/notifyPaymentDate",
-      "schedule": "0 0 * * *",
-      "headers": {
-        "x-cron-token": "token-for-cron21312sdffds"
-      }
+      "path": "/api/sms/notifyPaymentDate?cronToken=token-for-cron21312sdffds",
+      "schedule": "0 0 * * *"
     }
   ]
 }
