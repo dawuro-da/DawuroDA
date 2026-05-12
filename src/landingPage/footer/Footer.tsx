@@ -39,7 +39,7 @@ const ContactInfo = ({ t }: { t: any }) => (
         <p>
           Email:{" "}
           <Link href="mailto:info@gammoda.com" className="hover:underline">
-            info@gammoda.org or  gamodevelopment9587@gmail.com
+           gamodevelopment9587@gmail.com
           </Link>
         </p>
         <p>PO. Box:- 72 Arba minch</p>
