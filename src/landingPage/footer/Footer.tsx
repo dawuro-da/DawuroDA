@@ -34,15 +34,12 @@ const ContactInfo = ({ t }: { t: any }) => (
             <Link href="tel:251468810434">
               <span className="pl-4 hover:underline"> +251468810434</span>
             </Link>
-            <Link href="tel:251911283675">
-              <span className="pl-4 hover:underline"> +251911283675</span>
-            </Link>
           </span>
         </p>
         <p>
           Email:{" "}
           <Link href="mailto:info@gammoda.com" className="hover:underline">
-            info@gammoda.org
+            info@gammoda.org or  gamodevelopment9587@gmail.com
           </Link>
         </p>
         <p>PO. Box:- 72 Arba minch</p>
