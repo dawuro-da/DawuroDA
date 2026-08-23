@@ -21,7 +21,7 @@ import { showToastAction } from "@/redux/actions";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { prepareURL } from "@/util/download";
-import GammodaId from "@/components/shared/GammodaId";
+import DawuroDAId from "@/components/shared/DawuroDAId";
 import { getMinimumContribution } from "@/util/helper";
 import { InfoOutlined } from "@mui/icons-material";
 import { I18nextProvider, useTranslation } from "react-i18next";
@@ -37,7 +37,7 @@ const MemberDashboard = ({
 }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const gammodaIdRef = useRef<HTMLDivElement | null>(null);
+  const dawurodaIdRef = useRef<HTMLDivElement | null>(null);
   const [payLoading, setPayLoading] = useState(false);
   const isCompany = Boolean(member?.membershipType === MembershipType.Company);
   const minAmount = getMinimumContribution({
@@ -76,8 +76,8 @@ const MemberDashboard = ({
     setPayLoading(false);
   };
 
-  const downloadGammodaId = () => {
-    const currTarget = gammodaIdRef.current;
+  const downloadDawuroDAId = () => {
+    const currTarget = dawurodaIdRef.current;
     prepareURL(
       currTarget,
       `${member.firstName ? member.firstName : member.institutionName}ID`
@@ -189,7 +189,7 @@ const MemberDashboard = ({
                       createdAt: member.created_at,
                       nextDueDate: member.nextDueDate,
                     }) && (
-                      <GammodaId gammodaIdRef={gammodaIdRef} member={member} />
+                      <DawuroDAId dawurodaIdRef={dawurodaIdRef} member={member} />
                     )}
                   </div>
                   <Button
@@ -197,7 +197,7 @@ const MemberDashboard = ({
                       checkMemberThreeMonth({
                         createdAt: member.created_at,
                         nextDueDate: member.nextDueDate,
-                      }) && downloadGammodaId()
+                      }) && downloadDawuroDAId()
                     }
                     variant="outlined"
                     className="absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"

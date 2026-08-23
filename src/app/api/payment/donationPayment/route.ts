@@ -13,7 +13,7 @@ export async function POST(req: Request) {
       first_name: `${fullName}`,
       last_name: ``,
       phone_number: `${phone}`,
-      tx_ref: `gammoda-donation-${Math.random()}`,
+      tx_ref: `dawuroda-donation-${Math.random()}`,
       callback_url: `${process.env.PAYMENT_WEB_HOOK}/api/webhook/payment`,
       return_url: ``,
       meta: {
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
         branch: branch ?? "Other",
         phone_number: phone,
       },
-      "customization[title]": "Gammoda Donation Payment",
+      "customization[title]": "DawuroDA Donation Payment",
       "customization[description]":
         "donation for gamo developement association for different voluntary works ",
     });

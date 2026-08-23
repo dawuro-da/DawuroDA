@@ -4,7 +4,7 @@ import { createUser, findUserByEmail, findByPhone } from "@/db/user";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { UserRole } from "@prisma/client";
-import { Gammo_Branches } from "@/constants/datas";
+import { Dawuro_Branches } from "@/constants/datas";
 
 async function hashPassword(
   password: string,
@@ -76,7 +76,7 @@ export async function POST(req: Request) {
         phone,
         password: hashedPassword,
         email,
-        branch:"Head Office Branch",
+        branch: "Head Office Branch (Tarcha)",
         password_salt: salt,
       };
       const result = await createUser(userData);

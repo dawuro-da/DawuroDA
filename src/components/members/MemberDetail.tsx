@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import AddNewPaymentDrawer from "./AddNewPaymentDrawer";
 import Image from "next/image";
-import GammodaId from "../shared/GammodaId";
+import DawuroDAId from "../shared/DawuroDAId";
 import { prepareURL } from "@/util/download";
 import { useSession } from "next-auth/react";
 import { showToastAction } from "@/redux/actions";
@@ -39,7 +39,7 @@ const MemberDetail = ({
   const dispatch = useDispatch();
   const session = useSession();
   const router = useRouter();
-  const gammodaIdRef = useRef<HTMLDivElement | null>(null);
+  const dawurodaIdRef = useRef<HTMLDivElement | null>(null);
   const [contributions, setContributions] = useState<Contribution[]>();
   const [loading, setLoading] = useState<boolean>();
   const [showAddPaymentModal, setShowAddPaymentModal] =
@@ -63,8 +63,8 @@ const MemberDetail = ({
     }
   }, [member]);
 
-  const downloadGammodaId = () => {
-    const currTarget = gammodaIdRef.current;
+  const downloadDawuroDAId = () => {
+    const currTarget = dawurodaIdRef.current;
     prepareURL(
       currTarget,
       `${member.firstName ? member.firstName : member.institutionName}ID`
@@ -351,14 +351,14 @@ const MemberDetail = ({
               {checkMemberThreeMonth({
                 createdAt: member.created_at,
                 nextDueDate: member.nextDueDate,
-              }) && <GammodaId gammodaIdRef={gammodaIdRef} member={member} />}
+              }) && <DawuroDAId dawurodaIdRef={dawurodaIdRef} member={member} />}
             </div>
             <button
               onClick={() =>
                 checkMemberThreeMonth({
                   createdAt: member.created_at,
                   nextDueDate: member.nextDueDate,
-                }) && downloadGammodaId()
+                }) && downloadDawuroDAId()
               }
               className="p-2 hover:border-primaryColor hover:border border border-transparent h-[40px] z-10 absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"
             >

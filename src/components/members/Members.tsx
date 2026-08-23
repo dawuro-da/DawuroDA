@@ -34,7 +34,7 @@ import { showToastAction } from "@/redux/actions";
 import { useDispatch } from "react-redux";
 import { downloadExcel } from "@/util/helper";
 import { Session } from "next-auth";
-import { Gammo_Branches } from "@/constants/datas";
+import { Dawuro_Branches } from "@/constants/datas";
 
 const Members = () => {
   const dispatch = useDispatch();
@@ -460,7 +460,7 @@ const Members = () => {
                     }}
                   >
                     <MenuItem value=" ">branch</MenuItem>
-                    {Gammo_Branches.map((item, index) => {
+                    {Dawuro_Branches.map((item, index) => {
                       return (
                         <MenuItem key={index} value={item}>
                           {item}

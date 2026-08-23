@@ -42,9 +42,9 @@ const Sidebar = (props: any) => {
             className="pl-6 flex flex-col items-center justify-center gap-2 w-full mb-2 select-none cursor-pointer"
           >
             <Image
-              src={"/images/GammodaLogo.svg"}
+              src={"/images/dawuroda-logo-256.png"}
               priority
-              alt="logo"
+              alt="DawuroDA logo"
               height={100}
               width={160}
               style={{ width: "100%" }}

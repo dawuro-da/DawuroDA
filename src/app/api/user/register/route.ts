@@ -76,7 +76,7 @@ export async function POST(req: Request) {
       const emailRes = await transporter.sendMail({
         to: email,
         from: "miketesttest6@gmail.com",
-        subject: "Gammoda admin registration",
+        subject: "DawuroDA admin registration",
         text: html,
         html: html,
       });

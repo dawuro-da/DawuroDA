@@ -19,7 +19,7 @@ import Image from "next/image";
 import { FieldValues } from "react-hook-form";
 import { getMinimumContribution } from "@/util/helper";
 import { getMemberFormData } from "@/util/getMemberFormData";
-import { COUNTRIES, Gammo_Branches, NATIONALITIES } from "@/constants/datas";
+import { COUNTRIES, Dawuro_Branches, NATIONALITIES } from "@/constants/datas";
 import { international_phone_regex  } from "@/constants/regex";
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
 
@@ -461,7 +461,7 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
                     }
                     select
                   >
-                    {Gammo_Branches.map((branch, index) => (
+                    {Dawuro_Branches.map((branch, index) => (
                       <MenuItem key={index} value={branch}>
                         {branch}
                       </MenuItem>

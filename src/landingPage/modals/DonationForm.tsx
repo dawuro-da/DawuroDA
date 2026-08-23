@@ -12,7 +12,7 @@ import Close from "@mui/icons-material/Close";
 import axios from "axios";
 import { showToastAction } from "@/redux/actions";
 import { useDispatch } from "react-redux";
-import { Gammo_Branches } from "@/constants/datas";
+import { Dawuro_Branches } from "@/constants/datas";
 import { international_phone_regex } from "@/constants/regex";
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
 
@@ -137,7 +137,7 @@ const DonationForm = ({
               helperText={!!errors.branch && errors.branch.message?.toString()}
               select
             >
-              {Gammo_Branches.map((branch, index) => (
+              {Dawuro_Branches.map((branch, index) => (
                 <MenuItem key={index} value={branch}>
                   {branch}
                 </MenuItem>

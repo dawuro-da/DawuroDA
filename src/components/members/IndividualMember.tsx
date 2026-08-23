@@ -1,4 +1,4 @@
-import { COUNTRIES, Gammo_Branches, NATIONALITIES } from "@/constants/datas";
+import { COUNTRIES, Dawuro_Branches, NATIONALITIES } from "@/constants/datas";
 import { international_phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import { getMinimumContribution } from "@/util/helper";
@@ -311,7 +311,7 @@ const IndividualMember = ({
             helperText={!!errors.branch && errors.branch.message?.toString()}
             select
           >
-            {Gammo_Branches.map((branch, index) => (
+            {Dawuro_Branches.map((branch, index) => (
               <MenuItem key={index} value={branch}>
                 {branch}
               </MenuItem>

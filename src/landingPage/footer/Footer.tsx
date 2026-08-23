@@ -28,21 +28,23 @@ const ContactInfo = ({ t }: { t: any }) => (
         <p className="flex flex-row gap-1 justify-start items-start">
           <span className="flex flex-row items-center w-fit">Tel:</span>
           <span className="flex flex-col gap-2">
-            <Link href="tel:251468814846">
-              <span className="pl-4 hover:underline"> +251468814846</span>
+            <Link href="tel:251473450258">
+              <span className="pl-4 hover:underline"> +251473450258</span>
             </Link>
-            <Link href="tel:251468810434">
-              <span className="pl-4 hover:underline"> +251468810434</span>
+            <Link href="tel:251964565825">
+              <span className="pl-4 hover:underline"> +251964565825</span>
+            </Link>
+            <Link href="tel:251917832637">
+              <span className="pl-4 hover:underline"> +251917832637</span>
             </Link>
           </span>
         </p>
         <p>
           Email:{" "}
-          <Link href="mailto:info@gammoda.com" className="hover:underline">
-           info@gammoda.org
+          <Link href="mailto:info@dawuroda.org" className="hover:underline">
+           info@dawuroda.org
           </Link>
         </p>
-        <p>PO. Box:- 72 Arba minch</p>
       </div>
     </div>
   </div>
@@ -86,10 +88,10 @@ const Footer = () => {
       <div className="px-6  container pt-20 md:pb-6 pb-0 w-full grid md:grid-cols-4 gap-6 items-center">
         <div className="flex flex-col items-center mb-6 md:mb-0">
           <Image
-            src="/images/logo.svg"
+            src="/images/dawuroda-logo-256.png"
             height={96}
             width={96}
-            alt="Logo"
+            alt="DawuroDA Logo"
             className="mb-4 w-full max-w-[200px]"
           />
           <div className="font-light text-xs flex items-center justify-center w-full mb-4">
@@ -100,12 +102,12 @@ const Footer = () => {
               // { href: "", src: "/images/twitter.svg", alt: "Twitter" },
               // { href: "", src: "/images/instagram.svg", alt: "Instagram" },
               {
-                href: "https://www.facebook.com/gamodevelopmentassociation?mibextid=ZbWKwL",
+                href: "#",
                 src: "/images/facebook.svg",
                 alt: "Facebook",
               },
               {
-                href: "https://t.me/gammoda",
+                href: "#",
                 src: "/images/telegram.svg",
                 alt: "Telegram",
               },

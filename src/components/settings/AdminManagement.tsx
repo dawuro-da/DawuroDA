@@ -1,4 +1,4 @@
-import { Gammo_Branches } from "@/constants/datas";
+import { Dawuro_Branches } from "@/constants/datas";
 import { international_phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import { Close, RemoveRedEyeOutlined } from "@mui/icons-material";
@@ -331,7 +331,7 @@ const AdminManagement = () => {
                   },
                 }}
               >
-                {Gammo_Branches.map((item, index) => {
+                {Dawuro_Branches.map((item, index) => {
                   return (
                     <MenuItem key={index} value={item}>
                       {item}
