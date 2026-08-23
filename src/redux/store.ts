@@ -1,6 +1,6 @@
 import { configureStore, StateFromReducersMapObject } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-import { GammodaState as initialDataType } from "./types";
+import { DawuroDAState as initialDataType } from "./types";
 import contactSlice from "./contactSlice";
 import notificationsSlice from "./notificationSlice";
 
@@ -9,7 +9,7 @@ const reducer = {
   [notificationsSlice.name]: notificationsSlice.reducer,
 };
 
-export const initGammodaState = () => {
+export const initDawuroDAState = () => {
   const configureMiddleware = (getDefaultMiddleware: any) => {
     return getDefaultMiddleware();
   };
@@ -20,11 +20,11 @@ export const initGammodaState = () => {
   });
 };
 
-export type GammodaAppState = StateFromReducersMapObject<typeof reducer>;
+export type DawuroDAAppState = StateFromReducersMapObject<typeof reducer>;
 
-type GammodaStore = ReturnType<typeof initGammodaState>;
+type DawuroDAStore = ReturnType<typeof initDawuroDAState>;
 
-export type GammodaDispatch = GammodaStore["dispatch"];
+export type DawuroDADispatch = DawuroDAStore["dispatch"];
 
 /** Typed hook to access the chatbot store */
-export const useGammodaDispatch = () => useDispatch<GammodaDispatch>();
+export const useDawuroDADispatch = () => useDispatch<DawuroDADispatch>();

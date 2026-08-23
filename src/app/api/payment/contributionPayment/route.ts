@@ -19,14 +19,14 @@ export async function POST(req: Request) {
       first_name: `${firstName ? firstName : institutionName}`,
       last_name: `${lastName ? lastName : ""}`,
       phone_number: `${phone}`,
-      tx_ref: `gammoda-contribution-${Math.random()}`,
+      tx_ref: `dawuroda-contribution-${Math.random()}`,
       callback_url: `${process.env.PAYMENT_WEB_HOOK}/api/webhook/payment`,
       return_url: `${process.env.PAYMENT_WEB_HOOK}/member/dashboard`,
       meta: {
         paymentType: "contributionPayment",
         phone_number: phone,
       },
-      "customization[title]": "Gammoda member's contribution",
+      "customization[title]": "DawuroDA member's contribution",
       "customization[description]":
         "this membership contribution should be paid after compeletion of your registration ",
     });

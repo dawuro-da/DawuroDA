@@ -7,7 +7,7 @@ const CEOMessage = () => {
     <div className="font-light">
       <div className="mb-8">
         <Image
-          src={"/images/mandefrot.jpg"}
+          src={"/images/ceo-werku-wedaje.jpg"}
           height={20}
           unoptimized
           width={20}

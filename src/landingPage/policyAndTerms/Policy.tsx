@@ -49,7 +49,7 @@ const Policy = () => {
             6. Your right to access the information
           </h4>
           <p>
-            {`By contacting info@gammoda.org, you may ask us for a copy of the personal information that we hold about you or request a correction or deletion of information. If you have any questions about our privacy policy, please contact info@gammoda.org.`}
+            {`By contacting info@dawuroda.org, you may ask us for a copy of the personal information that we hold about you or request a correction or deletion of information. If you have any questions about our privacy policy, please contact info@dawuroda.org.`}
           </p>
           <br />
         </div>

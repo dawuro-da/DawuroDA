@@ -1,6 +1,6 @@
 "use client";
 
-import { GammodaAppState } from "@/redux/store";
+import { DawuroDAAppState } from "@/redux/store";
 import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
@@ -11,8 +11,8 @@ import Snackbar from "@mui/material/Snackbar";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const selectToast = (state: GammodaAppState) => state.notifications.currentToast;
-const selectModal = (state: GammodaAppState) =>
+const selectToast = (state: DawuroDAAppState) => state.notifications.currentToast;
+const selectModal = (state: DawuroDAAppState) =>
   state.notifications.currentModalSpinner;
 
 const Notifications = () => {

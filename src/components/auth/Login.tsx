@@ -49,11 +49,11 @@ const Login = () => {
             <div className="flex flex-col gap-2 w-full items-center mb-6">
               <Link href={"/"}>
                 <Image
-                  src={"/images/whitBgLogo.svg"}
+                  src={"/images/dawuroda-logo-256.png"}
                   height={180}
                   width={180}
                   className="w-[200px] h-[200px]"
-                  alt="Gammoda Logo"
+                  alt="DawuroDA Logo"
                 />
               </Link>
               <span className="">Welcome back</span>

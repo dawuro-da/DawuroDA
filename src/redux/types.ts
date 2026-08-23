@@ -7,7 +7,7 @@ export type DashboardData = {
   totalGateAgents: number;
 };
 
-export interface GammodaState {
+export interface DawuroDAState {
   contactUs: User[];
   subscriber: DashboardData;
 }

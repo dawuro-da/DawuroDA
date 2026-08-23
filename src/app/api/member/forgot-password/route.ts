@@ -27,7 +27,7 @@ export async function POST(req: Request) {
         const response = await transporter.sendMail({
           to: email,
           from: "miketesttest6@gmail.com",
-          subject: "Gammoda OTP Confirmation",
+          subject: "DawuroDA OTP Confirmation",
           text: html,
           html: html,
         });

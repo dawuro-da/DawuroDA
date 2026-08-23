@@ -83,13 +83,13 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
         >
           <div className="flex flex-row items-center text-sm justify-center gap-4">
             <span>{t("navigation.social_media")}:</span>
-            <Link target="_blank" href={"https://t.me/gammoda"}>
+            <Link target="_blank" href={"#"}>
               <Telegram />
             </Link>
             {/* <Twitter /> */}
             <Link
               target="_blank"
-              href="https://www.facebook.com/gamodevelopmentassociation?mibextid=ZbWKwL"
+              href="#"
             >
               <Facebook />
             </Link>
@@ -133,8 +133,8 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
           className="text-primaryColor font-bold relative flex flex-row items-center justify-evenly cursor-pointer"
         >
           <Avatar
-            src={"/images/whitBgLogo.svg"}
-            alt=""
+            src={"/images/dawuroda-logo-256.png"}
+            alt="DawuroDA logo"
             className="h-[60px] w-[60px]"
             style={{
               boxShadow: "2px 3px 12px rgb(0,0,0,0.2)",
@@ -314,13 +314,13 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
             <span className="flex flex-col font-normal gap-1 mt-2">
               <span className="text-xs">{t("navigation.social_media")}</span>
               <span className="flex flex-row gap-2 text-[#474747]">
-                <Link target="_blank" href={"https://t.me/gammoda"}>
+                <Link target="_blank" href={"#"}>
                   <Telegram />
                 </Link>
                 {/* <Twitter /> */}
                 <Link
                   target="_blank"
-                  href="https://www.facebook.com/gamodevelopmentassociation?mibextid=ZbWKwL"
+                  href="#"
                 >
                   <Facebook />
                 </Link>

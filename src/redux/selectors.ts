@@ -1,6 +1,6 @@
-import { GammodaAppState } from "./store";
+import { DawuroDAAppState } from "./store";
 
-export const selectSubscribers = (state: GammodaAppState) =>
+export const selectSubscribers = (state: DawuroDAAppState) =>
   state.contact.subscriber;
-export const selectContactUs = (state: GammodaAppState) =>
+export const selectContactUs = (state: DawuroDAAppState) =>
   state.contact.contactUs;

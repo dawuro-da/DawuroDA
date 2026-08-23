@@ -20,7 +20,7 @@ export async function POST(req: Request) {
       first_name: `${firstName ? firstName : institutionName}`,
       last_name: `${lastName ? lastName : ""}`,
       phone_number: `${phone}`,
-      tx_ref: `gammoda-auction-${Math.random()}`,
+      tx_ref: `dawuroda-auction-${Math.random()}`,
       callback_url: `${process.env.PAYMENT_WEB_HOOK}/api/webhook/payment`,
       return_url: `${process.env.PAYMENT_WEB_HOOK}/auctions/${auctionId}`,
       meta: {
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
         auctionId,
         phone_number: phone,
       },
-      "customization[title]": "Gammoda Auction Payment",
+      "customization[title]": "DawuroDA Auction Payment",
       "customization[description]":
         "a pre payment to participate in an auction. this payment includes both cpo and non refundable payment for the auction ",
     });

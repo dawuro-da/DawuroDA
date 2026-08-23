@@ -2,7 +2,7 @@
 
 import { SessionProvider } from "next-auth/react";
 import { Provider } from "react-redux";
-import { initGammodaState } from "@/redux/store";
+import { initDawuroDAState } from "@/redux/store";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { NextFont } from "next/dist/compiled/@next/font";
 import Notifications from "@/components/shared/Notifications";
@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const NextAuthAndStoreProvider = ({ children, font }: Props) => {
-  const store = initGammodaState();
+  const store = initDawuroDAState();
 
   const theme = createTheme({
     palette: {
