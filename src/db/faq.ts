@@ -11,18 +11,24 @@ export async function findFaqById(id: string): Promise<Faq | null> {
 
 export async function createFaq({
   question,
+  questionAmharic,
   answer,
+  answerAmharic,
   isDraft,
 }: {
   question: string;
+  questionAmharic: string;
   answer: string;
+  answerAmharic: string;
   isDraft: boolean;
 }) {
   try {
     const faq = await prisma.faq.create({
       data: {
         question,
+        questionAmharic,
         answer,
+        answerAmharic,
         isDraft,
       },
     });
@@ -39,13 +45,17 @@ export async function createFaq({
 
 export async function updateFaq({
   question,
+  questionAmharic,
   answer,
+  answerAmharic,
   id,
   isDraft,
 }: {
   id: string;
   question: string;
+  questionAmharic: string;
   answer: string;
+  answerAmharic: string;
   isDraft: boolean;
 }) {
   try {
@@ -53,7 +63,9 @@ export async function updateFaq({
       where: { id: id },
       data: {
         question,
+        questionAmharic,
         answer,
+        answerAmharic,
         isDraft,
       },
     });

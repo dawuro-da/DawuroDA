@@ -9,11 +9,14 @@ export async function POST(req: Request) {
     return NextResponse.redirect("/gaadmin/login", 401)
   }
 
-  const { question, answer, isDraft } = await req.json();
+  const { question, questionAmharic, answer, answerAmharic, isDraft } =
+    await req.json();
   try {
     const result = await createFaq({
       question,
+      questionAmharic,
       answer,
+      answerAmharic,
       isDraft,
     });
 

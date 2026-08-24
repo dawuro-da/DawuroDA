@@ -65,38 +65,68 @@ const CampaignSection = () => {
                 <div
                   key={index}
                   style={{ boxShadow: "1px 1px 10px rgb(0,0,0,0.06)" }}
-                  className="h-fit flex flex-col justify-center p-6 xl:lg:max-w-[300px] md:max-w-[300px] sm:max-w-[300px] max-w-full rounded-lg gap-4"
+                  className="group h-fit flex flex-col xl:lg:max-w-[300px] md:max-w-[300px] sm:max-w-[300px] max-w-full rounded-lg overflow-hidden"
                 >
-                  <Image
-                    src={"/icons/supportIcon.svg"}
-                    alt=""
-                    height={40}
-                    width={40}
-                  />
-                  <span className="font-bold text-lg capitalize">
-                    {isAmharic
-                      ? campaign.headlineAmharic.slice(0, 100)
-                      : campaign.headline.slice(0, 100)}
-                    {campaign.headline.length > 100 && "..."}
-                  </span>
-                  <span className="font-light">
-                    {getFormattedDate(campaign.startDate)}
-                    {` - `}
-                    {getFormattedDate(campaign.endDate)}
-                  </span>
-                  <Button
-                    onClick={() => {
-                      setOpenDonationModal(true);
-                      setDesignation({
-                        title: campaign.headline,
-                        description: campaign.description,
-                      });
-                    }}
-                    variant="outlined"
-                    className="bg-[#13A6D9] border-2 hover:border-2 border-[#13A6D9] hover:border-[#13A6D9] hover:bg-white hover:text-[#13A6D9] text-white font-normal capitalize px-10 py-2 w-fit"
-                  >
-                    {t("home.support")}
-                  </Button>
+                  <div className="relative w-full h-[160px] overflow-hidden">
+                    <Image
+                      src={"/images/donationBG.webp"}
+                      alt=""
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <button
+                      onClick={() => {
+                        setOpenDonationModal(true);
+                        setDesignation({
+                          title: campaign.headline,
+                          description: campaign.description,
+                        });
+                      }}
+                      className="absolute top-3 right-3 flex items-center gap-1 bg-primaryColor/90 hover:bg-primaryColor text-white text-xs font-medium px-3 py-1.5 rounded-full transition-colors"
+                    >
+                      {t("home.support")}
+                      <Image
+                        src={"/icons/plusIcon.svg"}
+                        alt=""
+                        height={10}
+                        width={10}
+                      />
+                    </button>
+                  </div>
+                  <div className="flex flex-col gap-3 p-6 border border-t-0 border-dashed border-gray-200 rounded-b-lg">
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={"/icons/supportIcon.svg"}
+                        alt=""
+                        height={22}
+                        width={22}
+                      />
+                      <span className="font-bold text-lg capitalize">
+                        {isAmharic
+                          ? campaign.headlineAmharic.slice(0, 100)
+                          : campaign.headline.slice(0, 100)}
+                        {campaign.headline.length > 100 && "..."}
+                      </span>
+                    </div>
+                    <span className="text-titleColor font-light text-sm">
+                      {getFormattedDate(campaign.startDate)}
+                      {` - `}
+                      {getFormattedDate(campaign.endDate)}
+                    </span>
+                    <Button
+                      onClick={() => {
+                        setOpenDonationModal(true);
+                        setDesignation({
+                          title: campaign.headline,
+                          description: campaign.description,
+                        });
+                      }}
+                      variant="outlined"
+                      className="bg-primaryColor border-2 hover:border-2 border-primaryColor hover:bg-white hover:text-primaryColor text-white font-normal capitalize px-10 py-2 w-fit mt-1"
+                    >
+                      {t("home.support")}
+                    </Button>
+                  </div>
                 </div>
               );
             })}

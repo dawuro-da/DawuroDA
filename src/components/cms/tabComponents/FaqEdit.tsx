@@ -40,7 +40,9 @@ const FaqEdit = ({
 
   useEffect(() => {
     setValue("question", selectedFaq?.question);
+    setValue("questionAmharic", selectedFaq?.questionAmharic);
     setValue("answer", selectedFaq?.answer);
+    setValue("answerAmharic", selectedFaq?.answerAmharic);
     setValue("isDraft", selectedFaq?.isDraft);
   }, [selectedFaq]);
 
@@ -125,6 +127,13 @@ const FaqEdit = ({
             sx={{ backgroundColor: "white" }}
             inputProps={{ style: { padding: 10 } }}
           />
+          <label>Question (Amharic)</label>
+          <TextField
+            {...register("questionAmharic")}
+            variant="outlined"
+            sx={{ backgroundColor: "white" }}
+            inputProps={{ style: { padding: 10 } }}
+          />
           <div className="flex flex-col gap-1 text-titleColor">
             <label>Answer</label>
             <TextField
@@ -134,6 +143,19 @@ const FaqEdit = ({
               helperText={!!errors.answer && errors.answer.message?.toString()}
               sx={{ backgroundColor: "white" }}
               inputProps={{ style: { padding: 10 } }}
+              multiline
+              minRows={3}
+            />
+          </div>
+          <div className="flex flex-col gap-1 text-titleColor">
+            <label>Answer (Amharic)</label>
+            <TextField
+              {...register("answerAmharic")}
+              variant="outlined"
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ style: { padding: 10 } }}
+              multiline
+              minRows={3}
             />
           </div>
           <div className="py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">

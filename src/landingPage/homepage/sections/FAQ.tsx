@@ -39,6 +39,8 @@ const AccordionItem = ({
 };
 
 const Accordion = () => {
+  const { i18n } = useTranslation();
+  const isAmharic = Boolean(i18n.language === "am");
   const [faqs, setFaqs] = useState<Faq[]>();
   const [loading, setLoading] = useState(false);
 
@@ -71,8 +73,8 @@ const Accordion = () => {
         faqs?.map((item, index) => (
           <AccordionItem
             key={index}
-            title={item.question}
-            content={item.answer}
+            title={isAmharic && item.questionAmharic ? item.questionAmharic : item.question}
+            content={isAmharic && item.answerAmharic ? item.answerAmharic : item.answer}
             isOpen={index === 0}
           />
         ))

@@ -3,7 +3,9 @@
 import StyledMenu from "@/components/shared/StyledMenu";
 import {
   ArrowDropDown,
+  Call,
   Close,
+  Email,
   Facebook,
   Instagram,
   Menu,
@@ -75,125 +77,143 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
         open={openDonateModal}
         handleClose={() => setOpenDonateModal(false)}
       />
-      <div className="z-50 relative flex w-full flex-row items-center justify-between xl:lg:px-40 md:px-20 px-10 xl:lg:h-[140px] pt-8 md:h-[140px] h-[100px] bg-transparent overflow-hidden">
-        <div
-          className={` flex-1 w-full xl:lg:pr-80 md:pr-40  absolute top-[15px] hidden xl:lg:md:flex flex-row justify-end  gap-8 ${
-            isHome ? "text-white" : "text-black"
-          }`}
-        >
-          <div className="flex flex-row items-center text-sm justify-center gap-4">
-            <span>{t("navigation.social_media")}:</span>
-            <Link target="_blank" href={"#"}>
-              <Telegram />
-            </Link>
-            {/* <Twitter /> */}
+      <div className="z-50 relative w-full bg-transparent overflow-hidden">
+        {/* Top utility bar */}
+        <div className="hidden xl:lg:md:flex flex-row items-center justify-between xl:lg:px-40 md:px-20 px-10 h-11 text-sm bg-primaryColor text-white">
+          <div className="flex flex-row items-center gap-6">
             <Link
-              target="_blank"
-              href="#"
+              href="mailto:info@dawuroda.org"
+              className="flex flex-row items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
             >
-              <Facebook />
+              <Email fontSize="small" />
+              info@dawuroda.org
             </Link>
-            {/* <Instagram /> */}
-          </div>
-          <span
-            onClick={() => setOpenDonateModal(true)}
-            className="hover:text-primaryColor cursor-pointer text-sm"
-          >
-            {t("navigation.donate")}
-          </span>
-          <span
-            onClick={() => router.push("/#contact-us")}
-            className="hover:text-primaryColor cursor-pointer text-sm"
-          >
-            {t("navigation.contact")}
-          </span>
-          <span
-            onClick={() => router.push("/#faqs")}
-            className="hover:text-primaryColor cursor-pointer text-sm"
-          >
-            {t("navigation.faq")}
-          </span>
-          <select
-            value={i18n.language}
-            onChange={(e) => {
-              handleChangeLanguage(e.target.value);
-            }}
-            className={`bg-transparent outline-none border-none px-1 hover:cursor-pointer text-sm -mt-1`}
-          >
-            <option value={"en"} className="text-black">
-              English
-            </option>
-            <option value={"am"} className="text-black">
-              አማርኛ
-            </option>
-          </select>
-        </div>
-        <div
-          onClick={() => router.push("/")}
-          className="text-primaryColor font-bold relative flex flex-row items-center justify-evenly cursor-pointer"
-        >
-          <Avatar
-            src={"/images/dawuroda-logo-256.png"}
-            alt="DawuroDA logo"
-            className="h-[60px] w-[60px]"
-            style={{
-              boxShadow: "2px 3px 12px rgb(0,0,0,0.2)",
-            }}
-          />
-        </div>
-        <div className=" font-bold xl:lg:md:relative hidden xl:lg:md:flex flex-row items-center h-full gap-10">
-          {menuItems.map((item, index) => {
-            const isActive = Boolean(item.link === pathname);
-            return (
-              <span
-                onClick={() => router.push(item.link)}
-                key={index}
-                className={`cursor-pointer  
-                      ${
-                        isActive
-                          ? " text-primaryColor"
-                          : isHome
-                          ? "text-white"
-                          : "text-black"
-                      } border-b-2 border-b-transparent
-                     hover:border-b-2 hover:border-primaryColor py-2 px-2`}
-              >
-                {item.name}
-              </span>
-            );
-          })}
-          <div className="min-w-[130px]">
-            <div
-              className={`w-full  h-full p-2 relative pr-8 ${
-                isHome && "text-white"
-              } text-center cursor-pointer rounded-[5px]`}
-              onClick={(e) => setAnchorEl(e.currentTarget)}
+            <Link
+              href="tel:251473450258"
+              className="flex flex-row items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
             >
-              {t("navigation.opportunities")}
-              <ArrowDropDown className="absolute right-2 top-2" />
+              <Call fontSize="small" />
+              +251 47 345 0258
+            </Link>
+          </div>
+          <div className="flex flex-row items-center gap-5">
+            <span
+              onClick={() => setOpenDonateModal(true)}
+              className="opacity-90 hover:opacity-100 cursor-pointer transition-opacity"
+            >
+              {t("navigation.donate")}
+            </span>
+            <span
+              onClick={() => router.push("/#contact-us")}
+              className="opacity-90 hover:opacity-100 cursor-pointer transition-opacity"
+            >
+              {t("navigation.contact")}
+            </span>
+            <span
+              onClick={() => router.push("/#faqs")}
+              className="opacity-90 hover:opacity-100 cursor-pointer transition-opacity"
+            >
+              {t("navigation.faq")}
+            </span>
+            <div className="flex flex-row items-center gap-3 border-l border-white/30 pl-5">
+              <Link
+                target="_blank"
+                href={"#"}
+                className="opacity-90 hover:opacity-100 transition-opacity"
+              >
+                <Telegram fontSize="small" />
+              </Link>
+              <Link
+                target="_blank"
+                href="#"
+                className="opacity-90 hover:opacity-100 transition-opacity"
+              >
+                <Facebook fontSize="small" />
+              </Link>
+            </div>
+            <select
+              value={i18n.language}
+              onChange={(e) => {
+                handleChangeLanguage(e.target.value);
+              }}
+              className={`bg-transparent text-white outline-none border-none px-1 hover:cursor-pointer`}
+            >
+              <option value={"en"} className="text-black">
+                English
+              </option>
+              <option value={"am"} className="text-black">
+                አማርኛ
+              </option>
+            </select>
+          </div>
+        </div>
+
+        {/* Main bar */}
+        <div className="flex w-full flex-row items-center justify-between xl:lg:px-40 md:px-20 px-10 xl:lg:h-[98px] md:h-[98px] h-[100px] bg-white">
+          <div
+            onClick={() => router.push("/")}
+            className="font-bold relative flex flex-row items-center gap-3 cursor-pointer"
+          >
+            <Avatar
+              src={"/images/dawuroda-logo-256.png"}
+              alt="DawuroDA logo"
+              className="h-[52px] w-[52px]"
+              style={{
+                boxShadow: "2px 3px 12px rgb(0,0,0,0.2)",
+              }}
+            />
+            <div className="hidden md:flex flex-col leading-tight">
+              <span className="text-primaryColor font-extrabold text-xl">
+                DawuroDA
+              </span>
+              <span className="text-titleColor text-xs font-normal">
+                {t("footer.motto")}
+              </span>
             </div>
           </div>
-        </div>
-        <div className="hidden xl:lg:md:block">
-          {hasValidSession ? (
-            <ProfileMenu />
-          ) : (
-            <Button
-              variant="outlined"
-              onClick={() => router.push("/login")}
-              className="text-white capitalize bg-primaryColor hover:text-primaryColor shadow-none px-6 py-2 rounded-[5px] cursor-pointer "
-            >
-              {t("navigation.join")}
-            </Button>
-          )}
-        </div>
-        <div
-          className={`xl:lg:md:hidden absolute top-2 right-10 w-fit h-full flex flex-row items-center ${
-            isHome && "text-white"
-          } z-20 cursor-pointer `}
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <Close /> : <Menu />}
+          <div className="font-bold xl:lg:md:relative hidden xl:lg:md:flex flex-row items-center h-full gap-8">
+            {menuItems.map((item, index) => {
+              const isActive = Boolean(item.link === pathname);
+              return (
+                <span
+                  onClick={() => router.push(item.link)}
+                  key={index}
+                  className={`cursor-pointer
+                      ${isActive ? " text-primaryColor" : "text-black"}
+                      border-b-2 border-b-transparent
+                     hover:border-b-2 hover:border-primaryColor py-2 px-2 transition-colors`}
+                >
+                  {item.name}
+                </span>
+              );
+            })}
+            <div className="min-w-[130px]">
+              <div
+                className="w-full h-full p-2 relative pr-8 text-black text-center cursor-pointer rounded-[5px]"
+                onClick={(e) => setAnchorEl(e.currentTarget)}
+              >
+                {t("navigation.opportunities")}
+                <ArrowDropDown className="absolute right-2 top-2" />
+              </div>
+            </div>
+            {hasValidSession ? (
+              <ProfileMenu />
+            ) : (
+              <Button
+                variant="outlined"
+                onClick={() => router.push("/login")}
+                className="text-white capitalize bg-primaryColor border-2 border-primaryColor hover:border-2 hover:border-primaryColor hover:bg-white hover:text-primaryColor shadow-none px-6 py-2.5 rounded cursor-pointer transition-colors"
+              >
+                {t("navigation.join")}
+              </Button>
+            )}
+          </div>
+          <div
+            className="xl:lg:md:hidden flex flex-row items-center text-black z-20 cursor-pointer"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <Close /> : <Menu />}
+          </div>
         </div>
         {menuOpen && (
           <div

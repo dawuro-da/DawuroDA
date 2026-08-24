@@ -10,10 +10,13 @@ import axios from "axios";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const InitiativeDetail = () => {
   const router = useRouter();
   const params = useParams();
+  const { t, i18n } = useTranslation();
+  const isAmharic = Boolean(i18n.language === "am");
   const [initiative, setInitiative] = useState<Initiative>();
   const [initiativeList, setInitiativeList] = useState<Initiative[]>();
   const [loading, setLoading] = useState(false);
@@ -63,7 +66,9 @@ const InitiativeDetail = () => {
             <Skeleton />
           ) : (
             <h2 className="font-extrabold xl:lg:text-4xl text-3xl w-full">
-              {initiative?.nameOfInitiative}
+              {isAmharic
+                ? initiative?.nameOfInitiativeAmharic
+                : initiative?.nameOfInitiative}
             </h2>
           )}
         </div>
@@ -78,14 +83,16 @@ const InitiativeDetail = () => {
                   images={initiative.featuredImages}
                 />
               )}
-              <p className="mt-8">{initiative?.body}</p>
+              <p className="mt-8">
+                {isAmharic ? initiative?.bodyAmharic : initiative?.body}
+              </p>
             </div>
           )}
         </div>
         <div className="mt-20 mb-10">
           <div className="xl:lg:w-1/3 w-fit my-10">
             <span className="font-bold text-center text-3xl">
-              Other initiatives
+              {t("home.development_initiatives_heading")}
             </span>
             <Image
               draggable={false}
@@ -117,18 +124,16 @@ const InitiativeDetail = () => {
                     alt=""
                     src={initiative.featuredImages?.[0]}
                   />
-                  <p className="group-hover:underline w-full text-start font-bold text-xl my-2">
-                    {initiative.nameOfInitiative.length > 60
-                      ? `${initiative.nameOfInitiative.slice(0, 60)}...`
+                  <p className="group-hover:underline w-full text-start font-bold text-xl my-2 line-clamp-2">
+                    {isAmharic
+                      ? initiative.nameOfInitiativeAmharic
                       : initiative.nameOfInitiative}
                   </p>
-                  <p className="text-start text-sm w-full text-titleColor">
-                    {initiative.body.length > 200
-                      ? `${initiative.body.slice(0, 200)}...`
-                      : initiative.body}
+                  <p className="text-start text-sm w-full text-titleColor line-clamp-3">
+                    {isAmharic ? initiative.bodyAmharic : initiative.body}
                   </p>
                   <button className="text-black mt-4 w-full text-left items-start border-none hover:border-none capitalize hover:bg-none bg-none flex flex-row border border-red-500">
-                    <span className="font-light">Learn More</span>
+                    <span className="font-light">{t("home.learn_more")}</span>
                     <Image
                       src={"/images/diagonalarrow.svg"}
                       height={30}

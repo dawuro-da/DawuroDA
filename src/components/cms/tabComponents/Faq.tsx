@@ -219,6 +219,13 @@ const FaqPage = () => {
                 sx={{ backgroundColor: "white" }}
                 inputProps={{ style: { padding: 10 } }}
               />
+              <label>Question (Amharic)</label>
+              <TextField
+                {...register("questionAmharic")}
+                variant="outlined"
+                sx={{ backgroundColor: "white" }}
+                inputProps={{ style: { padding: 10 } }}
+              />
               <div className="flex flex-col gap-1 text-titleColor">
                 <label>Answer</label>
                 <TextField
@@ -230,6 +237,19 @@ const FaqPage = () => {
                   }
                   sx={{ backgroundColor: "white" }}
                   inputProps={{ style: { padding: 10 } }}
+                  multiline
+                  minRows={3}
+                />
+              </div>
+              <div className="flex flex-col gap-1 text-titleColor">
+                <label>Answer (Amharic)</label>
+                <TextField
+                  {...register("answerAmharic")}
+                  variant="outlined"
+                  sx={{ backgroundColor: "white" }}
+                  inputProps={{ style: { padding: 10 } }}
+                  multiline
+                  minRows={3}
                 />
               </div>
 

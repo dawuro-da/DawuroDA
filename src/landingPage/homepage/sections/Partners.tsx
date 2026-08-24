@@ -41,7 +41,8 @@ const Partners = () => {
   }, []);
 
   const settings = {
-    dots: true,
+    dots: false,
+    arrows: false,
     infinite: true,
     autoplay: true,
     autoplaySpeed: 500,

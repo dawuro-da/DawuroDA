@@ -378,10 +378,12 @@ model Job {
 }
 
 model Faq {
-  id       String  @id @default(uuid())
-  question String
-  answer   String
-  isDraft  Boolean @default(false)
+  id              String  @id @default(uuid())
+  question        String
+  questionAmharic String  @default("")
+  answer          String
+  answerAmharic   String  @default("")
+  isDraft         Boolean @default(false)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt

@@ -27,3 +27,38 @@ body {
   height: 0px;
   width: 0px;
 }
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroKenBurns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+.hero-word {
+  display: inline-block;
+  opacity: 0;
+  animation: heroFadeUp 0.6s ease-out forwards;
+}
+
+.hero-fade-up {
+  opacity: 0;
+  animation: heroFadeUp 0.7s ease-out forwards;
+}
+
+.hero-ken-burns {
+  animation: heroKenBurns 10s ease-out forwards;
+}

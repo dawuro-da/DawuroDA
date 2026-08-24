@@ -9,13 +9,16 @@ export async function POST(req: Request, context: { params: { id: string } }) {
   if (!session?.user?.id || session?.user.role === UserRole.Member) {
     return NextResponse.redirect("/gaadmin/login", 401)
   }
-  const { question, answer, isDraft } = await req.json();
+  const { question, questionAmharic, answer, answerAmharic, isDraft } =
+    await req.json();
   const faqId = context.params.id;
 
   try {
     const result = await updateFaq({
       question,
+      questionAmharic,
       answer,
+      answerAmharic,
       id: faqId,
       isDraft,
     });

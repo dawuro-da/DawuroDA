@@ -2,6 +2,7 @@
 import HeroSection from "./sections/HeroSection";
 import CampaignSection from "./sections/CampaignSection";
 import AboutSection from "./sections/AboutSection";
+import HeroPromo from "./sections/HeroPromo";
 import DevelopmentInitiatives from "./sections/DevelopmentInitiatives";
 import FAQ from "./sections/FAQ";
 import Footer from "../footer/Footer";
@@ -25,6 +26,7 @@ const Homepage = () => {
     <I18nextProvider i18n={i18n}>
       <div className="w-full h-screen flex flex-col overflow-y-auto hiddenscrollbar">
         <HeroSection />
+        <HeroPromo />
         <AboutSection />
         <DevelopmentInitiatives />
         <LatestNews />
