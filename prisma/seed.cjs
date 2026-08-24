@@ -394,6 +394,14 @@ async function seedNews() {
       bodyAmharic:
         "ዳውሮ ዞን ጨበራ ጩርጩራ ብሔራዊ ፓርክ፣ የሀላላ ድንጋይ ካብ፣ የኦሞ ሰው ሰራሽ ሀይቅ እንዲሁም የግቤ ሦስትና አራት ሃይል ማመንጫ ግድቦች የሚገኙበት ለኑሮም ሆነ ለእንቨስትመንት ሳቢ አካባቢ ነው።",
     },
+    {
+      headline: "DawuroDA Promotes Integrated Agricultural and Industrial Development",
+      headlineAmharic: "ዳልማ የተቀናጀ የግብርናና ኢንዱስትሪ ልማትን ያስፋፋል",
+      profileImage: ["/images/tractor.svg"],
+      body: "Improving the livelihood of the community in a sustainable manner by promoting integrated agricultural and industrial development remains one of DawuroDA's core objectives across Dawro Zone.",
+      bodyAmharic:
+        "የተቀናጀ የግብርናና ኢንዳስትሪ ልማት በማስፋፋት በዘላቂነት የማህበረሰቡን ኑሮ ማሻሻል ከዳልማ ዋና ዓላማዎች አንዱ ሆኖ ቀጥሏል።",
+    },
   ];
 
   for (const n of items) {
@@ -500,25 +508,59 @@ async function seedResource() {
   console.log("created resource:", name, "(NOTE: no real document uploaded yet)");
 }
 
-async function seedPartnerships() {
-  const partners = [
-    { name: "Add Real Partner Organization Name", logo: "/images/partner1.svg" },
-    { name: "Add Real Partner Organization Name 2", logo: "/images/partner2.svg" },
+// NOTE: Partnership is intentionally not seeded with placeholder data.
+// This app does not filter isDraft on public pages (see src/db/*.ts — no
+// `where: { isDraft: false }` anywhere), so anything inserted here is
+// immediately visible on the live site. Add real partner org names/logos
+// through the admin CMS when you have them.
+
+async function seedAuctions() {
+  const auctions = [
+    {
+      title: "Sale of Used Association Vehicle (Toyota Land Cruiser)",
+      description:
+        "DawuroDA invites qualified bidders to participate in the sale of a used Toyota Land Cruiser currently in service at the Head Office. Interested bidders should download the auction document and follow the submission instructions.",
+      CPO: 50000,
+      formPayment: 500,
+      isPurchasing: false,
+      startDate: now,
+      endDate: inDays(21),
+    },
+    {
+      title: "Supply and Delivery of Office Furniture and Equipment",
+      description:
+        "DawuroDA invites capable suppliers to bid for the supply and delivery of office furniture and equipment for its branch offices across Dawro Zone.",
+      CPO: 20000,
+      formPayment: 300,
+      isPurchasing: true,
+      startDate: now,
+      endDate: inDays(14),
+    },
+    {
+      title: "Construction Material Tender – Tarcha Branch Office Renovation",
+      description:
+        "DawuroDA invites qualified suppliers and contractors to submit bids for the supply of construction materials for the renovation of its Tarcha branch office.",
+      CPO: 100000,
+      formPayment: 1000,
+      isPurchasing: true,
+      startDate: now,
+      endDate: inDays(30),
+    },
   ];
-  for (const p of partners) {
-    const existing = await sql`SELECT id FROM partnership WHERE "partnerName" = ${p.name}`;
+
+  for (const a of auctions) {
+    const existing = await sql`SELECT id FROM auction WHERE title = ${a.title}`;
     if (existing.length) {
-      console.log("partnership placeholder exists, skipping:", p.name);
+      console.log("auction exists, skipping:", a.title);
       continue;
     }
     await sql`
-      INSERT INTO partnership (id, "partnerName", "partnerNameAmharic", logo, bio, "bioAmharic", "isDraft", created_at, updated_at)
+      INSERT INTO auction
+        (id, title, description, "CPO", "formPayment", "formFile", "isPurchasing", "startDate", "endDate", created_at, updated_at)
       VALUES
-        (${uuid()}, ${p.name}, ${"እባክዎ እውነተኛ የአጋር ድርጅት ስም ያክሉ"}, ${p.logo},
-         ${"Placeholder entry — replace with a real partner organization's name, logo, and description before publishing."},
-         ${"ናሙና ግቤት ነው — ከማተምዎ በፊት በእውነተኛ የአጋር ድርጅት መረጃ ይተኩ።"}, true, now(), now())
+        (${uuid()}, ${a.title}, ${a.description}, ${a.CPO}, ${a.formPayment}, ${""}, ${a.isPurchasing}, ${a.startDate}, ${a.endDate}, now(), now())
     `;
-    console.log("created partnership placeholder:", p.name, "(NOTE: fill in real partner before publishing)");
+    console.log("created auction:", a.title, "(NOTE: no real auction document attached yet)");
   }
 }
 
@@ -533,7 +575,7 @@ async function main() {
   await seedEvent();
   await seedCampaign();
   await seedResource();
-  await seedPartnerships();
+  await seedAuctions();
   console.log("\nSeed complete.");
 }
 
