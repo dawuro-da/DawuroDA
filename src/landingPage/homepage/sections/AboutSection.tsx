@@ -2,8 +2,8 @@
 
 import BoardMemberProfile from "@/landingPage/about/sections/contents/BoardMemberProfile";
 import DonationForm from "@/landingPage/modals/DonationForm";
-import useLanguageStore from "@/redux/languageStore";
-import { Avatar, Button, Skeleton } from "@mui/material";
+import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import { Button, Skeleton } from "@mui/material";
 import { Management } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
@@ -50,10 +50,10 @@ const AboutSection = () => {
   }, []);
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: isSmallScreen ? 2 : 3,
+    slidesToShow: isSmallScreen ? 1 : 2,
     slidesToScroll: 1,
     nextArrow: <RightArrow />,
     prevArrow: <LeftArrow />,
@@ -65,7 +65,7 @@ const AboutSection = () => {
   };
 
   return (
-    <div className="xl:lg:px-40 md:px-20 px-10 grid items-center h-fit lg:grid-cols-2 grid-cols-1 mt-32 mb-32 w-full">
+    <div className="xl:lg:px-40 md:px-20 px-10 py-24 grid items-center h-fit lg:grid-cols-2 grid-cols-1 gap-12 w-full">
       <DonationForm
         open={openDonateModal}
         handleClose={() => setOpenDonateModal(false)}
@@ -80,62 +80,69 @@ const AboutSection = () => {
           manager={selectedManager}
         />
       )}
-      <div className="lg:text-left text-center  w-full">
-        <h6 className="text-[#000000] text-sm mb-7 font-light">
+      <div className="lg:text-left text-center w-full">
+        <span className="inline-block bg-primaryColor/10 text-primaryColor font-semibold text-xs uppercase tracking-wide px-4 py-1.5 rounded-full mb-5">
           {t("home.about")}
-        </h6>
-        <h2 className="font-bold lg:text-4xl text-lg mb-7">
+        </span>
+        <h2 className="font-bold lg:text-4xl text-2xl mb-5">
           {t("home.about_heading")}
         </h2>
-        <p className="text-[#6A6A6A] font-light mb-7 lg:max-w-[70%]">
+        <p className="text-titleColor font-light mb-8 lg:max-w-[85%]">
           {t("home.about_highlight")}
         </p>
-        <div className="flex space-x-5 lg:justify-start justify-center">
+        <div className="flex space-x-4 lg:justify-start justify-center">
           <Button
             onClick={() => router.push("/about")}
             variant="outlined"
-            className="px-7 hover:bg-[#ffffff] border-2 border-[#292929] hover:border-2 hover:border-[#292929] py-2 rounded-md text-white hover:text-[#222222] bg-[#222222]"
+            className="px-7 py-2.5 rounded capitalize border-2 border-primaryColor bg-primaryColor text-white hover:bg-white hover:text-primaryColor"
           >
             {t("home.about_us")}
           </Button>
           <Button
             onClick={() => setOpenDonateModal(true)}
             variant="outlined"
-            className="px-7 hover:bg-[#292929] border-2 border-[#292929] hover:border-2 hover:border-[#292929] py-2 rounded-md text-[#292929] hover:text-[#ffffff] bg-[#ffffff]"
+            className="px-7 py-2.5 rounded capitalize border-2 border-primaryColor text-primaryColor bg-white hover:bg-primaryColor hover:text-white"
           >
             {t("home.donate_button")}
           </Button>
         </div>
       </div>
-      <div className=" mt-10 lg:mt-0 w-full h-full flex items-center">
+      <div className="w-full h-full flex items-center">
         <div className="max-w-full w-full max-h-full">
           <Slider {...settings}>
             {loading
-              ? [1, 2, 3].map((item) => (
-                  <Skeleton key={item} className="w-full min-h-[100px]" />
+              ? [1, 2].map((item) => (
+                  <Skeleton
+                    key={item}
+                    className="w-full min-h-[220px] rounded-2xl"
+                  />
                 ))
-              : managers?.map((manager, index) => (
-                  <div
-                    key={manager.id}
-                    className="px-2 w-full h-fit"
-                    onClick={() => handleShowProfile(manager)}
-                  >
-                    <div className="text-center flex flex-col items-center justify-center gap-1">
-                      <Avatar
-                        style={{ height: 85, width: 85 }}
-                        alt=""
-                        src={manager.photo}
-                      />
-                      <p className="font-bold text-base ">
-                        {isAmharic
-                          ? manager.managerNameAmharic.slice(0, 30)
-                          : manager.managerName.slice(0, 30)}
-                      </p>
-                      <p className="text-[#000000] text-sm">
-                        {isAmharic
-                          ? manager.jobAmharic.slice(0, 30)
-                          : manager.job.slice(0, 30)}
-                      </p>
+              : managers?.map((manager) => (
+                  <div key={manager.id} className="px-2.5">
+                    <div
+                      onClick={() => handleShowProfile(manager)}
+                      className="group cursor-pointer bg-white rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.06)] p-5 flex flex-row items-center gap-4 hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] transition-shadow"
+                    >
+                      <div className="relative h-20 w-20 shrink-0 rounded-xl overflow-hidden">
+                        <Image
+                          src={manager.photo}
+                          alt=""
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                      </div>
+                      <div className="text-left">
+                        <p className="font-bold text-base">
+                          {isAmharic
+                            ? manager.managerNameAmharic.slice(0, 30)
+                            : manager.managerName.slice(0, 30)}
+                        </p>
+                        <p className="text-primaryColor text-sm font-medium">
+                          {isAmharic
+                            ? manager.jobAmharic.slice(0, 30)
+                            : manager.job.slice(0, 30)}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -154,15 +161,9 @@ const RightArrow = (props: any) => {
     <div
       onClick={onClick}
       style={style}
-      className={`${className} rounded-full bg-white flex flex-row items-center justify-center`}
+      className={`${className} before:hidden !h-9 !w-9 rounded-full bg-white shadow-md flex flex-row items-center justify-center !right-0 z-10`}
     >
-      <Image
-        src={"/images/arrowdown.svg"}
-        className="-rotate-90 opacity-55"
-        alt=""
-        height={20}
-        width={20}
-      />
+      <ChevronRight className="text-primaryColor" fontSize="small" />
     </div>
   );
 };
@@ -173,15 +174,9 @@ const LeftArrow = (props: any) => {
     <div
       onClick={onClick}
       style={style}
-      className={`${className} rounded-full bg-white flex flex-row items-center justify-center`}
+      className={`${className} before:hidden !h-9 !w-9 rounded-full bg-white shadow-md flex flex-row items-center justify-center !left-0 z-10`}
     >
-      <Image
-        src={"/images/arrowdown.svg"}
-        className="rotate-90 opacity-55"
-        alt=""
-        height={20}
-        width={20}
-      />
+      <ChevronLeft className="text-primaryColor" fontSize="small" />
     </div>
   );
 };

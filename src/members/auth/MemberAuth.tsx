@@ -11,10 +11,10 @@ import useLanguageStore from "@/redux/languageStore";
 import i18n from "../../../i18n";
 
 const images = [
-  { url: "/images/hero1.svg", alt: "Image 1" },
-  { url: "/images/hero2.svg", alt: "Image 2" },
-  { url: "/images/hero3.svg", alt: "Image 3" },
-  { url: "/images/hero4.svg", alt: "Image 4" },
+  { url: "/images/eduNews.jpg", alt: "Image 1" },
+  { url: "/images/forestry.jpg", alt: "Image 2" },
+  { url: "/images/tourism.jpg", alt: "Image 3" },
+  { url: "/images/haygine.jpg", alt: "Image 4" },
 ];
 
 const MemberAuth = () => {
@@ -69,22 +69,23 @@ const MemberAuth = () => {
                 src={image.url}
                 alt={image.alt}
                 fill
-                className="w-[100%] h-[100%] object-cover filter "
+                className="w-[100%] h-[100%] object-cover"
               />
             </div>
           ))}
+          <div className="absolute inset-0 bg-black/50 z-10" />
           <div className="absolute text-white h-full w-full flex flex-col items-center justify-end pb-24 xl:lg:gap-6 gap-2 z-20">
-            <div className="max-w-[500px] flex flex-row justify-center items-center">
+            <div className="max-w-[500px] flex flex-row justify-center items-center text-center">
               {renderText(currentIndex, t)}
             </div>
           </div>
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center space-x-2 z-30">
             {images.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full ${
-                  index === currentIndex ? "bg-white" : "bg-gray-500"
+                className={`h-2.5 rounded-full transition-all duration-300 ${
+                  index === currentIndex ? "w-8 bg-primaryColor" : "w-2.5 bg-white/50 hover:bg-white/80"
                 }`}
               ></button>
             ))}

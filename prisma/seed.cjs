@@ -272,33 +272,51 @@ async function seedFaq() {
   const faqs = [
     {
       question: "What is the Dawuro Development Association (DawuroDA)?",
+      questionAmharic: "ዳልማ (የዳውሮ ልማት ማህበር) ምንድን ነው?",
       answer:
         "Dawuro Development Association (DawuroDA) is an indigenous, not-for-profit, non-religious and development-oriented non-governmental organization, which envisions creating a prosperous society through holistic and sustainable development, built on Dawro's culture of peace and coexistence.",
+      answerAmharic:
+        "የዳውሮ ልማት ማህበር (ዳልማ) ለትርፍ ያልተቋቋመ እንዲሁም ሃይማኖታዊ ያልሆነ ሃገር በቀል መንግሥታዊ ያልሆነ የልማት ድርጅት ነው፣ በሰላምና ተቻችሎ በአብሮነት የመኖር የዳውሮ ባህል እሴት ላይ የተመሠረተ ሁሉን አቀፍ እና ዘላቂነት ያለውን ልማት በመገንባት የበለፀገ ማህበረሰብ የመፍጠር ራዕይን ሰንቋል።",
     },
     {
       question: "When was DawuroDA established?",
+      questionAmharic: "ዳልማ መቼ ተመሰረተ?",
       answer:
         "DawuroDA was founded by the people of Dawro in 1993 E.C. (Ethiopian calendar). It was reorganized in Tir (January) 1993 E.C. and obtained its certificate of legal personality from the then SNNPR Justice Bureau, and was later registered with the Federal Ministry of Justice starting 1998 E.C.",
+      answerAmharic:
+        "ዳልማ የተቋቆመው በ1993 ዓ.ም ሲሆን ከዚያ በፊት ከዳኮልማ ከዚያም ከወጋጎዳልማ ጋር በደባልነት ሲሠራ ቆይቶ በ1993 ዓ.ም ጥር ወር በአዲስ መልክ ተደራጅቶ ከደ/ብ/ብ/ህ ክልል መንግስት ፍትህ ቢሮ የህጋዊ ሰዉነት ማረጋገጫ ምስክር ወረቀት አግኝቷል፣ ቀጥሎም ከ1998 ዓ.ም ጀምሮ በፌደራል ፍትህ ሚኒስቴር ተመዝግቧል።",
     },
     {
       question: "What is DawuroDA's vision?",
+      questionAmharic: "የዳልማ ራዕይ ምንድን ነው?",
       answer:
         "To see the Dawro people fully freed from their current social, economic, and infrastructural challenges, living in favorable, well-developed conditions.",
+      answerAmharic:
+        "የዳዉሮ ህዝብ አሁን ካለበት ማህበራዊ፣ ኢኮኖሚያዊና ከመሠረተ-ልማት ችግሮች ሙሉ በሙሉ ተላቆ የተመቻቸ ኑሮ ተፈጥሮ ማየት ነዉ፡፡",
     },
     {
       question: "What is DawuroDA's mission?",
+      questionAmharic: "የዳልማ ተልእኮ ምንድን ነው?",
       answer:
         "In addition to the government's development efforts, DawuroDA works to mobilize and coordinate the labor, knowledge, financial and material resources of the zone's people and other supporting forces, converting them into development that sustainably improves the community's standard of living.",
+      answerAmharic:
+        "ዳልማ ከመንግሥት የልማት ጥረት በተጨማሪ የዞኑን ህዝብና ሌሎች ደጋፊ ሃይላት ጉልበት፣ ዕዉቀት፣ ገንዘብና ማቴሪያል ሀብቶችን አቀናጅቶ በማስተባበር ወደ ልማት በመለወጥ በዞኑ ማህበራዊ፣ ኢኮኖሚዊና መሰረተ-ልማት የበኩሉን ድርሻ በማድረግ የህብረተሰቡን የኑሮ ደረጃ በዘላቂነት ለመቀየር መሥራት፡፡",
     },
     {
       question: "How can I become a member?",
+      questionAmharic: "እንዴት አባል መሆን እችላለሁ?",
       answer:
         "You can register directly through this website. Click 'Join' in the navigation menu, choose Individual or Company membership, complete the registration form, and select your preferred branch and contribution plan.",
+      answerAmharic:
+        "በዚህ ድረ-ገጽ በቀጥታ መመዝገብ ይችላሉ። ከላይ ባለው ማውጫ ውስጥ «ይቀላቀሉን»ን በመጫን የግል ወይም የተቋም አባልነትን ይምረጡ፣ የምዝገባ ቅጹን ይሙሉ፣ እንዲሁም የሚፈልጉትን ቅርንጫፍና የመዋጮ እቅድ ይምረጡ።",
     },
     {
       question: "Which area does DawuroDA serve?",
+      questionAmharic: "ዳልማ የትኛውን አካባቢ ያገለግላል?",
       answer:
         "DawuroDA serves Dawro Zone, part of the South West Ethiopia Peoples' Regional State, with its head office in Tarcha, and has branches across Dawro's woredas as well as in Addis Ababa, Europe, and North America.",
+      answerAmharic:
+        "ማህበሩ የደቡብ ምዕራብ ኢትዮጵያ ሕዝቦች ክልላዊ መንግሥት አካል የሆነውን የዳውሮ ዞን የሚያገለግል ሲሆን የዞኑ ዋና ከተማ ታርጫ ናት፣ በዳውሮ ወረዳዎችም ሆነ በአዲስ አበባ፣ አውሮፓና ሰሜን አሜሪካ ቅርንጫፎች አሉት።",
     },
   ];
 
@@ -309,8 +327,8 @@ async function seedFaq() {
       continue;
     }
     await sql`
-      INSERT INTO faq (id, question, answer, "isDraft", created_at, updated_at)
-      VALUES (${uuid()}, ${f.question}, ${f.answer}, false, now(), now())
+      INSERT INTO faq (id, question, "questionAmharic", answer, "answerAmharic", "isDraft", created_at, updated_at)
+      VALUES (${uuid()}, ${f.question}, ${f.questionAmharic}, ${f.answer}, ${f.answerAmharic}, false, now(), now())
     `;
     console.log("created faq:", f.question);
   }

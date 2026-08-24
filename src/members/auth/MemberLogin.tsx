@@ -95,8 +95,8 @@ const MemberLogin = ({
             },
           })}
           variant="outlined"
-          className="border-2 rounded-[16px] py-2"
-          inputProps={{ style: { padding: 10 } }}
+          className="border-2 rounded-xl py-2"
+          inputProps={{ style: { padding: 10, borderRadius: 12 } }}
           value={watch("phone")}
           onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
           type="text"
@@ -138,7 +138,7 @@ const MemberLogin = ({
           inputProps={{
             style: {
               padding: 9,
-              borderRadius: "6px",
+              borderRadius: "12px",
             },
           }}
         />
@@ -154,7 +154,7 @@ const MemberLogin = ({
       </span>
       <div className="flex flex-row items-center justify-end w-full">
         <Link href={"/member/forgot-password"}>
-          <span className="text-[#13A6D9] hover:underline">
+          <span className="text-primaryColor font-semibold hover:underline">
             {t("members_dashboard.login.forgot_password")}
           </span>
         </Link>
@@ -183,16 +183,20 @@ const MemberLogin = ({
       <Button
         type="submit"
         variant="outlined"
-        className="capitalize font-bold bg-primaryColor hover:bg-primaryColor text-white w-full"
+        className="capitalize font-bold bg-primaryColor border-2 border-primaryColor hover:bg-white hover:text-primaryColor text-white w-full rounded-xl py-3"
       >
-        {loading ? <CircularProgress className="text-white" /> : "Login"}
+        {loading ? (
+          <CircularProgress size={24} className="text-white" />
+        ) : (
+          t("members_dashboard.login.login_button")
+        )}
       </Button>
       <div className="flex flex-row items-center gap-2 justify-end w-full">
         <span>{t("members_dashboard.login.are_you_new_here")}</span>
 
         <span
           onClick={() => setIsSignUp(true)}
-          className="text-[#13A6D9] hover:underline cursor-pointer"
+          className="text-primaryColor font-semibold hover:underline cursor-pointer"
         >
           {t("members_dashboard.login.sign_up_link")}
         </span>
