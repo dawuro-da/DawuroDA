@@ -89,36 +89,37 @@ const NewsCard = () => {
               </div>
             </div>
             <div className="grid grid-cols-1 lg:col-span-1 md:col-span-7 gap-4">
-              <div
-                onClick={() => router.push(`/news/${news?.[4].id}`)}
-                style={{
-                  background: `url('${news?.[4]?.profileImage?.[0]}')`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-                className="relative lg:col-span-1 lg:block hidden group cursor-pointer min-h-[300px]"
-              >
-                <div className="absolute bottom-0 text-white left-0 pb-6 pl-4 pt-3 text-left bg-gradient-to-t from-black to-transparent cursor-pointer">
-                  <h2 className="group-hover:underline text-2xl font-bold mb-3">
-                    {`${
-                      isAmharic
-                        ? news?.[4]?.headlineAmharic.slice(0, 70)
-                        : news?.[4]?.headline.slice(0, 70)
-                    } ${news?.[4]?.headline.length > 70 && "..."}`}
-                  </h2>
-                  <div className="flex items-center space-x-3">
-                    <Image
-                      src="/images/calendar2.svg"
-                      alt=""
-                      width={15}
-                      height={20}
-                    />
-                    <p className="text-white font-light text-sm">
-                      {news?.[4] && getFormattedDate(news?.[4]?.updated_at)}
-                    </p>
+              {news?.[4] && (
+                <div
+                  onClick={() => router.push(`/news/${news[4].id}`)}
+                  style={{
+                    background: `url('${news[4].profileImage?.[0]}')`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                  className="relative lg:col-span-1 lg:block hidden group cursor-pointer min-h-[300px]"
+                >
+                  <div className="absolute bottom-0 text-white left-0 pb-6 pl-4 pt-3 text-left bg-gradient-to-t from-black to-transparent cursor-pointer">
+                    <h2 className="group-hover:underline text-2xl font-bold mb-3">
+                      {isAmharic
+                        ? news[4].headlineAmharic.slice(0, 70)
+                        : news[4].headline.slice(0, 70)}
+                      {news[4].headline.length > 70 && "..."}
+                    </h2>
+                    <div className="flex items-center space-x-3">
+                      <Image
+                        src="/images/calendar2.svg"
+                        alt=""
+                        width={15}
+                        height={20}
+                      />
+                      <p className="text-white font-light text-sm">
+                        {getFormattedDate(news[4].updated_at)}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
               {news?.slice(1, 3).map((item, id) => (
                 <div
                   key={id}
@@ -182,7 +183,7 @@ const NewsCard = () => {
                         {isAmharic
                           ? item.headlineAmharic.slice(0, 70)
                           : item.headline.slice(0, 70)}
-                        {news?.[0]?.headline.length > 70 && "..."}
+                        {item.headline.length > 70 && "..."}
                       </h2>
                       <div className="flex items-center space-x-3">
                         <Image
