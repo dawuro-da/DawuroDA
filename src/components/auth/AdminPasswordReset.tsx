@@ -164,7 +164,7 @@ const AdminPasswordReset = ({ email }: { email: string }) => {
                 </span>
                 <Button
                   variant="contained"
-                  onClick={() => router.push("/gaadmin/login")}
+                  onClick={() => router.push("/daadmin/login")}
                   className="bg-primaryColor shadow-none text-white hover:bg-primaryColor border-2 rounded-[16px] p-3 h-[48px]"
                 >
                   Back to login

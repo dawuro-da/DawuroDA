@@ -133,7 +133,7 @@ const Login = () => {
                 : ""}
             </span>
             <span
-              onClick={() => router.push("/gaadmin/forgot-password")}
+              onClick={() => router.push("/daadmin/forgot-password")}
               className="w-full text-right py-2 hover:underline cursor-pointer"
             >
               Forgot Password?

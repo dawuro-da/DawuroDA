@@ -3,10 +3,10 @@ import { OPTIONS } from "@/util/authOptions";
 import { UserRole } from "@prisma/client";
 import { getServerSession } from "next-auth";
 
-export default async function Gaadmin() {
+export default async function Daadmin() {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id) {
-    redirect("/gaadmin/login");
+    redirect("/daadmin/login");
   } else if (session?.user?.role === UserRole.Member) {
     redirect("/member/dashboard");
   }
