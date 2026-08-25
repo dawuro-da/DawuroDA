@@ -83,12 +83,15 @@ export async function fetchFaqs({
   page,
   pageSize,
   searchText,
+  includeDrafts,
 }: {
   page: number;
   pageSize: number;
   searchText?: string;
+  includeDrafts?: boolean;
 }): Promise<{ faqs: Faq[] | undefined; total: number }> {
   const whereClause: Prisma.FaqWhereInput = {
+    ...(!includeDrafts && { isDraft: false }),
     ...(searchText && {
       OR: [
         {

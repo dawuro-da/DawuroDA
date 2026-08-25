@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       },
       "customization[title]": "DawuroDA Donation Payment",
       "customization[description]":
-        "donation for gamo developement association for different voluntary works ",
+        "donation for Dawuro Development Association for different voluntary works",
     });
     const res = await axios.post(
       "https://api.chapa.co/v1/transaction/initialize",

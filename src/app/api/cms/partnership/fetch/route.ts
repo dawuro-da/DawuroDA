@@ -1,11 +1,18 @@
 import { NextResponse } from "next/server";
 import { fetchPartnerships } from "@/db/partnership";
+import { isStaffSession } from "@/util/session";
 
 export async function POST(req: Request) {
   const { page, pageSize, searchText } = await req.json();
 
   try {
-    const result = await fetchPartnerships({ page, pageSize, searchText });
+    const includeDrafts = await isStaffSession();
+    const result = await fetchPartnerships({
+      page,
+      pageSize,
+      searchText,
+      includeDrafts,
+    });
 
     if (result) {
       return NextResponse.json(

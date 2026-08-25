@@ -91,19 +91,6 @@ const Partners = () => {
         </div>
       </div>
 
-      <div className="text-[#FFFFFF] pt-32 text-left px-11 mt-20 lg:bg-[url('/images/donationBG.webp')] bg-[url('/images/partnerbg2.svg')] lg:h-80 h-96 w-4/5 mx-auto bg-cover">
-        <h3 className="lg:text-4xl text-lg font-bold mb-3">
-          {t("home.donate_heading")}
-        </h3>
-        <p className="mb-3 font-light">{t("home.donate_subheading")}</p>
-        <Button
-          onClick={() => setOpenDonateModal(true)}
-          variant="outlined"
-          className="px-8 py-2 rounded bg-primaryColor capitalize text-white hover:text-primaryColor"
-        >
-          {t("home.donate")}
-        </Button>
-      </div>
     </div>
   );
 };

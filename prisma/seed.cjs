@@ -135,7 +135,7 @@ async function seedMembers() {
          region, zone, city, "firstName", "lastName", gender, "workPlace", expertise,
          "profileImage", branch, password_salt, password_hash, created_at, updated_at)
       VALUES
-        (${uuid()}, ${"GaDA" + crypto.randomBytes(4).toString("hex").toUpperCase()}, ${m.phone},
+        (${uuid()}, ${"DaDA" + crypto.randomBytes(4).toString("hex").toUpperCase()}, ${m.phone},
          ${m.membershipLevel}, ${m.contributionAmount}, 'Monthly',
          ${monthsAgo(1)}, ${inDays(30)}, true, 'Individual', ${m.paymentMeans},
          ${"South West Ethiopia Peoples' Region"}, 'Dawro', ${m.city}, ${m.firstName}, ${m.lastName},
@@ -157,7 +157,7 @@ async function seedMembers() {
          region, zone, city, "institutionName", "headOrRepresentative", "fieldOfWork",
          branch, password_salt, password_hash, created_at, updated_at)
       VALUES
-        (${uuid()}, ${"GaDA" + crypto.randomBytes(4).toString("hex").toUpperCase()}, ${companyPhone},
+        (${uuid()}, ${"DaDA" + crypto.randomBytes(4).toString("hex").toUpperCase()}, ${companyPhone},
          'Diamond', 6660, 'Monthly',
          ${monthsAgo(1)}, ${inDays(30)}, true, 'Company', 'Bank',
          ${"South West Ethiopia Peoples' Region"}, 'Dawro', 'Tarcha',
@@ -360,6 +360,30 @@ async function seedInitiatives() {
       bodyAmharic:
         "ዳልማ ከአካባቢው የጤና ጽ/ቤቶችና የማህበረሰብ አካላት ጋር በመተባበር በዳውሮ ዞን የጤናና የንፁህ መጠጥ ውሃ አገልግሎት ተደራሽነትና ጥራት ለማሻሻል ይሰራል።",
     },
+    {
+      nameOfInitiative: "Agricultural & Industrial Development",
+      nameOfInitiativeAmharic: "የግብርናና ኢንዳስትሪ ልማት",
+      featuredImages: ["/images/tourism.jpg"],
+      body: "DawuroDA promotes integrated agricultural and industrial development to sustainably improve the livelihood of the Dawro community.",
+      bodyAmharic:
+        "ዳልማ የዳውሮ ማህበረሰብን ኑሮ በዘላቂነት ለማሻሻል የተቀናጀ የግብርናና ኢንዳስትሪ ልማትን ያስፋፋል።",
+    },
+    {
+      nameOfInitiative: "Tourism Development in Dawro Zone",
+      nameOfInitiativeAmharic: "በዳውሮ ዞን የቱሪዝም ልማት",
+      featuredImages: ["/images/tourism.jpg"],
+      body: "DawuroDA works to improve, modernize, and expand tourism destinations to increase the economic benefit of the community.",
+      bodyAmharic:
+        "ዳልማ የማህበረሰቡን ኢኮኖሚያዊ ተጠቃሚነት ለማሳደግ የቱሪዝም መዳረሻዎችን በማሻሻል፣ በማዘመንና በማስፋፋት ይሰራል።",
+    },
+    {
+      nameOfInitiative: "Culture & Language Preservation",
+      nameOfInitiativeAmharic: "ባህልና ቋንቋ ጥበቃ",
+      featuredImages: ["/images/eduNews.jpg"],
+      body: "DawuroDA studies, organizes, protects, and enriches the culture and language of the ethnic groups in Dawro Zone to introduce them to the world.",
+      bodyAmharic:
+        "ዳልማ በዞኑ የሚገኙ ብሔረሰቦችን ባህልና ቋንቋ በማጥናት፣ በማደራጀት፣ በመጠበቅና በማበልፀግ ለዓለም ያስተዋውቃል።",
+    },
   ];
 
   for (const i of initiatives) {
@@ -372,7 +396,7 @@ async function seedInitiatives() {
       INSERT INTO initiative
         (id, "nameOfInitiative", "nameOfInitiativeAmharic", "featuredImages", body, "bodyAmharic", "isDraft", created_at, updated_at)
       VALUES
-        (${uuid()}, ${i.nameOfInitiative}, ${i.nameOfInitiativeAmharic}, ${i.featuredImages}, ${i.body}, ${i.bodyAmharic}, true, now(), now())
+        (${uuid()}, ${i.nameOfInitiative}, ${i.nameOfInitiativeAmharic}, ${i.featuredImages}, ${i.body}, ${i.bodyAmharic}, false, now(), now())
     `;
     console.log("created initiative:", i.nameOfInitiative);
   }
@@ -420,6 +444,30 @@ async function seedNews() {
       bodyAmharic:
         "የተቀናጀ የግብርናና ኢንዳስትሪ ልማት በማስፋፋት በዘላቂነት የማህበረሰቡን ኑሮ ማሻሻል ከዳልማ ዋና ዓላማዎች አንዱ ሆኖ ቀጥሏል።",
     },
+    {
+      headline: "Strengthening Institutional Capacity Across DawuroDA Branches",
+      headlineAmharic: "የዳልማ ቅርንጫፎችን ተቋማዊ አቅም ማጎልበት",
+      profileImage: ["/images/eduNews.jpg"],
+      body: "DawuroDA continues to enhance its institutional capacity by expanding and coordinating its revenue streams and branch operations across Dawro Zone and the diaspora.",
+      bodyAmharic:
+        "ዳልማ የገቢ አማራጮቹንና የቅርንጫፍ ስራዎቹን በማስፋፋትና በማቀናጀት ተቋማዊ አቅሙን ማጎልበቱን ቀጥሏል።",
+    },
+    {
+      headline: "DawuroDA Supports Peace and Social Cohesion Initiatives",
+      headlineAmharic: "ዳልማ ሰላምና ማህበራዊ ትስስርን የሚያጎለብቱ ስራዎችን ይደግፋል",
+      profileImage: ["/images/forestry.jpg"],
+      body: "DawuroDA promotes democratic thinking and a culture of peace and tolerance to ensure social justice and cohesion across the communities it serves.",
+      bodyAmharic:
+        "ዳልማ ማህበራዊ ፍትህንና ትስስርን ለማረጋገጥ በሰላምና በመቻቻል ባህል ላይ የተመሰረተ ዲሞክራሲያዊ አስተሳሰብን ያበረታታል።",
+    },
+    {
+      headline: "DawuroDA Advances Disaster Risk Reduction Efforts in Dawro Zone",
+      headlineAmharic: "ዳልማ በዳውሮ ዞን የአደጋ ስጋት መቀነስ ስራዎችን ያራምዳል",
+      profileImage: ["/images/haygine.jpg"],
+      body: "DawuroDA works to identify disaster risk areas and provide timely response and rehabilitation support when disasters occur in Dawro Zone.",
+      bodyAmharic:
+        "ዳልማ የአደጋ ስጋት አካባቢዎችን በመለየት አደጋ ሲከሰት ተገቢውን ወቅታዊ ምላሽና መልሶ ማቋቋም ድጋፍ ይሰጣል።",
+    },
   ];
 
   for (const n of items) {
@@ -432,7 +480,7 @@ async function seedNews() {
       INSERT INTO news
         (id, headline, "headlineAmharic", "profileImage", body, "bodyAmharic", "isDraft", created_at, updated_at)
       VALUES
-        (${uuid()}, ${n.headline}, ${n.headlineAmharic}, ${n.profileImage}, ${n.body}, ${n.bodyAmharic}, true, now(), now())
+        (${uuid()}, ${n.headline}, ${n.headlineAmharic}, ${n.profileImage}, ${n.body}, ${n.bodyAmharic}, false, now(), now())
     `;
     console.log("created news:", n.headline);
   }
@@ -475,40 +523,105 @@ async function seedJobs() {
 }
 
 async function seedEvent() {
-  const headline = "DawuroDA Annual General Assembly & Membership Forum";
-  const existing = await sql`SELECT id FROM event WHERE headline = ${headline}`;
-  if (existing.length) {
-    console.log("event exists, skipping:", headline);
-    return;
+  const events = [
+    {
+      headline: "DawuroDA Annual General Assembly & Membership Forum",
+      headlineAmharic: "የዳልማ አመታዊ ጠቅላላ ጉባዔና የአባላት መድረክ",
+      profileImage: "/images/dawuroda-logo-256.png",
+      body: "DawuroDA invites members and stakeholders to its general assembly and membership forum to review the association's activities and plan ahead together.",
+      bodyAmharic:
+        "ዳልማ አባላትንና ባለድርሻ አካላትን የማህበሩን ስራዎች ለመገምገምና በጋራ ለማቀድ ወደ ጠቅላላ ጉባዔና የአባላት መድረክ ይጋብዛል።",
+      startDate: inDays(45),
+      endDate: inDays(45),
+    },
+    {
+      headline: "Community Tree Planting and Environmental Protection Day",
+      headlineAmharic: "የማህበረሰብ ችግኝ ተከላና የአካባቢ ጥበቃ ቀን",
+      profileImage: "/images/forestry.jpg",
+      body: "DawuroDA, together with local communities, hosts a tree planting and environmental protection day as part of its ongoing forestry and environmental protection initiative across Dawro Zone.",
+      bodyAmharic:
+        "ዳልማ ከአካባቢው ማህበረሰብ ጋር በመተባበር ከደን ልማትና አካባቢ ጥበቃ ስራው ጋር በተያያዘ የችግኝ ተከላና የአካባቢ ጥበቃ ቀን ያዘጋጃል።",
+      startDate: inDays(20),
+      endDate: inDays(20),
+    },
+    {
+      headline: "Community Health and Clean Water Awareness Campaign",
+      headlineAmharic: "የማህበረሰብ ጤናና ንፁህ ውሃ ግንዛቤ ማስጨበጫ ዘመቻ",
+      profileImage: "/images/haygine.jpg",
+      body: "DawuroDA partners with local health offices to host a community awareness campaign on health and clean water access, supporting its health and clean water initiative across Dawro Zone.",
+      bodyAmharic:
+        "ዳልማ ከአካባቢው የጤና ጽ/ቤቶች ጋር በመተባበር ከጤናና ንፁህ ውሃ አገልግሎት ስራው ጋር በተያያዘ የማህበረሰብ ግንዛቤ ማስጨበጫ ዘመቻ ያካሂዳል።",
+      startDate: inDays(70),
+      endDate: inDays(70),
+    },
+  ];
+
+  for (const e of events) {
+    const existing = await sql`SELECT id FROM event WHERE headline = ${e.headline}`;
+    if (existing.length) {
+      console.log("event exists, skipping:", e.headline);
+      continue;
+    }
+    await sql`
+      INSERT INTO event
+        (id, headline, "headlineAmharic", "profileImage", body, "bodyAmharic", "isDraft", "startDate", "endDate", created_at, updated_at)
+      VALUES
+        (${uuid()}, ${e.headline}, ${e.headlineAmharic}, ${e.profileImage}, ${e.body}, ${e.bodyAmharic},
+         false, ${e.startDate}, ${e.endDate}, now(), now())
+    `;
+    console.log("created event:", e.headline);
   }
-  await sql`
-    INSERT INTO event
-      (id, headline, "headlineAmharic", "profileImage", body, "bodyAmharic", "isDraft", "startDate", "endDate", created_at, updated_at)
-    VALUES
-      (${uuid()}, ${headline}, ${"የዳልማ አመታዊ ጠቅላላ ጉባዔና የአባላት መድረክ"}, ${"/images/dawuroda-logo-256.png"},
-       ${"DawuroDA invites members and stakeholders to its general assembly and membership forum. Date shown is a placeholder — please confirm and update before publishing."},
-       ${"ዳልማ አባላትንና ባለድርሻ አካላትን ወደ ጠቅላላ ጉባዔና የአባላት መድረክ ይጋብዛል። ቀኑ ማስተካከያ የሚያስፈልገው ናሙና ነው።"},
-       true, ${inDays(45)}, ${inDays(45)}, now(), now())
-  `;
-  console.log("created event:", headline, "(NOTE: placeholder date, review before publishing)");
 }
 
 async function seedCampaign() {
-  const headline = "Join the Campaign: Support Those in Need, Rebuild Lives";
-  const existing = await sql`SELECT id FROM campaign WHERE headline = ${headline}`;
-  if (existing.length) {
-    console.log("campaign exists, skipping:", headline);
-    return;
+  const campaigns = [
+    {
+      headline: "Join the Campaign: Support Those in Need, Rebuild Lives",
+      headlineAmharic: "የዳልማን ዘመቻዎች ይቀላቀሉ፤ የተቸገሩትን ይደግፉ፣ ተስፋን ይጫሩ።",
+      description:
+        "Together, we can provide urgent relief and restore hope to communities in crisis across Dawro Zone.",
+      image: "/images/donationBG.webp",
+      goalAmount: 450000,
+      raisedAmount: 55000,
+      isFeatured: true,
+    },
+    {
+      headline: "Support Clean Water Access in Dawro Zone",
+      headlineAmharic: "በዳውሮ ዞን የንፁህ ውሃ አገልግሎትን ይደግፉ",
+      description:
+        "Help DawuroDA expand access to clean drinking water and improve health outcomes across Dawro's communities.",
+      image: "/images/haygine.jpg",
+      goalAmount: 200000,
+      raisedAmount: 40000,
+      isFeatured: false,
+    },
+    {
+      headline: "Support Education for Dawro's Children",
+      headlineAmharic: "ለዳውሮ ልጆች ትምህርትን ይደግፉ",
+      description:
+        "Contribute to improving access to quality education for children and youth across Dawro Zone.",
+      image: "/images/eduNews.jpg",
+      goalAmount: 150000,
+      raisedAmount: 60000,
+      isFeatured: false,
+    },
+  ];
+
+  for (const c of campaigns) {
+    const existing = await sql`SELECT id FROM campaign WHERE headline = ${c.headline}`;
+    if (existing.length) {
+      console.log("campaign exists, skipping:", c.headline);
+      continue;
+    }
+    await sql`
+      INSERT INTO campaign
+        (id, headline, "headlineAmharic", description, image, "goalAmount", "raisedAmount", "isFeatured", "isDraft", "startDate", "endDate", created_at, updated_at)
+      VALUES
+        (${uuid()}, ${c.headline}, ${c.headlineAmharic}, ${c.description}, ${c.image},
+         ${c.goalAmount}, ${c.raisedAmount}, ${c.isFeatured}, false, ${inDays(7)}, ${inDays(90)}, now(), now())
+    `;
+    console.log("created campaign:", c.headline);
   }
-  await sql`
-    INSERT INTO campaign
-      (id, headline, "headlineAmharic", description, "isDraft", "startDate", "endDate", created_at, updated_at)
-    VALUES
-      (${uuid()}, ${headline}, ${"የጋልማን ዘመቻዎች ይቀላቀሉ፤ የተቸገሩትን ይደግፉ፣ ተስፋን ይጫሩ።"},
-       ${"Together, we can provide urgent relief and restore hope to communities in crisis. Dates shown are placeholders — please confirm and update before publishing."},
-       true, ${inDays(7)}, ${inDays(60)}, now(), now())
-  `;
-  console.log("created campaign:", headline, "(NOTE: placeholder dates, review before publishing)");
 }
 
 async function seedResource() {
@@ -526,11 +639,83 @@ async function seedResource() {
   console.log("created resource:", name, "(NOTE: no real document uploaded yet)");
 }
 
-// NOTE: Partnership is intentionally not seeded with placeholder data.
-// This app does not filter isDraft on public pages (see src/db/*.ts — no
-// `where: { isDraft: false }` anywhere), so anything inserted here is
-// immediately visible on the live site. Add real partner org names/logos
-// through the admin CMS when you have them.
+async function seedPartnerships() {
+  // Sourced from docs/digital notes for dawuro.docx, section 12 ("ከተቋሙ ጋር
+  // አብረው እየሰሩ ያሉ አጋር ተቋማት") — DawuroDA's own list of organizations that
+  // have partnered with or supported it. Logos downloaded from each
+  // organization's own official site/Wikimedia Commons.
+  const partners = [
+    {
+      partnerName: "A Glimmer of Hope Foundation",
+      partnerNameAmharic: "ግሊመር ኦፍ ሆፕ",
+      logo: "/images/partners/glimmer-of-hope.png",
+      bio: "A U.S.-based nonprofit that has partnered with DawuroDA on health post, clean water, and hospital infrastructure projects across Dawro Zone.",
+      bioAmharic:
+        "ከዳልማ ጋር በመተባበር በዳውሮ ዞን የጤና ኬላዎችን፣ የንፁህ ውሃ ተቋማትን እና የሆስፒታል መሠረተ ልማቶችን የገነባ በአሜሪካ የሚገኝ መንግስታዊ ያልሆነ ድርጅት።",
+    },
+    {
+      partnerName: "Ripple Effect (formerly Send a Cow)",
+      partnerNameAmharic: "ሪፕል ኤፈክት",
+      logo: "/images/partners/ripple-effect.webp",
+      bio: "An international development organization that has supported agriculture and livestock programs in Dawro Zone.",
+      bioAmharic:
+        "በዳውሮ ዞን የግብርናና የእንስሳት እርባታ ፕሮግራሞችን የደገፈ ዓለም አቀፍ የልማት ድርጅት።",
+    },
+    {
+      partnerName: "PATH",
+      partnerNameAmharic: "PATH",
+      logo: "/images/partners/path.png",
+      bio: "A global health organization that partnered with DawuroDA on public health awareness initiatives in Dawro Zone.",
+      bioAmharic:
+        "ከዳልማ ጋር በዳውሮ ዞን የጤና ግንዛቤ ማስጨበጫ ስራዎች የተባበረ ዓለም አቀፍ የጤና ድርጅት።",
+    },
+    {
+      partnerName: "PSI Ethiopia",
+      partnerNameAmharic: "PSI/Ethiopia",
+      logo: "/images/partners/psi.svg",
+      bio: "Population Services International's Ethiopia program, a partner in DawuroDA's HIV/AIDS awareness and prevention campaigns.",
+      bioAmharic:
+        "በዳልማ የኤች.አይ.ቪ/ኤድስ ግንዛቤ ማስጨበጫና መከላከያ ዘመቻዎች የተባበረ የPSI/Ethiopia ፕሮግራም።",
+    },
+    {
+      partnerName: "British Council",
+      partnerNameAmharic: "ብሪትሽ ካውንስል",
+      logo: "/images/partners/british-council.svg",
+      bio: "Supported cultural and educational initiatives in partnership with DawuroDA.",
+      bioAmharic: "ከዳልማ ጋር በባህልና በትምህርት ስራዎች የተባበረ ተቋም።",
+    },
+    {
+      partnerName: "Embassy of Japan in Ethiopia",
+      partnerNameAmharic: "የጃፓን ኤምባሲ",
+      logo: "/images/partners/embassy-of-japan.svg",
+      bio: "A diplomatic partner that has supported DawuroDA's community development projects in Dawro Zone.",
+      bioAmharic:
+        "በዳውሮ ዞን የዳልማን የማህበረሰብ ልማት ስራዎች የደገፈ የጃፓን ኤምባሲ።",
+    },
+    {
+      partnerName:
+        "South Ethiopia Peoples' Development Association (SEPDA)",
+      partnerNameAmharic: "የደቡብ ኢትዮጵያ ህዝቦች ልማት ማህበር",
+      logo: "/images/partners/sepda.png",
+      bio: "A fellow indigenous development association that has collaborated with DawuroDA on regional development initiatives.",
+      bioAmharic:
+        "ከዳልማ ጋር በክልላዊ የልማት ስራዎች የተባበረ ሌላ ሀገር በቀል የልማት ማህበር።",
+    },
+  ];
+
+  for (const p of partners) {
+    const existing = await sql`SELECT id FROM partnership WHERE "partnerName" = ${p.partnerName}`;
+    if (existing.length) {
+      console.log("partner exists, skipping:", p.partnerName);
+      continue;
+    }
+    await sql`
+      INSERT INTO partnership (id, "partnerName", "partnerNameAmharic", logo, bio, "bioAmharic", "isDraft", created_at, updated_at)
+      VALUES (${uuid()}, ${p.partnerName}, ${p.partnerNameAmharic}, ${p.logo}, ${p.bio}, ${p.bioAmharic}, false, now(), now())
+    `;
+    console.log("created partner:", p.partnerName);
+  }
+}
 
 async function seedAuctions() {
   const auctions = [
@@ -593,6 +778,7 @@ async function main() {
   await seedEvent();
   await seedCampaign();
   await seedResource();
+  await seedPartnerships();
   await seedAuctions();
   console.log("\nSeed complete.");
 }

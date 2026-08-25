@@ -16,7 +16,7 @@ const BoardMemberProfile = ({
   const { i18n } = useTranslation();
   const isAmharic = Boolean(i18n.language === "am");
   return (
-    <Drawer anchor="right" open={open} onClose={handleClose}>
+    <Drawer anchor="right" open={open} onClose={handleClose} PaperProps={{ className: "outline-none" }}>
       <div className="font-light max-w-[700px] pt-2 ">
         <div className="w-full flex flex-row items-center justify-between">
           <span></span>

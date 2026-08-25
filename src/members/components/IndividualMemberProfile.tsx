@@ -443,7 +443,7 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-titleColor text-sm font-bold">
-                    GaDA branch
+                    DaDA branch
                   </span>
                   <TextField
                     size="small"

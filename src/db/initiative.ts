@@ -97,12 +97,15 @@ export async function fetchInitiatives({
   page,
   pageSize,
   searchText,
+  includeDrafts,
 }: {
   page: number;
   pageSize: number;
   searchText?: string;
+  includeDrafts?: boolean;
 }): Promise<{ initiatives: Initiative[] | undefined; total: number }> {
   const whereClause: Prisma.InitiativeWhereInput = {
+    ...(!includeDrafts && { isDraft: false }),
     ...(searchText && {
       OR: [
         {

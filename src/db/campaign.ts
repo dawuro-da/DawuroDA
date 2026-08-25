@@ -13,6 +13,11 @@ export async function createCampaign({
   headline,
   headlineAmharic,
   description,
+  image,
+  youtubeLink,
+  goalAmount,
+  raisedAmount,
+  isFeatured,
   isDraft,
   startDate,
   endDate,
@@ -20,6 +25,11 @@ export async function createCampaign({
   headline: string;
   headlineAmharic: string;
   description: string;
+  image?: string;
+  youtubeLink?: string;
+  goalAmount?: number;
+  raisedAmount?: number;
+  isFeatured?: boolean;
   isDraft: boolean;
   startDate: string;
   endDate: string;
@@ -30,6 +40,11 @@ export async function createCampaign({
         headline,
         headlineAmharic,
         description,
+        image,
+        youtubeLink,
+        goalAmount,
+        raisedAmount,
+        isFeatured,
         isDraft,
         startDate,
         endDate,
@@ -50,6 +65,11 @@ export async function updateCampaign({
   headline,
   headlineAmharic,
   description,
+  image,
+  youtubeLink,
+  goalAmount,
+  raisedAmount,
+  isFeatured,
   isDraft,
   startDate,
   endDate,
@@ -59,6 +79,11 @@ export async function updateCampaign({
   headline: string;
   headlineAmharic: string;
   description: string;
+  image?: string;
+  youtubeLink?: string;
+  goalAmount?: number;
+  raisedAmount?: number;
+  isFeatured?: boolean;
   isDraft: boolean;
   startDate: string;
   endDate: string;
@@ -71,6 +96,11 @@ export async function updateCampaign({
         headlineAmharic,
         isDraft,
         description,
+        image,
+        youtubeLink,
+        goalAmount,
+        raisedAmount,
+        isFeatured,
         startDate: new Date(startDate).toISOString(),
         endDate: new Date(endDate).toISOString(),
       },
@@ -89,12 +119,15 @@ export async function fetchCampaigns({
   page,
   pageSize,
   searchText,
+  includeDrafts,
 }: {
   page: number;
   pageSize: number;
   searchText?: string;
+  includeDrafts?: boolean;
 }): Promise<{ campaigns: Campaign[] | undefined; total: number }> {
   const whereClause: Prisma.CampaignWhereInput = {
+    ...(!includeDrafts && { isDraft: false }),
     ...(searchText && {
       OR: [
         {
@@ -133,6 +166,21 @@ export async function fetchCampaigns({
   });
 
   return { campaigns, total };
+}
+
+export async function fetchFeaturedCampaign(): Promise<Campaign | null> {
+  const featured = await prisma.campaign.findFirst({
+    where: { isDraft: false, isFeatured: true },
+    orderBy: { created_at: "desc" },
+  });
+  if (featured) return featured;
+
+  // No campaign is explicitly marked featured — fall back to the one with
+  // the highest fundraising goal.
+  return await prisma.campaign.findFirst({
+    where: { isDraft: false },
+    orderBy: [{ goalAmount: "desc" }, { created_at: "desc" }],
+  });
 }
 
 export async function deleteCampaign({

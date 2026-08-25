@@ -1,6 +1,6 @@
 import { getFormattedDate } from "@/util/date";
 import { Skeleton } from "@mui/material";
-import { CalendarMonth, ArrowForward } from "@mui/icons-material";
+import { CalendarMonth } from "@mui/icons-material";
 import { News } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
@@ -15,7 +15,7 @@ const NewsGrid = () => {
   const router = useRouter();
   const [news, setNews] = useState<News[]>();
   const [loading, setLoading] = useState(false);
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const isAmharic = Boolean(i18n.language === "am");
 
   const fetchNews = async () => {
@@ -41,11 +41,12 @@ const NewsGrid = () => {
 
   if (loading) {
     return (
-      <div className="w-full xl:lg:px-40 md:px-20 px-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Skeleton className="md:col-span-2 min-h-[360px]" />
+      <div className="w-full xl:lg:px-40 md:px-20 px-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Skeleton className="min-h-[500px] rounded-2xl" />
         <div className="flex flex-col gap-6">
-          <Skeleton className="min-h-[170px]" />
-          <Skeleton className="min-h-[170px]" />
+          <Skeleton className="min-h-[230px] rounded-2xl" />
+          <Skeleton className="min-h-[112px] rounded-2xl" />
+          <Skeleton className="min-h-[112px] rounded-2xl" />
         </div>
       </div>
     );
@@ -53,43 +54,66 @@ const NewsGrid = () => {
 
   if (!news?.length) return null;
 
-  const [featured, ...rest] = news;
+  const featured = news[0];
+  const secondaryFeatured = news[4];
+  const listItems = news.slice(1, 3);
+
+  const OverlayCard = ({
+    item,
+    minHeightClass,
+    titleClass,
+  }: {
+    item: News;
+    minHeightClass: string;
+    titleClass: string;
+  }) => (
+    <div
+      onClick={() => router.push(`/news/${item.id}`)}
+      className={`group relative rounded-2xl overflow-hidden cursor-pointer ${minHeightClass}`}
+    >
+      <Image
+        src={item.profileImage?.[0] ?? "/images/news1.svg"}
+        alt=""
+        fill
+        className="object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+      <div className="absolute bottom-0 left-0 right-0 text-white pt-16 pb-6 px-6 bg-gradient-to-t from-black to-transparent">
+        <h2
+          className={`group-hover:underline font-bold leading-snug mb-2 ${titleClass}`}
+        >
+          {truncate(isAmharic ? item.headlineAmharic : item.headline, 90)}
+        </h2>
+        <span className="flex items-center gap-1.5 font-light text-sm">
+          <CalendarMonth fontSize="small" />
+          {getFormattedDate(item.updated_at)}
+        </span>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="w-full xl:lg:px-40 md:px-20 px-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div
-        onClick={() => router.push(`/news/${featured.id}`)}
-        className="group relative md:col-span-2 min-h-[360px] rounded-2xl overflow-hidden cursor-pointer"
-      >
-        <Image
-          src={featured.profileImage?.[0] ?? "/images/news1.svg"}
-          alt=""
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-          <span className="inline-flex items-center gap-1.5 bg-primaryColor text-xs font-semibold px-3 py-1 rounded-full mb-3">
-            <CalendarMonth fontSize="inherit" />
-            {getFormattedDate(featured.updated_at)}
-          </span>
-          <h2 className="group-hover:underline text-xl md:text-2xl font-bold leading-snug">
-            {truncate(
-              isAmharic ? featured.headlineAmharic : featured.headline,
-              90
-            )}
-          </h2>
-        </div>
-      </div>
+    <div className="w-full xl:lg:px-40 md:px-20 px-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <OverlayCard
+        item={featured}
+        minHeightClass="min-h-[500px]"
+        titleClass="text-xl md:text-2xl"
+      />
 
-      <div className="flex flex-col gap-6">
-        {rest.slice(0, 2).map((item) => (
+      <div className="grid grid-cols-1 gap-6">
+        {secondaryFeatured && (
+          <OverlayCard
+            item={secondaryFeatured}
+            minHeightClass="min-h-[230px]"
+            titleClass="text-xl md:text-2xl"
+          />
+        )}
+        {listItems.map((item) => (
           <div
             key={item.id}
             onClick={() => router.push(`/news/${item.id}`)}
-            className="group flex flex-row gap-4 bg-white rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.06)] p-3 cursor-pointer hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] transition-shadow"
+            className="group flex flex-row gap-4 cursor-pointer"
           >
-            <div className="relative w-24 h-24 shrink-0 rounded-xl overflow-hidden">
+            <div className="relative w-28 h-28 shrink-0 rounded-xl overflow-hidden">
               <Image
                 src={item.profileImage?.[0] ?? "/images/news2.svg"}
                 alt=""
@@ -98,53 +122,17 @@ const NewsGrid = () => {
               />
             </div>
             <div className="flex flex-col justify-center py-1">
-              <span className="flex items-center gap-1.5 text-titleColor text-xs mb-1.5">
+              <h3 className="group-hover:text-primaryColor text-base font-bold leading-snug mb-2">
+                {truncate(isAmharic ? item.headlineAmharic : item.headline, 70)}
+              </h3>
+              <span className="flex items-center gap-1.5 text-titleColor text-xs">
                 <CalendarMonth fontSize="inherit" />
                 {getFormattedDate(item.updated_at)}
               </span>
-              <h3 className="group-hover:text-primaryColor text-sm font-bold leading-snug">
-                {truncate(isAmharic ? item.headlineAmharic : item.headline, 70)}
-              </h3>
             </div>
           </div>
         ))}
-        <button
-          onClick={() => router.push("/news")}
-          className="group flex items-center justify-center gap-2 text-primaryColor font-semibold text-sm py-3 rounded-2xl border-2 border-dashed border-primaryColor/40 hover:border-primaryColor hover:bg-primaryColor/5 transition-colors"
-        >
-          {t("home.news")}
-          <ArrowForward
-            fontSize="small"
-            className="transition-transform group-hover:translate-x-1"
-          />
-        </button>
       </div>
-
-      {rest.slice(2, 4).map((item) => (
-        <div
-          key={item.id}
-          onClick={() => router.push(`/news/${item.id}`)}
-          className="group bg-white rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.06)] overflow-hidden cursor-pointer hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] transition-shadow"
-        >
-          <div className="relative w-full h-44">
-            <Image
-              src={item.profileImage?.[0] ?? "/images/news4.svg"}
-              alt=""
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-          </div>
-          <div className="p-5">
-            <span className="flex items-center gap-1.5 text-titleColor text-xs mb-2">
-              <CalendarMonth fontSize="inherit" />
-              {getFormattedDate(item.updated_at)}
-            </span>
-            <h3 className="group-hover:text-primaryColor text-base font-bold leading-snug">
-              {truncate(isAmharic ? item.headlineAmharic : item.headline, 70)}
-            </h3>
-          </div>
-        </div>
-      ))}
     </div>
   );
 };

@@ -77,12 +77,15 @@ export async function fetchPartnerships({
   page,
   pageSize,
   searchText,
+  includeDrafts,
 }: {
   page: number;
   pageSize: number;
   searchText?: string;
+  includeDrafts?: boolean;
 }): Promise<{ partnerships: Partnership[] | undefined; total: number }> {
   const whereClause: Prisma.PartnershipWhereInput = {
+    ...(!includeDrafts && { isDraft: false }),
     ...(searchText && {
       OR: [
         {

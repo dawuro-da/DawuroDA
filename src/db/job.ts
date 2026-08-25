@@ -95,12 +95,15 @@ export async function fetchJobs({
   page,
   pageSize,
   searchText,
+  includeDrafts,
 }: {
   page: number;
   pageSize: number;
   searchText?: string;
+  includeDrafts?: boolean;
 }): Promise<{ jobs: Job[] | undefined; total: number }> {
   const whereClause: Prisma.JobWhereInput = {
+    ...(!includeDrafts && { isDraft: false }),
     ...(searchText && {
       OR: [
         {
@@ -158,6 +161,7 @@ export async function fetchActiveJobs({
 }): Promise<{ jobs: Job[] | undefined; total: number }> {
   const now = new Date();
   const whereClause: Prisma.JobWhereInput = {
+    isDraft: false,
     deadlineDate: {
       gte: now.toISOString(),
     },

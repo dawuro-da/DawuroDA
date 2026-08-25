@@ -1,9 +1,12 @@
+"use client";
 import { useEffect, useState } from "react";
 import CountdownTimer from "./CountdownTimer";
 import { Event } from "@prisma/client";
 import axios from "axios";
 import { Skeleton } from "@mui/material";
-import { getFormattedDate, getFormattedMonthAndDay } from "@/util/date";
+import { CalendarMonth } from "@mui/icons-material";
+import { getFormattedDate } from "@/util/date";
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
 const WhatsHappening = () => {
@@ -11,7 +14,6 @@ const WhatsHappening = () => {
   const isAmharic = Boolean(i18n.language === "am");
   const [events, setEvents] = useState<Event[]>();
   const [loading, setLoading] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const fetchEvents = async () => {
     setLoading(true);
@@ -36,75 +38,65 @@ const WhatsHappening = () => {
   }, []);
 
   return (
-    <div className="md:py-18 py-8 ">
-      <h2 className="font-bold md:w-full w-4/5 mx-auto lg:text-4xl md:text-2xl text-xl mb-6 text-center">
-        {t("home.event_heading")}
-      </h2>
-      <p className="md:mb-20 mb-10 font-light lg:w-[23%] mx-auto text-center">
-        {t("home.event_subheading")}
-      </p>
-      {loading ? (
-        <Skeleton className="min-h-[300px]" />
-      ) : events?.length === 0 ? (
-        <div className="text-center min-w-full text-3xl text-titleColor">
-          No upcoming events
-        </div>
-      ) : (
-        events?.map((event, index) => {
-          const isActive = Boolean(selectedIndex === index);
-          return (
-            <div key={index} className="flex flex-col mb-12">
-              <div className="w-4/5 space-y-10 mx-auto grid md:grid-cols-4 bg-gradient-to-b from-blue-100 to-white px-14 xl:lg:px-14 md:px-0 py-20 border border-[#13A6D9]">
-                <div className="text-[#000000] md:text-left text-center lg:max-w-full max-w-[80%] mx-auto items-center flex justify-center">
-                  <h2 className="text-sm font-normal md:max-w-[50%]">
+    <div className="bg-white py-16">
+      <div className="text-center mb-12 xl:lg:px-40 md:px-20 px-10">
+        <span className="block text-primaryColor font-semibold text-sm uppercase tracking-wide mb-2">
+          {t("home.events_label")}
+        </span>
+        <h2 className="text-[#1E1E1E] font-bold lg:text-4xl text-lg mb-3">
+          {t("home.event_heading")}
+        </h2>
+        <span className="block w-16 h-1 bg-primaryColor mx-auto mb-4" />
+        <p className="text-titleColor font-light max-w-xl mx-auto">
+          {t("home.event_subheading")}
+        </p>
+      </div>
+      <div className="xl:lg:px-40 md:px-20 px-10 flex flex-col gap-6">
+        {loading ? (
+          [1, 2].map((item) => (
+            <Skeleton
+              key={item}
+              className="w-full min-h-[260px] rounded-2xl"
+            />
+          ))
+        ) : !events?.length ? (
+          <div className="text-center text-titleColor min-h-[100px] flex items-center justify-center">
+            <span>Currently, there are no upcoming events.</span>
+          </div>
+        ) : (
+          events.map((event) => (
+              <div
+                key={event.id}
+                className="bg-[#F7F7F7] rounded-2xl overflow-hidden flex flex-col md:flex-row"
+              >
+                <div className="relative w-full md:w-[38%] h-[220px] md:h-auto shrink-0 overflow-hidden">
+                  <Image
+                    src={event.profileImage || "/images/tourism.svg"}
+                    alt=""
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-6 md:p-8 flex flex-col justify-center flex-1">
+                  <h3 className="font-bold text-lg md:text-xl mb-3">
                     {isAmharic ? event.headlineAmharic : event.headline}
-                  </h2>
-                </div>
-                <div className="text-center flex flex-col items-center justify-center">
-                  <p className="md:text-5xl text-xl font-bold mb-2">
-                    {getFormattedMonthAndDay(event.startDate)}
-                    {`-`}
-                  </p>
-                  <p className="text-lg font-light">
-                    {getFormattedDate(event.endDate)}
-                    {``}
-                  </p>
-                </div>
-                {/* <div className="text-center md:max-w-[70%]">
-                <p className="text-xl font-bold mb-2">
-                  Arbamich, Paradise Hotel
-                </p>
-                <p className="text-lg font-light">Venue</p>
-              </div> */}
-                <div className="text-center md:col-span-2 w-full flex flex-col items-end justify-center">
-                  <p className="text-sm mb-2">
-                    {isActive
-                      ? isAmharic
-                        ? event.bodyAmharic
-                        : event.body
-                      : isAmharic
-                      ? event.body.slice(0, 300)
-                      : event.body.slice(0, 300)}
-                  </p>
-                  <span
-                    onClick={() => {
-                      if (isActive) {
-                        setSelectedIndex(-1);
-                      } else {
-                        setSelectedIndex(index);
-                      }
-                    }}
-                    className="w-full text-right text-titleColor capitalize hover:text-black cursor-pointer"
-                  >
-                    {isActive ? "see less" : "see more"}
+                  </h3>
+                  <span className="flex items-center gap-1.5 text-titleColor text-xs uppercase tracking-wide mb-4">
+                    <CalendarMonth
+                      className="text-primaryColor"
+                      fontSize="small"
+                    />
+                    {getFormattedDate(event.startDate)}
                   </span>
+                  <p className="text-titleColor text-sm mb-6 line-clamp-2">
+                    {isAmharic ? event.bodyAmharic : event.body}
+                  </p>
+                  <CountdownTimer date={event.startDate} />
                 </div>
               </div>
-              <CountdownTimer date={event.startDate} />
-            </div>
-          );
-        })
-      )}
+            ))
+        )}
+      </div>
     </div>
   );
 };

@@ -293,7 +293,7 @@ const IndividualForm = ({
       </div>
       <div className="flex flex-col gap-1">
         <span className="text-titleColor text-sm font-bold">
-          {`${t("members_dashboard.profile_overview.GaDA_branch")}`}
+          {`${t("members_dashboard.profile_overview.DaDA_branch")}`}
         </span>
         <TextField
           size="small"

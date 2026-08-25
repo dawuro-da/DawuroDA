@@ -102,14 +102,17 @@ export async function fetchEvents({
   pageSize,
   searchText,
   upcoming,
+  includeDrafts,
 }: {
   page: number;
   pageSize: number;
   searchText?: string;
   upcoming?: boolean;
+  includeDrafts?: boolean;
 }): Promise<{ events: Event[] | undefined; total: number }> {
   const now = new Date();
   const whereClause: Prisma.EventWhereInput = {
+    ...(!includeDrafts && { isDraft: false }),
     ...(upcoming && {
       startDate: {
         gt: now.toISOString(),

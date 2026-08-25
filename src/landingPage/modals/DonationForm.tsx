@@ -78,7 +78,7 @@ const DonationForm = ({
       onClose={handleClose}
       className="flex flex-row items-center justify-center"
     >
-      <div className="bg-white px-6 py-6 rounded-lg xl:lg:w-1/2 md:w-2/3 w-full xl:lg:h-fit md:h-fit h-full max-h-full hiddenscrollbar overflow-y-auto">
+      <div className="outline-none bg-white px-6 py-6 rounded-lg xl:lg:w-1/2 md:w-2/3 w-full xl:lg:h-fit md:h-fit h-full max-h-full hiddenscrollbar overflow-y-auto">
         <div className="flex flex-row items-center justify-between text-titleColor">
           <span className="font-bold text-2xl">Donation Form</span>
           <IconButton onClick={handleClose}>
@@ -125,7 +125,7 @@ const DonationForm = ({
             />
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-titleColor text-sm">GaDA Branch</span>
+            <span className="text-titleColor text-sm">DaDA Branch</span>
             <TextField
               size="small"
               {...register("branch")}
