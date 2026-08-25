@@ -6,7 +6,7 @@ import { createFaq } from "@/db/faq";
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id) {
-    return NextResponse.redirect("/gaadmin/login", 401)
+    return NextResponse.redirect("/daadmin/login", 401)
   }
 
   const { question, questionAmharic, answer, answerAmharic, isDraft } =

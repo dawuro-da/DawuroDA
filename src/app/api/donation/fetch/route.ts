@@ -7,7 +7,7 @@ import { fetchDonations } from "@/db/donation";
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id || session.user.role === UserRole.Member) {
-    return NextResponse.redirect("/gaadmin/login", 401)
+    return NextResponse.redirect("/daadmin/login", 401)
   }
 
   const { page, pageSize, filters, searchText } = await req.json();

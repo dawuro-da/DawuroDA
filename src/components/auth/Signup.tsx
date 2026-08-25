@@ -256,7 +256,7 @@ const SignUp = () => {
         <div className="flex flex-row items-center w-full gap-2 mt-6 pl-2">
           <span>{"have an account?"}</span>
           <span
-            onClick={() => router.push("/gaadmin/login")}
+            onClick={() => router.push("/daadmin/login")}
             className="text-green-500 cursor-pointer"
           >
             {"Login"}

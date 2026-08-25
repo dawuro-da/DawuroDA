@@ -108,7 +108,7 @@ export const OPTIONS: NextAuthOptions = {
     },
     redirect({ url, baseUrl }) {
       if (url.startsWith(`${baseUrl}/admin/`)) {
-        return `${baseUrl}/gaadmin/login`;
+        return `${baseUrl}/daadmin/login`;
       } else {
         return `${baseUrl}/login`;
       }

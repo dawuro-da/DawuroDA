@@ -6,7 +6,7 @@ import { creatSmsMessage, fetchRecentSmsMessages } from "@/db/sms";
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id) {
-    return NextResponse.redirect("/gaadmin/login", 401);
+    return NextResponse.redirect("/daadmin/login", 401);
   }
   try {
     const result = await fetchRecentSmsMessages();

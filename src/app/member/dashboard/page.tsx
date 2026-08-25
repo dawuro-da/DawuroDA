@@ -12,7 +12,7 @@ export default async function Page() {
     redirect("/login");
   }
   if (session.user.role !== UserRole.Member) {
-    redirect("/gaadmin/login");
+    redirect("/daadmin/login");
   }
   const member = await findMemberById(session?.user.id);
   const contributions = await findContributionsByContributorId({

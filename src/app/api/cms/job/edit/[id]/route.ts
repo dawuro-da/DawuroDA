@@ -8,7 +8,7 @@ import { uploadFile } from "@/util/uploadFile";
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id || session?.user.role === UserRole.Member) {
-    return NextResponse.redirect("/gaadmin/login", 401);
+    return NextResponse.redirect("/daadmin/login", 401);
   }
   const formData = await req.formData();
   const isDraft = formData.get("isDraft") as string;

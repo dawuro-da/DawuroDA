@@ -7,7 +7,7 @@ import { UserRole } from "@prisma/client";
 export async function GET(req: Request) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id || !(session?.user.role === UserRole.Owner)) {
-    return NextResponse.redirect("/gaadmin/login", 401);
+    return NextResponse.redirect("/daadmin/login", 401);
   }
 
   try {

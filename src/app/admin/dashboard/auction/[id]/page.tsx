@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 const AuctionDetailPage = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession();
   if (!session?.user || session?.user.role === UserRole.Member) {
-    redirect("/gaadmin/login");
+    redirect("/daadmin/login");
   } else if (session?.user?.role === UserRole.Admin) {
     redirect("/admin/dashboard/members");
   }

@@ -13,7 +13,7 @@ export default async function EditMembers({
 }) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user || session?.user.role === UserRole.Member) {
-    redirect("/gaadmin/login");
+    redirect("/daadmin/login");
   }
 
   const member = await findMemberById(params.id);
