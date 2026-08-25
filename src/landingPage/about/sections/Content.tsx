@@ -21,32 +21,32 @@ const Content = ({ content, setContent }: ContentProps) => {
     About: {
       title: t("about.about_heading"),
       description: t("about.about_heading_description"),
-      bgColor: "bg-[#D2232C]",
-      borderColor: "border-[#D2232C]",
+      bgColor: "bg-[#222222]",
+      borderColor: "border-[#222222]",
     },
     "CEO Message": {
       title: t("about.CEO_message_heading"),
       description: t("about.CEO_message_heading_description"),
-      bgColor: "bg-[#13A6D9]",
-      borderColor: "border-[#13A6D9]",
+      bgColor: "bg-[#F0DC35]",
+      borderColor: "border-[#F0DC35]",
     },
     "Mission, Vision, Goals": {
       title: t("about.vision_mission_values_heading"),
       description: t("about.vision_mission_values_heading_description"),
-      bgColor: "bg-[#222222]",
-      borderColor: "border-[#222222]",
+      bgColor: "bg-teal-500",
+      borderColor: "border-teal-500",
     },
     "Board Members": {
       title: t("about.board_members_heading"),
       description: t("about.board_members_heading_description"),
-      bgColor: "bg-[#F0DC35]",
-      borderColor: "border-[#F0DC35]",
+      bgColor: "bg-[#D2232C]",
+      borderColor: "border-[#D2232C]",
     },
     Management: {
       title: t("about.management_heading"),
       description: t("about.management_heading_description"),
-      bgColor: "bg-teal-500",
-      borderColor: "border-teal-500",
+      bgColor: "bg-[#13A6D9]",
+      borderColor: "border-[#13A6D9]",
     },
   };
   const { title, description, bgColor } = contentData[content];

@@ -12,6 +12,7 @@ import Managements from "./tabComponents/Managements";
 import Faq from "./tabComponents/Faq";
 import Resource from "./tabComponents/Resource";
 import Campaigns from "./tabComponents/Campaigns";
+import AboutContentCms from "./tabComponents/AboutContentCms";
 
 const menues = [
   {
@@ -68,6 +69,12 @@ const menues = [
     iconActive: "/icons/cms/campaignActive.svg",
     icon: "/icons/cms/campaign.svg",
   },
+  {
+    id: "about",
+    name: "About Page",
+    iconActive: "/icons/cms/newsActive.svg",
+    icon: "/icons/cms/news.svg",
+  },
 ];
 
 const CMS = () => {
@@ -92,6 +99,8 @@ const CMS = () => {
         return <Resource />;
       case "campaign":
         return <Campaigns />;
+      case "about":
+        return <AboutContentCms />;
       default:
         return <News />;
     }
