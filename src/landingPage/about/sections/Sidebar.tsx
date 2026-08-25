@@ -20,15 +20,15 @@ const Sidebar = ({ setContent, currentContent, borderColor }: SidebarProps) => {
   ];
 
   return (
-    <div className="md:w-1/4 w-full flex flex-row justify-center">
-      <ul className="w-full md:px-10 px-8">
+    <div className="w-full border-b border-gray-200">
+      <ul className="w-full flex flex-row flex-wrap items-center gap-2 md:gap-6 overflow-x-auto">
         {menuItems.map((item) => (
           <li
             key={item.id}
-            className={`cursor-pointer w-fit mb-4 font-[400] text-base ${
+            className={`cursor-pointer shrink-0 whitespace-nowrap font-medium text-sm md:text-base px-1 pb-4 border-b-4 transition-colors ${
               currentContent === item.id
-                ? `md:border-l-8 md:border-b-0 border-b-2 w-full md:pl-4 pl-0 ${borderColor}`
-                : ""
+                ? `${borderColor} text-[#1E1E1E]`
+                : "border-transparent text-titleColor hover:text-[#1E1E1E]"
             }`}
             onClick={() => setContent(item.id)}
           >

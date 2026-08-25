@@ -1,34 +1,93 @@
+import { Skeleton } from "@mui/material";
+import { AboutContent as AboutContentType } from "@prisma/client";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const MissionContent = () => {
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
+  const isAmharic = Boolean(i18n.language === "am");
+  const [contents, setContents] = useState<AboutContentType[]>();
+  const [loading, setLoading] = useState(false);
+
+  const fetchContents = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.post("/api/cms/about/fetch");
+      if (res.data.success) {
+        setContents(res.data.value.aboutContents);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchContents();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="font-light">
+        <Skeleton className="w-1/3 h-8 mb-4" />
+        <Skeleton className="w-full h-6 mb-2" />
+        <Skeleton className="w-3/4 h-6 mb-8" />
+        <Skeleton className="w-1/3 h-8 mb-4" />
+        <Skeleton className="w-full h-6 mb-2" />
+        <Skeleton className="w-3/4 h-6 mb-8" />
+        <Skeleton className="w-1/3 h-8 mb-4" />
+        {[1, 2, 3, 4].map((item) => (
+          <Skeleton key={item} className="w-full h-6 mb-2" />
+        ))}
+      </div>
+    );
+  }
+
+  const vision = contents?.find((item) => item.section === "VISION");
+  const mission = contents?.find((item) => item.section === "MISSION");
+  const objective = contents?.find((item) => item.section === "OBJECTIVE");
+
+  const objectiveItems =
+    (isAmharic ? objective?.itemsAmharic : objective?.items) ?? [];
+
   return (
     <div className="font-light">
-      <h1 className="text-2xl font-bold">{t("about.vision_heading")}</h1>
-      <br />
-      <p>{t("about.vision_description")}</p>
-      <br />
+      {vision && (
+        <>
+          <h1 className="text-2xl font-bold">
+            {isAmharic ? vision.titleAmharic : vision.title}
+          </h1>
+          <br />
+          <p>{isAmharic ? vision.bodyAmharic : vision.body}</p>
+          <br />
+        </>
+      )}
 
-      <h1 className="text-2xl font-bold">{t("about.mission_heading")}</h1>
-      <br />
-      <p>{t("about.mission_description")}</p>
+      {mission && (
+        <>
+          <h1 className="text-2xl font-bold">
+            {isAmharic ? mission.titleAmharic : mission.title}
+          </h1>
+          <br />
+          <p>{isAmharic ? mission.bodyAmharic : mission.body}</p>
+          <br />
+        </>
+      )}
 
-      <br />
-      <h1 className="font-bold text-2xl">{t("about.goals")}</h1>
-      <br />
-      <ul className="list-disc mx-6">
-        <li>{t("about.goal_1")}</li>
-        <li>{t("about.goal_2")}</li>
-        <li>{t("about.goal_3")}</li>
-        <li>{t("about.goal_4")}</li>
-        <li>{t("about.goal_5")}</li>
-        <li>{t("about.goal_6")}</li>
-        <li>{t("about.goal_7")}</li>
-        <li>{t("about.goal_8")}</li>
-        <li>{t("about.goal_9")}</li>
-        <li>{t("about.goal_10")}</li>
-        <li>{t("about.goal_11")}</li>
-      </ul>
+      {objective && (
+        <>
+          <h1 className="font-bold text-2xl">
+            {isAmharic ? objective.titleAmharic : objective.title}
+          </h1>
+          <br />
+          <ul className="list-disc mx-6">
+            {objectiveItems.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 };

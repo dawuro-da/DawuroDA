@@ -396,6 +396,26 @@ model Faq {
   @@map(name: "faq")
 }
 
+model AboutContent {
+  id              String   @id @default(uuid())
+  section         String   @unique
+  title           String   @default("")
+  titleAmharic    String   @default("")
+  subtitle        String   @default("")
+  subtitleAmharic String   @default("")
+  body            String   @default("")
+  bodyAmharic     String   @default("")
+  items           String[] @default([])
+  itemsAmharic    String[] @default([])
+  image           String?
+  isDraft         Boolean  @default(false)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "about_content")
+}
+
 model Auction {
   id           String   @id @default(uuid())
   title        String

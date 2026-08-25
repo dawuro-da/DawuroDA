@@ -767,6 +767,108 @@ async function seedAuctions() {
   }
 }
 
+async function seedAboutContent() {
+  const sections = [
+    {
+      section: "OUR_STORY",
+      title: "Our Story",
+      titleAmharic: "የእኛ ታሪክ",
+      subtitle: "",
+      subtitleAmharic: "",
+      body: "Dawuro Development Association (DawuroDA) is an indigenous, not for profit, non-religious and development oriented non-governmental organization founded by the people of Dawro in 1993 E.C. (Ethiopian calendar). Before that date it had operated jointly with the Dacolma and later Wogagoda-DA associations; in Tir (January) 1993 E.C. it was reorganized afresh and obtained its certificate of legal personality from the then SNNPR Justice Bureau. As an association, it is governed under Ethiopia's Civil Code (articles 404–482), was renewed for an indefinite term starting 1996 E.C., and was registered with the Federal Ministry of Justice starting 1998 E.C., where it also signed a program agreement with the Disaster Prevention and Preparedness Agency. The association serves Dawro Zone, part of the South West Ethiopia Peoples' Regional State, with its zonal capital at Tarcha. The general assembly is the supreme body, with overall responsibility for the association's decision-making. The Board of Directors is next in authority, playing a crucial role in setting policy and determining the organization's developmental direction, while day-to-day operations are carried out by the association's administrative and program staff. DawuroDA envisions a prosperous society built on holistic and sustainable development, rooted in the Dawro culture of peace and coexistence. By building institutional capacity and mobilizing natural and human resources, DawuroDA's mission is to bring sustainable development to Dawro Zone that satisfies real community needs through close collaboration with the local community and stakeholders.",
+      bodyAmharic:
+        "ዳልማ በዳውሮ ሕዝብ ፍላጎት መነሻ ተገቢውን መስፈርት ሞልቶ ህጋዊ ፍቃድ ያገኘ መንግሥታዊ ያልሆነ የግል ድርጅት ነው። ዳልማ የተቋቆመው በ1993 ዓ.ም ሲሆን ከዚያ በፊት ከዳኮልማ ከዚያም ከወጋጎዳልማ ጋር በደባልነት ሲሠራ ቆይቶ በ1993 ዓ.ም ጥር ወር በአዲስ መልክ ተደራጅቶ ከደ/ብ/ብ/ህ ክልል መንግስት ፍትህ ቢሮ የህጋዊ ሰዉነት ማረጋገጫ ምስክር ወረቀት አግኝቷል። ማህበሩ በ1952 ዓ.ም በወጣው የኢትዮጵያ የፍትሐብሔር ህግ ከቁጥር 404 እስከ 482 መሠረት የሚመራና የሚተዳደር ሲሆን ከ1996 ዓ.ም ጀምሮ ተሻሽሎ ላልተወሰነ ጊዜ ተቋቁሟል፣ ቀጥሎም ከ1998 ዓ.ም ጀምሮ በፌደራል ፍትህ ሚኒስቴር ተመዝግቦ ከአደጋ መከላከልና ዝግጅነት ኤጀንሲ ጋር የድርጊት መርሃ ግብር ስምምነት ተፈራርሟል። ማህበሩ የደቡብ ምዕራብ ኢትዮጵያ ሕዝቦች ክልላዊ መንግሥት አካል የሆነውን የዳውሮ ዞን የሚያገለግል ሲሆን የዞኑ ዋና ከተማ ታርጫ ናት። አጠቃላይ ጉባዔው የማህበሩ የበላይ ውሳኔ ሰጪ አካል ሲሆን፣ ከጉባዔው ቀጥሎ የዳይሬክተሮች ቦርድ በፖሊሲ ጉዳዮችና በልማት አቅጣጫዎች ላይ ወሳኝ ሚና ይጫወታል፣ የዕለት ተዕለት ሥራው በጽህፈት ቤቱ አስተዳደር ሰራተኞች ይከወናል። ዳልማ በሰላምና ተቻችሎ በአብሮነት የመኖር የዳውሮ ባህል እሴት ላይ የተመሠረተ ሁሉን አቀፍ/ሁለንተናዊ እና ዘላቂነት ያለውን ልማት በመገንባት የበለፀገ ማህበረሰብ የመፍጠር ራዕይን ሰንቆ፣ የተቋሙን አቅም በመገንባት እና ሀብትን በማሰባሰብ የማህበረሰቡን የልማት ፍላጎት ከማህበረሰቡና ከባለድርሻ አካላት ጋር በቅርበት በመስራት ለማርካት ይተጋል።",
+      image: "/images/arbaminch.jpg",
+    },
+    {
+      section: "CEO_MESSAGE",
+      title: "Engineer Werku Wedaje, CEO, Dawuro Development Association",
+      titleAmharic: "ኢንጂነር ወርቁ ወዳጄ፣ የዳውሮ ልማት ማህበር ዋና ስራ አስፈጻሚ",
+      subtitle: "",
+      subtitleAmharic: "ግንቦት 12፣ 2012",
+      body: "Dear sons and daughters of Dawro, dear friends, dear members and supporters of the Dawuro Development Association, and our compatriots both at home and abroad — warm greetings to you all. As is well known, Dawro Zone is one of the six zones of the South West Ethiopia Peoples' Regional State. Tarcha town, the zone's capital, is located 496 km from Addis Ababa, 111 km from Wolaita, and 319 km from Hawassa. Dawro Zone is home to the Chebera Churchura National Park and its rare wildlife, the ancient Halala stone-walled fortress, the Omo man-made lake, and the Gibe III and IV hydropower dams — a fertile, well-watered, temperate area that is attractive for both living and investment. In order to modernize the distribution of membership ID cards and the collection of contributions, and to offer members a convenient and fast service, we have had this platform built. We invite you to become a member through it, and we invite capable partner organizations to work with the association on investment initiatives. Since its establishment in 1993 E.C., the association has, in partnership with various organizations, achieved significant progress in education, health, water, and environmental protection, and we believe your membership, support, and collaboration will help it take one more step forward. As an indigenous, home-grown organization, DawuroDA plans to carry out extensive work in agriculture, education, health, environmental protection, and other sectors going forward, which makes the participation, support, and feedback of our members deeply important. Those who united have made history; those who toiled together have grown; those who worked as one have prospered; those who journeyed together have crossed over. Through coordination, cooperation, mutual support, and working together, let us secure the advancement of the Dawuro Development Association. Thank you.",
+      bodyAmharic:
+        "የተከበራችሁ የዳውሮ ብሔር ተወላጆችና ወዳጆች፣የተከበራችሁ የዳውሮ ልማት ማህበር አባላትና ደጋፊዎች ክቡራን በሀገር ውስጥም ሆነ ውጭ የሚትገኙ ወገኖቻችን የከበረ ሠላምታዬ ይድረሳችሁ። እንደሚታወቀው ዳውሮ ዞን በደቡብ ምዕራብ ኢትዮጵያ ሕዝቦች ክልላዊ መንግሥት ከሚገኙ ከስድስቱ ዞኖች መካከል አንዱ ዞን ሲሆን የዞኑ እና የደቡብ ምዕራብ ኢትዮጵያ ህዝቦች ክልላዊ መንግሥት ማህበራዊ ክላስተር መቀመጫ የሆነችዉ ታርጫ ከተማ ከአዲስ አበባ በ496 ኪ.ሜ ርቀት ከወላይታ 111 ከ.ሜ እና ከሐዋሳ በ319 ከ.ሜ ትገኛለች፡፡ ዳዉሮ ዞን ጨበራ ጩርጩራ ብሔራዊ ፓርክ የሚገኝበት፣ ብርቅዬ የዱር አራዊቶች የሚኖሩበት፣ ዕድሜ ጠገብና ድንቅ ታሪካዊ ዳራ ያለው የሀላላ ድንጋይ ካብ ያለበት፣በኦሞ ሰው ሰራሽ ሀይቅ የተዋበ፣የግቤ ሦስትና አራት ሃይል ማመንጫ ግድብ የሚያዋስንበት፣ በተፈጥሮ ፀጋ የታደለ ለም መሬት፣ ሰፊ ውሃ፣ ተመጋጋቢና ምቹ አየር ያለበት ለኑሮም ሆነ ለእንቨስትሜንት ሳቢና ማራኪ አካባቢ ነው። ክቡራንና ክቡራት የዳውሮ ተወላጆችና ወዳጆች የአባልነት መታወቂያ ስርጭትና ገቢ አሰባሰብ ሥራን ዘመናዊ መንገድ ተከትለን ለአባላት ምቹና ቀልጣፋ ፈጣን አገልግሎት ለመስጠት ይህንን ሶፕትዌር ትግበራ ሥራ ያሰራን በመሆኑ መተግበሪያውን በመጠቀም አባል እንዲትሆኑ እንዲሁም አቅም ያላችሁ አጋር ድረጅቶች ከልማት ማህበሩ ጋር የኢንቨስትሜንት ሥራ በቅንጅት እንዲትሰሩ ጥሪ እናቀርባለን፡፡ ልማት ማህበሩ በ1993 ዓ.ም ከተቋቆመበት ጊዜ ጀምሮ ከተለያዩ አጋር ድርጅቶች ጋር በመቀናጀት በትምህርት፣በጤና፣በውሃና በአካባቢ ጥበቃ ዘርፍ የላቀ እምርታ ያስመዘገበ ልማት ማህበር ሲሆን የእርስዎ አባልነት፣ደጋፊነትና አብሮ መስራት ልማት ማህበሩ ተጨማሪ አንድ እርምጃ ወደ ፊት ከፍ እንዲል ያግዛል ብለን እናምናለን። ሀገበር በቀል ድርጅት የሆነዉ ዳዉሮ ልማት ማህበር ከዚህ ቀጥሎም በእርሻ፣ በትምህርት፣ በጤና፣ በአከባቢ ጥበቃና በሌሎች ዘርፎች ሰፊ ሥራ ለመሥራት ያቀደ በመሆኑ የአባላት ተሳትፎ ድጋፍና አስተያየት በእጅጉ አስፈላጊ ነዉ፡፡ ጊዜን በአግባቡ በመጠቀም የመፈፀምና የማስፈፀም አቅማችንን በማሻሻል በቴክኖሎጂ የታገዘ ሥራ በማሳለጥ ለተገልጋዮች ቀልጣፋ አገልግሎት ከመስጠትም ባሻገር የልማት ማህበሩ ቅቡልነትና አፈፃፀም ወሰን በማስፋት የማህበርሰቦቻችን ልማት ፍላጎትን ለማረጋገጥ ተግተን እንሰራለን ውጤትም እናመጣለን፡፡ የተባበሩት ታርክ ሰርተዋል፣ አብረዉ የተጉት አድገዋል፣ በአንድነት የሰሩት በልጽገዋል፣በህብረት የተጓዙት ተሻግረዋልና በመቀናጀት፣በመተባበር፣በመተጋገዝና በጋራ በመስራት የዳውሮ ልማት ማህበር እምርታን እናረጋግጥ እላለሁ አመሰግናለሁ።",
+      image: "/images/ceo-werku-wedaje.jpg",
+    },
+    {
+      section: "MISSION",
+      title: "Mission",
+      titleAmharic: "ተልዕኮ",
+      subtitle: "",
+      subtitleAmharic: "",
+      body: "In addition to the government's development efforts, DawuroDA works to mobilize and coordinate the labor, knowledge, financial and material resources of the zone's people and other supporting forces, converting them into development — playing its part in the zone's social, economic and infrastructural progress — in order to sustainably transform the community's standard of living.",
+      bodyAmharic:
+        "ዳልማ ከመንግሥት የልማት ጥረት በተጨማሪ የዞኑን ህዝብና ሌሎች ደጋፊ ሃይላት ጉልበት፣ ዕዉቀት፣ ገንዘብና ማቴሪያል ሀብቶችን አቀናጅቶ በማስተባበር ወደ ልማት በመለወጥ በዞኑ ማህበራዊ፣ ኢኮኖሚዊና መሰረተ-ልማት የበኩሉን ድርሻ በማድረግ የህብረተሰቡን የኑሮ ደረጃ በዘላቂነት ለመቀየር መሥራት፡፡",
+      image: null,
+    },
+    {
+      section: "VISION",
+      title: "Vision",
+      titleAmharic: "ራዕይ",
+      subtitle: "",
+      subtitleAmharic: "",
+      body: "To see the Dawro people fully freed from their current social, economic, and infrastructural challenges, living in favorable, well-developed conditions.",
+      bodyAmharic:
+        "የዳዉሮ ህዝብ አሁን ካለበት ማህበራዊ፣ ኢኮኖሚያዊና ከመሠረተ-ልማት ችግሮች ሙሉ በሙሉ ተላቆ የተመቻቸ ኑሮ ተፈጥሮ ማየት ነዉ፡፡",
+      image: null,
+    },
+    {
+      section: "OBJECTIVE",
+      title: "Objectives",
+      titleAmharic: "ዋና ዓላማዎች",
+      subtitle: "",
+      subtitleAmharic: "",
+      body: "",
+      bodyAmharic: "",
+      items: [
+        "Improving the livelihood of the community in a sustainable manner by promoting integrated agricultural and industrial development;",
+        "Improving access and quality of education",
+        "Improving access and quality of health and clean water services",
+        "Ensuring the development of forestry and environmental protection in all zonal districts of Dawro.",
+        "Increasing the economic benefit of the community by improving, modernizing and expanding tourism destinations",
+        "Ensuring sports development by increasing community participation and sense of ownership",
+        "Studying, organizing, protecting and enriching the culture and language of the ethnic groups in the zone so as to introduce to the world",
+        "Enhancing institutional capacity by increasing, expanding and coordinating the association's revenue streams",
+        "Ensuring social justice and peace by promoting democratic thinking based on the culture of peace and tolerance in the society of the zone",
+        "Reducing exposure to disaster by identifying risk areas, providing appropriate timely response and rehabilitation when disaster occurs",
+        "To promote the modernization of institutional partnership and coordination system supported by research and study",
+      ],
+      itemsAmharic: [
+        "የተቀናጀ የግብርናና ኢንዳስትሪ ልማት በማስፋፋት በዘላቂነት የማህበረሰቡን ኑሮ ማሻሻል፤",
+        "የትምህርት ተደራሽነትና ጥራት ማሻሻል፣",
+        "የጤናና የንፁህ መጠጥ ውሃ አገልግሎት ተደራሽነትና ጥራት ማሻሻል፣",
+        "በዳውሮ ሁሉም የዞን ወረዳዎች የደን ልማትና አካባቢ ጥበቃ ልማትን ማረጋገጥ፣",
+        "የቱሪዝም መዳረሻዎችን በማሻሻል፣ በማዘመንና በማስፋፋት የማህበረሰቡን ኢኮኖሚያዊ ተጠቃሚነት ማሳደግ፤",
+        "የማህበረሰብ ተሳትፎና ባለቤትነትን በማሳደግ የስፖርት ልማትን ማረጋገጥ፤",
+        "በዞኑ የሚገኙ ብሔረሰቦችን ባህልና ቋንቋ በማጥናት፣ በማደራጀት፣ በመጠበቅና በማበልፀግ ለዓለም ማስተዋወቅ፤",
+        "የማህበሩን የገቢ አማራጮችን በማብዛት፣ በማስፋፋትና በማቀናጀት ተቋማዊ አቅምን ማጎልበት፤",
+        "በዞኑ ህብረተሰብ ሰላምና ተቻችሎ የመኖር ባህል ላይ የተመሠረተ ዲሞክራሲያዊ አስተሳሰብ በማጎልበት ማህበራዊ ፍትህንና ሰላምን ማረጋገጥ፤",
+        "የአደጋ ስጋት አካባቢዎችን በመለየት ተጋላጭነትን መቀነስ፣አደጋ ስከሰት ተገቢውን ወቅታዊ ምላሽ መስጠትና መልሶ ማቋቋም፤",
+        "በምርምርና ጥናት የተደገፈ ተቋማዊ አጋርነትንና ቅንጅታዊ አሰራርና ሥርዓትን ማዘመን ማሳደግ፤",
+      ],
+      image: null,
+    },
+  ];
+
+  for (const s of sections) {
+    const items = s.items ?? [];
+    const itemsAmharic = s.itemsAmharic ?? [];
+    const existing = await sql`SELECT id FROM about_content WHERE section = ${s.section}`;
+    if (existing.length) {
+      console.log("about content exists, skipping:", s.section);
+      continue;
+    }
+    await sql`
+      INSERT INTO about_content
+        (id, section, title, "titleAmharic", subtitle, "subtitleAmharic", body, "bodyAmharic", items, "itemsAmharic", image, "isDraft", created_at, updated_at)
+      VALUES
+        (${uuid()}, ${s.section}, ${s.title}, ${s.titleAmharic}, ${s.subtitle}, ${s.subtitleAmharic}, ${s.body}, ${s.bodyAmharic}, ${items}, ${itemsAmharic}, ${s.image}, false, now(), now())
+    `;
+    console.log("created about content:", s.section);
+  }
+}
+
 async function main() {
   await seedUsers();
   await seedManagement();
@@ -780,6 +882,7 @@ async function main() {
   await seedResource();
   await seedPartnerships();
   await seedAuctions();
+  await seedAboutContent();
   console.log("\nSeed complete.");
 }
 
