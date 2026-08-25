@@ -95,12 +95,15 @@ export async function fetchNewss({
   page,
   pageSize,
   searchText,
+  includeDrafts,
 }: {
   page: number;
   pageSize: number;
   searchText?: string;
+  includeDrafts?: boolean;
 }): Promise<{ newss: News[] | undefined; total: number }> {
   const whereClause: Prisma.NewsWhereInput = {
+    ...(!includeDrafts && { isDraft: false }),
     ...(searchText && {
       OR: [
         {

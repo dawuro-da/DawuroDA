@@ -78,7 +78,7 @@ const MemberLogin = ({
           {t("members_dashboard.login.welcome_back_to")}
         </span>
         <span className="text-2xl font-[500] text-center">
-          {t("members_dashboard.login.gamo_development_association")}
+          {t("members_dashboard.login.dawuro_development_association")}
         </span>
       </div>
       <div className="flex flex-col gap-1 w-full mt-16">

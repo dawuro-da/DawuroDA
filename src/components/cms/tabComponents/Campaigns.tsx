@@ -61,9 +61,20 @@ const Campaigns = () => {
   const handleRegister = async (values: FieldValues) => {
     setLoading(true);
     try {
-      const res = await axios.post("/api/cms/campaign/create", {
-        ...values,
-      });
+      const formData = new FormData();
+      formData.append("headline", values.headline);
+      formData.append("headlineAmharic", values.headlineAmharic);
+      formData.append("description", values.description);
+      formData.append("image", values.image?.[0] ?? "");
+      formData.append("youtubeLink", values.youtubeLink ?? "");
+      formData.append("goalAmount", values.goalAmount ?? "");
+      formData.append("raisedAmount", values.raisedAmount ?? "");
+      formData.append("isFeatured", values.isFeatured ?? false);
+      formData.append("isDraft", values.isDraft ?? false);
+      formData.append("startDate", values.startDate);
+      formData.append("endDate", values.endDate);
+
+      const res = await axios.post("/api/cms/campaign/create", formData);
 
       if (res?.status === 200) {
         dispatch(
@@ -285,6 +296,80 @@ const Campaigns = () => {
                   )}
                 </div>
               </div>
+
+              <div className="flex flex-col gap-3">
+                <span className="text-titleColor text-sm font-bold">
+                  Image
+                </span>
+                <span className="relative flex flex-row items-center px-6 border-2 border-dashed rounded-[3px] py-2 cursor-pointer h-[65px]">
+                  <span className="flex flex-row items-center px-2 gap-2 text-titleColor cursor-pointer">
+                    <Image
+                      src={"/icons/greyGallery.svg"}
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
+                    <span>{watch("image")?.[0]?.name ?? "Upload"}</span>
+                  </span>
+                  <input
+                    id="image"
+                    {...register("image")}
+                    accept="image/*"
+                    type="file"
+                    placeholder=""
+                    className="z-10 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  />
+                  <Button className="flex flex-row items-center justify-center outline-none z-0 gap-2 absolute bg-white text-titleColor right-4 px-4 py-2 cursor-pointer">
+                    <Image
+                      src={"/icons/uploadIcon.svg"}
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
+                    <span>Upload</span>
+                  </Button>
+                </span>
+              </div>
+
+              <div className="flex flex-col gap-1 text-titleColor">
+                <label>YouTube Link (optional)</label>
+                <TextField
+                  {...register("youtubeLink")}
+                  variant="outlined"
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  sx={{ backgroundColor: "white" }}
+                  inputProps={{ style: { padding: 10 } }}
+                />
+              </div>
+
+              <div className="flex xl:flex-row lg:flex-row md:flex-row flex-col items-center w-full gap-6">
+                <div className="flex flex-col gap-1 text-titleColor w-full">
+                  <label>Goal Amount (Birr)</label>
+                  <TextField
+                    {...register("goalAmount")}
+                    type="number"
+                    variant="outlined"
+                    sx={{ backgroundColor: "white" }}
+                    inputProps={{ style: { padding: 10 } }}
+                  />
+                </div>
+                <div className="flex flex-col gap-1 text-titleColor w-full">
+                  <label>Raised Amount (Birr)</label>
+                  <TextField
+                    {...register("raisedAmount")}
+                    type="number"
+                    variant="outlined"
+                    sx={{ backgroundColor: "white" }}
+                    inputProps={{ style: { padding: 10 } }}
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-row items-center gap-1">
+                <Checkbox {...register("isFeatured")} />
+                <span>Featured Campaign (shown in the hero-style section)</span>
+              </div>
+
               <div className="bottom-0 py-4 border-t-[1px] flex-row flex items-center justify-between gap-2 w-full">
                 <div className="flex flex-row items-center gap-1">
                   <Checkbox {...register("isDraft")} />

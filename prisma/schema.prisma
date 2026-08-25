@@ -287,6 +287,11 @@ model Campaign {
   headline        String
   headlineAmharic String
   description     String
+  image           String?
+  youtubeLink     String?
+  goalAmount      Int?
+  raisedAmount    Int?    @default(0)
+  isFeatured      Boolean @default(false)
   isDraft         Boolean @default(false)
 
   startDate DateTime

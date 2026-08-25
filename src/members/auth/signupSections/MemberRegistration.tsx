@@ -148,7 +148,7 @@ const MemberRegistration = ({
     >
       <div className="flex flex-col gap-2 w-full">
         <span className="tracking-tight">{`${t(
-          "members_dashboard.login.sign_up.progress_bar_1.GaDA_heading"
+          "members_dashboard.login.sign_up.progress_bar_1.DaDA_heading"
         )}`}</span>
         <span className="text-3xl font-bold tracking-tight">
           {`${t(

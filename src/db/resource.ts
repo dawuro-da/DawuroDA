@@ -67,12 +67,15 @@ export async function fetchResources({
   page,
   pageSize,
   searchText,
+  includeDrafts,
 }: {
   page: number;
   pageSize: number;
   searchText?: string;
+  includeDrafts?: boolean;
 }): Promise<{ resources: Resource[] | undefined; total: number }> {
   const whereClause: Prisma.ResourceWhereInput = {
+    ...(!includeDrafts && { isDraft: false }),
     ...(searchText && {
       OR: [
         {

@@ -1,6 +1,7 @@
 "use client";
 import HeroSection from "./sections/HeroSection";
 import CampaignSection from "./sections/CampaignSection";
+import TopCampaignSection from "./sections/TopCampaignSection";
 import AboutSection from "./sections/AboutSection";
 import HeroPromo from "./sections/HeroPromo";
 import DevelopmentInitiatives from "./sections/DevelopmentInitiatives";
@@ -27,6 +28,7 @@ const Homepage = () => {
       <div className="w-full h-screen flex flex-col overflow-y-auto hiddenscrollbar">
         <HeroSection />
         <HeroPromo />
+        <TopCampaignSection />
         <AboutSection />
         <DevelopmentInitiatives />
         <LatestNews />

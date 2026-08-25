@@ -1,11 +1,19 @@
 import { NextResponse } from "next/server";
 import { fetchEvents } from "@/db/event";
+import { isStaffSession } from "@/util/session";
 
 export async function POST(req: Request) {
   const { page, pageSize, searchText, upcoming } = await req.json();
 
   try {
-    const result = await fetchEvents({ page, pageSize, searchText, upcoming });
+    const includeDrafts = await isStaffSession();
+    const result = await fetchEvents({
+      page,
+      pageSize,
+      searchText,
+      upcoming,
+      includeDrafts,
+    });
 
     if (result) {
       return NextResponse.json(

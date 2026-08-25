@@ -1,19 +1,22 @@
 import { NextResponse } from "next/server";
 import { fetchJobs } from "@/db/job";
-import { getServerSession } from "next-auth";
-import { UserRole } from "@prisma/client";
-import { OPTIONS } from "@/util/authOptions";
+import { isStaffSession } from "@/util/session";
 
 export async function POST(req: Request) {
-  const session = await getServerSession(OPTIONS);
-  if (!session?.user?.id && session?.user.role === UserRole.Member) {
+  const includeDrafts = await isStaffSession();
+  if (!includeDrafts) {
     return NextResponse.redirect("/gaadmin/login", 401);
   }
 
   const { page, pageSize, searchText } = await req.json();
 
   try {
-    const result = await fetchJobs({ page, pageSize, searchText });
+    const result = await fetchJobs({
+      page,
+      pageSize,
+      searchText,
+      includeDrafts,
+    });
 
     if (result) {
       return NextResponse.json(
@@ -26,7 +29,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         success: false,
-        error: "Unable to fetch partnership",
+        error: "Unable to fetch jobs",
       },
       { status: 500 }
     );

@@ -109,12 +109,15 @@ export async function fetchManagements({
   page,
   pageSize,
   searchText,
+  includeDrafts,
 }: {
   page: number;
   pageSize: number;
   searchText?: string;
+  includeDrafts?: boolean;
 }): Promise<{ managements: Management[] | undefined; total: number }> {
   const whereClause: Prisma.ManagementWhereInput = {
+    ...(!includeDrafts && { isDraft: false }),
     ...(searchText && {
       OR: [
         {
