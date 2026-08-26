@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 import { findUserByEmail } from "@/db/user";
-import { findMemberByPhone } from "@/db/member";
+import { findMemberByPhone, findMemberByEmail } from "@/db/member";
 import { UserRole } from "@prisma/client";
 
 interface SessionUser {
@@ -67,7 +67,8 @@ export const OPTIONS: NextAuthOptions = {
             throw new Error("Username or password not correct");
           }
         } else {
-          const member = await findMemberByPhone(email);
+          const member =
+            (await findMemberByPhone(email)) ?? (await findMemberByEmail(email));
 
           if (member) {
             const result = await comparePasswords(
@@ -148,7 +149,9 @@ export const OPTIONS: NextAuthOptions = {
           token.profileImage = savedUser.profilePic;
         } else {
           // since we are getting the phone through the email field from frontend we pass token.email
-          const savedMember = await findMemberByPhone(token.email);
+          const savedMember =
+            (await findMemberByPhone(token.email)) ??
+            (await findMemberByEmail(token.email));
           if (savedMember) {
             token.id = savedMember?.id;
             token.email = savedMember.email;

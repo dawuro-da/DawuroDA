@@ -124,7 +124,11 @@ const JobDetailPage = () => {
               {t("vacancies.apply_via_email")}
             </p>
             <span>
-              <Link href="mailto:">
+              <Link
+                href={`mailto:hr@dawuroda.org${
+                  job ? `?subject=${encodeURIComponent(`Application: ${job.jobTitle}`)}` : ""
+                }`}
+              >
                 <Button variant="contained" className="px-10 shadow-none">
                   {t("vacancies.apply_button")}
                 </Button>

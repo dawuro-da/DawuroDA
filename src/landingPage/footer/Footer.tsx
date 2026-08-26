@@ -65,6 +65,7 @@ const FooterLinks = ({ t }: { t: any }) => {
             { link: "/vacancies", name: `${t("navigation.vacancy")}` },
             { link: "/resources", name: `${t("navigation.resources")}` },
             { link: "/#faqs", name: `${t("navigation.faq")}` },
+            { link: "/contact", name: `${t("navigation.contact")}` },
           ].map((item, index) => (
             <li key={index} className="text-left">
               <Link
@@ -132,9 +133,10 @@ const Footer = () => {
               className="w-10"
             />
             <div className="font-extrabold text-lg w-full text-center">
-              {`${t("footer.motto")}"`}
+              {`${t("footer.motto1")}`}
+              <br />
+              {`${t("footer.motto2")}"`}
             </div>
-            <p className="mt-2 text-sm">{t("footer.motto")}</p>
           </div>
         </div>
 
@@ -155,7 +157,6 @@ const Footer = () => {
                 <br />
                 {`${t("footer.motto2")}"`}
               </div>
-              <p className="mt-2 text-sm">{t("footer.motto")}</p>
             </div>
           </div>
         </div>
@@ -173,7 +174,9 @@ const Footer = () => {
             </span>
           </Link>
         </span>
-        <p className="text-sm italic text-[#000000]">{t("footer.copyright")}</p>
+        <p className="text-sm italic text-[#000000]">
+          {t("footer.copyright", { year: new Date().getFullYear() })}
+        </p>
       </div>
     </div>
   );

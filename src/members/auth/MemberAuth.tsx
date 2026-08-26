@@ -51,13 +51,22 @@ const MemberAuth = () => {
   return (
     <I18nextProvider i18n={i18n}>
       <div className="w-full h-screen overflow-y-auto flex xl:flex-row lg:flex-row">
-        <div className="relative w-[80%] h-full xl:block lg:block hidden">
+        <div className="relative flex flex-row items-center justify-center w-full h-full overflow-y-auto">
           <Link href={"/"}>
-            <div className="absolute flex flex-row items-center gap-2 top-10 left-10 text-white w-fit z-40 hover:cursor-pointer hover:underline">
+            <div className="absolute xl:lg:flex hidden flex-row items-center gap-2 top-10 left-10 text-primaryColor w-fit z-40 hover:cursor-pointer hover:underline">
               <ArrowBack />
               <span>{t("members_dashboard.login.back_to_home")}</span>
             </div>
           </Link>
+          {isSignUp ? (
+            <MemberSignup setIsSignUp={setIsSignUp} />
+          ) : (
+            <Suspense>
+              <MemberLogin setIsSignUp={setIsSignUp} />
+            </Suspense>
+          )}
+        </div>
+        <div className="relative w-[80%] h-full xl:block lg:block hidden">
           {images.map((image, index) => (
             <div
               key={index}
@@ -90,15 +99,6 @@ const MemberAuth = () => {
               ></button>
             ))}
           </div>
-        </div>
-        <div className="flex flex-row items-center justify-center w-full h-full overflow-y-auto">
-          {isSignUp ? (
-            <MemberSignup setIsSignUp={setIsSignUp} />
-          ) : (
-            <Suspense>
-              <MemberLogin setIsSignUp={setIsSignUp} />
-            </Suspense>
-          )}
         </div>
       </div>
     </I18nextProvider>
