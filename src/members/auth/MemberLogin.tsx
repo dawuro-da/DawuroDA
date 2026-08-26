@@ -1,14 +1,20 @@
 "use client";
 
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
-import { international_phone_regex } from "@/constants/regex";
+import { international_phone_regex, email_regex } from "@/constants/regex";
 import {
   ArrowBack,
   Facebook,
   FacebookRounded,
   RemoveRedEyeOutlined,
 } from "@mui/icons-material";
-import { Button, CircularProgress, Divider, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  CircularProgress,
+  Divider,
+  TextField,
+} from "@mui/material";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,11 +41,13 @@ const MemberLogin = ({
     setValue,
   } = useForm();
 
+  const isInternational = Boolean(watch("international"));
+
   const handleLogin = async (values: FieldValues) => {
-    const { phone, password } = values;
+    const { phone, email, password } = values;
     setLoading(true);
     const res = await signIn("credentials", {
-      email: phone,
+      email: isInternational ? email : phone,
       password,
       redirect: false,
     });
@@ -83,26 +91,54 @@ const MemberLogin = ({
       </div>
       <div className="flex flex-col gap-1 w-full mt-16">
         <span className="text-titleColor text-sm font-bold">
-          {t("members_dashboard.login.phone_number")}
+          {isInternational
+            ? t("members_dashboard.login.email")
+            : t("members_dashboard.login.phone_number")}
         </span>
-        <PhoneNumberInput
-          size="small"
-          {...register("phone", {
-            required: "Phone Number is required",
-            pattern: {
-              message: "Phone is not valid",
-              value: international_phone_regex,
-            },
-          })}
-          variant="outlined"
-          className="border-2 rounded-xl py-2"
-          inputProps={{ style: { padding: 10, borderRadius: 12 } }}
-          value={watch("phone")}
-          onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
-          type="text"
-          error={Boolean(!!errors.phone)}
-          helperText={!!errors.phone && errors.phone.message?.toString()}
+        {isInternational ? (
+          <TextField
+            size="small"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                message: "Email is not valid",
+                value: email_regex,
+              },
+            })}
+            variant="outlined"
+            className="border-2 rounded-xl py-2"
+            inputProps={{ style: { padding: 10, borderRadius: 12 } }}
+            type="text"
+            error={Boolean(!!errors.email)}
+            helperText={!!errors.email && errors.email.message?.toString()}
+          />
+        ) : (
+          <PhoneNumberInput
+            size="small"
+            {...register("phone", {
+              required: "Phone Number is required",
+              pattern: {
+                message: "Phone is not valid",
+                value: international_phone_regex,
+              },
+            })}
+            variant="outlined"
+            className="border-2 rounded-xl py-2"
+            inputProps={{ style: { padding: 10, borderRadius: 12 } }}
+            value={watch("phone")}
+            onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
+            type="text"
+            error={Boolean(!!errors.phone)}
+            helperText={!!errors.phone && errors.phone.message?.toString()}
+          />
+        )}
+      </div>
+      <div className="flex flex-row items-center w-full text-titleColor">
+        <Checkbox
+          {...register("international")}
+          checked={isInternational}
         />
+        <span>{t("members_dashboard.login.international_user")}</span>
       </div>
       <div className="flex flex-col gap-[7px] text-[#555555] h-full w-full">
         <label className="flex flex-row items-center justify-between">

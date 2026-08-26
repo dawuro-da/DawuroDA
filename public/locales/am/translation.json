@@ -67,7 +67,7 @@
     "arbaminch_city": "አርባ ምንጭ ከተማ",
     "tel": "ስልክ",
     "email": "ኢሜይል",
-    "copyright": "© የቅጂ መብት 2024፤ መብቱ በህግ የተጠበቀ ነው።",
+    "copyright": "© የቅጂ መብት {{year}}፤ መብቱ በህግ የተጠበቀ ነው።",
     "links": "ሊንኮች",
     "motto": "ልማት የጋራ ጥረት ውጤት ነው",
     "motto1": "ልማት የጋራ ጥረት",
@@ -76,6 +76,25 @@
     "terms_and_conditions": "Terms and Conditions",
     "social_media_footer": "በማህበራዊ ሚዲያዎች ያግኙን"
   },
+
+  "contact_page": {
+    "label": "አግኙን",
+    "heading": "ያግኙን",
+    "subheading": "ጥያቄ ካልዎት ወይም አብረውን ለመስራት ከፈለጉ ያግኙን፤ ቡድናችን በቅርቡ ይመልስልዎታል።",
+    "phone_label": "ስልክ",
+    "email_label": "ኢሜይል",
+    "address_label": "አድራሻ",
+    "address_value": "ታርጫ፣ ዳውሮ ዞን፣ ደቡብ ምዕራብ ኢትዮጵያ ሕዝቦች ክልላዊ መንግሥት",
+    "form_heading": "መልእክት ይላኩልን",
+    "name": "ሙሉ ስም",
+    "email_field": "ኢሜይል አድራሻ",
+    "subject": "ርዕስ",
+    "message": "መልእክት",
+    "send_button": "መልእክት ላክ",
+    "success_message": "መልእክትዎ ተልኳል። በቅርቡ እናገኝዎታለን።",
+    "error_message": "ስህተት ተከስቷል። እባክዎ እንደገና ይሞክሩ።"
+  },
+
   "about": {
     "about_side_bar": "የእኛ ታሪክ",
     "about": "ስለ እኛ",
@@ -198,6 +217,7 @@
       "phone_number": "ስልክ ቁጥር",
       "password": "የይለፍ ቃል",
       "email": "ኢሜይል",
+      "international_user": "የውጭ ሀገር ተጠቃሚ (በኢሜይል ይግቡ)",
       "forgot_password": "የይለፍ ቃል ረስተዋል?",
       "login_button": "Login",
       "are_you_new_here": "አዲስ ኖት?",

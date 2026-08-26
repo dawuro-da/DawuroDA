@@ -66,7 +66,7 @@
     "po_box": "",
     "tel": "Tel",
     "email": "Email",
-    "copyright": "Copyright © 2024. All rights reserved",
+    "copyright": "Copyright © {{year}}. All rights reserved",
     "links": "Links",
     "motto": "Development is the result of collective effort",
     "motto1": "Development is the result",
@@ -74,6 +74,24 @@
     "privacy_policy": "Privacy Policy",
     "terms_and_conditions": "Terms and Conditions",
     "social_media_footer": "Find us on"
+  },
+
+  "contact_page": {
+    "label": "Contact Us",
+    "heading": "Get in Touch",
+    "subheading": "Have a question or want to work with us? Reach out and our team will get back to you.",
+    "phone_label": "Phone",
+    "email_label": "Email",
+    "address_label": "Address",
+    "address_value": "Tarcha, Dawro Zone, South West Ethiopia Peoples' Regional State",
+    "form_heading": "Send us a message",
+    "name": "Full Name",
+    "email_field": "Email Address",
+    "subject": "Subject",
+    "message": "Message",
+    "send_button": "Send Message",
+    "success_message": "Your message has been sent. We'll get back to you soon.",
+    "error_message": "Something went wrong. Please try again."
   },
 
   "about": {
@@ -201,6 +219,7 @@
       "phone_number": "Phone Number",
       "password": "Password",
       "email": "Email",
+      "international_user": "International user (login with email)",
       "forgot_password": "Forgot Password?",
       "login_button": "Login",
       "are_you_new_here": "Are you new here?",
