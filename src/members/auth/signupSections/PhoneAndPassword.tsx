@@ -83,7 +83,7 @@ const PhoneAndPassword = ({
   };
 
   return (
-    <div className="px-10 py-20 flex flex-col items-center justify-center gap-4 max-w-[450px] w-full">
+    <div className="px-10 pt-28 pb-16 flex flex-col items-center justify-center gap-4 max-w-[450px] w-full">
       <div className="font-bold text-4xl">
         {t("members_dashboard.login.sign_up.sign_up_heading")}
       </div>
