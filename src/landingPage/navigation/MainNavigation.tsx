@@ -104,7 +104,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
               {t("navigation.donate")}
             </span>
             <span
-              onClick={() => router.push("/#contact-us")}
+              onClick={() => router.push("/contact")}
               className="opacity-90 hover:opacity-100 cursor-pointer transition-opacity"
             >
               {t("navigation.contact")}
