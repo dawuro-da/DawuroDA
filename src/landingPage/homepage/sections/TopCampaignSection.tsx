@@ -141,12 +141,6 @@ const TopCampaignSection = () => {
                         </span>
                       </div>
                     )}
-                    <button
-                      onClick={() => openDonate(campaign)}
-                      className="text-primaryColor font-semibold text-sm hover:underline"
-                    >
-                      {t("news.learn_more")}
-                    </button>
                   </div>
                 </div>
               );

@@ -31,7 +31,7 @@ const HeroPromo = () => {
       heading: t("navigation.initiatives"),
       description: t("home.development_initiatives_subheading"),
       actionLabel: t("home.learn_more"),
-      onClick: () => router.push("/#initiatives"),
+      onClick: () => router.push("/initiatives"),
     },
   ];
 
