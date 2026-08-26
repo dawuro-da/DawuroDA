@@ -17,6 +17,7 @@ interface NewsItem {
 const NewsCard = () => {
   const router = useRouter();
   const [news, setNews] = useState<News[]>();
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
@@ -34,6 +35,7 @@ const NewsCard = () => {
         const latestNews = res.data.value.newss;
         const oldNews = news?.length ? news : [];
         setNews([...oldNews, ...latestNews]);
+        setTotal(res.data.value.total);
       }
     } catch (err) {
       console.error(err);
@@ -44,7 +46,10 @@ const NewsCard = () => {
 
   useEffect(() => {
     fetchNews();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+
+  const hasMore = Boolean(news && news.length < total);
 
   return (
     <>
@@ -213,6 +218,7 @@ const NewsCard = () => {
           news={news.filter((news, index) => index > 6)}
           loadMore={() => setPage(page + 1)}
           loadingMore={loadingMore}
+          hasMore={hasMore}
         />
       )}
     </>

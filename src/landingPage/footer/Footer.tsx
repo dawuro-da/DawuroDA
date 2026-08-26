@@ -133,9 +133,8 @@ const Footer = () => {
               className="w-10"
             />
             <div className="font-extrabold text-lg w-full text-center">
-              <span className="inline-block">{`${t("footer.motto1")}`}</span>
-              <br />
-              {`${t("footer.motto2")}"`}
+              <span className="block whitespace-nowrap">{`${t("footer.motto1")}`}</span>
+              <span className="block whitespace-nowrap">{`${t("footer.motto2")}"`}</span>
             </div>
             <p className="mt-2 text-sm">{t("footer.motto")}</p>
           </div>
@@ -153,10 +152,9 @@ const Footer = () => {
                 alt=""
                 className="w-10 -ml-10"
               />
-              <div className=" font-extrabold text-2xl text-left">
-                {`${t("footer.motto1")}`}
-                <br />
-                {`${t("footer.motto2")}"`}
+              <div className="font-extrabold text-2xl text-left">
+                <span className="block whitespace-nowrap">{`${t("footer.motto1")}`}</span>
+                <span className="block whitespace-nowrap">{`${t("footer.motto2")}"`}</span>
               </div>
               <p className="mt-2 text-sm">{t("footer.motto")}</p>
             </div>

@@ -22,6 +22,7 @@ const AuctionSection = ({ bidders }: { bidders: Bidder[] | null }) => {
       totalDocumentSales: number;
     })[]
   >();
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
@@ -43,6 +44,7 @@ const AuctionSection = ({ bidders }: { bidders: Bidder[] | null }) => {
         const latestAuctions = res.data.value.auctions;
         const oldAuctions = auctions?.length ? auctions : [];
         setAuctions([...oldAuctions, ...latestAuctions]);
+        setTotal(res.data.value.total);
       }
     } catch (err) {
       console.error(err);
@@ -53,7 +55,10 @@ const AuctionSection = ({ bidders }: { bidders: Bidder[] | null }) => {
 
   useEffect(() => {
     fetchAuctions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+
+  const hasMore = Boolean(auctions && auctions.length < total);
 
   return (
     <I18nextProvider i18n={i18n}>
@@ -70,14 +75,18 @@ const AuctionSection = ({ bidders }: { bidders: Bidder[] | null }) => {
               {t("auctions.auctions_subheading")}
             </p>
           </div>
-          <div>
+          <div className="min-h-[200px]">
             {loading ? (
               <>
                 <Skeleton style={{ width: "100%", height: "200px" }} />
                 <Skeleton style={{ width: "100%", height: "200px" }} />
               </>
+            ) : !auctions?.length ? (
+              <div className="w-full text-center text-[#7C7C7C] min-h-[200px] flex items-center justify-center">
+                <span>Currently, there are no auctions available.</span>
+              </div>
             ) : (
-              auctions?.map((item, index) => {
+              auctions.map((item, index) => {
                 const bidder = bidders?.filter(
                   (bidder) => bidder.auctionId === item.id
                 );
@@ -103,18 +112,20 @@ const AuctionSection = ({ bidders }: { bidders: Bidder[] | null }) => {
               })
             )}
           </div>
-          <div className="w-full my-20">
-            <div
-              onClick={() => setPage(page + 1)}
-              className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
-            >
-              {loadingMore ? (
-                <CircularProgress className="h-full" />
-              ) : (
-                t("auctions.load_more")
-              )}
+          {hasMore && (
+            <div className="w-full my-20">
+              <div
+                onClick={() => setPage(page + 1)}
+                className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
+              >
+                {loadingMore ? (
+                  <CircularProgress className="h-full" />
+                ) : (
+                  t("auctions.load_more")
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <Footer />
       </div>

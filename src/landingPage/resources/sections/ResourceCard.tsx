@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 
 const ResourceCard = () => {
   const [resources, setResources] = useState<Resource[]>();
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const [loadingMore, setLoadingMore] = useState(false);
@@ -26,6 +27,7 @@ const ResourceCard = () => {
         const latestResources = res.data.value.resources;
         const oldResources = resources?.length ? resources : [];
         setResources([...oldResources, ...latestResources]);
+        setTotal(res.data.value.total);
       }
     } catch (err) {
       console.error(err);
@@ -36,7 +38,10 @@ const ResourceCard = () => {
 
   useEffect(() => {
     fetchResources();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+
+  const hasMore = Boolean(resources && resources.length < total);
 
   const downloadPDF = async ({ name, url }: { name: string; url: string }) => {
     try {
@@ -60,12 +65,18 @@ const ResourceCard = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[200px]">
         {loading
           ? [1, 2, 3].map((item, index) => (
               <Skeleton key={index} className="min-h-[300px]" />
             ))
-          : resources?.map((item, index) => (
+          : !resources?.length
+          ? (
+              <div className="col-span-full w-full text-center text-titleColor min-h-[200px] flex items-center justify-center">
+                <span>Currently, there are no resources available.</span>
+              </div>
+            )
+          : resources.map((item, index) => (
               <div
                 className="w-full shadow-lg space-y-6 py-6 px-4 mb-7"
                 key={item.id}
@@ -105,16 +116,18 @@ const ResourceCard = () => {
             ))}
       </div>
       <div className="w-full mt-20">
-        <div
-          onClick={() => setPage(page + 1)}
-          className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
-        >
-          {loadingMore ? (
-            <CircularProgress className="h-full" />
-          ) : (
-            t("resources.load_more")
-          )}
-        </div>
+        {hasMore && (
+          <div
+            onClick={() => setPage(page + 1)}
+            className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
+          >
+            {loadingMore ? (
+              <CircularProgress className="h-full" />
+            ) : (
+              t("resources.load_more")
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

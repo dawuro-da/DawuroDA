@@ -9,10 +9,12 @@ const GridNews = ({
   news,
   loadMore,
   loadingMore,
+  hasMore,
 }: {
   news: News[];
   loadMore: () => void;
   loadingMore: boolean;
+  hasMore: boolean;
 }) => {
   const router = useRouter();
   const { i18n, t } = useTranslation();
@@ -68,12 +70,14 @@ const GridNews = ({
             </div>
           ))}
         </div>
-        <div
-          onClick={loadMore}
-          className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
-        >
-          {loadingMore ? <CircularProgress className="h-full" /> : t('news.load_more')}
-        </div>
+        {hasMore && (
+          <div
+            onClick={loadMore}
+            className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
+          >
+            {loadingMore ? <CircularProgress className="h-full" /> : t('news.load_more')}
+          </div>
+        )}
       </div>
     </div>
   );

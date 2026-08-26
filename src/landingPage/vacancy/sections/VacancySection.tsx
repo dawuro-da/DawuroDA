@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 
 const VacancySection = () => {
   const [jobs, setJobs] = useState<Job[]>();
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
@@ -28,6 +29,7 @@ const VacancySection = () => {
         const latestJobs = res.data.value.jobs;
         const oldJobs = jobs?.length ? jobs : [];
         setJobs([...oldJobs, ...latestJobs]);
+        setTotal(res.data.value.total);
       }
     } catch (err) {
       console.error(err);
@@ -38,7 +40,10 @@ const VacancySection = () => {
 
   useEffect(() => {
     fetchJobs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+
+  const hasMore = Boolean(jobs && jobs.length < total);
 
   return (
     <div className="bg-[#F5F5F5] min-h-screen flex flex-col">
@@ -58,22 +63,28 @@ const VacancySection = () => {
       <div className="mb-48 min-h-[300px]">
         {loading ? (
           <Skeleton className="min-h-[300px]" />
+        ) : jobs?.length ? (
+          jobs.map((item, index) => <VacancyCard key={index} job={item} />)
         ) : (
-          jobs?.map((item, index) => <VacancyCard key={index} job={item} />)
+          <div className="w-full text-center text-[#7C7C7C] min-h-[200px] flex items-center justify-center">
+            <span>Currently, there are no vacancies available.</span>
+          </div>
         )}
       </div>
-      <div className="w-full mb-20">
-        <div
-          onClick={() => setPage(page + 1)}
-          className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
-        >
-          {loadingMore ? (
-            <CircularProgress className="h-full" />
-          ) : (
-            t("vacancies.load_more")
-          )}
+      {hasMore && (
+        <div className="w-full mb-20">
+          <div
+            onClick={() => setPage(page + 1)}
+            className="cursor-pointer px-10 border border-[#1E1E1E] w-fit font-light mx-auto h-[50px] flex flex-row items-center justify-center"
+          >
+            {loadingMore ? (
+              <CircularProgress className="h-full" />
+            ) : (
+              t("vacancies.load_more")
+            )}
+          </div>
         </div>
-      </div>
+      )}
       <Footer />
     </div>
   );
