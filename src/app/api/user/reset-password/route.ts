@@ -50,7 +50,7 @@ export async function POST(req: Request) {
 
       const result = await transporter.sendMail({
         to: email,
-        from: "miketesttest6@gmail.com",
+        from: process.env.NODEMAIL_EMAIL,
         subject: "DawuroDA Password Reset Requiest",
         text: html,
         html: html,
