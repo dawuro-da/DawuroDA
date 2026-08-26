@@ -133,7 +133,7 @@ const Footer = () => {
               className="w-10"
             />
             <div className="font-extrabold text-lg w-full text-center">
-              {`${t("footer.motto1")}`}
+              <span className="inline-block">{`${t("footer.motto1")}`}</span>
               <br />
               {`${t("footer.motto2")}"`}
             </div>

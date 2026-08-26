@@ -89,36 +89,41 @@ const DonationForm = ({
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4 p-10"
         >
-          <div className="flex flex-col gap-2 text-titleColor h-full">
-            <label>Donation Designation</label>
-            <TextField
-              {...register("donationDesignation", {
-                required: "Donation designation is required",
-              })}
-              multiline
-              rows={2}
-              maxRows={3}
-              defaultValue={designation?.title}
-              variant="outlined"
-              error={Boolean(errors.donationDesignation)}
-              disabled={Boolean(designation)}
-              helperText={errors.donationDesignation?.message?.toString()}
-              inputProps={{ style: { padding: 2 } }}
-            />
-          </div>
-          {designation?.description && (
+          {designation ? (
             <div className="flex flex-col gap-2 text-titleColor h-full">
-              <label>Campaign Description</label>
+              <label>Donation Designation</label>
+              <div className="bg-primaryColor/5 border border-primaryColor/20 rounded-lg px-4 py-3 font-semibold text-[#1E1E1E]">
+                {designation.title}
+              </div>
+              <input
+                type="hidden"
+                {...register("donationDesignation")}
+                defaultValue={designation.title}
+              />
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2 text-titleColor h-full">
+              <label>Donation Designation</label>
               <TextField
+                {...register("donationDesignation", {
+                  required: "Donation designation is required",
+                })}
                 multiline
-                rows={3}
-                maxRows={5}
-                defaultValue={designation?.description}
+                rows={2}
+                maxRows={3}
                 variant="outlined"
-                disabled={true}
+                error={Boolean(errors.donationDesignation)}
                 helperText={errors.donationDesignation?.message?.toString()}
                 inputProps={{ style: { padding: 2 } }}
               />
+            </div>
+          )}
+          {designation?.description && (
+            <div className="flex flex-col gap-2 text-titleColor h-full">
+              <label>Campaign Description</label>
+              <div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-[#1E1E1E]">
+                {designation.description}
+              </div>
             </div>
           )}
           <div className="flex flex-col gap-2 text-titleColor h-full">
