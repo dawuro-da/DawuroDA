@@ -71,7 +71,7 @@ const menues = [
   },
   {
     id: "about",
-    name: "About Page",
+    name: "About",
     iconActive: "/icons/cms/newsActive.svg",
     icon: "/icons/cms/news.svg",
   },
