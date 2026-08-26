@@ -137,6 +137,7 @@ const Footer = () => {
               <br />
               {`${t("footer.motto2")}"`}
             </div>
+            <p className="mt-2 text-sm">{t("footer.motto")}</p>
           </div>
         </div>
 
@@ -157,6 +158,7 @@ const Footer = () => {
                 <br />
                 {`${t("footer.motto2")}"`}
               </div>
+              <p className="mt-2 text-sm">{t("footer.motto")}</p>
             </div>
           </div>
         </div>
