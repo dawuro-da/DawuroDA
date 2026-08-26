@@ -89,56 +89,59 @@ const MemberLogin = ({
           {t("members_dashboard.login.dawuro_development_association")}
         </span>
       </div>
-      <div className="flex flex-col gap-1 w-full mt-16">
-        <span className="text-titleColor text-sm font-bold">
-          {isInternational
-            ? t("members_dashboard.login.email")
-            : t("members_dashboard.login.phone_number")}
-        </span>
-        {isInternational ? (
-          <TextField
-            size="small"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                message: "Email is not valid",
-                value: email_regex,
-              },
-            })}
-            variant="outlined"
-            className="border-2 rounded-xl py-2"
-            inputProps={{ style: { padding: 10, borderRadius: 12 } }}
-            type="text"
-            error={Boolean(!!errors.email)}
-            helperText={!!errors.email && errors.email.message?.toString()}
+      <div className="flex flex-col gap-2 w-full mt-16">
+        <div className="flex flex-col gap-1 w-full">
+          <span className="text-titleColor text-sm font-bold">
+            {isInternational
+              ? t("members_dashboard.login.email")
+              : t("members_dashboard.login.phone_number")}
+          </span>
+          {isInternational ? (
+            <TextField
+              size="small"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  message: "Email is not valid",
+                  value: email_regex,
+                },
+              })}
+              variant="outlined"
+              className="border-2 rounded-xl py-2"
+              inputProps={{ style: { padding: 10, borderRadius: 12 } }}
+              type="text"
+              error={Boolean(!!errors.email)}
+              helperText={!!errors.email && errors.email.message?.toString()}
+            />
+          ) : (
+            <PhoneNumberInput
+              size="small"
+              {...register("phone", {
+                required: "Phone Number is required",
+                pattern: {
+                  message: "Phone is not valid",
+                  value: international_phone_regex,
+                },
+              })}
+              variant="outlined"
+              className="border-2 rounded-xl py-2"
+              inputProps={{ style: { padding: 10, borderRadius: 12 } }}
+              value={watch("phone")}
+              onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
+              type="text"
+              error={Boolean(!!errors.phone)}
+              helperText={!!errors.phone && errors.phone.message?.toString()}
+            />
+          )}
+        </div>
+        <div className="flex flex-row items-center gap-2 w-full text-titleColor">
+          <Checkbox
+            {...register("international")}
+            checked={isInternational}
+            sx={{ padding: 0 }}
           />
-        ) : (
-          <PhoneNumberInput
-            size="small"
-            {...register("phone", {
-              required: "Phone Number is required",
-              pattern: {
-                message: "Phone is not valid",
-                value: international_phone_regex,
-              },
-            })}
-            variant="outlined"
-            className="border-2 rounded-xl py-2"
-            inputProps={{ style: { padding: 10, borderRadius: 12 } }}
-            value={watch("phone")}
-            onChange={(value) => setValue("phone", value.replace(/\s+/g, ""))}
-            type="text"
-            error={Boolean(!!errors.phone)}
-            helperText={!!errors.phone && errors.phone.message?.toString()}
-          />
-        )}
-      </div>
-      <div className="flex flex-row items-center w-full text-titleColor">
-        <Checkbox
-          {...register("international")}
-          checked={isInternational}
-        />
-        <span>{t("members_dashboard.login.international_user")}</span>
+          <span>{t("members_dashboard.login.international_user")}</span>
+        </div>
       </div>
       <div className="flex flex-col gap-[7px] text-[#555555] h-full w-full">
         <label className="flex flex-row items-center justify-between">
