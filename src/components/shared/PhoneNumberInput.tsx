@@ -22,11 +22,10 @@ export interface PhoneNumberInputProps extends BaseTextFieldProps {
   onChange: (phone: string) => void;
 }
 
-export const PhoneNumberInput = ({
-  value,
-  onChange,
-  ...others
-}: PhoneNumberInputProps) => {
+export const PhoneNumberInput = React.forwardRef<
+  HTMLInputElement,
+  PhoneNumberInputProps
+>(({ value, onChange, ...others }, forwardedRef) => {
   const { handlePhoneValueChange, inputRef, country, setCountry } =
     usePhoneInput({
       defaultCountry: "et",
@@ -37,6 +36,15 @@ export const PhoneNumberInput = ({
       },
     });
 
+  const setRefs = (node: HTMLInputElement) => {
+    inputRef.current = node;
+    if (typeof forwardedRef === "function") {
+      forwardedRef(node);
+    } else if (forwardedRef) {
+      forwardedRef.current = node;
+    }
+  };
+
   return (
     <TextField
       variant="standard"
@@ -45,7 +53,7 @@ export const PhoneNumberInput = ({
       value={value}
       onChange={handlePhoneValueChange}
       type="tel"
-      inputRef={inputRef}
+      inputRef={setRefs}
       InputProps={{
         startAdornment: (
           <InputAdornment
@@ -113,4 +121,6 @@ export const PhoneNumberInput = ({
       {...others}
     />
   );
-};
+});
+
+PhoneNumberInput.displayName = "PhoneNumberInput";

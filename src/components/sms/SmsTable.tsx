@@ -175,8 +175,7 @@ const SmsTable = ({
                 // setRefetch(!refetch);
               }
             }}
-            inputProps={{
-              disableUnderline: true,
+            InputProps={{
               sx: {
                 width: "100%",
                 color: "#555555",

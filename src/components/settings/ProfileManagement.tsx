@@ -232,7 +232,7 @@ const ProfileManagement = ({ user }: { user: User | null }) => {
                 required: "Gender is required",
               })}
               select
-              defaultValue={watch("gender")}
+              defaultValue={watch("gender") ?? ""}
               variant="outlined"
               error={Boolean(!!errors.email)}
               helperText={!!errors.email && errors.email.message?.toString()}
