@@ -516,7 +516,7 @@ async function seedJobs() {
       INSERT INTO job
         (id, "jobTitle", "jobTitleAmharic", "jobDescription", "jobDescriptionAmharic", document, "deadlineDate", "isDraft", created_at, updated_at)
       VALUES
-        (${uuid()}, ${j.jobTitle}, ${j.jobTitleAmharic}, ${j.jobDescription}, ${j.jobDescriptionAmharic}, ${""}, ${inDays(30)}, true, now(), now())
+        (${uuid()}, ${j.jobTitle}, ${j.jobTitleAmharic}, ${j.jobDescription}, ${j.jobDescriptionAmharic}, ${""}, ${inDays(30)}, false, now(), now())
     `;
     console.log("created job:", j.jobTitle, "(NOTE: no real document attached yet)");
   }
