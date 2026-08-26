@@ -1,7 +1,7 @@
 "use client";
 
 import { formatNumberToKOrM } from "@/util/date";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   PieChart,
   Pie,
@@ -14,6 +14,14 @@ import {
 
 const PieChartGraph = ({ pieChartData }: { pieChartData: any }) => {
   const totalMembersCount = pieChartData?.totalMemberCount ?? 0;
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkSize = () => setIsMobile(window.innerWidth <= 450);
+    checkSize();
+    window.addEventListener("resize", checkSize);
+    return () => window.removeEventListener("resize", checkSize);
+  }, []);
 
   const data = [
     {
@@ -79,10 +87,10 @@ const PieChartGraph = ({ pieChartData }: { pieChartData: any }) => {
         <Pie
           data={data ?? []}
           dataKey="value"
-          cx={window?.innerWidth <= 450 ? "140%" : "70%"}
-          cy={window?.innerWidth <= 450 ? "40%" : "50%"}
-          innerRadius={window?.innerWidth <= 450 ? "80%" : "47%"}
-          outerRadius={window?.innerWidth <= 450 ? "150%" : "92%"}
+          cx={isMobile ? "140%" : "70%"}
+          cy={isMobile ? "40%" : "50%"}
+          innerRadius={isMobile ? "80%" : "47%"}
+          outerRadius={isMobile ? "150%" : "92%"}
           paddingAngle={0}
           labelLine={false}
         >

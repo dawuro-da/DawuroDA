@@ -197,15 +197,19 @@ const CustomizedDatagrid = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows, totalCount]);
 
-  function CustomPagination(paginProps: any) {
+  function CustomPagination({
+    generateReport: reportFn,
+    generateLoading: reportLoading,
+    ...paginProps
+  }: any) {
     return (
       <div className="flex lg:flex-row md:flex-row xl:flex-row flex-col-reverse lg:items-center xl:items-center md:items-center gap-4 justify-between w-full py-6">
         <Button
-          onClick={paginProps.generateReport && paginProps.generateReport}
+          onClick={reportFn && reportFn}
           variant="contained"
           className="bg-primaryColor text-white px-10 py-2 h-[40px] font-bold min-w-64"
         >
-          {generateLoading ? (
+          {reportLoading ? (
             <CircularProgress className="text-white" />
           ) : (
             "Generate Report"
