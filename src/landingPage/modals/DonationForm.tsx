@@ -90,6 +90,38 @@ const DonationForm = ({
           className="flex flex-col gap-4 p-10"
         >
           <div className="flex flex-col gap-2 text-titleColor h-full">
+            <label>Donation Designation</label>
+            <TextField
+              {...register("donationDesignation", {
+                required: "Donation designation is required",
+              })}
+              multiline
+              rows={2}
+              maxRows={3}
+              defaultValue={designation?.title}
+              variant="outlined"
+              error={Boolean(errors.donationDesignation)}
+              disabled={Boolean(designation)}
+              helperText={errors.donationDesignation?.message?.toString()}
+              inputProps={{ style: { padding: 2 } }}
+            />
+          </div>
+          {designation?.description && (
+            <div className="flex flex-col gap-2 text-titleColor h-full">
+              <label>Campaign Description</label>
+              <TextField
+                multiline
+                rows={3}
+                maxRows={5}
+                defaultValue={designation?.description}
+                variant="outlined"
+                disabled={true}
+                helperText={errors.donationDesignation?.message?.toString()}
+                inputProps={{ style: { padding: 2 } }}
+              />
+            </div>
+          )}
+          <div className="flex flex-col gap-2 text-titleColor h-full">
             <label>Full Name</label>
             <TextField
               {...register("fullName", { required: "Full Name is required" })}
@@ -144,38 +176,6 @@ const DonationForm = ({
               ))}
             </TextField>
           </div>
-          <div className="flex flex-col gap-2 text-titleColor h-full">
-            <label>Donation Designation</label>
-            <TextField
-              {...register("donationDesignation", {
-                required: "Donation designation is required",
-              })}
-              multiline
-              rows={2}
-              maxRows={3}
-              defaultValue={designation?.title}
-              variant="outlined"
-              error={Boolean(errors.donationDesignation)}
-              disabled={Boolean(designation)}
-              helperText={errors.donationDesignation?.message?.toString()}
-              inputProps={{ style: { padding: 2 } }}
-            />
-          </div>
-          {designation?.description && (
-            <div className="flex flex-col gap-2 text-titleColor h-full">
-              <label>Campaign Description</label>
-              <TextField
-                multiline
-                rows={3}
-                maxRows={5}
-                defaultValue={designation?.description}
-                variant="outlined"
-                disabled={true}
-                helperText={errors.donationDesignation?.message?.toString()}
-                inputProps={{ style: { padding: 2 } }}
-              />
-            </div>
-          )}
           <div className="flex flex-col gap-2 text-titleColor h-full col-span-2">
             <label>Donation Amount</label>
             <div className="grid xl:lg:grid-cols-5 md:grid-cols-5 grid-cols-3 gap-4">
