@@ -61,7 +61,7 @@ const FooterLinks = ({ t }: { t: any }) => {
           {[
             { link: "/about", name: `${t("navigation.about")}` },
             { link: "/news", name: `${t("navigation.news")}` },
-            { link: "/#initiatives", name: `${t("navigation.initiatives")}` },
+            { link: "/initiatives", name: `${t("navigation.initiatives")}` },
             { link: "/vacancies", name: `${t("navigation.vacancy")}` },
             { link: "/resources", name: `${t("navigation.resources")}` },
             { link: "/#faqs", name: `${t("navigation.faq")}` },
