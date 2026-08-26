@@ -21,11 +21,11 @@ const Sidebar = ({ setContent, currentContent, borderColor }: SidebarProps) => {
 
   return (
     <div className="w-full border-b border-gray-200">
-      <ul className="w-full flex flex-row flex-wrap items-center gap-2 md:gap-6 overflow-x-auto">
+      <ul className="w-full flex flex-row flex-wrap items-center gap-x-3 gap-y-2 sm:gap-x-4 md:gap-x-6 overflow-x-auto">
         {menuItems.map((item) => (
           <li
             key={item.id}
-            className={`cursor-pointer shrink-0 whitespace-nowrap font-medium text-sm md:text-base px-1 pb-4 border-b-4 transition-colors ${
+            className={`cursor-pointer shrink-0 whitespace-nowrap font-medium text-xs sm:text-sm md:text-base px-1 pb-3 md:pb-4 border-b-4 transition-colors ${
               currentContent === item.id
                 ? `${borderColor} text-[#1E1E1E]`
                 : "border-transparent text-titleColor hover:text-[#1E1E1E]"

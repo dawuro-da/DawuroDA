@@ -48,7 +48,7 @@ const ManagementMembers = () => {
           <br />
           <p className="mb-8">{t("about.management_description")}</p>
         </div>
-        <div className="grid grid-cols-3 gap-10 w-full ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 w-full">
           {loading
             ? [1, 2, 3].map((item) => (
                 <div key={item} className="min-h-[300px] w-full">
@@ -60,7 +60,7 @@ const ManagementMembers = () => {
                 .map((manager, index) => (
                   <div
                     key={index}
-                    className="relative w-full h-[300px] rounded-lg hover:cursor-pointer"
+                    className="relative w-full h-[300px] rounded-lg hover:cursor-pointer overflow-hidden"
                     style={{
                       background: `url('${manager?.photo}')`,
                       backgroundSize: "cover",
@@ -71,13 +71,13 @@ const ManagementMembers = () => {
                       setSelectedMember(manager);
                     }}
                   >
-                    <div className="absolute flex flex-col w-full text-white bottom-0 left-0 pb-6 pl-2 pt-6 bg-gradient-to-t from-[rgb(0,0,0,0.9)] to-transparent">
-                      <span className="font-bold text-xl w-[200px]">
+                    <div className="absolute flex flex-col w-full text-white bottom-0 left-0 pb-6 pl-3 pr-3 pt-6 bg-gradient-to-t from-[rgb(0,0,0,0.9)] to-transparent">
+                      <span className="font-bold text-xl w-full truncate">
                         {isAmharic
                           ? manager?.managerNameAmharic
                           : manager?.managerName}
                       </span>
-                      <span className="max-w-[200px] truncate text-ellipsis text-lg">
+                      <span className="w-full truncate text-ellipsis text-lg">
                         {isAmharic ? manager?.jobAmharic : manager?.job}
                       </span>
                     </div>

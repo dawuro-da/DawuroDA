@@ -73,14 +73,14 @@ const AboutSection = () => {
   return (
     <>
       <Content setContent={setContent} content={content} />
-      <div className="md:w-4/5 w-full mx-auto pt-24 flex flex-col gap-10 lg:mt-[80px] md:mt-[20px] mt-[10px]">
+      <div className="md:w-4/5 w-full mx-auto pt-24 px-6 md:px-0 flex flex-col gap-10 lg:mt-[80px] md:mt-[20px] mt-[10px]">
         <Sidebar
           setContent={setContent}
           currentContent={content}
           borderColor={borderColor}
         />
         <div className="w-full flex items-center justify-center">
-        <div className="lg:w-3/4 w-full lg:px-0 md:px-4 px-2">
+        <div className="lg:w-3/4 w-full lg:px-0">
           <ContentRender content={content} />
         </div>
         </div>
