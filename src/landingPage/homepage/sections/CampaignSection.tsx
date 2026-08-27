@@ -61,8 +61,10 @@ const CampaignSection = () => {
         open={openDonationModal}
         handleClose={() => setOpenDonationModal(false)}
         designation={{
-          title: campaign.headline,
-          description: campaign.description,
+          title: isAmharic ? campaign.headlineAmharic : campaign.headline,
+          description: isAmharic
+            ? campaign.descriptionAmharic || campaign.description
+            : campaign.description,
         }}
       />
       <Modal open={openVideoModal} onClose={() => setOpenVideoModal(false)}>
@@ -103,7 +105,9 @@ const CampaignSection = () => {
               {isAmharic ? campaign.headlineAmharic : campaign.headline}
             </h2>
             <p className="text-white/80 mb-6 max-w-lg">
-              {campaign.description}
+              {isAmharic
+                ? campaign.descriptionAmharic || campaign.description
+                : campaign.description}
             </p>
 
             {hasGoal && (

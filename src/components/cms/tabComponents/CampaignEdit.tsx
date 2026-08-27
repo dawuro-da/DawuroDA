@@ -45,6 +45,7 @@ const CampaignEdit = ({
     setValue("headline", selectedCampaign?.headline);
     setValue("headlineAmharic", selectedCampaign?.headlineAmharic);
     setValue("description", selectedCampaign?.description);
+    setValue("descriptionAmharic", selectedCampaign?.descriptionAmharic);
     setValue("image", selectedCampaign?.image);
     setValue("youtubeLink", selectedCampaign?.youtubeLink);
     setValue("goalAmount", selectedCampaign?.goalAmount);
@@ -60,6 +61,7 @@ const CampaignEdit = ({
       formData.append("headline", values.headline);
       formData.append("headlineAmharic", values.headlineAmharic);
       formData.append("description", values.description);
+      formData.append("descriptionAmharic", values.descriptionAmharic ?? "");
       formData.append(
         "image",
         typeof values.image === "string"
@@ -177,6 +179,20 @@ const CampaignEdit = ({
               error={Boolean(!!errors.description)}
               helperText={
                 !!errors.description && errors.description.message?.toString()
+              }
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ style: { padding: 10 } }}
+            />
+          </div>
+          <div className="flex flex-col gap-1 text-titleColor">
+            <label>Description in Amharic</label>
+            <TextField
+              {...register("descriptionAmharic")}
+              variant="outlined"
+              error={Boolean(!!errors.descriptionAmharic)}
+              helperText={
+                !!errors.descriptionAmharic &&
+                errors.descriptionAmharic.message?.toString()
               }
               sx={{ backgroundColor: "white" }}
               inputProps={{ style: { padding: 10 } }}

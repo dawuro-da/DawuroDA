@@ -16,6 +16,7 @@ export async function POST(req: Request) {
   const startDate = formData.get("startDate") as string;
   const endDate = formData.get("endDate") as string;
   const description = formData.get("description") as string;
+  const descriptionAmharic = formData.get("descriptionAmharic") as string;
   const headline = formData.get("headline") as string;
   const headlineAmharic = formData.get("headlineAmharic") as string;
   const youtubeLink = formData.get("youtubeLink") as string;
@@ -39,6 +40,7 @@ export async function POST(req: Request) {
 
     const result = await createCampaign({
       description,
+      descriptionAmharic: descriptionAmharic || "",
       headline,
       headlineAmharic,
       image: imageUrl,

@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { OPTIONS } from "@/util/authOptions";
-import { updateInitiative } from "@/db/initiative";
-import { uploadFile } from "@/util/uploadFile";
+import { findInitiativeById, updateInitiative } from "@/db/initiative";
+import { uploadFile, deleteOldFile } from "@/util/uploadFile";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
@@ -25,6 +25,8 @@ export async function POST(req: Request, context: { params: { id: string } }) {
   ) as string;
 
   try {
+    const existing = await findInitiativeById(initiativeId);
+
     let imageUrls = [];
     if (featuredImages.length) {
       for (let k = 0; k < featuredImages.length; k++) {
@@ -43,6 +45,11 @@ export async function POST(req: Request, context: { params: { id: string } }) {
         }
       }
     }
+
+    const removedImages = (existing?.featuredImages ?? []).filter(
+      (url) => !imageUrls.includes(url)
+    );
+    await Promise.all(removedImages.map((url) => deleteOldFile(url)));
 
     const result = await updateInitiative({
       nameOfInitiative,

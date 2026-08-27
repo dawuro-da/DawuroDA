@@ -53,8 +53,10 @@ const TopCampaignSection = () => {
 
   const openDonate = (campaign: Campaign) => {
     setDesignation({
-      title: campaign.headline,
-      description: campaign.description,
+      title: isAmharic ? campaign.headlineAmharic : campaign.headline,
+      description: isAmharic
+        ? campaign.descriptionAmharic || campaign.description
+        : campaign.description,
     });
     setOpenDonationModal(true);
   };
@@ -129,7 +131,9 @@ const TopCampaignSection = () => {
             {isAmharic ? campaign.headlineAmharic : campaign.headline}
           </h3>
           <p className="text-titleColor text-sm mb-4 line-clamp-2">
-            {campaign.description}
+            {isAmharic
+              ? campaign.descriptionAmharic || campaign.description
+              : campaign.description}
           </p>
           {hasGoal && (
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-titleColor text-sm mb-4">

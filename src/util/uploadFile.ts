@@ -1,4 +1,4 @@
-import { put } from "@vercel/blob";
+import { put, del } from "@vercel/blob";
 
 export const uploadFile = async ({
   path,
@@ -11,14 +11,21 @@ export const uploadFile = async ({
   file: File;
   mimeType: string;
 }) => {
+  const { url } = await put(`${path}/${fileName}`, file, {
+    contentType: mimeType,
+    access: "public",
+    addRandomSuffix: true,
+  });
+  return url;
+};
+
+const BLOB_HOST_PATTERN = /\.public\.blob\.vercel-storage\.com\//;
+
+export const deleteOldFile = async (oldUrl?: string | null) => {
+  if (!oldUrl || !BLOB_HOST_PATTERN.test(oldUrl)) return;
   try {
-    const { url } = await put(`${path}/${fileName}`, file, {
-      contentType: mimeType,
-      access: "public",
-    });
-    return url;
+    await del(oldUrl);
   } catch (err) {
-    console.error(err);
-    
+    console.error("Failed to delete old blob:", err);
   }
 };

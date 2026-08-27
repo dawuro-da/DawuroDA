@@ -283,16 +283,17 @@ model Event {
 }
 
 model Campaign {
-  id              String  @id @default(uuid())
-  headline        String
-  headlineAmharic String
-  description     String
-  image           String?
-  youtubeLink     String?
-  goalAmount      Int?
-  raisedAmount    Int?    @default(0)
-  isFeatured      Boolean @default(false)
-  isDraft         Boolean @default(false)
+  id                 String  @id @default(uuid())
+  headline           String
+  headlineAmharic    String
+  description        String
+  descriptionAmharic String  @default("")
+  image              String?
+  youtubeLink        String?
+  goalAmount         Int?
+  raisedAmount       Int?    @default(0)
+  isFeatured         Boolean @default(false)
+  isDraft            Boolean @default(false)
 
   startDate DateTime
   endDate   DateTime

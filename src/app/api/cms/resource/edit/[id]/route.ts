@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { OPTIONS } from "@/util/authOptions";
-import { updateResource } from "@/db/resource";
-import { uploadFile } from "@/util/uploadFile";
+import { findResourceById, updateResource } from "@/db/resource";
+import { uploadFile, deleteOldFile } from "@/util/uploadFile";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
@@ -20,14 +20,19 @@ export async function POST(req: Request, context: { params: { id: string } }) {
     const document = formData.get("document") as File;
     const isDraft = formData.get("isDraft") as string;
 
-    const imageUrl = document.name
-      ? await uploadFile({
-          path: "/resourceDocs",
-          fileName: document.name,
-          file: document,
-          mimeType: document.type,
-        })
-      : (document as unknown as string);
+    const existing = await findResourceById(resourceId);
+    let imageUrl: string;
+    if (document.name) {
+      imageUrl = await uploadFile({
+        path: "/resourceDocs",
+        fileName: document.name,
+        file: document,
+        mimeType: document.type,
+      });
+      await deleteOldFile(existing?.document);
+    } else {
+      imageUrl = document as unknown as string;
+    }
 
     const result = await updateResource({
       name,
