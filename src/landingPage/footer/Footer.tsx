@@ -136,7 +136,7 @@ const Footer = () => {
               <span className="block whitespace-nowrap">{`${t("footer.motto1")}`}</span>
               <span className="block whitespace-nowrap">{`${t("footer.motto2")}"`}</span>
             </div>
-            <p className="mt-2 text-sm">{t("footer.motto")}</p>
+            <p className="mt-2 text-sm text-center w-full">{t("footer.motto")}</p>
           </div>
         </div>
 

@@ -1,14 +1,17 @@
 "use client";
 
 import DonationForm from "@/landingPage/modals/DonationForm";
+import { convertYouTubeURL } from "@/util/helper";
 import {
   BarChart,
   ThumbUp,
   Add,
   ChevronLeft,
   ChevronRight,
+  PlayArrow,
+  Close,
 } from "@mui/icons-material";
-import { Skeleton } from "@mui/material";
+import { Modal, Skeleton } from "@mui/material";
 import { Campaign } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
@@ -30,6 +33,7 @@ const TopCampaignSection = () => {
     title: string;
     description: string;
   }>();
+  const [videoCampaign, setVideoCampaign] = useState<Campaign>();
 
   const fetchCampaigns = async () => {
     setLoading(true);
@@ -104,11 +108,24 @@ const TopCampaignSection = () => {
           />
           <button
             onClick={() => openDonate(campaign)}
-            className="absolute top-3 right-3 flex items-center gap-1 bg-primaryColor/90 hover:bg-primaryColor text-white text-xs font-semibold px-3 py-1.5 rounded-full transition-colors"
+            className="absolute z-10 top-3 right-3 flex items-center gap-1 bg-primaryColor/90 hover:bg-primaryColor text-white text-xs font-semibold px-3 py-1.5 rounded-full transition-colors"
           >
             {t("home.donate")}
             <Add fontSize="inherit" />
           </button>
+          {campaign.youtubeLink && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setVideoCampaign(campaign);
+              }}
+              className="absolute inset-0 flex items-center justify-center group/play"
+            >
+              <span className="h-12 w-12 rounded-full bg-white/90 group-hover/play:bg-white flex items-center justify-center transition-colors shadow-md">
+                <PlayArrow className="text-primaryColor" />
+              </span>
+            </button>
+          )}
           {percent !== null && (
             <>
               <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/30">
@@ -162,6 +179,25 @@ const TopCampaignSection = () => {
         handleClose={() => setOpenDonationModal(false)}
         designation={designation}
       />
+      <Modal open={Boolean(videoCampaign)} onClose={() => setVideoCampaign(undefined)}>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-3xl aspect-video bg-black rounded-xl overflow-hidden outline-none">
+          <button
+            onClick={() => setVideoCampaign(undefined)}
+            className="absolute top-2 right-2 z-10 bg-white/90 hover:bg-white rounded-full p-1.5"
+          >
+            <Close fontSize="small" />
+          </button>
+          {videoCampaign?.youtubeLink && (
+            <iframe
+              className="w-full h-full"
+              src={convertYouTubeURL(videoCampaign.youtubeLink)}
+              title={videoCampaign.headline}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          )}
+        </div>
+      </Modal>
       <div className="text-center mb-12">
         <h2 className="font-bold lg:text-4xl text-2xl mb-3">
           {t("home.campaign_heading")}
