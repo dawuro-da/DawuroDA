@@ -46,9 +46,7 @@ export async function createEvent({
   } catch (error) {
     console.error(error);
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 
@@ -91,9 +89,7 @@ export async function updateEvent({
     return event;
   } catch (error) {
     console.error(error);
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 

@@ -129,9 +129,7 @@ export async function createIndividualMember({
   } catch (error) {
     console.error(error);
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 
@@ -180,9 +178,7 @@ export async function createInstitutionMember({
   } catch (error) {
     console.error(error);
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 
@@ -233,9 +229,7 @@ export async function updateIndividualMember({
     return member;
   } catch (error) {
     console.error(error);
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 
@@ -260,9 +254,7 @@ export async function updateInstitutionMember({
     return member;
   } catch (error) {
     console.error(error);
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 

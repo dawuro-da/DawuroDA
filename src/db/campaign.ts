@@ -49,18 +49,15 @@ export async function createCampaign({
         raisedAmount,
         isFeatured,
         isDraft,
-        startDate,
-        endDate,
+        startDate: new Date(startDate).toISOString(),
+        endDate: new Date(endDate).toISOString(),
       },
     });
 
     return campaign;
   } catch (error) {
     console.error(error);
-
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 
@@ -115,9 +112,7 @@ export async function updateCampaign({
     return campaign;
   } catch (error) {
     console.error(error);
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 
