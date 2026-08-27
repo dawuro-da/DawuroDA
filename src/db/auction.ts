@@ -73,9 +73,7 @@ export async function createAuction({
   } catch (error) {
     console.error(error);
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 
@@ -118,9 +116,7 @@ export async function updateAuction({
     return auction;
   } catch (error) {
     console.error(error);
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 

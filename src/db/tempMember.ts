@@ -95,9 +95,7 @@ export async function createIndividualTempMember({
   } catch (error) {
     console.error(error);
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 
@@ -124,9 +122,7 @@ export async function createInstitutionTempMember({
   } catch (error) {
     console.error(error);
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 

@@ -43,9 +43,7 @@ export async function createJob({
   } catch (error) {
     console.error(error);
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 
@@ -85,9 +83,7 @@ export async function updateJob({
     return job;
   } catch (error) {
     console.error(error);
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw error;
-    }
+    throw error;
   }
 }
 
