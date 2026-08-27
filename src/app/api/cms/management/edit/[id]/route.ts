@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { OPTIONS } from "@/util/authOptions";
-import { updateManagement } from "@/db/management";
-import { uploadFile } from "@/util/uploadFile";
+import { findManagementById, updateManagement } from "@/db/management";
+import { uploadFile, deleteOldFile } from "@/util/uploadFile";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
@@ -23,14 +23,19 @@ export async function POST(req: Request, context: { params: { id: string } }) {
     const bioAmharic = formData.get("bioAmharic") as string;
     const isDraft = formData.get("isDraft") as string;
     const isBoardMember = formData.get("isBoardMember") as string;
-    const imageUrl = photo.name
-      ? await uploadFile({
-          path: "/managementPhoto",
-          fileName: photo.name ?? "name",
-          file: photo,
-          mimeType: photo.type,
-        })
-      : (photo as unknown as string);
+    const existing = await findManagementById(managementId);
+    let imageUrl: string;
+    if (photo.name) {
+      imageUrl = await uploadFile({
+        path: "/managementPhoto",
+        fileName: photo.name ?? "name",
+        file: photo,
+        mimeType: photo.type,
+      });
+      await deleteOldFile(existing?.photo);
+    } else {
+      imageUrl = photo as unknown as string;
+    }
 
     const result = await updateManagement({
       managerName,

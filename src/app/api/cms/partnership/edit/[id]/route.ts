@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { OPTIONS } from "@/util/authOptions";
-import { updatePartnership } from "@/db/partnership";
-import { uploadFile } from "@/util/uploadFile";
+import { findPartnershipById, updatePartnership } from "@/db/partnership";
+import { uploadFile, deleteOldFile } from "@/util/uploadFile";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
@@ -20,14 +20,19 @@ export async function POST(req: Request, context: { params: { id: string } }) {
   const bioAmharic = formData.get("bioAmharic") as string;
 
   try {
-    const imageUrl = logo.name
-      ? await uploadFile({
-          path: "/logos",
-          fileName: logo.name ?? "name",
-          file: logo,
-          mimeType: logo.type,
-        })
-      : (logo as unknown as string);
+    const existing = await findPartnershipById(partnershipId);
+    let imageUrl: string;
+    if (logo.name) {
+      imageUrl = await uploadFile({
+        path: "/logos",
+        fileName: logo.name ?? "name",
+        file: logo,
+        mimeType: logo.type,
+      });
+      await deleteOldFile(existing?.logo);
+    } else {
+      imageUrl = logo as unknown as string;
+    }
 
     const result = await updatePartnership({
       partnerName,

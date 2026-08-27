@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { OPTIONS } from "@/util/authOptions";
-import { upsertAboutContent } from "@/db/aboutContent";
-import { uploadFile } from "@/util/uploadFile";
+import { fetchAboutContentBySection, upsertAboutContent } from "@/db/aboutContent";
+import { uploadFile, deleteOldFile } from "@/util/uploadFile";
 
 export async function POST(
   req: Request,
@@ -34,15 +34,22 @@ export async function POST(
         .map((item) => item.trim())
         .filter(Boolean);
 
-    const imageUrl =
-      image && typeof image !== "string" && image.name
-        ? await uploadFile({
-            path: "/aboutContent",
-            fileName: image.name ?? "name",
-            file: image,
-            mimeType: image.type,
-          })
-        : (image as string | undefined);
+    let imageUrl: string | undefined;
+    if (image && typeof image !== "string" && image.name) {
+      const existing = await fetchAboutContentBySection({
+        section,
+        includeDrafts: true,
+      });
+      imageUrl = await uploadFile({
+        path: "/aboutContent",
+        fileName: image.name ?? "name",
+        file: image,
+        mimeType: image.type,
+      });
+      await deleteOldFile(existing?.image);
+    } else {
+      imageUrl = image as string | undefined;
+    }
 
     const result = await upsertAboutContent({
       section,

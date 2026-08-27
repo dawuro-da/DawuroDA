@@ -580,6 +580,8 @@ async function seedCampaign() {
       headlineAmharic: "የዳልማን ዘመቻዎች ይቀላቀሉ፤ የተቸገሩትን ይደግፉ፣ ተስፋን ይጫሩ።",
       description:
         "Together, we can provide urgent relief and restore hope to communities in crisis across Dawro Zone.",
+      descriptionAmharic:
+        "በጋራ ለዳውሮ ዞን ችግር ላይ ለሚገኙ ማህበረሰቦች አስቸኳይ እርዳታ በመስጠት ተስፋን መመለስ እንችላለን።",
       image: "/images/donationBG.webp",
       goalAmount: 450000,
       raisedAmount: 55000,
@@ -590,6 +592,8 @@ async function seedCampaign() {
       headlineAmharic: "በዳውሮ ዞን የንፁህ ውሃ አገልግሎትን ይደግፉ",
       description:
         "Help DawuroDA expand access to clean drinking water and improve health outcomes across Dawro's communities.",
+      descriptionAmharic:
+        "ዳልማ በዳውሮ ማህበረሰቦች የንፁህ መጠጥ ውሃ ተደራሽነትን በማስፋትና የጤና ውጤቶችን በማሻሻል ይረዱ።",
       image: "/images/haygine.jpg",
       goalAmount: 200000,
       raisedAmount: 40000,
@@ -600,6 +604,8 @@ async function seedCampaign() {
       headlineAmharic: "ለዳውሮ ልጆች ትምህርትን ይደግፉ",
       description:
         "Contribute to improving access to quality education for children and youth across Dawro Zone.",
+      descriptionAmharic:
+        "በዳውሮ ዞን ለሚገኙ ህጻናትና ወጣቶች የትምህርት ተደራሽነትና ጥራትን ለማሻሻል አስተዋፅኦ ያድርጉ።",
       image: "/images/eduNews.jpg",
       goalAmount: 150000,
       raisedAmount: 60000,
@@ -615,9 +621,9 @@ async function seedCampaign() {
     }
     await sql`
       INSERT INTO campaign
-        (id, headline, "headlineAmharic", description, image, "goalAmount", "raisedAmount", "isFeatured", "isDraft", "startDate", "endDate", created_at, updated_at)
+        (id, headline, "headlineAmharic", description, "descriptionAmharic", image, "goalAmount", "raisedAmount", "isFeatured", "isDraft", "startDate", "endDate", created_at, updated_at)
       VALUES
-        (${uuid()}, ${c.headline}, ${c.headlineAmharic}, ${c.description}, ${c.image},
+        (${uuid()}, ${c.headline}, ${c.headlineAmharic}, ${c.description}, ${c.descriptionAmharic}, ${c.image},
          ${c.goalAmount}, ${c.raisedAmount}, ${c.isFeatured}, false, ${inDays(7)}, ${inDays(90)}, now(), now())
     `;
     console.log("created campaign:", c.headline);

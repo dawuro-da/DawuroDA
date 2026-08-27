@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { OPTIONS } from "@/util/authOptions";
-import { updateNews } from "@/db/news";
-import { uploadFile } from "@/util/uploadFile";
+import { findNewsById, updateNews } from "@/db/news";
+import { uploadFile, deleteOldFile } from "@/util/uploadFile";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
@@ -22,6 +22,8 @@ export async function POST(req: Request, context: { params: { id: string } }) {
   const headline = formData.get("headline") as string;
   const headlineAmharic = formData.get("headlineAmharic") as string;
   try {
+    const existing = await findNewsById(newsId);
+
     let imageUrls = [];
     if (profileImages.length) {
       for (let k = 0; k < profileImages.length; k++) {
@@ -40,6 +42,11 @@ export async function POST(req: Request, context: { params: { id: string } }) {
         }
       }
     }
+
+    const removedImages = (existing?.profileImage ?? []).filter(
+      (url) => !imageUrls.includes(url)
+    );
+    await Promise.all(removedImages.map((url) => deleteOldFile(url)));
     const result = await updateNews({
       headline,
       headlineAmharic,

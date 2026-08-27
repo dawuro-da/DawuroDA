@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { OPTIONS } from "@/util/authOptions";
-import { updateCampaign } from "@/db/campaign";
-import { uploadFile } from "@/util/uploadFile";
+import { findCampaignById, updateCampaign } from "@/db/campaign";
+import { uploadFile, deleteOldFile } from "@/util/uploadFile";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
@@ -18,6 +18,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
   const headline = formData.get("headline") as string;
   const headlineAmharic = formData.get("headlineAmharic") as string;
   const description = formData.get("description") as string;
+  const descriptionAmharic = formData.get("descriptionAmharic") as string;
   const startDate = formData.get("startDate") as string;
   const endDate = formData.get("endDate") as string;
   const youtubeLink = formData.get("youtubeLink") as string;
@@ -26,15 +27,17 @@ export async function POST(req: Request, context: { params: { id: string } }) {
   const photo = formData.get("image") as File | string | null;
 
   try {
+    const existing = await findCampaignById(campaignId);
+
     let imageUrl: string | undefined;
     if (photo && typeof photo !== "string" && photo.name) {
-      imageUrl =
-        (await uploadFile({
-          path: "/campaignImages",
-          fileName: photo.name,
-          file: photo,
-          mimeType: photo.type,
-        })) ?? undefined;
+      imageUrl = await uploadFile({
+        path: "/campaignImages",
+        fileName: photo.name,
+        file: photo,
+        mimeType: photo.type,
+      });
+      await deleteOldFile(existing?.image);
     } else if (typeof photo === "string" && photo) {
       imageUrl = photo;
     }
@@ -45,6 +48,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       endDate,
       headlineAmharic,
       description,
+      descriptionAmharic: descriptionAmharic || "",
       image: imageUrl,
       youtubeLink: youtubeLink || undefined,
       goalAmount: goalAmount ? Number(goalAmount) : undefined,

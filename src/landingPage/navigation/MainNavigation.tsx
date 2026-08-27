@@ -79,24 +79,24 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
       />
       <div className="z-50 relative w-full bg-transparent overflow-hidden">
         {/* Top utility bar */}
-        <div className="hidden xl:lg:md:flex flex-row items-center justify-between xl:lg:px-40 md:px-20 px-10 h-11 text-sm bg-primaryColor text-white">
-          <div className="flex flex-row items-center gap-6">
+        <div className="flex flex-row items-center justify-center md:justify-between xl:lg:px-40 md:px-20 px-4 h-9 md:h-11 text-xs md:text-sm bg-primaryColor text-white">
+          <div className="flex flex-row items-center gap-3 md:gap-6">
             <Link
               href="mailto:info@dawuroda.org"
-              className="flex flex-row items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
+              className="flex flex-row items-center gap-1.5 md:gap-2 opacity-90 hover:opacity-100 transition-opacity"
             >
               <Email fontSize="small" />
               info@dawuroda.org
             </Link>
             <Link
               href="tel:251473450258"
-              className="flex flex-row items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
+              className="flex flex-row items-center gap-1.5 md:gap-2 opacity-90 hover:opacity-100 transition-opacity"
             >
               <Call fontSize="small" />
               +251 47 345 0258
             </Link>
           </div>
-          <div className="flex flex-row items-center gap-5">
+          <div className="hidden md:flex flex-row items-center gap-5">
             <span
               onClick={() => setOpenDonateModal(true)}
               className="opacity-90 hover:opacity-100 cursor-pointer transition-opacity"
@@ -125,7 +125,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
               </Link>
               <Link
                 target="_blank"
-                href="#"
+                href="https://web.facebook.com/profile.php?id=61593361462376"
                 className="opacity-90 hover:opacity-100 transition-opacity"
               >
                 <Facebook fontSize="small" />
@@ -149,7 +149,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
         </div>
 
         {/* Main bar */}
-        <div className="flex w-full flex-row items-center justify-between xl:lg:px-40 md:px-20 px-10 xl:lg:h-[98px] md:h-[98px] h-[100px] bg-white">
+        <div className="flex w-full flex-row items-center justify-between xl:lg:px-40 md:px-20 px-10 xl:lg:h-[98px] md:h-[98px] h-[68px] bg-white">
           <div
             onClick={() => router.push("/")}
             className="font-bold relative flex flex-row items-center gap-3 cursor-pointer"
@@ -157,7 +157,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
             <Avatar
               src={"/images/dawuroda-logo-256.png"}
               alt="DawuroDA logo"
-              className="h-[52px] w-[52px]"
+              className="h-[44px] w-[44px] md:h-[52px] md:w-[52px]"
               style={{
                 boxShadow: "2px 3px 12px rgb(0,0,0,0.2)",
               }}
@@ -340,7 +340,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
                 {/* <Twitter /> */}
                 <Link
                   target="_blank"
-                  href="#"
+                  href="https://web.facebook.com/profile.php?id=61593361462376"
                 >
                   <Facebook />
                 </Link>

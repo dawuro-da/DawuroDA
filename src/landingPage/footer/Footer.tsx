@@ -103,7 +103,7 @@ const Footer = () => {
               // { href: "", src: "/images/twitter.svg", alt: "Twitter" },
               // { href: "", src: "/images/instagram.svg", alt: "Instagram" },
               {
-                href: "#",
+                href: "https://web.facebook.com/profile.php?id=61593361462376",
                 src: "/images/facebook.svg",
                 alt: "Facebook",
               },

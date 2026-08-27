@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { OPTIONS } from "@/util/authOptions";
-import { updateJob } from "@/db/job";
-import { uploadFile } from "@/util/uploadFile";
+import { findJobById, updateJob } from "@/db/job";
+import { uploadFile, deleteOldFile } from "@/util/uploadFile";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
@@ -21,14 +21,19 @@ export async function POST(req: Request, context: { params: { id: string } }) {
   const jobId = context.params.id;
 
   try {
-    const imageUrl = document.name
-      ? await uploadFile({
-          path: "/jobDocs",
-          fileName: document.name ?? "name",
-          file: document,
-          mimeType: document.type,
-        })
-      : (document as unknown as string);
+    const existing = await findJobById(jobId);
+    let imageUrl: string;
+    if (document.name) {
+      imageUrl = await uploadFile({
+        path: "/jobDocs",
+        fileName: document.name ?? "name",
+        file: document,
+        mimeType: document.type,
+      });
+      await deleteOldFile(existing?.document);
+    } else {
+      imageUrl = document as unknown as string;
+    }
 
     const result = await updateJob({
       jobTitle,

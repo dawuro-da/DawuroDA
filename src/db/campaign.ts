@@ -13,6 +13,7 @@ export async function createCampaign({
   headline,
   headlineAmharic,
   description,
+  descriptionAmharic,
   image,
   youtubeLink,
   goalAmount,
@@ -25,6 +26,7 @@ export async function createCampaign({
   headline: string;
   headlineAmharic: string;
   description: string;
+  descriptionAmharic: string;
   image?: string;
   youtubeLink?: string;
   goalAmount?: number;
@@ -40,6 +42,7 @@ export async function createCampaign({
         headline,
         headlineAmharic,
         description,
+        descriptionAmharic,
         image,
         youtubeLink,
         goalAmount,
@@ -65,6 +68,7 @@ export async function updateCampaign({
   headline,
   headlineAmharic,
   description,
+  descriptionAmharic,
   image,
   youtubeLink,
   goalAmount,
@@ -79,6 +83,7 @@ export async function updateCampaign({
   headline: string;
   headlineAmharic: string;
   description: string;
+  descriptionAmharic: string;
   image?: string;
   youtubeLink?: string;
   goalAmount?: number;
@@ -96,6 +101,7 @@ export async function updateCampaign({
         headlineAmharic,
         isDraft,
         description,
+        descriptionAmharic,
         image,
         youtubeLink,
         goalAmount,
@@ -144,6 +150,12 @@ export async function fetchCampaigns({
         },
         {
           description: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          descriptionAmharic: {
             contains: searchText,
             mode: "insensitive",
           },
