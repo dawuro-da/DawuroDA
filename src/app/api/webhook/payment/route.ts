@@ -12,6 +12,13 @@ import { findMemberByPhone } from "@/db/member";
 import { createDonation } from "@/db/donation";
 import { findAuctionById } from "@/db/auction";
 
+// Chapa pings this URL to check reachability when the webhook is
+// registered/saved in the dashboard, before it ever sends a real POST
+// event. Without a GET handler, Next.js returns 405 for that check.
+export async function GET() {
+  return NextResponse.json({ success: "OK" }, { status: 200 });
+}
+
 export async function POST(req: Request, res: any) {
   try {
     const body = await req.json();
