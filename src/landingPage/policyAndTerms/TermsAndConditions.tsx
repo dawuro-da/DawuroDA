@@ -23,7 +23,7 @@ const TermsAndConditions = () => {
           <br />
           <p>
             {`The Dawuro Development Association website (the “Website”)
-             is published by the Dawuro Development Association, Dawro Zone,
+             is published by the Dawuro Development Association, dawuro Zone,
              (the “DawuroDA”, or “we”). Please read carefully
              the following conditions for use before using our website. We may revise 
              these conditions for use from time to time (such conditions for use, as they 

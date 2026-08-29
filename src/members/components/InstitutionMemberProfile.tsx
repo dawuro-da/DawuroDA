@@ -275,6 +275,7 @@ const InstitutionMemberProfile = ({ member }: { member: Member }) => {
                   <div className="min-w-[130px]">
                     <TextField
                       select
+                      disabled
                       defaultValue={member?.membershipLevel}
                       {...register("membershipLevel", {
                         required: "Membership Level is required",
@@ -283,8 +284,9 @@ const InstitutionMemberProfile = ({ member }: { member: Member }) => {
                       size="small"
                       error={Boolean(!!errors.membershipLevel)}
                       helperText={
-                        !!errors.membershipLevel &&
-                        errors.membershipLevel.message?.toString()
+                        !!errors.membershipLevel
+                          ? errors.membershipLevel.message?.toString()
+                          : "Contact the association or make a contribution payment to upgrade"
                       }
                     >
                       <MenuItem value={MembershipLevel?.Platinum}>

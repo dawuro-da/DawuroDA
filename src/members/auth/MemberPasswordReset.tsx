@@ -208,6 +208,16 @@ const MemberPasswordReset = ({
                   )}
                 </Button>
               )}
+              {!isSuccessfull && (
+                <div className="flex flex-row items-center gap-2 mt-2">
+                  <span
+                    onClick={() => router.push("/login")}
+                    className="text-green-500 cursor-pointer"
+                  >
+                    {`${t("members_dashboard.login.back_to_login_button")}`}
+                  </span>
+                </div>
+              )}
             </form>
           </div>
         </div>

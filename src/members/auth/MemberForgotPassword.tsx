@@ -92,7 +92,11 @@ const MemberForgotPassword = () => {
       case 1:
         return (
           <div className="flex flex-col items-center justify-center h-screen w-full">
-            <OtpConfirmation watch={watch} handleNext={handleNextResetStep} />
+            <OtpConfirmation
+              watch={watch}
+              handleNext={handleNextResetStep}
+              backHref="/login"
+            />
           </div>
         );
       case 2:
@@ -199,6 +203,14 @@ const MemberForgotPassword = () => {
                       `${t("members_dashboard.login.send_otp_button")}`
                     )}
                   </Button>
+                  <div className="flex flex-row items-center gap-2 mt-2">
+                    <span
+                      onClick={() => router.push("/login")}
+                      className="text-green-500 cursor-pointer"
+                    >
+                      {"Back to Login"}
+                    </span>
+                  </div>
                 </form>
               </div>
             </div>

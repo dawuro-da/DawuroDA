@@ -108,9 +108,14 @@ const Footer = () => {
                 alt: "Facebook",
               },
               {
-                href: "#",
+                href: "https://t.me/dawurodevelopmentassociation",
                 src: "/images/telegram.svg",
                 alt: "Telegram",
+              },
+              {
+                href: "https://www.youtube.com/@DawuroDevelopmentAssociation",
+                src: "/images/youtube.svg",
+                alt: "YouTube",
               },
             ].map((social, index) => (
               <SocialLink
