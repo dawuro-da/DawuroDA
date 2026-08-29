@@ -87,7 +87,7 @@ const DevelopmentInitiatives = () => {
                 >
                   <div className="relative w-full md:w-[45%] h-[220px] md:h-auto shrink-0 overflow-hidden">
                     <Image
-                      src={initiative.featuredImages?.[0] ?? "/images/tourism.svg"}
+                      src={initiative.featuredImages?.[0] ?? "/images/tourism.webp"}
                       alt=""
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"

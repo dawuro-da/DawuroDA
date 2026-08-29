@@ -98,7 +98,7 @@ const InitiativesGrid = () => {
                   <div className="relative w-full h-[200px] overflow-hidden">
                     <Image
                       src={
-                        initiative.featuredImages?.[0] ?? "/images/tourism.svg"
+                        initiative.featuredImages?.[0] ?? "/images/tourism.webp"
                       }
                       alt=""
                       fill

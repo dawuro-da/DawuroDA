@@ -141,7 +141,7 @@ const MemberRegistration = ({
     <div
       style={{
         ...(currentStep === 4 && {
-          backgroundImage: "url('/images/birthDayDecoration.svg')",
+          backgroundImage: "url('/images/birthDayDecoration.webp')",
         }),
       }}
       className="px-10 flex flex-col items-center  gap-6 h-full w-full overflow-y-auto hiddenscrollbar py-12"
