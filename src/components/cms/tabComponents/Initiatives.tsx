@@ -66,7 +66,7 @@ const Initiatives = () => {
   }, [refetch]);
 
   useEffect(() => {
-    append("/icons/list.svg");
+    append("/icons/list.png");
   }, []);
 
   useEffect(() => {}, [selectedInitiative]);

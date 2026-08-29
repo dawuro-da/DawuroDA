@@ -41,7 +41,7 @@ const NewsPage = () => {
   });
 
   useEffect(() => {
-    append("/icons/list.svg");
+    append("/icons/list.png");
   }, []);
 
   const fetchNews = async ({ page, pageSize }: PageState) => {

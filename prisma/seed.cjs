@@ -89,6 +89,7 @@ async function seedMembers() {
       paymentMeans: "Office",
       workPlace: "dawuro Zone Education Office",
       expertise: "Education",
+      profileImage: "https://q92e5bjsysnotwde.public.blob.vercel-storage.com/memberAvatars/selam-tesfaye.png",
     },
     {
       firstName: "Yonas",
@@ -102,6 +103,7 @@ async function seedMembers() {
       paymentMeans: "Bank",
       workPlace: "Private Sector",
       expertise: "Finance",
+      profileImage: "https://q92e5bjsysnotwde.public.blob.vercel-storage.com/memberAvatars/yonas-bekele.png",
     },
     {
       firstName: "Meron",
@@ -115,6 +117,7 @@ async function seedMembers() {
       paymentMeans: "Kebele",
       workPlace: "Esera Health Center",
       expertise: "Public Health",
+      profileImage: "https://q92e5bjsysnotwde.public.blob.vercel-storage.com/memberAvatars/meron-alemu.png",
     },
     {
       firstName: "Biniam",
@@ -128,6 +131,7 @@ async function seedMembers() {
       paymentMeans: "Edir",
       workPlace: "Mareka Woreda Administration",
       expertise: "Agriculture",
+      profileImage: "https://q92e5bjsysnotwde.public.blob.vercel-storage.com/memberAvatars/biniam-girma.png",
     },
   ];
 
@@ -138,6 +142,7 @@ async function seedMembers() {
       continue;
     }
     const { salt, hash } = await hashPassword("mike@1234");
+    const memberId = uuid();
     await sql`
       INSERT INTO members
         (id, "memberId", phone, "membershipLevel", "contributionAmount", "contributionSystem",
@@ -146,13 +151,20 @@ async function seedMembers() {
          "profileImage", branch, password_salt, password_hash,
          "idRenewedYear", "idRenewedAt", created_at, updated_at)
       VALUES
-        (${uuid()}, ${"DaDA" + crypto.randomBytes(4).toString("hex").toUpperCase()}, ${m.phone},
+        (${memberId}, ${"DaDA" + crypto.randomBytes(4).toString("hex").toUpperCase()}, ${m.phone},
          ${m.membershipLevel}, ${m.contributionAmount}, 'Monthly',
          ${monthsAgo(1)}, ${inDays(30)}, true, 'Individual', ${m.paymentMeans},
          ${"South West Ethiopia Peoples' Region"}, 'dawuro', ${m.city}, ${m.firstName}, ${m.lastName},
-         ${m.gender}, ${m.workPlace}, ${m.expertise}, ${"/icons/avatar.svg"}, ${m.branch},
+         ${m.gender}, ${m.workPlace}, ${m.expertise}, ${m.profileImage}, ${m.branch},
          ${salt}, ${hash},
          ${getEthiopianYear(monthsAgo(1))}, ${monthsAgo(1)}, now(), now())
+    `;
+    // A member marked hasPaid needs a real contribution record behind it —
+    // otherwise the Payment Record section shows empty despite the "Paid"
+    // status, which is exactly the mismatch this seed used to produce.
+    await sql`
+      INSERT INTO contribution (id, "contributionSystem", "contributorId", amount, created_at, updated_at)
+      VALUES (${uuid()}, 'Monthly', ${memberId}, ${m.contributionAmount}, ${monthsAgo(1)}, ${monthsAgo(1)})
     `;
     console.log("created member:", m.firstName, m.lastName);
   }
@@ -162,21 +174,27 @@ async function seedMembers() {
   const existingCompany = await sql`SELECT id FROM members WHERE phone = ${companyPhone}`;
   if (!existingCompany.length) {
     const { salt, hash } = await hashPassword("mike@1234");
+    const companyMemberId = uuid();
+    const companyContributionAmount = 6660;
     await sql`
       INSERT INTO members
         (id, "memberId", phone, "membershipLevel", "contributionAmount", "contributionSystem",
          "lastPaidAt", "nextDueDate", "hasPaid", "membershipType", "paymentMeans",
          region, zone, city, "institutionName", "headOrRepresentative", "fieldOfWork",
-         branch, password_salt, password_hash,
+         "profileImage", branch, password_salt, password_hash,
          "idRenewedYear", "idRenewedAt", created_at, updated_at)
       VALUES
-        (${uuid()}, ${"DaDA" + crypto.randomBytes(4).toString("hex").toUpperCase()}, ${companyPhone},
-         'Diamond', 6660, 'Monthly',
+        (${companyMemberId}, ${"DaDA" + crypto.randomBytes(4).toString("hex").toUpperCase()}, ${companyPhone},
+         'Diamond', ${companyContributionAmount}, 'Monthly',
          ${monthsAgo(1)}, ${inDays(30)}, true, 'Company', 'Bank',
          ${"South West Ethiopia Peoples' Region"}, 'dawuro', 'Tarcha',
          ${"Tarcha General Trading PLC"}, ${"Hana Tadesse"}, ${"General Trading & Import-Export"},
-         ${branches[4]}, ${salt}, ${hash},
+         ${"https://q92e5bjsysnotwde.public.blob.vercel-storage.com/memberAvatars/tarcha-general-trading.png"}, ${branches[4]}, ${salt}, ${hash},
          ${getEthiopianYear(monthsAgo(1))}, ${monthsAgo(1)}, now(), now())
+    `;
+    await sql`
+      INSERT INTO contribution (id, "contributionSystem", "contributorId", amount, created_at, updated_at)
+      VALUES (${uuid()}, 'Monthly', ${companyMemberId}, ${companyContributionAmount}, ${monthsAgo(1)}, ${monthsAgo(1)})
     `;
     console.log("created company member: Tarcha General Trading PLC");
   } else {
