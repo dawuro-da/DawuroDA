@@ -17,6 +17,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import RecordDonationDialog from "./RecordDonationDialog";
 
 const CampaignEdit = ({
   selectedCampaign,
@@ -32,6 +33,10 @@ const CampaignEdit = ({
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showRecordDonation, setShowRecordDonation] = useState(false);
+  const [raisedAmount, setRaisedAmount] = useState(
+    selectedCampaign?.raisedAmount ?? 0
+  );
   const {
     register,
     handleSubmit,
@@ -49,7 +54,7 @@ const CampaignEdit = ({
     setValue("image", selectedCampaign?.image);
     setValue("youtubeLink", selectedCampaign?.youtubeLink);
     setValue("goalAmount", selectedCampaign?.goalAmount);
-    setValue("raisedAmount", selectedCampaign?.raisedAmount);
+    setRaisedAmount(selectedCampaign?.raisedAmount ?? 0);
     setValue("isFeatured", selectedCampaign?.isFeatured);
     setValue("isDraft", selectedCampaign?.isDraft);
   }, [selectedCampaign]);
@@ -70,7 +75,6 @@ const CampaignEdit = ({
       );
       formData.append("youtubeLink", values.youtubeLink ?? "");
       formData.append("goalAmount", values.goalAmount ?? "");
-      formData.append("raisedAmount", values.raisedAmount ?? "");
       formData.append("isFeatured", values.isFeatured ?? false);
       formData.append("isDraft", values.isDraft ?? false);
       formData.append("startDate", values.startDate);
@@ -301,13 +305,23 @@ const CampaignEdit = ({
             </div>
             <div className="flex flex-col gap-1 text-titleColor w-full">
               <label>Raised Amount (Birr)</label>
-              <TextField
-                {...register("raisedAmount")}
-                type="number"
-                variant="outlined"
-                sx={{ backgroundColor: "white" }}
-                inputProps={{ style: { padding: 10 } }}
-              />
+              <div className="flex flex-row items-center gap-3">
+                <div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 font-semibold flex-1">
+                  {raisedAmount.toLocaleString()} ETB
+                </div>
+                <Button
+                  type="button"
+                  variant="outlined"
+                  onClick={() => setShowRecordDonation(true)}
+                  className="capitalize whitespace-nowrap"
+                >
+                  Record Donation
+                </Button>
+              </div>
+              <small className="text-titleColor opacity-70">
+                Driven by real donations (online or manually recorded) — not
+                directly editable.
+              </small>
             </div>
           </div>
 
@@ -393,6 +407,15 @@ const CampaignEdit = ({
           </div>
         </div>
       </Dialog>
+      <RecordDonationDialog
+        open={showRecordDonation}
+        onClose={() => setShowRecordDonation(false)}
+        campaign={selectedCampaign}
+        onRecorded={(amount) => {
+          setRaisedAmount((prev) => prev + amount);
+          setRefetch(!refetch);
+        }}
+      />
     </div>
   );
 };

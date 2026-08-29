@@ -4,11 +4,11 @@ import {
   findTempMemberByPhone,
 } from "@/db/tempMember";
 import { generateMemberId } from "@/util/helper";
-import { calculateNextDueDate } from "@/util/date";
+import { calculateNextDueDate, getEthiopianYear } from "@/util/date";
 import prisma from "@/lib/prisma";
 import { createContribution } from "@/db/contribution";
 import { Auction, Member, TempMember } from "@prisma/client";
-import { findMemberByPhone } from "@/db/member";
+import { findMemberByPhone, renewMemberID } from "@/db/member";
 import { createDonation } from "@/db/donation";
 import { findAuctionById } from "@/db/auction";
 
@@ -32,6 +32,7 @@ export async function POST(req: Request, res: any) {
       const donationDesignation = metaData?.donationDesignation ?? "";
       const branch = metaData?.branch ?? "";
       const phone_number = metaData?.phone_number ?? mobile;
+      const campaignId = metaData?.campaignId || undefined;
 
       if (paymentType === "registrationPayment") {
         const tempMember = await findTempMemberByPhone(phone_number);
@@ -56,6 +57,7 @@ export async function POST(req: Request, res: any) {
           donationDesignation: donationDesignation,
           fullName: `${first_name ?? "Unknown"}`,
           phone: phone_number,
+          campaignId,
         });
     }
 
@@ -81,12 +83,14 @@ const createANewDonation = async ({
   fullName,
   phone,
   branch,
+  campaignId,
 }: {
   amount: string;
   donationDesignation: string;
   fullName: string;
   phone: string;
   branch: string;
+  campaignId?: string;
 }) => {
   return await createDonation({
     amount,
@@ -94,6 +98,7 @@ const createANewDonation = async ({
     fullName,
     phone,
     branch,
+    campaignId,
   });
 };
 
@@ -115,6 +120,7 @@ const addNewContribution = async (member: Member, amount: string) => {
     },
     data: { nextDueDate },
   });
+  await renewMemberID({ memberId: member.id, ethiopianYear: getEthiopianYear() });
 
   return contribution;
 };

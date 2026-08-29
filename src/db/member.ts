@@ -200,6 +200,27 @@ export async function updateMembersPaymentStatus({
   }
 }
 
+// Renews a member's ID card for the given Ethiopian year (defaults to the
+// current one). Called both automatically whenever a payment is recorded
+// (webhook or staff-entered) and manually via an admin "Renew ID" action.
+export async function renewMemberID({
+  memberId,
+  ethiopianYear,
+}: {
+  memberId: string;
+  ethiopianYear: number;
+}) {
+  try {
+    return await prisma.member.update({
+      where: { id: memberId },
+      data: { idRenewedYear: ethiopianYear, idRenewedAt: new Date() },
+    });
+  } catch (err) {
+    console.error("renew member id", err);
+    return null;
+  }
+}
+
 export async function updateIndividualMember({
   memberData,
   id,

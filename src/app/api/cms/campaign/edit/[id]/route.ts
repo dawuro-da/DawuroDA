@@ -23,7 +23,6 @@ export async function POST(req: Request, context: { params: { id: string } }) {
   const endDate = formData.get("endDate") as string;
   const youtubeLink = formData.get("youtubeLink") as string;
   const goalAmount = formData.get("goalAmount") as string;
-  const raisedAmount = formData.get("raisedAmount") as string;
   const photo = formData.get("image") as File | string | null;
 
   try {
@@ -52,7 +51,9 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       image: imageUrl,
       youtubeLink: youtubeLink || undefined,
       goalAmount: goalAmount ? Number(goalAmount) : undefined,
-      raisedAmount: raisedAmount ? Number(raisedAmount) : undefined,
+      // raisedAmount is intentionally never accepted here — it only moves
+      // via real donation records (see /api/cms/donation/create and the
+      // Chapa webhook), never a hand-typed edit.
       isFeatured: isFeatured === "true",
       isDraft: isDraft === "true",
       id: campaignId,

@@ -2,8 +2,14 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 
 export async function POST(req: Request) {
-  const { paymentAmount, fullName, phone, donationDesignation, branch } =
-    await req.json();
+  const {
+    paymentAmount,
+    fullName,
+    phone,
+    donationDesignation,
+    branch,
+    campaignId,
+  } = await req.json();
 
   try {
     var raw = JSON.stringify({
@@ -21,6 +27,7 @@ export async function POST(req: Request) {
         donationDesignation: donationDesignation,
         branch: branch ?? "Other",
         phone_number: phone,
+        campaignId: campaignId ?? "",
       },
       "customization[title]": "DawuroDA Donation Payment",
       "customization[description]":

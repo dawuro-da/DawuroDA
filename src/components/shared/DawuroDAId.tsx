@@ -1,8 +1,30 @@
 import React from "react";
-import Image from "next/image";
 import { Member, MembershipLevel } from "@prisma/client";
-import { Avatar } from "@mui/material";
 import { calculateAge } from "@/util/date";
+
+const TEMPLATE_BY_LEVEL: Record<MembershipLevel, string> = {
+  Platinum: "/IDs/dawuroPlatinumId.jpg",
+  Diamond: "/IDs/dawuroDiamondId.jpg",
+  Gold: "/IDs/dawuroGoldId.jpg",
+  Silver: "/IDs/dawuroSilverId.jpg",
+  Bronze: "/IDs/dawuroBronzeId.jpg",
+  Standard: "/IDs/dawuroSilverId.jpg",
+};
+
+// Field positions are percentages of the template image's own box, measured
+// once against the (identical across all 5 levels) template layout — so the
+// same coordinates apply no matter which level's background is in use.
+const FIELD_POSITION = {
+  idNo: { left: "85%", top: "7.45%" },
+  fullName: { left: "42.5%", top: "32.5%" },
+  age: { left: "42.5%", top: "40.7%" },
+  sex: { left: "57.8%", top: "40.7%" },
+  occupation: { left: "42.5%", top: "48.8%" },
+  nationality: { left: "42.5%", top: "57.2%" },
+  address: { left: "42.5%", top: "65.5%" },
+  phone: { left: "42.5%", top: "73.7%" },
+  renewedYear: { left: "9.9%", top: "80.2%" },
+} as const;
 
 const DawuroDAId = ({
   dawurodaIdRef,
@@ -11,256 +33,83 @@ const DawuroDAId = ({
   dawurodaIdRef?: any;
   member: Member;
 }) => {
-  const getMembershipImage = (membershipLevel: MembershipLevel) => {
-    switch (membershipLevel) {
-      case "Gold":
-        return (
-          <div
-            ref={dawurodaIdRef}
-            className={`absolute w-[800px] h-[494px]`}
-            style={{
-              background: `url("/badges/goldID.png")`,
-              backgroundSize: "contain",
-              backgroundPosition: "center",
-            }}
-          >
-            <div className="relative w-full h-full">
-              <span className="absolute top-[106px] left-[655px] font-black text-sm">{`${member?.memberId}`}</span>
-              <span className="absolute top-[146px] left-[363px] font-black">{`${
-                member?.firstName
-                  ? `${member?.firstName} ${member?.lastName}`
-                  : `${member?.institutionName}`
-              }`}</span>
-              <span className="absolute top-[195px] left-[335px] font-black text-sm">
-                {member?.dateOfBirth ? calculateAge(member?.dateOfBirth) : "-"}
-              </span>
-              <span className="absolute top-[195px] left-[468px] font-black text-sm">
-                {member?.gender ?? "-"}
-              </span>
-              <span className="absolute top-[240px] left-[330px] font-black text-sm text-ellipsis">
-                {member?.expertise?.slice(0, 25) ?? "-"}
-                {member?.expertise && member?.expertise?.length > 25 && "..."}
-              </span>
-              <span className="absolute top-[285px] left-[340px] font-black">
-                {member?.nationality ?? "-"}
-              </span>
-              <span className="absolute top-[328px] left-[345px] font-black text-sm">
-                {member?.city ?? "-"}
-              </span>
-              <span className="absolute top-[363px] left-[345px] font-black text-sm">
-                {member?.phone}
-              </span>
-              <div
-                style={{
-                  backgroundImage: `url('${getProfileImage()}')`,
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                }}
-                className="absolute top-[187px] right-[24px] h-[210px] w-[172px] rounded-xl"
-              />
-            </div>
-          </div>
-        );
-      case "Bronze":
-        return (
-          <div
-            ref={dawurodaIdRef}
-            className={`absolute w-[800px] h-[494px]`}
-            style={{
-              background: `url("/badges/bronzeID.png")`,
-              backgroundSize: "contain",
-              backgroundPosition: "center",
-            }}
-          >
-            <div className="relative w-full h-full">
-              <span className="absolute top-[106px] left-[645px] font-black text-sm">{`${member?.memberId}`}</span>
-              <span className="absolute top-[140px] left-[353px] font-black">{`${
-                member?.firstName
-                  ? `${member?.firstName} ${member?.lastName}`
-                  : `${member?.institutionName}`
-              }`}</span>
-              <span className="absolute top-[195px] left-[319px] font-black text-sm">
-                {member?.dateOfBirth ? calculateAge(member?.dateOfBirth) : "-"}
-              </span>
-              <span className="absolute top-[195px] left-[423px] font-black text-sm">
-                {member?.gender ?? "-"}
-              </span>
-              <span className="absolute top-[245px] left-[330px] font-black text-sm text-ellipsis">
-                {member?.expertise?.slice(0, 25) ?? "-"}
-                {member?.expertise && member?.expertise?.length > 25 && "..."}
-              </span>
-              <span className="absolute top-[287px] left-[320px] font-black">
-                {member?.nationality ?? "-"}
-              </span>
-              <span className="absolute top-[333px] left-[325px] font-black text-sm">
-                {member?.city ?? "-"}
-              </span>
-              <span className="absolute top-[370px] left-[325px] font-black text-sm">
-                {member?.phone}
-              </span>
-              <div
-                style={{
-                  backgroundImage: `url('${getProfileImage()}')`,
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                }}
-                className="absolute top-[187px] right-[34px] h-[210px] w-[180px] rounded-xl"
-              />
-            </div>
-          </div>
-        );
-      case "Diamond":
-        return (
-          <div
-            ref={dawurodaIdRef}
-            className={`absolute w-[800px] h-[494px] text-white`}
-            style={{
-              background: `url("/badges/diamondID.png")`,
-              backgroundSize: "contain",
-              backgroundPosition: "center",
-            }}
-          >
-            <div className="relative w-full h-full">
-              <span className="absolute top-[100px] left-[640px] font-black text-sm">{`${member?.memberId}`}</span>
-              <span className="absolute top-[130px] left-[353px] font-black">{`${
-                member?.firstName
-                  ? `${member?.firstName} ${member?.lastName}`
-                  : `${member?.institutionName}`
-              }`}</span>
-              <span className="absolute top-[180px] left-[320px] font-black text-sm">
-                {member?.dateOfBirth ? calculateAge(member?.dateOfBirth) : "-"}
-              </span>
-              <span className="absolute top-[180px] left-[390px] font-black text-sm">
-                {member?.gender ?? "-"}
-              </span>
-              <span className="absolute top-[230px] left-[320px] font-black text-sm text-ellipsis">
-                {member?.expertise?.slice(0, 25) ?? "-"}
-                {member?.expertise && member?.expertise?.length > 25 && "..."}
-              </span>
-              <span className="absolute top-[270px] left-[320px] font-black">
-                {member?.nationality ?? "-"}
-              </span>
-              <span className="absolute top-[318px] left-[325px] font-black text-sm">
-                {member?.city ?? "-"}
-              </span>
-              <span className="absolute top-[365px] left-[325px] font-black text-sm">
-                {member?.phone}
-              </span>
-              <div
-                style={{
-                  backgroundImage: `url('${getProfileImage()}')`,
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                }}
-                className="absolute top-[187px] right-[34px] h-[210px] w-[152px] rounded-xl"
-              />
-            </div>
-          </div>
-        );
-      case "Platinum":
-        return (
-          <div
-            ref={dawurodaIdRef}
-            className={`absolute w-[800px] h-[494px] text-white`}
-            style={{
-              background: `url("/badges/platinumID.png")`,
-              backgroundSize: "contain",
-              backgroundPosition: "center",
-            }}
-          >
-            <div className="relative w-full h-full">
-              <span className="absolute top-[98px] left-[640px] font-black text-sm">{`${member?.memberId}`}</span>
-              <span className="absolute top-[130px] left-[358px] font-black">{`${
-                member?.firstName
-                  ? `${member?.firstName} ${member?.lastName}`
-                  : `${member?.institutionName}`
-              }`}</span>
-              <span className="absolute top-[180px] left-[327px] font-black text-sm">
-                {member?.dateOfBirth ? calculateAge(member?.dateOfBirth) : "-"}
-              </span>
-              <span className="absolute top-[180px] left-[390px] font-black text-sm">
-                {member?.gender ?? "-"}
-              </span>
-              <span className="absolute top-[228px] left-[320px] font-black text-sm text-ellipsis">
-                {member?.expertise?.slice(0, 25) ?? "-"}
-                {member?.expertise && member?.expertise?.length > 25 && "..."}
-              </span>
-              <span className="absolute top-[268px] left-[320px] font-black">
-                {member?.nationality ?? "-"}
-              </span>
-              <span className="absolute top-[318px] left-[325px] font-black text-sm">
-                {member?.city ?? "-"}
-              </span>
-              <span className="absolute top-[365px] left-[325px] font-black text-sm">
-                {member?.phone}
-              </span>
-              <div
-                style={{
-                  backgroundImage: `url('${getProfileImage()}')`,
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                }}
-                className="absolute top-[187px] right-[35px] h-[210px] w-[152px] rounded-xl"
-              />
-            </div>
-          </div>
-        );
-      default:
-        return (
-          <div
-            ref={dawurodaIdRef}
-            className={`absolute w-[800px] h-[494px]`}
-            style={{
-              background: `url("/badges/silverID.png")`,
-              backgroundSize: "contain",
-              backgroundPosition: "center",
-            }}
-          >
-            <div className="relative w-full h-full">
-              <span className="absolute top-[110px] left-[655px] font-black text-sm">{`${member?.memberId}`}</span>
-              <span className="absolute top-[146px] left-[353px] font-black">{`${
-                member?.firstName
-                  ? `${member?.firstName} ${member?.lastName}`
-                  : `${member?.institutionName}`
-              }`}</span>
-              <span className="absolute top-[190px] left-[317px] font-black text-sm">
-                {member?.dateOfBirth ? calculateAge(member?.dateOfBirth) : "-"}
-              </span>
-              <span className="absolute top-[190px] left-[423px] font-black text-sm">
-                {member?.gender ?? "-"}
-              </span>
-              <span className="absolute top-[230px] left-[320px] font-black text-sm text-ellipsis">
-                {member?.expertise?.slice(0, 25) ?? "-"}
-                {member?.expertise && member?.expertise?.length > 25 && "..."}
-              </span>
-              <span className="absolute top-[270px] left-[320px] font-black">
-                {member?.nationality ?? "-"}
-              </span>
-              <span className="absolute top-[316px] left-[325px] font-black text-sm">
-                {member?.city ?? "-"}
-              </span>
-              <span className="absolute top-[358px] left-[325px] font-black text-sm">
-                {member?.phone}
-              </span>
-              <div
-                style={{
-                  backgroundImage: `url('${getProfileImage()}')`,
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                }}
-                className="absolute top-[187px] right-[24px] h-[210px] w-[172px] rounded-xl"
-              />
-            </div>
-          </div>
-        );
-    }
-  };
+  const fullName = member?.firstName
+    ? `${member.firstName} ${member.lastName}`
+    : `${member?.institutionName}`;
 
-  const getProfileImage = (): string => {
-    return member?.profileImage ?? "";
-  };
-
-  return getMembershipImage(member.membershipLevel);
+  return (
+    <div
+      ref={dawurodaIdRef}
+      className="relative w-[800px] aspect-[12278/7667] bg-cover bg-center bg-no-repeat text-[#1E1E1E]"
+      style={{
+        backgroundImage: `url("${TEMPLATE_BY_LEVEL[member.membershipLevel]}")`,
+      }}
+    >
+      <span
+        className="absolute -translate-y-1/2 font-bold text-[13px]"
+        style={FIELD_POSITION.idNo}
+      >
+        {member?.memberId}
+      </span>
+      <span
+        className="absolute -translate-y-1/2 font-bold text-[15px]"
+        style={FIELD_POSITION.fullName}
+      >
+        {fullName}
+      </span>
+      <span
+        className="absolute -translate-y-1/2 font-bold text-[13px]"
+        style={FIELD_POSITION.age}
+      >
+        {member?.dateOfBirth ? calculateAge(member.dateOfBirth) : "-"}
+      </span>
+      <span
+        className="absolute -translate-y-1/2 font-bold text-[13px]"
+        style={FIELD_POSITION.sex}
+      >
+        {member?.gender ?? "-"}
+      </span>
+      <span
+        className="absolute -translate-y-1/2 font-bold text-[13px]"
+        style={FIELD_POSITION.occupation}
+      >
+        {member?.expertise?.slice(0, 25) ?? "-"}
+        {member?.expertise && member.expertise.length > 25 && "..."}
+      </span>
+      <span
+        className="absolute -translate-y-1/2 font-bold text-[13px]"
+        style={FIELD_POSITION.nationality}
+      >
+        {member?.nationality ?? "-"}
+      </span>
+      <span
+        className="absolute -translate-y-1/2 font-bold text-[13px]"
+        style={FIELD_POSITION.address}
+      >
+        {member?.city ?? "-"}
+      </span>
+      <span
+        className="absolute -translate-y-1/2 font-bold text-[13px]"
+        style={FIELD_POSITION.phone}
+      >
+        {member?.phone}
+      </span>
+      <span
+        className="absolute -translate-x-1/2 -translate-y-1/2 font-bold text-[10px]"
+        style={FIELD_POSITION.renewedYear}
+      >
+        {member?.idRenewedYear ?? "-"}
+      </span>
+      <div
+        style={{
+          backgroundImage: `url('${member?.profileImage ?? ""}')`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}
+        className="absolute left-[3.9%] top-[30.8%] h-[35.6%] w-[17.35%] rounded-xl"
+      />
+    </div>
+  );
 };
 
 export default DawuroDAId;

@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { createContribution } from "@/db/contribution";
-import { findMemberById } from "@/db/member";
-import { calculateNextDueDate } from "@/util/date";
+import { findMemberById, renewMemberID } from "@/db/member";
+import { calculateNextDueDate, getEthiopianYear } from "@/util/date";
 import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
@@ -42,6 +42,7 @@ export async function POST(req: Request) {
         },
         data: { ...member, nextDueDate },
       });
+      await renewMemberID({ memberId, ethiopianYear: getEthiopianYear() });
 
       return NextResponse.json(
         { success: true, value: result },

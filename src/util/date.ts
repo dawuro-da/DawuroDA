@@ -146,6 +146,19 @@ export const checkMemberThreeMonth = ({
   return differenceInMonths >= 3;
 };
 
+// Converts a Gregorian date to its Ethiopian calendar year. Ethiopian New
+// Year (Meskerem 1) falls on Sept 11 in most years (Sept 12 the year before
+// a Gregorian leap year); before that date the Ethiopian year is 8 behind
+// the Gregorian one, on/after it's 7 behind.
+export function getEthiopianYear(date: Date = new Date()): number {
+  const gYear = date.getFullYear();
+  const isPreLeapYear = (gYear + 1) % 4 === 0;
+  const newYearDay = isPreLeapYear ? 12 : 11;
+  const newYearThisGregorianYear = new Date(gYear, 8, newYearDay); // month 8 = September
+
+  return date >= newYearThisGregorianYear ? gYear - 7 : gYear - 8;
+}
+
 export function getRelativeTimeSinceDate(dateString: Date) {
   const givenDate = new Date(dateString);
   const now = new Date();
