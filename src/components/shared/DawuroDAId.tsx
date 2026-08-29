@@ -2,7 +2,7 @@ import React from "react";
 import { Member, MembershipLevel } from "@prisma/client";
 import { calculateAge } from "@/util/date";
 
-const TEMPLATE_BY_LEVEL: Record<MembershipLevel, string> = {
+export const TEMPLATE_BY_LEVEL: Record<MembershipLevel, string> = {
   Platinum: "/IDs/dawuroPlatinumId.jpg",
   Diamond: "/IDs/dawuroDiamondId.jpg",
   Gold: "/IDs/dawuroGoldId.jpg",
@@ -14,17 +14,48 @@ const TEMPLATE_BY_LEVEL: Record<MembershipLevel, string> = {
 // Field positions are percentages of the template image's own box, measured
 // once against the (identical across all 5 levels) template layout — so the
 // same coordinates apply no matter which level's background is in use.
-const FIELD_POSITION = {
-  idNo: { left: "85%", top: "7.45%" },
-  fullName: { left: "42.5%", top: "32.5%" },
-  age: { left: "42.5%", top: "40.7%" },
-  sex: { left: "57.8%", top: "40.7%" },
-  occupation: { left: "42.5%", top: "48.8%" },
-  nationality: { left: "42.5%", top: "57.2%" },
-  address: { left: "42.5%", top: "65.5%" },
-  phone: { left: "42.5%", top: "73.7%" },
-  renewedYear: { left: "9.9%", top: "80.2%" },
+//
+// Each box is defined by its top-left corner, width and height, and the
+// text is vertically (and for renewedYear, horizontally) centered inside it
+// via flexbox — NOT a `transform: translate(...)`. html2canvas (used for
+// the "download ID" export) handles flexbox centering reliably but has
+// historically misplaced elements positioned with a translate transform,
+// which showed up as the exported PNG's text sitting visibly below where
+// it appears on screen.
+const FIELD_BOX = {
+  idNo: { left: "85%", top: "5.05%", width: "13.5%", height: "4.8%" },
+  fullName: { left: "42.5%", top: "30.1%", width: "50%", height: "4.8%" },
+  age: { left: "42.5%", top: "38.3%", width: "13%", height: "4.8%" },
+  sex: { left: "57.8%", top: "38.3%", width: "20%", height: "4.8%" },
+  occupation: { left: "42.5%", top: "46.4%", width: "50%", height: "4.8%" },
+  nationality: { left: "42.5%", top: "54.8%", width: "50%", height: "4.8%" },
+  address: { left: "42.5%", top: "63.1%", width: "50%", height: "4.8%" },
+  phone: { left: "42.5%", top: "71.3%", width: "50%", height: "4.8%" },
+  renewedYear: { left: "6.9%", top: "77.8%", width: "6%", height: "4.8%" },
 } as const;
+
+const Field = ({
+  box,
+  fontSize,
+  center,
+  children,
+}: {
+  box: (typeof FIELD_BOX)[keyof typeof FIELD_BOX];
+  fontSize: number;
+  center?: boolean;
+  children: React.ReactNode;
+}) => (
+  <div
+    className="absolute flex items-center font-bold"
+    style={{
+      ...box,
+      fontSize,
+      justifyContent: center ? "center" : "flex-start",
+    }}
+  >
+    {children}
+  </div>
+);
 
 const DawuroDAId = ({
   dawurodaIdRef,
@@ -45,61 +76,34 @@ const DawuroDAId = ({
         backgroundImage: `url("${TEMPLATE_BY_LEVEL[member.membershipLevel]}")`,
       }}
     >
-      <span
-        className="absolute -translate-y-1/2 font-bold text-[13px]"
-        style={FIELD_POSITION.idNo}
-      >
+      <Field box={FIELD_BOX.idNo} fontSize={13}>
         {member?.memberId}
-      </span>
-      <span
-        className="absolute -translate-y-1/2 font-bold text-[15px]"
-        style={FIELD_POSITION.fullName}
-      >
+      </Field>
+      <Field box={FIELD_BOX.fullName} fontSize={15}>
         {fullName}
-      </span>
-      <span
-        className="absolute -translate-y-1/2 font-bold text-[13px]"
-        style={FIELD_POSITION.age}
-      >
+      </Field>
+      <Field box={FIELD_BOX.age} fontSize={13}>
         {member?.dateOfBirth ? calculateAge(member.dateOfBirth) : "-"}
-      </span>
-      <span
-        className="absolute -translate-y-1/2 font-bold text-[13px]"
-        style={FIELD_POSITION.sex}
-      >
+      </Field>
+      <Field box={FIELD_BOX.sex} fontSize={13}>
         {member?.gender ?? "-"}
-      </span>
-      <span
-        className="absolute -translate-y-1/2 font-bold text-[13px]"
-        style={FIELD_POSITION.occupation}
-      >
+      </Field>
+      <Field box={FIELD_BOX.occupation} fontSize={13}>
         {member?.expertise?.slice(0, 25) ?? "-"}
         {member?.expertise && member.expertise.length > 25 && "..."}
-      </span>
-      <span
-        className="absolute -translate-y-1/2 font-bold text-[13px]"
-        style={FIELD_POSITION.nationality}
-      >
+      </Field>
+      <Field box={FIELD_BOX.nationality} fontSize={13}>
         {member?.nationality ?? "-"}
-      </span>
-      <span
-        className="absolute -translate-y-1/2 font-bold text-[13px]"
-        style={FIELD_POSITION.address}
-      >
+      </Field>
+      <Field box={FIELD_BOX.address} fontSize={13}>
         {member?.city ?? "-"}
-      </span>
-      <span
-        className="absolute -translate-y-1/2 font-bold text-[13px]"
-        style={FIELD_POSITION.phone}
-      >
+      </Field>
+      <Field box={FIELD_BOX.phone} fontSize={13}>
         {member?.phone}
-      </span>
-      <span
-        className="absolute -translate-x-1/2 -translate-y-1/2 font-bold text-[10px]"
-        style={FIELD_POSITION.renewedYear}
-      >
+      </Field>
+      <Field box={FIELD_BOX.renewedYear} fontSize={10} center>
         {member?.idRenewedYear ?? "-"}
-      </span>
+      </Field>
       <div
         style={{
           backgroundImage: `url('${member?.profileImage ?? ""}')`,
