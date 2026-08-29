@@ -101,6 +101,14 @@ const AdminForgotPassword = () => {
                 "Send Email"
               )}
             </Button>
+            <div className="flex flex-row items-center gap-2 mt-2">
+              <span
+                onClick={() => router.push("/daadmin/login")}
+                className="text-green-500 cursor-pointer"
+              >
+                {"Back to Login"}
+              </span>
+            </div>
           </form>
         </div>
       </div>

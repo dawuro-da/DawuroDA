@@ -11,6 +11,7 @@ import {
   Menu,
   Telegram,
   Twitter,
+  YouTube,
 } from "@mui/icons-material";
 import { Avatar, Button, IconButton, MenuItem } from "@mui/material";
 import { UserRole } from "@prisma/client";
@@ -118,7 +119,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
             <div className="flex flex-row items-center gap-3 border-l border-white/30 pl-5">
               <Link
                 target="_blank"
-                href={"#"}
+                href="https://t.me/dawurodevelopmentassociation"
                 className="opacity-90 hover:opacity-100 transition-opacity"
               >
                 <Telegram fontSize="small" />
@@ -129,6 +130,13 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
                 className="opacity-90 hover:opacity-100 transition-opacity"
               >
                 <Facebook fontSize="small" />
+              </Link>
+              <Link
+                target="_blank"
+                href="https://www.youtube.com/@DawuroDevelopmentAssociation"
+                className="opacity-90 hover:opacity-100 transition-opacity"
+              >
+                <YouTube fontSize="small" />
               </Link>
             </div>
             <select
@@ -334,7 +342,10 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
             <span className="flex flex-col font-normal gap-1 mt-2">
               <span className="text-xs">{t("navigation.social_media")}</span>
               <span className="flex flex-row gap-2 text-[#474747]">
-                <Link target="_blank" href={"#"}>
+                <Link
+                  target="_blank"
+                  href="https://t.me/dawurodevelopmentassociation"
+                >
                   <Telegram />
                 </Link>
                 {/* <Twitter /> */}
@@ -343,6 +354,12 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
                   href="https://web.facebook.com/profile.php?id=61593361462376"
                 >
                   <Facebook />
+                </Link>
+                <Link
+                  target="_blank"
+                  href="https://www.youtube.com/@DawuroDevelopmentAssociation"
+                >
+                  <YouTube />
                 </Link>
                 {/* <Instagram /> */}
               </span>

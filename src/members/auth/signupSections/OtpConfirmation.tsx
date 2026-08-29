@@ -4,12 +4,19 @@ import { useState } from "react";
 import { FieldValues, UseFormWatch } from "react-hook-form";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/navigation";
 
 interface OtpConfirmationProps {
   handleNext: () => void;
   watch: UseFormWatch<FieldValues>;
+  backHref?: string;
 }
-const OtpConfirmation = ({ handleNext, watch }: OtpConfirmationProps) => {
+const OtpConfirmation = ({
+  handleNext,
+  watch,
+  backHref,
+}: OtpConfirmationProps) => {
+  const router = useRouter();
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const { t } = useTranslation();
@@ -85,6 +92,16 @@ const OtpConfirmation = ({ handleNext, watch }: OtpConfirmationProps) => {
             `${t("members_dashboard.login.confirm_button")}`
           )}
         </Button>
+        {backHref && (
+          <div className="flex flex-row items-center justify-center gap-2 mt-2">
+            <span
+              onClick={() => router.push(backHref)}
+              className="text-green-500 cursor-pointer"
+            >
+              {"Back to Login"}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

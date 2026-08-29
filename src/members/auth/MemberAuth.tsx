@@ -11,10 +11,10 @@ import useLanguageStore from "@/redux/languageStore";
 import i18n from "../../../i18n";
 
 const images = [
-  { url: "/images/eduNews.jpg", alt: "Image 1" },
+  { url: "/images/dawuro-education.webp", alt: "Image 1" },
   { url: "/images/forestry.jpg", alt: "Image 2" },
-  { url: "/images/tourism.jpg", alt: "Image 3" },
-  { url: "/images/haygine.jpg", alt: "Image 4" },
+  { url: "/images/dawuro-buffalo.webp", alt: "Image 3" },
+  { url: "/images/dawuro-water-project.webp", alt: "Image 4" },
 ];
 
 const MemberAuth = () => {

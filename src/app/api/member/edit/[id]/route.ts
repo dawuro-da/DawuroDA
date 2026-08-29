@@ -11,6 +11,7 @@ import {
 } from "@prisma/client";
 import {
   findMemberByEmail,
+  findMemberById,
   findMemberByPhone,
   updateIndividualMember,
   updateInstitutionMember,
@@ -35,16 +36,30 @@ export async function POST(req: Request, context: { params: { id: string } }) {
     );
   }
 
+  const isSelfEdit = session.user.role === UserRole.Member;
+
   const formData = await req.formData();
 
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string;
-  const membershipLevel = formData.get("membershipLevel") as MembershipLevel;
+  let membershipLevel = formData.get("membershipLevel") as MembershipLevel;
   const contributionAmount = formData.get("contributionAmount") as string;
   const contributionSystem = formData.get(
     "contributionSystem"
   ) as ContributionSystem;
-  const hasPaid = formData.get("hasPaid") === "true" ? true : false;
+  let hasPaid = formData.get("hasPaid") === "true" ? true : false;
+
+  // Members can edit their own profile, but membership level and payment
+  // status must only ever change via a verified payment (staff-recorded
+  // contribution or the Chapa webhook), never a self-submitted form value —
+  // otherwise a member could grant themselves a paid upgrade for free.
+  if (isSelfEdit) {
+    const existingMember = await findMemberById(context.params.id);
+    if (existingMember) {
+      membershipLevel = existingMember.membershipLevel;
+      hasPaid = existingMember.hasPaid;
+    }
+  }
   const region = formData.get("region") as string;
   const city = formData.get("city") as string;
   const zone = formData.get("zone") as string;

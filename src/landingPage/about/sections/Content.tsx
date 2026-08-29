@@ -54,7 +54,7 @@ const Content = ({ content, setContent }: ContentProps) => {
   return (
     <>
       <div className="relative lg:mt-[130px] mt-[100px] h-max">
-        <div className="w-full xl:lg:h-[90%] md:h-[90%] h-[30%] min-h-[200px] xl:lg:min-h-[400px] md:min-h-[400px] bg-[url('/images/bgabout.svg')] bg-cover bg-no-repeat" />
+        <div className="w-full xl:lg:h-[90%] md:h-[90%] h-[30%] min-h-[200px] xl:lg:min-h-[400px] md:min-h-[400px] bg-[url('/aboutus.webp')] bg-cover bg-center bg-no-repeat" />
         <div
           className={`absolute right-[10%] font-light md:-bottom-[30%] -bottom-16 ${bgColor} ${
             bgColor === "bg-[#F0DC35]" ? "text-[#1E1E1E]" : "text-white"

@@ -9,22 +9,22 @@ import { useTranslation } from "react-i18next";
 
 const slides = [
   {
-    image: "/images/hero1.svg",
+    image: "/images/dawuro-culture-crowd.webp",
     headingKey: "home.heading_1",
     headingAccentKey: "home.heading_1_1",
   },
   {
-    image: "/images/hero2.svg",
+    image: "/images/dawuro-farm.webp",
     headingKey: "home.heading_2",
     headingAccentKey: "home.heading_2_2",
   },
   {
-    image: "/images/hero4.svg",
+    image: "/images/forestry.jpg",
     headingKey: "home.heading_4",
     headingAccentKey: "home.heading_4_4",
   },
   {
-    image: "/images/hero3.svg",
+    image: "/images/dawuro-education.webp",
     headingKey: "home.heading_3",
     headingAccentKey: "home.heading_3_3",
   },

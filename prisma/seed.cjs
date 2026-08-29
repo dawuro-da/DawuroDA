@@ -77,7 +77,7 @@ async function seedMembers() {
       branch: branches[0],
       city: "Tarcha",
       paymentMeans: "Office",
-      workPlace: "Dawro Zone Education Office",
+      workPlace: "dawuro Zone Education Office",
       expertise: "Education",
     },
     {
@@ -138,7 +138,7 @@ async function seedMembers() {
         (${uuid()}, ${"DaDA" + crypto.randomBytes(4).toString("hex").toUpperCase()}, ${m.phone},
          ${m.membershipLevel}, ${m.contributionAmount}, 'Monthly',
          ${monthsAgo(1)}, ${inDays(30)}, true, 'Individual', ${m.paymentMeans},
-         ${"South West Ethiopia Peoples' Region"}, 'Dawro', ${m.city}, ${m.firstName}, ${m.lastName},
+         ${"South West Ethiopia Peoples' Region"}, 'dawuro', ${m.city}, ${m.firstName}, ${m.lastName},
          ${m.gender}, ${m.workPlace}, ${m.expertise}, ${"/icons/avatar.svg"}, ${m.branch},
          ${salt}, ${hash}, now(), now())
     `;
@@ -160,7 +160,7 @@ async function seedMembers() {
         (${uuid()}, ${"DaDA" + crypto.randomBytes(4).toString("hex").toUpperCase()}, ${companyPhone},
          'Diamond', 6660, 'Monthly',
          ${monthsAgo(1)}, ${inDays(30)}, true, 'Company', 'Bank',
-         ${"South West Ethiopia Peoples' Region"}, 'Dawro', 'Tarcha',
+         ${"South West Ethiopia Peoples' Region"}, 'dawuro', 'Tarcha',
          ${"Tarcha General Trading PLC"}, ${"Hana Tadesse"}, ${"General Trading & Import-Export"},
          ${branches[4]}, ${salt}, ${hash}, now(), now())
     `;
@@ -172,7 +172,7 @@ async function seedMembers() {
 
 async function seedManagement() {
   const boardDescriptionEn =
-    "The Board of Directors of the Dawuro Development Association comprises a diverse group of professionals dedicated to the advancement and well-being of the Dawro community. Each board member brings a unique set of skills and experiences that contribute to the strategic direction and governance of the association.";
+    "The Board of Directors of the Dawuro Development Association comprises a diverse group of professionals dedicated to the advancement and well-being of the dawuro community. Each board member brings a unique set of skills and experiences that contribute to the strategic direction and governance of the association.";
   const boardDescriptionAm =
     "የዳውሮ ልማት ማህበር የዳይሬክተሮች ቦርድ ለዳውሮ ማህበረሰብ እድገት እና ደህንነት የተሠማሩ ልዩ ልዩ ባለሙያዎችን ያቀፈ ነው። እያንዳንዱ የቦርድ አባል ለማህበሩ ስትራቴጂያዊ አቅጣጫ እና አስተዳደር አስተዋፅኦ የሚያደርጉ ልዩ ችሎታዎችን እና ልምዶችን አሉት።";
 
@@ -183,7 +183,7 @@ async function seedManagement() {
       photo: "/images/ceo-werku-wedaje.jpg",
       job: "Chief Executive Officer (CEO)",
       jobAmharic: "ዋና ስራ አስፈጻሚ",
-      bio: "Engineer Werku Wedaje serves as Chief Executive Officer of the Dawuro Development Association, leading the association's day-to-day operations and its programs in education, health, water, and environmental protection on behalf of the Dawro community, at home and abroad.",
+      bio: "Engineer Werku Wedaje serves as Chief Executive Officer of the Dawuro Development Association, leading the association's day-to-day operations and its programs in education, health, water, and environmental protection on behalf of the dawuro community, at home and abroad.",
       bioAmharic:
         "ኢንጂነር ወርቁ ወዳጄ የዳውሮ ልማት ማህበር ዋና ስራ አስፈጻሚ ሲሆኑ የማህበሩን የዕለት ተዕለት ሥራዎች እንዲሁም በትምህርት፣ በጤና፣ በውሃና በአካባቢ ጥበቃ ዘርፍ የሚከናወኑ ፕሮግራሞችን ይመራሉ።",
       isBoardMember: false,
@@ -274,7 +274,7 @@ async function seedFaq() {
       question: "What is the Dawuro Development Association (DawuroDA)?",
       questionAmharic: "ዳልማ (የዳውሮ ልማት ማህበር) ምንድን ነው?",
       answer:
-        "Dawuro Development Association (DawuroDA) is an indigenous, not-for-profit, non-religious and development-oriented non-governmental organization, which envisions creating a prosperous society through holistic and sustainable development, built on Dawro's culture of peace and coexistence.",
+        "Dawuro Development Association (DawuroDA) is an indigenous, not-for-profit, non-religious and development-oriented non-governmental organization, which envisions creating a prosperous society through holistic and sustainable development, built on dawuro's culture of peace and coexistence.",
       answerAmharic:
         "የዳውሮ ልማት ማህበር (ዳልማ) ለትርፍ ያልተቋቋመ እንዲሁም ሃይማኖታዊ ያልሆነ ሃገር በቀል መንግሥታዊ ያልሆነ የልማት ድርጅት ነው፣ በሰላምና ተቻችሎ በአብሮነት የመኖር የዳውሮ ባህል እሴት ላይ የተመሠረተ ሁሉን አቀፍ እና ዘላቂነት ያለውን ልማት በመገንባት የበለፀገ ማህበረሰብ የመፍጠር ራዕይን ሰንቋል።",
     },
@@ -282,7 +282,7 @@ async function seedFaq() {
       question: "When was DawuroDA established?",
       questionAmharic: "ዳልማ መቼ ተመሰረተ?",
       answer:
-        "DawuroDA was founded by the people of Dawro in 1993 E.C. (Ethiopian calendar). It was reorganized in Tir (January) 1993 E.C. and obtained its certificate of legal personality from the then SNNPR Justice Bureau, and was later registered with the Federal Ministry of Justice starting 1998 E.C.",
+        "DawuroDA was founded by the people of dawuro in 1993 E.C. (Ethiopian calendar). It was reorganized in Tir (January) 1993 E.C. and obtained its certificate of legal personality from the then SNNPR Justice Bureau, and was later registered with the Federal Ministry of Justice starting 1998 E.C.",
       answerAmharic:
         "ዳልማ የተቋቆመው በ1993 ዓ.ም ሲሆን ከዚያ በፊት ከዳኮልማ ከዚያም ከወጋጎዳልማ ጋር በደባልነት ሲሠራ ቆይቶ በ1993 ዓ.ም ጥር ወር በአዲስ መልክ ተደራጅቶ ከደ/ብ/ብ/ህ ክልል መንግስት ፍትህ ቢሮ የህጋዊ ሰዉነት ማረጋገጫ ምስክር ወረቀት አግኝቷል፣ ቀጥሎም ከ1998 ዓ.ም ጀምሮ በፌደራል ፍትህ ሚኒስቴር ተመዝግቧል።",
     },
@@ -290,7 +290,7 @@ async function seedFaq() {
       question: "What is DawuroDA's vision?",
       questionAmharic: "የዳልማ ራዕይ ምንድን ነው?",
       answer:
-        "To see the Dawro people fully freed from their current social, economic, and infrastructural challenges, living in favorable, well-developed conditions.",
+        "To see the dawuro people fully freed from their current social, economic, and infrastructural challenges, living in favorable, well-developed conditions.",
       answerAmharic:
         "የዳዉሮ ህዝብ አሁን ካለበት ማህበራዊ፣ ኢኮኖሚያዊና ከመሠረተ-ልማት ችግሮች ሙሉ በሙሉ ተላቆ የተመቻቸ ኑሮ ተፈጥሮ ማየት ነዉ፡፡",
     },
@@ -314,7 +314,7 @@ async function seedFaq() {
       question: "Which area does DawuroDA serve?",
       questionAmharic: "ዳልማ የትኛውን አካባቢ ያገለግላል?",
       answer:
-        "DawuroDA serves Dawro Zone, part of the South West Ethiopia Peoples' Regional State, with its head office in Tarcha, and has branches across Dawro's woredas as well as in Addis Ababa, Europe, and North America.",
+        "DawuroDA serves dawuro Zone, part of the South West Ethiopia Peoples' Regional State, with its head office in Tarcha, and has branches across dawuro's woredas as well as in Addis Ababa, Europe, and North America.",
       answerAmharic:
         "ማህበሩ የደቡብ ምዕራብ ኢትዮጵያ ሕዝቦች ክልላዊ መንግሥት አካል የሆነውን የዳውሮ ዞን የሚያገለግል ሲሆን የዞኑ ዋና ከተማ ታርጫ ናት፣ በዳውሮ ወረዳዎችም ሆነ በአዲስ አበባ፣ አውሮፓና ሰሜን አሜሪካ ቅርንጫፎች አሉት።",
     },
@@ -339,8 +339,8 @@ async function seedInitiatives() {
     {
       nameOfInitiative: "Education Access & Quality Improvement",
       nameOfInitiativeAmharic: "የትምህርት ተደራሽነትና ጥራት ማሻሻል",
-      featuredImages: ["/images/eduNews.jpg"],
-      body: "Improving access and quality of education is one of DawuroDA's core objectives. The association works alongside government and community structures to expand access to schooling and improve educational quality across Dawro Zone.",
+      featuredImages: ["/images/dawuro-education.webp"],
+      body: "Improving access and quality of education is one of DawuroDA's core objectives. The association works alongside government and community structures to expand access to schooling and improve educational quality across dawuro Zone.",
       bodyAmharic:
         "የትምህርት ተደራሽነትና ጥራት ማሻሻል ከዳውሮ ልማት ማህበር ዋና ዓላማዎች አንዱ ነው። ማህበሩ ከመንግስትና ከማህበረሰብ አካላት ጋር በመተባበር በዳውሮ ዞን የትምህርት ተደራሽነትንና ጥራትን ለማሻሻል ይሰራል።",
     },
@@ -348,30 +348,30 @@ async function seedInitiatives() {
       nameOfInitiative: "Forestry & Environmental Protection",
       nameOfInitiativeAmharic: "የደን ልማትና አካባቢ ጥበቃ",
       featuredImages: ["/images/forestry.jpg"],
-      body: "DawuroDA is committed to ensuring the development of forestry and environmental protection in all zonal districts of Dawro, working with local communities to safeguard natural resources for future generations.",
+      body: "DawuroDA is committed to ensuring the development of forestry and environmental protection in all zonal districts of dawuro, working with local communities to safeguard natural resources for future generations.",
       bodyAmharic:
         "ዳልማ በዳውሮ ሁሉም የዞን ወረዳዎች የደን ልማትና አካባቢ ጥበቃ ልማትን ለማረጋገጥ ቁርጠኛ ሲሆን ከአካባቢው ማህበረሰብ ጋር በመተባበር የተፈጥሮ ሀብትን ለቀጣይ ትውልድ ለመጠበቅ ይሰራል።",
     },
     {
       nameOfInitiative: "Health & Clean Water Access",
       nameOfInitiativeAmharic: "የጤናና የንፁህ መጠጥ ውሃ አገልግሎት",
-      featuredImages: ["/images/haygine.jpg"],
-      body: "DawuroDA works to improve access and quality of health and clean water services across Dawro Zone, in partnership with local health offices and community structures.",
+      featuredImages: ["/images/dawuro-water-project.webp"],
+      body: "DawuroDA works to improve access and quality of health and clean water services across dawuro Zone, in partnership with local health offices and community structures.",
       bodyAmharic:
         "ዳልማ ከአካባቢው የጤና ጽ/ቤቶችና የማህበረሰብ አካላት ጋር በመተባበር በዳውሮ ዞን የጤናና የንፁህ መጠጥ ውሃ አገልግሎት ተደራሽነትና ጥራት ለማሻሻል ይሰራል።",
     },
     {
       nameOfInitiative: "Agricultural & Industrial Development",
       nameOfInitiativeAmharic: "የግብርናና ኢንዳስትሪ ልማት",
-      featuredImages: ["/images/tourism.jpg"],
-      body: "DawuroDA promotes integrated agricultural and industrial development to sustainably improve the livelihood of the Dawro community.",
+      featuredImages: ["/images/dawuro-farm.webp"],
+      body: "DawuroDA promotes integrated agricultural and industrial development to sustainably improve the livelihood of the dawuro community.",
       bodyAmharic:
         "ዳልማ የዳውሮ ማህበረሰብን ኑሮ በዘላቂነት ለማሻሻል የተቀናጀ የግብርናና ኢንዳስትሪ ልማትን ያስፋፋል።",
     },
     {
-      nameOfInitiative: "Tourism Development in Dawro Zone",
+      nameOfInitiative: "Tourism Development in Dawuro Zone",
       nameOfInitiativeAmharic: "በዳውሮ ዞን የቱሪዝም ልማት",
-      featuredImages: ["/images/tourism.jpg"],
+      featuredImages: ["/images/dawuro-buffalo.webp"],
       body: "DawuroDA works to improve, modernize, and expand tourism destinations to increase the economic benefit of the community.",
       bodyAmharic:
         "ዳልማ የማህበረሰቡን ኢኮኖሚያዊ ተጠቃሚነት ለማሳደግ የቱሪዝም መዳረሻዎችን በማሻሻል፣ በማዘመንና በማስፋፋት ይሰራል።",
@@ -379,8 +379,8 @@ async function seedInitiatives() {
     {
       nameOfInitiative: "Culture & Language Preservation",
       nameOfInitiativeAmharic: "ባህልና ቋንቋ ጥበቃ",
-      featuredImages: ["/images/eduNews.jpg"],
-      body: "DawuroDA studies, organizes, protects, and enriches the culture and language of the ethnic groups in Dawro Zone to introduce them to the world.",
+      featuredImages: ["/images/dawuro-culture-1.webp"],
+      body: "DawuroDA studies, organizes, protects, and enriches the culture and language of the ethnic groups in dawuro Zone to introduce them to the world.",
       bodyAmharic:
         "ዳልማ በዞኑ የሚገኙ ብሔረሰቦችን ባህልና ቋንቋ በማጥናት፣ በማደራጀት፣ በመጠበቅና በማበልፀግ ለዓለም ያስተዋውቃል።",
     },
@@ -405,66 +405,66 @@ async function seedInitiatives() {
 async function seedNews() {
   const items = [
     {
-      headline: "DawuroDA Advances Access to Quality Education Across Dawro Zone",
+      headline: "DawuroDA Advances Access to Quality Education Across Dawuro Zone",
       headlineAmharic: "ዳልማ በዳውሮ ዞን የትምህርት ተደራሽነትና ጥራትን ለማሻሻል ጥረቱን ቀጥሏል",
-      profileImage: ["/images/eduNews.jpg"],
-      body: "As part of its core objectives, DawuroDA continues to work with local education offices and partners to improve access and quality of education for children and youth across Dawro Zone.",
+      profileImage: ["/images/dawuro-education.webp"],
+      body: "As part of its core objectives, DawuroDA continues to work with local education offices and partners to improve access and quality of education for children and youth across dawuro Zone.",
       bodyAmharic:
         "ዳልማ ከአካባቢው የትምህርት ጽ/ቤቶችና አጋር ድርጅቶች ጋር በመተባበር በዳውሮ ዞን ለህጻናትና ወጣቶች የትምህርት ተደራሽነትና ጥራትን ለማሻሻል ጥረቱን ቀጥሏል።",
     },
     {
-      headline: "Community Forestry and Environmental Protection Efforts Continue in Dawro",
+      headline: "Community Forestry and Environmental Protection Efforts Continue in Dawuro",
       headlineAmharic: "የማህበረሰብ ደን ልማትና አካባቢ ጥበቃ ስራዎች በዳውሮ ቀጥለዋል",
       profileImage: ["/images/forestry.jpg"],
-      body: "DawuroDA and community members are working together on forestry and environmental protection activities across Dawro's woredas, supporting one of the association's key development goals.",
+      body: "DawuroDA and community members are working together on forestry and environmental protection activities across dawuro's woredas, supporting one of the association's key development goals.",
       bodyAmharic:
         "ዳልማና የማህበረሰብ አባላት በዳውሮ ወረዳዎች የደን ልማትና አካባቢ ጥበቃ ስራዎችን በጋራ በማከናወን ላይ ይገኛሉ።",
     },
     {
-      headline: "Improving Health and Clean Water Services for Dawro Communities",
+      headline: "Improving Health and Clean Water Services for Dawuro Communities",
       headlineAmharic: "ለዳውሮ ማህበረሰብ የጤናና የንፁህ ውሃ አገልግሎትን ማሻሻል",
-      profileImage: ["/images/haygine.jpg"],
+      profileImage: ["/images/dawuro-water-project.webp"],
       body: "Expanding access to health services and clean drinking water remains a priority for DawuroDA, which works closely with local health structures to reach communities across the zone.",
       bodyAmharic:
         "የጤና አገልግሎትና ንፁህ መጠጥ ውሃ ተደራሽነትን ማስፋት ለዳልማ ትኩረት ከሚሰጣቸው ጉዳዮች አንዱ ሲሆን ከአካባቢው የጤና አካላት ጋር በቅርበት ይሰራል።",
     },
     {
-      headline: "Dawro Zone's Natural and Historical Attractions Offer Growing Tourism Potential",
+      headline: "Dawuro Zone's Natural and Historical Attractions Offer Growing Tourism Potential",
       headlineAmharic: "የዳውሮ ዞን የተፈጥሮና ታሪካዊ መስህቦች እያደገ የመጣ የቱሪዝም አቅም አላቸው",
-      profileImage: ["/images/tourism.jpg"],
-      body: "Dawro Zone is home to the Chebera Churchura National Park, the ancient Halala stone-walled fortress, the Omo man-made lake, and the Gibe III and IV hydropower dams — a fertile, well-watered area attractive for both living and investment, which DawuroDA sees as a growing opportunity for the community.",
+      profileImage: ["/images/dawuro-buffalo.webp"],
+      body: "dawuro Zone is home to the Chebera Churchura National Park, the ancient Halala stone-walled fortress, the Omo man-made lake, and the Gibe III and IV hydropower dams — a fertile, well-watered area attractive for both living and investment, which DawuroDA sees as a growing opportunity for the community.",
       bodyAmharic:
         "ዳውሮ ዞን ጨበራ ጩርጩራ ብሔራዊ ፓርክ፣ የሀላላ ድንጋይ ካብ፣ የኦሞ ሰው ሰራሽ ሀይቅ እንዲሁም የግቤ ሦስትና አራት ሃይል ማመንጫ ግድቦች የሚገኙበት ለኑሮም ሆነ ለእንቨስትመንት ሳቢ አካባቢ ነው።",
     },
     {
       headline: "DawuroDA Promotes Integrated Agricultural and Industrial Development",
       headlineAmharic: "ዳልማ የተቀናጀ የግብርናና ኢንዱስትሪ ልማትን ያስፋፋል",
-      profileImage: ["/images/tractor.svg"],
-      body: "Improving the livelihood of the community in a sustainable manner by promoting integrated agricultural and industrial development remains one of DawuroDA's core objectives across Dawro Zone.",
+      profileImage: ["/images/dawuro-farm.webp"],
+      body: "Improving the livelihood of the community in a sustainable manner by promoting integrated agricultural and industrial development remains one of DawuroDA's core objectives across dawuro Zone.",
       bodyAmharic:
         "የተቀናጀ የግብርናና ኢንዳስትሪ ልማት በማስፋፋት በዘላቂነት የማህበረሰቡን ኑሮ ማሻሻል ከዳልማ ዋና ዓላማዎች አንዱ ሆኖ ቀጥሏል።",
     },
     {
       headline: "Strengthening Institutional Capacity Across DawuroDA Branches",
       headlineAmharic: "የዳልማ ቅርንጫፎችን ተቋማዊ አቅም ማጎልበት",
-      profileImage: ["/images/eduNews.jpg"],
-      body: "DawuroDA continues to enhance its institutional capacity by expanding and coordinating its revenue streams and branch operations across Dawro Zone and the diaspora.",
+      profileImage: ["/images/dawuro-culture-crowd.webp"],
+      body: "DawuroDA continues to enhance its institutional capacity by expanding and coordinating its revenue streams and branch operations across dawuro Zone and the diaspora.",
       bodyAmharic:
         "ዳልማ የገቢ አማራጮቹንና የቅርንጫፍ ስራዎቹን በማስፋፋትና በማቀናጀት ተቋማዊ አቅሙን ማጎልበቱን ቀጥሏል።",
     },
     {
       headline: "DawuroDA Supports Peace and Social Cohesion Initiatives",
       headlineAmharic: "ዳልማ ሰላምና ማህበራዊ ትስስርን የሚያጎለብቱ ስራዎችን ይደግፋል",
-      profileImage: ["/images/forestry.jpg"],
+      profileImage: ["/images/dawuro-culture-2.webp"],
       body: "DawuroDA promotes democratic thinking and a culture of peace and tolerance to ensure social justice and cohesion across the communities it serves.",
       bodyAmharic:
         "ዳልማ ማህበራዊ ፍትህንና ትስስርን ለማረጋገጥ በሰላምና በመቻቻል ባህል ላይ የተመሰረተ ዲሞክራሲያዊ አስተሳሰብን ያበረታታል።",
     },
     {
-      headline: "DawuroDA Advances Disaster Risk Reduction Efforts in Dawro Zone",
+      headline: "DawuroDA Advances Disaster Risk Reduction Efforts in Dawuro Zone",
       headlineAmharic: "ዳልማ በዳውሮ ዞን የአደጋ ስጋት መቀነስ ስራዎችን ያራምዳል",
       profileImage: ["/images/haygine.jpg"],
-      body: "DawuroDA works to identify disaster risk areas and provide timely response and rehabilitation support when disasters occur in Dawro Zone.",
+      body: "DawuroDA works to identify disaster risk areas and provide timely response and rehabilitation support when disasters occur in dawuro Zone.",
       bodyAmharic:
         "ዳልማ የአደጋ ስጋት አካባቢዎችን በመለየት አደጋ ሲከሰት ተገቢውን ወቅታዊ ምላሽና መልሶ ማቋቋም ድጋፍ ይሰጣል።",
     },
@@ -492,7 +492,7 @@ async function seedJobs() {
       jobTitle: "Project Officer – Education & Health Programs",
       jobTitleAmharic: "ፕሮጀክት ኦፊሰር – ትምህርትና ጤና ፕሮግራሞች",
       jobDescription:
-        "DawuroDA is seeking a Project Officer to support the planning and implementation of education and health program activities across Dawro Zone, working closely with local offices and community structures.",
+        "DawuroDA is seeking a Project Officer to support the planning and implementation of education and health program activities across dawuro Zone, working closely with local offices and community structures.",
       jobDescriptionAmharic:
         "ዳልማ በዳውሮ ዞን የትምህርትና ጤና ፕሮግራም ስራዎችን ለማቀድና ለመተግበር የሚያግዝ ፕሮጀክት ኦፊሰር ይፈልጋል።",
     },
@@ -538,7 +538,7 @@ async function seedEvent() {
       headline: "Community Tree Planting and Environmental Protection Day",
       headlineAmharic: "የማህበረሰብ ችግኝ ተከላና የአካባቢ ጥበቃ ቀን",
       profileImage: "/images/forestry.jpg",
-      body: "DawuroDA, together with local communities, hosts a tree planting and environmental protection day as part of its ongoing forestry and environmental protection initiative across Dawro Zone.",
+      body: "DawuroDA, together with local communities, hosts a tree planting and environmental protection day as part of its ongoing forestry and environmental protection initiative across dawuro Zone.",
       bodyAmharic:
         "ዳልማ ከአካባቢው ማህበረሰብ ጋር በመተባበር ከደን ልማትና አካባቢ ጥበቃ ስራው ጋር በተያያዘ የችግኝ ተከላና የአካባቢ ጥበቃ ቀን ያዘጋጃል።",
       startDate: inDays(20),
@@ -547,8 +547,8 @@ async function seedEvent() {
     {
       headline: "Community Health and Clean Water Awareness Campaign",
       headlineAmharic: "የማህበረሰብ ጤናና ንፁህ ውሃ ግንዛቤ ማስጨበጫ ዘመቻ",
-      profileImage: "/images/haygine.jpg",
-      body: "DawuroDA partners with local health offices to host a community awareness campaign on health and clean water access, supporting its health and clean water initiative across Dawro Zone.",
+      profileImage: "/images/dawuro-water-project.webp",
+      body: "DawuroDA partners with local health offices to host a community awareness campaign on health and clean water access, supporting its health and clean water initiative across dawuro Zone.",
       bodyAmharic:
         "ዳልማ ከአካባቢው የጤና ጽ/ቤቶች ጋር በመተባበር ከጤናና ንፁህ ውሃ አገልግሎት ስራው ጋር በተያያዘ የማህበረሰብ ግንዛቤ ማስጨበጫ ዘመቻ ያካሂዳል።",
       startDate: inDays(70),
@@ -579,7 +579,7 @@ async function seedCampaign() {
       headline: "Join the Campaign: Support Those in Need, Rebuild Lives",
       headlineAmharic: "የዳልማን ዘመቻዎች ይቀላቀሉ፤ የተቸገሩትን ይደግፉ፣ ተስፋን ይጫሩ።",
       description:
-        "Together, we can provide urgent relief and restore hope to communities in crisis across Dawro Zone.",
+        "Together, we can provide urgent relief and restore hope to communities in crisis across dawuro Zone.",
       descriptionAmharic:
         "በጋራ ለዳውሮ ዞን ችግር ላይ ለሚገኙ ማህበረሰቦች አስቸኳይ እርዳታ በመስጠት ተስፋን መመለስ እንችላለን።",
       image: "/images/donationBG.webp",
@@ -588,25 +588,25 @@ async function seedCampaign() {
       isFeatured: true,
     },
     {
-      headline: "Support Clean Water Access in Dawro Zone",
+      headline: "Support Clean Water Access in Dawuro Zone",
       headlineAmharic: "በዳውሮ ዞን የንፁህ ውሃ አገልግሎትን ይደግፉ",
       description:
-        "Help DawuroDA expand access to clean drinking water and improve health outcomes across Dawro's communities.",
+        "Help DawuroDA expand access to clean drinking water and improve health outcomes across dawuro's communities.",
       descriptionAmharic:
         "ዳልማ በዳውሮ ማህበረሰቦች የንፁህ መጠጥ ውሃ ተደራሽነትን በማስፋትና የጤና ውጤቶችን በማሻሻል ይረዱ።",
-      image: "/images/haygine.jpg",
+      image: "/images/dawuro-water-project.webp",
       goalAmount: 200000,
       raisedAmount: 40000,
       isFeatured: false,
     },
     {
-      headline: "Support Education for Dawro's Children",
+      headline: "Support Education for Dawuro's Children",
       headlineAmharic: "ለዳውሮ ልጆች ትምህርትን ይደግፉ",
       description:
-        "Contribute to improving access to quality education for children and youth across Dawro Zone.",
+        "Contribute to improving access to quality education for children and youth across dawuro Zone.",
       descriptionAmharic:
         "በዳውሮ ዞን ለሚገኙ ህጻናትና ወጣቶች የትምህርት ተደራሽነትና ጥራትን ለማሻሻል አስተዋፅኦ ያድርጉ።",
-      image: "/images/eduNews.jpg",
+      image: "/images/dawuro-education.webp",
       goalAmount: 150000,
       raisedAmount: 60000,
       isFeatured: false,
@@ -655,7 +655,7 @@ async function seedPartnerships() {
       partnerName: "A Glimmer of Hope Foundation",
       partnerNameAmharic: "ግሊመር ኦፍ ሆፕ",
       logo: "/images/partners/glimmer-of-hope.png",
-      bio: "A U.S.-based nonprofit that has partnered with DawuroDA on health post, clean water, and hospital infrastructure projects across Dawro Zone.",
+      bio: "A U.S.-based nonprofit that has partnered with DawuroDA on health post, clean water, and hospital infrastructure projects across dawuro Zone.",
       bioAmharic:
         "ከዳልማ ጋር በመተባበር በዳውሮ ዞን የጤና ኬላዎችን፣ የንፁህ ውሃ ተቋማትን እና የሆስፒታል መሠረተ ልማቶችን የገነባ በአሜሪካ የሚገኝ መንግስታዊ ያልሆነ ድርጅት።",
     },
@@ -663,7 +663,7 @@ async function seedPartnerships() {
       partnerName: "Ripple Effect (formerly Send a Cow)",
       partnerNameAmharic: "ሪፕል ኤፈክት",
       logo: "/images/partners/ripple-effect.webp",
-      bio: "An international development organization that has supported agriculture and livestock programs in Dawro Zone.",
+      bio: "An international development organization that has supported agriculture and livestock programs in dawuro Zone.",
       bioAmharic:
         "በዳውሮ ዞን የግብርናና የእንስሳት እርባታ ፕሮግራሞችን የደገፈ ዓለም አቀፍ የልማት ድርጅት።",
     },
@@ -671,7 +671,7 @@ async function seedPartnerships() {
       partnerName: "PATH",
       partnerNameAmharic: "PATH",
       logo: "/images/partners/path.png",
-      bio: "A global health organization that partnered with DawuroDA on public health awareness initiatives in Dawro Zone.",
+      bio: "A global health organization that partnered with DawuroDA on public health awareness initiatives in dawuro Zone.",
       bioAmharic:
         "ከዳልማ ጋር በዳውሮ ዞን የጤና ግንዛቤ ማስጨበጫ ስራዎች የተባበረ ዓለም አቀፍ የጤና ድርጅት።",
     },
@@ -694,7 +694,7 @@ async function seedPartnerships() {
       partnerName: "Embassy of Japan in Ethiopia",
       partnerNameAmharic: "የጃፓን ኤምባሲ",
       logo: "/images/partners/embassy-of-japan.svg",
-      bio: "A diplomatic partner that has supported DawuroDA's community development projects in Dawro Zone.",
+      bio: "A diplomatic partner that has supported DawuroDA's community development projects in dawuro Zone.",
       bioAmharic:
         "በዳውሮ ዞን የዳልማን የማህበረሰብ ልማት ስራዎች የደገፈ የጃፓን ኤምባሲ።",
     },
@@ -738,7 +738,7 @@ async function seedAuctions() {
     {
       title: "Supply and Delivery of Office Furniture and Equipment",
       description:
-        "DawuroDA invites capable suppliers to bid for the supply and delivery of office furniture and equipment for its branch offices across Dawro Zone.",
+        "DawuroDA invites capable suppliers to bid for the supply and delivery of office furniture and equipment for its branch offices across dawuro Zone.",
       CPO: 20000,
       formPayment: 300,
       isPurchasing: true,
@@ -781,10 +781,10 @@ async function seedAboutContent() {
       titleAmharic: "የእኛ ታሪክ",
       subtitle: "",
       subtitleAmharic: "",
-      body: "Dawuro Development Association (DawuroDA) is an indigenous, not for profit, non-religious and development oriented non-governmental organization founded by the people of Dawro in 1993 E.C. (Ethiopian calendar). Before that date it had operated jointly with the Dacolma and later Wogagoda-DA associations; in Tir (January) 1993 E.C. it was reorganized afresh and obtained its certificate of legal personality from the then SNNPR Justice Bureau. As an association, it is governed under Ethiopia's Civil Code (articles 404–482), was renewed for an indefinite term starting 1996 E.C., and was registered with the Federal Ministry of Justice starting 1998 E.C., where it also signed a program agreement with the Disaster Prevention and Preparedness Agency. The association serves Dawro Zone, part of the South West Ethiopia Peoples' Regional State, with its zonal capital at Tarcha. The general assembly is the supreme body, with overall responsibility for the association's decision-making. The Board of Directors is next in authority, playing a crucial role in setting policy and determining the organization's developmental direction, while day-to-day operations are carried out by the association's administrative and program staff. DawuroDA envisions a prosperous society built on holistic and sustainable development, rooted in the Dawro culture of peace and coexistence. By building institutional capacity and mobilizing natural and human resources, DawuroDA's mission is to bring sustainable development to Dawro Zone that satisfies real community needs through close collaboration with the local community and stakeholders.",
+      body: "Dawuro Development Association (DawuroDA) is an indigenous, not for profit, non-religious and development oriented non-governmental organization founded by the people of dawuro in 1993 E.C. (Ethiopian calendar). Before that date it had operated jointly with the Dacolma and later Wogagoda-DA associations; in Tir (January) 1993 E.C. it was reorganized afresh and obtained its certificate of legal personality from the then SNNPR Justice Bureau. As an association, it is governed under Ethiopia's Civil Code (articles 404–482), was renewed for an indefinite term starting 1996 E.C., and was registered with the Federal Ministry of Justice starting 1998 E.C., where it also signed a program agreement with the Disaster Prevention and Preparedness Agency. The association serves dawuro Zone, part of the South West Ethiopia Peoples' Regional State, with its zonal capital at Tarcha. The general assembly is the supreme body, with overall responsibility for the association's decision-making. The Board of Directors is next in authority, playing a crucial role in setting policy and determining the organization's developmental direction, while day-to-day operations are carried out by the association's administrative and program staff. DawuroDA envisions a prosperous society built on holistic and sustainable development, rooted in the dawuro culture of peace and coexistence. By building institutional capacity and mobilizing natural and human resources, DawuroDA's mission is to bring sustainable development to dawuro Zone that satisfies real community needs through close collaboration with the local community and stakeholders.",
       bodyAmharic:
         "ዳልማ በዳውሮ ሕዝብ ፍላጎት መነሻ ተገቢውን መስፈርት ሞልቶ ህጋዊ ፍቃድ ያገኘ መንግሥታዊ ያልሆነ የግል ድርጅት ነው። ዳልማ የተቋቆመው በ1993 ዓ.ም ሲሆን ከዚያ በፊት ከዳኮልማ ከዚያም ከወጋጎዳልማ ጋር በደባልነት ሲሠራ ቆይቶ በ1993 ዓ.ም ጥር ወር በአዲስ መልክ ተደራጅቶ ከደ/ብ/ብ/ህ ክልል መንግስት ፍትህ ቢሮ የህጋዊ ሰዉነት ማረጋገጫ ምስክር ወረቀት አግኝቷል። ማህበሩ በ1952 ዓ.ም በወጣው የኢትዮጵያ የፍትሐብሔር ህግ ከቁጥር 404 እስከ 482 መሠረት የሚመራና የሚተዳደር ሲሆን ከ1996 ዓ.ም ጀምሮ ተሻሽሎ ላልተወሰነ ጊዜ ተቋቁሟል፣ ቀጥሎም ከ1998 ዓ.ም ጀምሮ በፌደራል ፍትህ ሚኒስቴር ተመዝግቦ ከአደጋ መከላከልና ዝግጅነት ኤጀንሲ ጋር የድርጊት መርሃ ግብር ስምምነት ተፈራርሟል። ማህበሩ የደቡብ ምዕራብ ኢትዮጵያ ሕዝቦች ክልላዊ መንግሥት አካል የሆነውን የዳውሮ ዞን የሚያገለግል ሲሆን የዞኑ ዋና ከተማ ታርጫ ናት። አጠቃላይ ጉባዔው የማህበሩ የበላይ ውሳኔ ሰጪ አካል ሲሆን፣ ከጉባዔው ቀጥሎ የዳይሬክተሮች ቦርድ በፖሊሲ ጉዳዮችና በልማት አቅጣጫዎች ላይ ወሳኝ ሚና ይጫወታል፣ የዕለት ተዕለት ሥራው በጽህፈት ቤቱ አስተዳደር ሰራተኞች ይከወናል። ዳልማ በሰላምና ተቻችሎ በአብሮነት የመኖር የዳውሮ ባህል እሴት ላይ የተመሠረተ ሁሉን አቀፍ/ሁለንተናዊ እና ዘላቂነት ያለውን ልማት በመገንባት የበለፀገ ማህበረሰብ የመፍጠር ራዕይን ሰንቆ፣ የተቋሙን አቅም በመገንባት እና ሀብትን በማሰባሰብ የማህበረሰቡን የልማት ፍላጎት ከማህበረሰቡና ከባለድርሻ አካላት ጋር በቅርበት በመስራት ለማርካት ይተጋል።",
-      image: "/images/arbaminch.jpg",
+      image: "/images/dawuro-culture-crowd.webp",
     },
     {
       section: "CEO_MESSAGE",
@@ -792,7 +792,7 @@ async function seedAboutContent() {
       titleAmharic: "ኢንጂነር ወርቁ ወዳጄ፣ የዳውሮ ልማት ማህበር ዋና ስራ አስፈጻሚ",
       subtitle: "",
       subtitleAmharic: "ግንቦት 12፣ 2012",
-      body: "Dear sons and daughters of Dawro, dear friends, dear members and supporters of the Dawuro Development Association, and our compatriots both at home and abroad — warm greetings to you all. As is well known, Dawro Zone is one of the six zones of the South West Ethiopia Peoples' Regional State. Tarcha town, the zone's capital, is located 496 km from Addis Ababa, 111 km from Wolaita, and 319 km from Hawassa. Dawro Zone is home to the Chebera Churchura National Park and its rare wildlife, the ancient Halala stone-walled fortress, the Omo man-made lake, and the Gibe III and IV hydropower dams — a fertile, well-watered, temperate area that is attractive for both living and investment. In order to modernize the distribution of membership ID cards and the collection of contributions, and to offer members a convenient and fast service, we have had this platform built. We invite you to become a member through it, and we invite capable partner organizations to work with the association on investment initiatives. Since its establishment in 1993 E.C., the association has, in partnership with various organizations, achieved significant progress in education, health, water, and environmental protection, and we believe your membership, support, and collaboration will help it take one more step forward. As an indigenous, home-grown organization, DawuroDA plans to carry out extensive work in agriculture, education, health, environmental protection, and other sectors going forward, which makes the participation, support, and feedback of our members deeply important. Those who united have made history; those who toiled together have grown; those who worked as one have prospered; those who journeyed together have crossed over. Through coordination, cooperation, mutual support, and working together, let us secure the advancement of the Dawuro Development Association. Thank you.",
+      body: "Dear sons and daughters of dawuro, dear friends, dear members and supporters of the Dawuro Development Association, and our compatriots both at home and abroad — warm greetings to you all. As is well known, dawuro Zone is one of the six zones of the South West Ethiopia Peoples' Regional State. Tarcha town, the zone's capital, is located 496 km from Addis Ababa, 111 km from Wolaita, and 319 km from Hawassa. dawuro Zone is home to the Chebera Churchura National Park and its rare wildlife, the ancient Halala stone-walled fortress, the Omo man-made lake, and the Gibe III and IV hydropower dams — a fertile, well-watered, temperate area that is attractive for both living and investment. In order to modernize the distribution of membership ID cards and the collection of contributions, and to offer members a convenient and fast service, we have had this platform built. We invite you to become a member through it, and we invite capable partner organizations to work with the association on investment initiatives. Since its establishment in 1993 E.C., the association has, in partnership with various organizations, achieved significant progress in education, health, water, and environmental protection, and we believe your membership, support, and collaboration will help it take one more step forward. As an indigenous, home-grown organization, DawuroDA plans to carry out extensive work in agriculture, education, health, environmental protection, and other sectors going forward, which makes the participation, support, and feedback of our members deeply important. Those who united have made history; those who toiled together have grown; those who worked as one have prospered; those who journeyed together have crossed over. Through coordination, cooperation, mutual support, and working together, let us secure the advancement of the Dawuro Development Association. Thank you.",
       bodyAmharic:
         "የተከበራችሁ የዳውሮ ብሔር ተወላጆችና ወዳጆች፣የተከበራችሁ የዳውሮ ልማት ማህበር አባላትና ደጋፊዎች ክቡራን በሀገር ውስጥም ሆነ ውጭ የሚትገኙ ወገኖቻችን የከበረ ሠላምታዬ ይድረሳችሁ። እንደሚታወቀው ዳውሮ ዞን በደቡብ ምዕራብ ኢትዮጵያ ሕዝቦች ክልላዊ መንግሥት ከሚገኙ ከስድስቱ ዞኖች መካከል አንዱ ዞን ሲሆን የዞኑ እና የደቡብ ምዕራብ ኢትዮጵያ ህዝቦች ክልላዊ መንግሥት ማህበራዊ ክላስተር መቀመጫ የሆነችዉ ታርጫ ከተማ ከአዲስ አበባ በ496 ኪ.ሜ ርቀት ከወላይታ 111 ከ.ሜ እና ከሐዋሳ በ319 ከ.ሜ ትገኛለች፡፡ ዳዉሮ ዞን ጨበራ ጩርጩራ ብሔራዊ ፓርክ የሚገኝበት፣ ብርቅዬ የዱር አራዊቶች የሚኖሩበት፣ ዕድሜ ጠገብና ድንቅ ታሪካዊ ዳራ ያለው የሀላላ ድንጋይ ካብ ያለበት፣በኦሞ ሰው ሰራሽ ሀይቅ የተዋበ፣የግቤ ሦስትና አራት ሃይል ማመንጫ ግድብ የሚያዋስንበት፣ በተፈጥሮ ፀጋ የታደለ ለም መሬት፣ ሰፊ ውሃ፣ ተመጋጋቢና ምቹ አየር ያለበት ለኑሮም ሆነ ለእንቨስትሜንት ሳቢና ማራኪ አካባቢ ነው። ክቡራንና ክቡራት የዳውሮ ተወላጆችና ወዳጆች የአባልነት መታወቂያ ስርጭትና ገቢ አሰባሰብ ሥራን ዘመናዊ መንገድ ተከትለን ለአባላት ምቹና ቀልጣፋ ፈጣን አገልግሎት ለመስጠት ይህንን ሶፕትዌር ትግበራ ሥራ ያሰራን በመሆኑ መተግበሪያውን በመጠቀም አባል እንዲትሆኑ እንዲሁም አቅም ያላችሁ አጋር ድረጅቶች ከልማት ማህበሩ ጋር የኢንቨስትሜንት ሥራ በቅንጅት እንዲትሰሩ ጥሪ እናቀርባለን፡፡ ልማት ማህበሩ በ1993 ዓ.ም ከተቋቆመበት ጊዜ ጀምሮ ከተለያዩ አጋር ድርጅቶች ጋር በመቀናጀት በትምህርት፣በጤና፣በውሃና በአካባቢ ጥበቃ ዘርፍ የላቀ እምርታ ያስመዘገበ ልማት ማህበር ሲሆን የእርስዎ አባልነት፣ደጋፊነትና አብሮ መስራት ልማት ማህበሩ ተጨማሪ አንድ እርምጃ ወደ ፊት ከፍ እንዲል ያግዛል ብለን እናምናለን። ሀገበር በቀል ድርጅት የሆነዉ ዳዉሮ ልማት ማህበር ከዚህ ቀጥሎም በእርሻ፣ በትምህርት፣ በጤና፣ በአከባቢ ጥበቃና በሌሎች ዘርፎች ሰፊ ሥራ ለመሥራት ያቀደ በመሆኑ የአባላት ተሳትፎ ድጋፍና አስተያየት በእጅጉ አስፈላጊ ነዉ፡፡ ጊዜን በአግባቡ በመጠቀም የመፈፀምና የማስፈፀም አቅማችንን በማሻሻል በቴክኖሎጂ የታገዘ ሥራ በማሳለጥ ለተገልጋዮች ቀልጣፋ አገልግሎት ከመስጠትም ባሻገር የልማት ማህበሩ ቅቡልነትና አፈፃፀም ወሰን በማስፋት የማህበርሰቦቻችን ልማት ፍላጎትን ለማረጋገጥ ተግተን እንሰራለን ውጤትም እናመጣለን፡፡ የተባበሩት ታርክ ሰርተዋል፣ አብረዉ የተጉት አድገዋል፣ በአንድነት የሰሩት በልጽገዋል፣በህብረት የተጓዙት ተሻግረዋልና በመቀናጀት፣በመተባበር፣በመተጋገዝና በጋራ በመስራት የዳውሮ ልማት ማህበር እምርታን እናረጋግጥ እላለሁ አመሰግናለሁ።",
       image: "/images/ceo-werku-wedaje.jpg",
@@ -814,7 +814,7 @@ async function seedAboutContent() {
       titleAmharic: "ራዕይ",
       subtitle: "",
       subtitleAmharic: "",
-      body: "To see the Dawro people fully freed from their current social, economic, and infrastructural challenges, living in favorable, well-developed conditions.",
+      body: "To see the dawuro people fully freed from their current social, economic, and infrastructural challenges, living in favorable, well-developed conditions.",
       bodyAmharic:
         "የዳዉሮ ህዝብ አሁን ካለበት ማህበራዊ፣ ኢኮኖሚያዊና ከመሠረተ-ልማት ችግሮች ሙሉ በሙሉ ተላቆ የተመቻቸ ኑሮ ተፈጥሮ ማየት ነዉ፡፡",
       image: null,
@@ -831,7 +831,7 @@ async function seedAboutContent() {
         "Improving the livelihood of the community in a sustainable manner by promoting integrated agricultural and industrial development;",
         "Improving access and quality of education",
         "Improving access and quality of health and clean water services",
-        "Ensuring the development of forestry and environmental protection in all zonal districts of Dawro.",
+        "Ensuring the development of forestry and environmental protection in all zonal districts of dawuro.",
         "Increasing the economic benefit of the community by improving, modernizing and expanding tourism destinations",
         "Ensuring sports development by increasing community participation and sense of ownership",
         "Studying, organizing, protecting and enriching the culture and language of the ethnic groups in the zone so as to introduce to the world",
