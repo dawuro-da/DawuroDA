@@ -69,8 +69,9 @@ const ImageCarousel = ({
               src={image}
               alt={`image${index}`}
               fill
-              className="w-[100%] h-[100%] object-cover filter brightness-30"
+              className="w-[100%] h-[100%] object-cover"
             />
+            <div className="absolute inset-0 bg-black/50" />
           </div>
         );
       })}

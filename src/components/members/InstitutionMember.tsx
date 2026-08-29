@@ -228,23 +228,27 @@ const InstitutionMember = ({
             >
               <MenuItem value={MembershipLevel?.Platinum}>
                 {MembershipLevel?.Platinum}
-                {" (>8.33K ETB)"}
+                {" (≥50,000 ETB/year)"}
               </MenuItem>
               <MenuItem value={MembershipLevel?.Diamond}>
                 {MembershipLevel?.Diamond}
-                {" (6.66K-8.33K ETB)"}
+                {" (79,920 ETB/year)"}
               </MenuItem>
               <MenuItem value={MembershipLevel?.Gold}>
                 {MembershipLevel?.Gold}
-                {" (4.16K-6.66K ETB)"}
+                {" (40,000 ETB/year)"}
               </MenuItem>
               <MenuItem value={MembershipLevel?.Silver}>
                 {MembershipLevel?.Silver}
-                {" (2.5K-4.16K ETB)"}
+                {" (30,000 ETB/year)"}
               </MenuItem>
               <MenuItem value={MembershipLevel?.Bronze}>
                 {MembershipLevel?.Bronze}
-                {" (833-2.5K ETB)"}
+                {" (20,000 ETB/year)"}
+              </MenuItem>
+              <MenuItem value={MembershipLevel?.Standard}>
+                {MembershipLevel?.Standard}
+                {" (15,000 ETB/year)"}
               </MenuItem>
             </TextField>
           </div>

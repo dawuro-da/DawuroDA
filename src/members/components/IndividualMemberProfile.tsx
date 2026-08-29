@@ -499,23 +499,27 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
                     >
                       <MenuItem value={MembershipLevel?.Platinum}>
                         {MembershipLevel?.Platinum}
-                        {" (>100 ETB)"}
+                        {" (10,000 ETB/year)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Diamond}>
                         {MembershipLevel?.Diamond}
-                        {" (80-100 ETB)"}
+                        {" (960 ETB/year)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Gold}>
                         {MembershipLevel?.Gold}
-                        {" (50-80 ETB)"}
+                        {" (7,000 ETB/year)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Silver}>
                         {MembershipLevel?.Silver}
-                        {" (30-50 ETB)"}
+                        {" (5,000 ETB/year)"}
                       </MenuItem>
                       <MenuItem value={MembershipLevel?.Bronze}>
                         {MembershipLevel?.Bronze}
-                        {" (10-30 ETB)"}
+                        {" (3,000 ETB/year)"}
+                      </MenuItem>
+                      <MenuItem value={MembershipLevel?.Standard}>
+                        {MembershipLevel?.Standard}
+                        {" (1,000 ETB/year)"}
                       </MenuItem>
                     </TextField>
                   </div>

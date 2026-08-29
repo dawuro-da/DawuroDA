@@ -26,21 +26,25 @@ interface ContributionLevels {
   [level: string]: number;
 }
 
+// Levels are set as yearly ETB amounts (the official plan), then divided by
+// 12 to get the monthly base this object actually stores — Yearly/Quarterly
+// are derived from that base via base*12 / base*3 in getMinimumContribution.
 const contributionLevels: Record<MembershipType, ContributionLevels> = {
   Individual: {
-    Platinum: 100,
+    Platinum: 10000 / 12,
     Diamond: 80,
-    Gold: 50,
-    Silver: 30,
-    Bronze: 10,
+    Gold: 7000 / 12,
+    Silver: 5000 / 12,
+    Bronze: 3000 / 12,
+    Standard: 1000 / 12,
   },
   Company: {
-    Platinum: 8330,
+    Platinum: 50000 / 12, // minimum only — no fixed ceiling
     Diamond: 6660,
-    Gold: 4160,
-    Silver: 2500,
-    Bronze: 833,
-    Standard: 0,
+    Gold: 40000 / 12,
+    Silver: 30000 / 12,
+    Bronze: 20000 / 12,
+    Standard: 15000 / 12,
   },
 };
 
