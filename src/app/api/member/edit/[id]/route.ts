@@ -151,7 +151,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
           dateOfBirth,
           workPlace,
           profileImage: profileImage.name
-            ? imageUrl ?? "/icons/list.svg"
+            ? imageUrl ?? "/icons/list.png"
             : (profileImage as unknown as string),
           idNumber,
           branch,

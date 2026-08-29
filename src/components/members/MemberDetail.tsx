@@ -310,6 +310,26 @@ const MemberDetail = ({
         )}
 
         <div className="flex flex-row items-center justify-between mt-10 w-full">
+          <div className="flex flex-col">
+            <span className="font-bold text-2xl text-titleColor">
+              Membership ID
+            </span>
+            {member.idRenewedYear && (
+              <span className="text-titleColor text-sm mt-1">
+                Last renewed for {member.idRenewedYear} E.C.
+              </span>
+            )}
+          </div>
+          <Button
+            onClick={handleRenewId}
+            disabled={renewingId}
+            variant="outlined"
+            className="border-[1px] border-titleColor capitalize text-titleColor font-bold min-w-[140px]"
+          >
+            {renewingId ? <CircularProgress size={20} /> : "Renew ID"}
+          </Button>
+        </div>
+        <div className="flex flex-row items-center justify-between mt-10 w-full">
           <span className="font-bold text-2xl text-titleColor">
             Payment Record
           </span>
@@ -353,20 +373,7 @@ const MemberDetail = ({
           <span className="font-bold text-2xl text-titleColor">
             Generate Id
           </span>
-          <Button
-            onClick={handleRenewId}
-            disabled={renewingId}
-            variant="outlined"
-            className="border-[1px] border-titleColor capitalize text-titleColor font-bold min-w-[140px]"
-          >
-            {renewingId ? <CircularProgress size={20} /> : "Renew ID"}
-          </Button>
         </div>
-        {member.idRenewedYear && (
-          <span className="text-titleColor text-sm mt-1">
-            Last renewed for {member.idRenewedYear} E.C.
-          </span>
-        )}
         <div className="flex flex-col mt-6 pb-6 w-full gap-6">
           {!checkMemberThreeMonth({
             createdAt: member.created_at,
