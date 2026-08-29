@@ -11,9 +11,22 @@ export const TEMPLATE_BY_LEVEL: Record<MembershipLevel, string> = {
   Standard: "/IDs/dawuroSilverId.jpg",
 };
 
-// Field positions are percentages of the template image's own box, measured
-// once against the (identical across all 5 levels) template layout — so the
-// same coordinates apply no matter which level's background is in use.
+// Field positions are percentages of the template image's own box. Unlike
+// the previous estimated values, these were measured by sampling the
+// template's actual pixel data (public/IDs/dawuroBronzeId.jpg, 2000x1249)
+// for the light "blank line" boxes baked into the artwork, so they line up
+// exactly with the visible box rather than an eyeballed guess:
+//   idNo:        x 1694-1916, y  68-113
+//   fullName:    x  838-1385, y 384-428
+//   age:         x  838-1012, y 487-531
+//   sex:         x 1140-1385, y 487-531
+//   occupation:  x  838-1385, y 589-635
+//   nationality: x  838-1385, y 692-737
+//   address:     x  838-1385, y 795-840
+//   phone:       x  838-1385, y 898-943
+//   renewedYear: x  107-218,  y 983-1024
+// (identical across all 5 level templates — only the background/colors
+// differ, the field layout does not.)
 //
 // Each box is defined by its top-left corner, width and height, and the
 // text is vertically (and for renewedYear, horizontally) centered inside it
@@ -23,15 +36,15 @@ export const TEMPLATE_BY_LEVEL: Record<MembershipLevel, string> = {
 // which showed up as the exported PNG's text sitting visibly below where
 // it appears on screen.
 const FIELD_BOX = {
-  idNo: { left: "85%", top: "5.05%", width: "13.5%", height: "4.8%" },
-  fullName: { left: "42.5%", top: "30.1%", width: "50%", height: "4.8%" },
-  age: { left: "42.5%", top: "38.3%", width: "13%", height: "4.8%" },
-  sex: { left: "57.8%", top: "38.3%", width: "20%", height: "4.8%" },
-  occupation: { left: "42.5%", top: "46.4%", width: "50%", height: "4.8%" },
-  nationality: { left: "42.5%", top: "54.8%", width: "50%", height: "4.8%" },
-  address: { left: "42.5%", top: "63.1%", width: "50%", height: "4.8%" },
-  phone: { left: "42.5%", top: "71.3%", width: "50%", height: "4.8%" },
-  renewedYear: { left: "6.9%", top: "77.8%", width: "6%", height: "4.8%" },
+  idNo: { left: "84.7%", top: "5.44%", width: "11.1%", height: "3.6%" },
+  fullName: { left: "41.9%", top: "30.74%", width: "27.35%", height: "3.6%" },
+  age: { left: "41.9%", top: "38.99%", width: "8.75%", height: "3.6%" },
+  sex: { left: "57%", top: "38.99%", width: "12.3%", height: "3.6%" },
+  occupation: { left: "41.9%", top: "47.16%", width: "27.35%", height: "3.6%" },
+  nationality: { left: "41.9%", top: "55.4%", width: "27.35%", height: "3.6%" },
+  address: { left: "41.9%", top: "63.65%", width: "27.35%", height: "3.6%" },
+  phone: { left: "41.9%", top: "71.9%", width: "27.35%", height: "3.6%" },
+  renewedYear: { left: "5.35%", top: "78.7%", width: "5.55%", height: "3.28%" },
 } as const;
 
 const Field = ({
