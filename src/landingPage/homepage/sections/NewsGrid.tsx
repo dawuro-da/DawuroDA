@@ -72,7 +72,7 @@ const NewsGrid = () => {
       className={`group relative rounded-2xl overflow-hidden cursor-pointer ${minHeightClass}`}
     >
       <Image
-        src={item.profileImage?.[0] ?? "/images/news1.svg"}
+        src={item.profileImage?.[0] ?? "/images/news1.webp"}
         alt=""
         fill
         className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -115,7 +115,7 @@ const NewsGrid = () => {
           >
             <div className="relative w-28 h-28 shrink-0 rounded-xl overflow-hidden">
               <Image
-                src={item.profileImage?.[0] ?? "/images/news2.svg"}
+                src={item.profileImage?.[0] ?? "/images/news2.webp"}
                 alt=""
                 fill
                 className="object-cover"

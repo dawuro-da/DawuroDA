@@ -71,7 +71,7 @@ const WhatsHappening = () => {
               >
                 <div className="relative w-full md:w-[38%] h-[220px] md:h-auto shrink-0 overflow-hidden">
                   <Image
-                    src={event.profileImage || "/images/tourism.svg"}
+                    src={event.profileImage || "/images/tourism.webp"}
                     alt=""
                     fill
                     className="object-cover"
