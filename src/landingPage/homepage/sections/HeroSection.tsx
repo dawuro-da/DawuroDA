@@ -98,10 +98,11 @@ const HeroSection = () => {
             src={s.image}
             alt=""
             fill
-            className={`w-[100%] h-[100%] object-cover filter brightness-30 ${
+            className={`w-[100%] h-[100%] object-cover ${
               index === currentIndex ? "hero-ken-burns" : ""
             }`}
           />
+          <div className="absolute inset-0 bg-black/60" />
         </div>
       ))}
       <div
