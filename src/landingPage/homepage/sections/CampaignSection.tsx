@@ -65,6 +65,7 @@ const CampaignSection = () => {
           description: isAmharic
             ? campaign.descriptionAmharic || campaign.description
             : campaign.description,
+          campaignId: campaign.id,
         }}
       />
       <Modal open={openVideoModal} onClose={() => setOpenVideoModal(false)}>

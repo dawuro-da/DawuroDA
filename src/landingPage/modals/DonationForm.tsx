@@ -26,6 +26,7 @@ const DonationForm = ({
   designation?: {
     title: string;
     description: string;
+    campaignId?: string;
   };
 }) => {
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ const DonationForm = ({
         phone: data?.phone,
         donationDesignation: data?.donationDesignation,
         branch: data.branch,
+        campaignId: designation?.campaignId,
       });
       if (res.data.success) {
         window.open(res.data.value.data.checkout_url, "_parent");

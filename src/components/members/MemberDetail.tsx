@@ -44,6 +44,7 @@ const MemberDetail = ({
   const [loading, setLoading] = useState<boolean>();
   const [showAddPaymentModal, setShowAddPaymentModal] =
     useState<boolean>(false);
+  const [renewingId, setRenewingId] = useState<boolean>(false);
 
   const fetchMemberContributions = async (memberId: string) => {
     setLoading(true);
@@ -69,6 +70,27 @@ const MemberDetail = ({
       currTarget,
       `${member.firstName ? member.firstName : member.institutionName}ID`
     );
+  };
+
+  const handleRenewId = async () => {
+    setRenewingId(true);
+    try {
+      const res = await axios.post(`/api/cms/member/renew/${member.id}`);
+      if (res.data.success) {
+        dispatch(
+          showToastAction({ message: "ID renewed", type: "success" })
+        );
+        onRefresh();
+      }
+    } catch (err: any) {
+      dispatch(
+        showToastAction({
+          message: err?.response?.data?.error ?? "Unable to renew ID",
+          type: "error",
+        })
+      );
+    }
+    setRenewingId(false);
   };
 
   return (
@@ -331,7 +353,20 @@ const MemberDetail = ({
           <span className="font-bold text-2xl text-titleColor">
             Generate Id
           </span>
+          <Button
+            onClick={handleRenewId}
+            disabled={renewingId}
+            variant="outlined"
+            className="border-[1px] border-titleColor capitalize text-titleColor font-bold min-w-[140px]"
+          >
+            {renewingId ? <CircularProgress size={20} /> : "Renew ID"}
+          </Button>
         </div>
+        {member.idRenewedYear && (
+          <span className="text-titleColor text-sm mt-1">
+            Last renewed for {member.idRenewedYear} E.C.
+          </span>
+        )}
         <div className="flex flex-col mt-6 pb-6 w-full gap-6">
           {!checkMemberThreeMonth({
             createdAt: member.created_at,

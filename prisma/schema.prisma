@@ -133,6 +133,9 @@ model Member {
   fieldOfWork          String?
   partnershipIdea      String?
 
+  idRenewedYear Int? // Ethiopian calendar year the membership ID was last renewed for
+  idRenewedAt   DateTime? // Gregorian timestamp of that renewal, for audit purposes
+
   created_at    DateTime       @default(now())
   updated_at    DateTime       @default(now()) @updatedAt
   contributions Contribution[]
@@ -223,6 +226,9 @@ model GeneralDonation {
   amount              Int
   branch              String?
 
+  campaignId String?
+  campaign   Campaign? @relation(fields: [campaignId], references: [id])
+
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
@@ -298,8 +304,9 @@ model Campaign {
   startDate DateTime
   endDate   DateTime
 
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
+  created_at DateTime          @default(now())
+  updated_at DateTime          @default(now()) @updatedAt
+  donations  GeneralDonation[]
 
   @@map(name: "campaign")
 }

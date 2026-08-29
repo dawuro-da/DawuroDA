@@ -123,23 +123,42 @@ export async function createDonation({
   fullName,
   phone,
   branch,
+  campaignId,
 }: {
   amount: string;
   donationDesignation: string;
   fullName: string;
   phone: string;
   branch: string;
+  campaignId?: string | null;
 }) {
+  const parsedAmount = parseFloat(amount);
   try {
-    return await prisma.generalDonation.create({
-      data: {
-        amount: parseFloat(amount),
-        donationDesignation,
-        fullName,
-        phone,
-        branch,
-      },
-    });
+    // Campaign progress is derived entirely from real donation records
+    // (this function is the single path both the Chapa webhook and the
+    // admin's manual "Record Donation" action go through) rather than being
+    // hand-typed, so raisedAmount can't drift from what was actually given.
+    const [donation] = await prisma.$transaction([
+      prisma.generalDonation.create({
+        data: {
+          amount: parsedAmount,
+          donationDesignation,
+          fullName,
+          phone,
+          branch,
+          campaignId: campaignId ?? undefined,
+        },
+      }),
+      ...(campaignId
+        ? [
+            prisma.campaign.update({
+              where: { id: campaignId },
+              data: { raisedAmount: { increment: parsedAmount } },
+            }),
+          ]
+        : []),
+    ]);
+    return donation;
   } catch (err) {
     console.warn(err);
     return null;

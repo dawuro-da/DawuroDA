@@ -32,19 +32,17 @@ interface ContributionLevels {
 const contributionLevels: Record<MembershipType, ContributionLevels> = {
   Individual: {
     Platinum: 10000 / 12,
-    Diamond: 80,
-    Gold: 7000 / 12,
-    Silver: 5000 / 12,
-    Bronze: 3000 / 12,
-    Standard: 1000 / 12,
+    Diamond: 7000 / 12,
+    Gold: 5000 / 12,
+    Silver: 3000 / 12,
+    Bronze: 1000 / 12,
   },
   Company: {
     Platinum: 50000 / 12, // minimum only — no fixed ceiling
-    Diamond: 6660,
-    Gold: 40000 / 12,
-    Silver: 30000 / 12,
-    Bronze: 20000 / 12,
-    Standard: 15000 / 12,
+    Diamond: 40000 / 12,
+    Gold: 30000 / 12,
+    Silver: 20000 / 12,
+    Bronze: 15000 / 12,
   },
 };
 

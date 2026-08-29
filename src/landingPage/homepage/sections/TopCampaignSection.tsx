@@ -32,6 +32,7 @@ const TopCampaignSection = () => {
   const [designation, setDesignation] = useState<{
     title: string;
     description: string;
+    campaignId?: string;
   }>();
   const [videoCampaign, setVideoCampaign] = useState<Campaign>();
 
@@ -61,6 +62,7 @@ const TopCampaignSection = () => {
       description: isAmharic
         ? campaign.descriptionAmharic || campaign.description
         : campaign.description,
+      campaignId: campaign.id,
     });
     setOpenDonationModal(true);
   };
