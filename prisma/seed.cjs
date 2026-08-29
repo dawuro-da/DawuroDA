@@ -24,6 +24,16 @@ const monthsAgo = (n) => {
   return d;
 };
 
+// Mirrors src/util/date.ts's getEthiopianYear — duplicated here since this
+// script runs standalone via node, not through the TS build.
+const getEthiopianYear = (date = new Date()) => {
+  const gYear = date.getFullYear();
+  const isPreLeapYear = (gYear + 1) % 4 === 0;
+  const newYearDay = isPreLeapYear ? 12 : 11;
+  const newYearThisGregorianYear = new Date(gYear, 8, newYearDay);
+  return date >= newYearThisGregorianYear ? gYear - 7 : gYear - 8;
+};
+
 async function seedUsers() {
   const users = [
     {
@@ -133,14 +143,16 @@ async function seedMembers() {
         (id, "memberId", phone, "membershipLevel", "contributionAmount", "contributionSystem",
          "lastPaidAt", "nextDueDate", "hasPaid", "membershipType", "paymentMeans",
          region, zone, city, "firstName", "lastName", gender, "workPlace", expertise,
-         "profileImage", branch, password_salt, password_hash, created_at, updated_at)
+         "profileImage", branch, password_salt, password_hash,
+         "idRenewedYear", "idRenewedAt", created_at, updated_at)
       VALUES
         (${uuid()}, ${"DaDA" + crypto.randomBytes(4).toString("hex").toUpperCase()}, ${m.phone},
          ${m.membershipLevel}, ${m.contributionAmount}, 'Monthly',
          ${monthsAgo(1)}, ${inDays(30)}, true, 'Individual', ${m.paymentMeans},
          ${"South West Ethiopia Peoples' Region"}, 'dawuro', ${m.city}, ${m.firstName}, ${m.lastName},
          ${m.gender}, ${m.workPlace}, ${m.expertise}, ${"/icons/avatar.svg"}, ${m.branch},
-         ${salt}, ${hash}, now(), now())
+         ${salt}, ${hash},
+         ${getEthiopianYear(monthsAgo(1))}, ${monthsAgo(1)}, now(), now())
     `;
     console.log("created member:", m.firstName, m.lastName);
   }
@@ -155,14 +167,16 @@ async function seedMembers() {
         (id, "memberId", phone, "membershipLevel", "contributionAmount", "contributionSystem",
          "lastPaidAt", "nextDueDate", "hasPaid", "membershipType", "paymentMeans",
          region, zone, city, "institutionName", "headOrRepresentative", "fieldOfWork",
-         branch, password_salt, password_hash, created_at, updated_at)
+         branch, password_salt, password_hash,
+         "idRenewedYear", "idRenewedAt", created_at, updated_at)
       VALUES
         (${uuid()}, ${"DaDA" + crypto.randomBytes(4).toString("hex").toUpperCase()}, ${companyPhone},
          'Diamond', 6660, 'Monthly',
          ${monthsAgo(1)}, ${inDays(30)}, true, 'Company', 'Bank',
          ${"South West Ethiopia Peoples' Region"}, 'dawuro', 'Tarcha',
          ${"Tarcha General Trading PLC"}, ${"Hana Tadesse"}, ${"General Trading & Import-Export"},
-         ${branches[4]}, ${salt}, ${hash}, now(), now())
+         ${branches[4]}, ${salt}, ${hash},
+         ${getEthiopianYear(monthsAgo(1))}, ${monthsAgo(1)}, now(), now())
     `;
     console.log("created company member: Tarcha General Trading PLC");
   } else {
