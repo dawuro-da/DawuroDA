@@ -41,12 +41,14 @@ async function seedUsers() {
       lastName: "Admin",
       email: "mike@gmail.com",
       password: "mike@1234",
+      role: "SuperAdmin",
     },
     {
       firstName: "Dawuro",
       lastName: "DA",
       email: "dawuroda@gmail.com",
       password: "dawuro@1234",
+      role: "Owner",
     },
   ];
 
@@ -61,7 +63,7 @@ async function seedUsers() {
       INSERT INTO users
         (id, "firstName", "lastName", email, branch, role, password_salt, password_hash, created_at, updated_at)
       VALUES
-        (${uuid()}, ${u.firstName}, ${u.lastName}, ${u.email}, ${"Head Office Branch (Tarcha)"}, 'SuperAdmin', ${salt}, ${hash}, now(), now())
+        (${uuid()}, ${u.firstName}, ${u.lastName}, ${u.email}, ${"Head Office Branch (Tarcha)"}, ${u.role}, ${salt}, ${hash}, now(), now())
     `;
     console.log("created user:", u.email);
   }
