@@ -75,7 +75,7 @@ const NewsEdit = ({
     }
     formData.append("headline", headline);
     formData.append("headlineAmharic", headlineAmharic);
-    formData.append("youtubeLink", youtubeLink);
+    formData.append("youtubeLink", youtubeLink ?? "");
     formData.append("body", body);
     formData.append("bodyAmharic", bodyAmharic);
     formData.append("isDraft", isDraft);

@@ -22,9 +22,17 @@ export async function GET() {
 export async function POST(req: Request, res: any) {
   try {
     const body = await req.json();
-    const { event, mobile, meta, amount, first_name, type } = body;
+    const { event, mobile, meta, amount, first_name } = body;
 
-    if (event === "charge.success" && type === "API") {
+    // Chapa's docs list several possible values for `type` depending on how
+    // the transaction was initiated (Payment Link, API, Event, Donation…).
+    // We always initiate via their /v1/transaction/initialize REST API, but
+    // requiring type === "API" turned out to reject real successful charges
+    // whenever Chapa classified one differently — silently dropping
+    // donations, contributions, auction bids, and new member registrations
+    // alike, all of which route through this same handler. event ===
+    // "charge.success" alone is the correct signal that a payment succeeded.
+    if (event === "charge.success") {
       const metaData = JSON.parse(JSON.stringify(meta));
       
       const paymentType = metaData?.paymentType ?? "";

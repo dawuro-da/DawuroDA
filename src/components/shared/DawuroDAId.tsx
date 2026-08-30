@@ -47,6 +47,18 @@ const FIELD_BOX = {
   renewedYear: { left: "5.35%", top: "78.2%", width: "5.55%", height: "3.28%" },
 } as const;
 
+// The Silver template's blank value-line boxes sit slightly lower in the
+// artwork than the other 4 levels' — reusing the shared FIELD_BOX left the
+// text sitting in the upper portion of each box with visible empty space
+// below it. TEST_TOP_OFFSET below was tuned by rendering and comparing.
+const SILVER_TOP_OFFSET = 1.15;
+const FIELD_BOX_SILVER = Object.fromEntries(
+  Object.entries(FIELD_BOX).map(([key, box]) => [
+    key,
+    { ...box, top: `${parseFloat(box.top) + SILVER_TOP_OFFSET}%` },
+  ])
+) as typeof FIELD_BOX;
+
 const Field = ({
   box,
   fontSize,
@@ -81,6 +93,16 @@ const DawuroDAId = ({
     ? `${member.firstName} ${member.lastName}`
     : `${member?.institutionName}`;
 
+  const isSilver =
+    member.membershipLevel === MembershipLevel.Silver ||
+    member.membershipLevel === MembershipLevel.Standard;
+  const box = isSilver ? FIELD_BOX_SILVER : FIELD_BOX;
+
+  // All fields share one font size (previously fullName was larger and
+  // renewedYear noticeably smaller than the rest — now every value reads
+  // at the same size for a consistent look across the card).
+  const FONT_SIZE = 13;
+
   return (
     <div
       ref={dawurodaIdRef}
@@ -89,32 +111,32 @@ const DawuroDAId = ({
         backgroundImage: `url("${TEMPLATE_BY_LEVEL[member.membershipLevel]}")`,
       }}
     >
-      <Field box={FIELD_BOX.idNo} fontSize={13}>
+      <Field box={box.idNo} fontSize={FONT_SIZE}>
         {member?.memberId}
       </Field>
-      <Field box={FIELD_BOX.fullName} fontSize={15}>
+      <Field box={box.fullName} fontSize={FONT_SIZE}>
         {fullName}
       </Field>
-      <Field box={FIELD_BOX.age} fontSize={13}>
+      <Field box={box.age} fontSize={FONT_SIZE}>
         {member?.dateOfBirth ? calculateAge(member.dateOfBirth) : "-"}
       </Field>
-      <Field box={FIELD_BOX.sex} fontSize={13}>
+      <Field box={box.sex} fontSize={FONT_SIZE}>
         {member?.gender ?? "-"}
       </Field>
-      <Field box={FIELD_BOX.occupation} fontSize={13}>
+      <Field box={box.occupation} fontSize={FONT_SIZE}>
         {member?.expertise?.slice(0, 25) ?? "-"}
         {member?.expertise && member.expertise.length > 25 && "..."}
       </Field>
-      <Field box={FIELD_BOX.nationality} fontSize={13}>
+      <Field box={box.nationality} fontSize={FONT_SIZE}>
         {member?.nationality ?? "-"}
       </Field>
-      <Field box={FIELD_BOX.address} fontSize={13}>
+      <Field box={box.address} fontSize={FONT_SIZE}>
         {member?.city ?? "-"}
       </Field>
-      <Field box={FIELD_BOX.phone} fontSize={13}>
+      <Field box={box.phone} fontSize={FONT_SIZE}>
         {member?.phone}
       </Field>
-      <Field box={FIELD_BOX.renewedYear} fontSize={10} center>
+      <Field box={box.renewedYear} fontSize={FONT_SIZE} center>
         {member?.idRenewedYear ?? "-"}
       </Field>
       <div
@@ -124,6 +146,14 @@ const DawuroDAId = ({
           backgroundSize: "cover",
         }}
         className="absolute left-[4%] top-[30.8%] h-[35.6%] w-[17.35%] rounded-xl"
+      />
+      {/* Straddles the photo's right edge and the field labels beside it,
+          like an official stamp partly over a photo on a real ID. */}
+      <img
+        src="/images/dawuro-stamp-transparent.png"
+        alt=""
+        className="absolute w-[15%] aspect-[530/505] opacity-90 pointer-events-none"
+        style={{ left: "13.85%", top: "45%", transform: "rotate(-8deg)" }}
       />
     </div>
   );

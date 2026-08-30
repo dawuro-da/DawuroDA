@@ -120,7 +120,9 @@ const CampaignSection = () => {
                   />
                   <div
                     className="absolute -top-3 h-8 w-8 rounded-full bg-primaryColor border-4 border-white text-white text-[10px] font-bold flex items-center justify-center"
-                    style={{ left: `calc(${percent}% - 16px)` }}
+                    style={{
+                      left: `clamp(0px, calc(${percent}% - 16px), calc(100% - 32px))`,
+                    }}
                   >
                     {percent}%
                   </div>

@@ -170,10 +170,7 @@ const MemberDashboard = ({
                 <span className="text-titleColor text-[14px]">Your Id</span>
               </Divider>
               <div className="bg-white w-full relative">
-                {!checkMemberThreeMonth({
-                  createdAt: member.created_at,
-                  nextDueDate: member.nextDueDate,
-                }) && (
+                {!checkMemberThreeMonth({ contributions }) && (
                   <div className="flex flex-row max-w-[340px] items-center justify-start border-[1px] border-[#F1CD89] bg-[#F6EDDA] p-4 gap-6 rounded-[5px]">
                     <InfoOutlined className="text-[#F1CD89] h-[40px] w-[40px] rotate-180" />
                     <span className="text-titleColor text-xs">
@@ -185,19 +182,13 @@ const MemberDashboard = ({
                 )}
                 <div className="bg-white h-[200px] w-full relative">
                   <div className="absolute w-full h-full overflow-auto hiddenscrollbar">
-                    {checkMemberThreeMonth({
-                      createdAt: member.created_at,
-                      nextDueDate: member.nextDueDate,
-                    }) && (
+                    {checkMemberThreeMonth({ contributions }) && (
                       <DawuroDAId dawurodaIdRef={dawurodaIdRef} member={member} />
                     )}
                   </div>
                   <Button
                     onClick={() =>
-                      checkMemberThreeMonth({
-                        createdAt: member.created_at,
-                        nextDueDate: member.nextDueDate,
-                      }) && downloadDawuroDAId()
+                      checkMemberThreeMonth({ contributions }) && downloadDawuroDAId()
                     }
                     variant="outlined"
                     className="absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"

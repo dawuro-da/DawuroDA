@@ -375,10 +375,7 @@ const MemberDetail = ({
           </span>
         </div>
         <div className="flex flex-col mt-6 pb-6 w-full gap-6">
-          {!checkMemberThreeMonth({
-            createdAt: member.created_at,
-            nextDueDate: member.nextDueDate,
-          }) && (
+          {!checkMemberThreeMonth({ contributions }) && (
             <div className="flex flex-row items-center justify-start border-[1px] border-[#F1CD89] bg-[#F6EDDA] p-4 gap-6 rounded-[5px]">
               <InfoOutlined className="text-[#F1CD89] h-[40px] w-[40px] rotate-180" />
               <span className="text-titleColor">
@@ -390,17 +387,11 @@ const MemberDetail = ({
           )}
           <div className="relative flex flex-row p-2 h-[200px] w-full bg-[#EBEBEB] rounded-[5px]">
             <div className="absolute w-[97%] h-full overflow-auto hiddenscrollbar">
-              {checkMemberThreeMonth({
-                createdAt: member.created_at,
-                nextDueDate: member.nextDueDate,
-              }) && <DawuroDAId dawurodaIdRef={dawurodaIdRef} member={member} />}
+              {checkMemberThreeMonth({ contributions }) && <DawuroDAId dawurodaIdRef={dawurodaIdRef} member={member} />}
             </div>
             <button
               onClick={() =>
-                checkMemberThreeMonth({
-                  createdAt: member.created_at,
-                  nextDueDate: member.nextDueDate,
-                }) && downloadDawuroDAId()
+                checkMemberThreeMonth({ contributions }) && downloadDawuroDAId()
               }
               className="p-2 hover:border-primaryColor hover:border border border-transparent h-[40px] z-10 absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"
             >

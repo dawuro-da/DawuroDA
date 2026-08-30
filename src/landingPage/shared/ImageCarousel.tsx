@@ -11,7 +11,16 @@ const ImageCarousel = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const imagesList = youtubeLink ? [youtubeLink, ...images] : images;
+  // A FormData field left empty gets coerced to the literal string
+  // "undefined" (or "null") rather than staying empty, which used to slip
+  // through as a truthy youtubeLink and render an <iframe src="undefined">
+  // — the browser resolves that as a relative URL and loads the site
+  // itself inside the "video" slot. Guarding here too in case any old rows
+  // still carry that bad value.
+  const hasRealYoutubeLink = Boolean(
+    youtubeLink && youtubeLink !== "undefined" && youtubeLink !== "null"
+  );
+  const imagesList = hasRealYoutubeLink ? [youtubeLink as string, ...images] : images;
 
   useEffect(() => {
     if (!playing) {
@@ -39,7 +48,7 @@ const ImageCarousel = ({
   return (
     <div className="relative min-h-[600px] w-full bg-[#333333] z-10 overflow-hidden">
       {imagesList.map((image, index) => {
-        return youtubeLink && index === 0 ? (
+        return hasRealYoutubeLink && index === 0 ? (
           <div
             onClick={() => setPlaying(true)}
             className={`z-20 w-full h-fit min-h-[600px] absolute inset-0 transition-opacity duration-1000 ${
@@ -51,7 +60,7 @@ const ImageCarousel = ({
               onMouseLeave={() => setPlaying(false)}
               width="853"
               height="480"
-              src={convertYouTubeURL(youtubeLink)}
+              src={convertYouTubeURL(youtubeLink as string)}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               title="Embedded youtube"

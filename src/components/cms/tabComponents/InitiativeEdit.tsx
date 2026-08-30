@@ -81,7 +81,7 @@ const InitiativeEdit = ({
       }
       formData.append("nameOfInitiative", nameOfInitiative);
       formData.append("nameOfInitiativeAmharic", nameOfInitiativeAmharic);
-      formData.append("youtubeLink", youtubeLink);
+      formData.append("youtubeLink", youtubeLink ?? "");
       formData.append("body", body);
       formData.append("bodyAmharic", bodyAmharic);
       formData.append("isDraft", isDraft);

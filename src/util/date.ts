@@ -124,26 +124,30 @@ export function calculateAge(birthdate: string) {
   return age;
 }
 
+const MONTHS_COVERED_BY_SYSTEM: Record<string, number> = {
+  Monthly: 1,
+  Quarterly: 3,
+  Yearly: 12,
+};
+
+// Eligibility is based on months actually paid for, not on `nextDueDate -
+// createdAt`. That date-arithmetic approach was indirect and inaccurate:
+// nextDueDate is set 30 calendar days out per payment while the comparison
+// divided by a 30.44-day average, so a member who had genuinely paid for 3
+// months landed at ~90 raw days versus a ~91.3 day threshold — just under
+// it — and only cleared the bar after a 4th payment pushed nextDueDate
+// further out. Summing the months each contribution record actually covers
+// (by its contribution system) is exact and has no such rounding edge.
 export const checkMemberThreeMonth = ({
-  createdAt,
-  nextDueDate,
+  contributions,
 }: {
-  createdAt: Date;
-  nextDueDate: Date;
+  contributions?: { contributionSystem: string }[];
 }) => {
-  // Convert the dates to milliseconds
-  const createdAtTime = new Date(createdAt).getTime();
-  const nextDueDateTime = new Date(nextDueDate).getTime();
-
-  // Calculate the difference in milliseconds
-  const differenceInMilliseconds = nextDueDateTime - createdAtTime;
-
-  // Calculate the difference in months (approx)
-  const differenceInMonths =
-    differenceInMilliseconds / (1000 * 60 * 60 * 24 * 30.44); // 30.44 is the average days in a month
-
-  // Check if the difference is more than or equal to 3 months
-  return differenceInMonths >= 3;
+  const totalMonthsPaid = (contributions ?? []).reduce(
+    (sum, c) => sum + (MONTHS_COVERED_BY_SYSTEM[c.contributionSystem] ?? 1),
+    0
+  );
+  return totalMonthsPaid >= 3;
 };
 
 // Converts a Gregorian date to its Ethiopian calendar year. Ethiopian New
