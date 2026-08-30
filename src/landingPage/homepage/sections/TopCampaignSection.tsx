@@ -35,6 +35,7 @@ const TopCampaignSection = () => {
     campaignId?: string;
   }>();
   const [videoCampaign, setVideoCampaign] = useState<Campaign>();
+  const [detailsCampaign, setDetailsCampaign] = useState<Campaign>();
 
   const fetchCampaigns = async () => {
     setLoading(true);
@@ -99,7 +100,8 @@ const TopCampaignSection = () => {
     return (
       <div
         key={campaign.id}
-        className="bg-white rounded-2xl border border-dashed border-gray-200 overflow-hidden"
+        onClick={() => setDetailsCampaign(campaign)}
+        className="bg-white rounded-2xl border border-dashed border-gray-200 overflow-hidden cursor-pointer"
       >
         <div className="relative w-full h-[220px]">
           <Image
@@ -109,7 +111,10 @@ const TopCampaignSection = () => {
             className="object-cover"
           />
           <button
-            onClick={() => openDonate(campaign)}
+            onClick={(e) => {
+              e.stopPropagation();
+              openDonate(campaign);
+            }}
             className="absolute z-10 top-3 right-3 flex items-center gap-1 bg-primaryColor/90 hover:bg-primaryColor text-white text-xs font-semibold px-3 py-1.5 rounded-full transition-colors"
           >
             {t("home.donate")}
@@ -138,7 +143,9 @@ const TopCampaignSection = () => {
               </div>
               <div
                 className="absolute -bottom-4 h-9 w-9 rounded-full bg-primaryColor text-white flex items-center justify-center text-[11px] font-bold border-[3px] border-white shadow-md"
-                style={{ left: `calc(${percent}% - 18px)` }}
+                style={{
+                  left: `clamp(0px, calc(${percent}% - 18px), calc(100% - 36px))`,
+                }}
               >
                 {percent}%
               </div>
@@ -200,6 +207,71 @@ const TopCampaignSection = () => {
           )}
         </div>
       </Modal>
+      <Modal
+        open={Boolean(detailsCampaign)}
+        onClose={() => setDetailsCampaign(undefined)}
+        className="flex items-center justify-center p-4"
+      >
+        <div className="outline-none bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          {detailsCampaign && (
+            <>
+              <div className="relative w-full h-[260px]">
+                <Image
+                  src={detailsCampaign.image ?? "/images/donationBG.webp"}
+                  alt=""
+                  fill
+                  className="object-cover rounded-t-2xl"
+                />
+                <button
+                  onClick={() => setDetailsCampaign(undefined)}
+                  className="absolute top-3 right-3 z-10 bg-white/90 hover:bg-white rounded-full p-1.5"
+                >
+                  <Close fontSize="small" />
+                </button>
+              </div>
+              <div className="p-8">
+                <h3 className="font-bold text-2xl mb-4">
+                  {isAmharic
+                    ? detailsCampaign.headlineAmharic
+                    : detailsCampaign.headline}
+                </h3>
+                <p className="text-titleColor whitespace-pre-wrap mb-6">
+                  {isAmharic
+                    ? detailsCampaign.descriptionAmharic ||
+                      detailsCampaign.description
+                    : detailsCampaign.description}
+                </p>
+                {Boolean(detailsCampaign.goalAmount) && (
+                  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mb-6 text-titleColor text-sm">
+                    <span className="flex items-center gap-1.5">
+                      <BarChart fontSize="small" className="text-primaryColor" />
+                      {t("home.goal")}:{" "}
+                      {detailsCampaign.goalAmount?.toLocaleString()}{" "}
+                      {t("auctions.auction_detail_page.birr")}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <ThumbUp fontSize="small" className="text-primaryColor" />
+                      {t("home.raised")}:{" "}
+                      {(detailsCampaign.raisedAmount ?? 0).toLocaleString()}{" "}
+                      {t("auctions.auction_detail_page.birr")}
+                    </span>
+                  </div>
+                )}
+                <button
+                  onClick={() => {
+                    openDonate(detailsCampaign);
+                    setDetailsCampaign(undefined);
+                  }}
+                  className="flex items-center gap-1 bg-primaryColor hover:bg-primaryColor/90 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors"
+                >
+                  {t("home.donate")}
+                  <Add fontSize="inherit" />
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </Modal>
       <div className="text-center mb-12">
         <h2 className="font-bold lg:text-4xl text-2xl mb-3">
           {t("home.campaign_heading")}
@@ -234,12 +306,16 @@ const TopCampaignSection = () => {
 
 export default TopCampaignSection;
 
+// react-slick centers arrows at 50% of the whole card's height (image +
+// text body) by default, which lands them right over the percent badge
+// sitting at the bottom of the 220px image. Pinning `top` to the image's
+// own center keeps them clear of it.
 const RightArrow = (props: any) => {
   const { className, style, onClick } = props;
   return (
     <div
       onClick={onClick}
-      style={{ ...style, background: "#34A858" }}
+      style={{ ...style, background: "#34A858", top: "110px" }}
       className={`${className} before:hidden !h-12 !w-12 !bg-primaryColor !flex !flex-row !items-center !justify-center !p-0 !-right-5 z-10 shadow-md`}
     >
       <ChevronRight className="!text-white" />
@@ -252,7 +328,7 @@ const LeftArrow = (props: any) => {
   return (
     <div
       onClick={onClick}
-      style={{ ...style, background: "#34A858" }}
+      style={{ ...style, background: "#34A858", top: "110px" }}
       className={`${className} before:hidden !h-12 !w-12 !bg-primaryColor !flex !flex-row !items-center !justify-center !p-0 !-left-5 z-10 shadow-md`}
     >
       <ChevronLeft className="!text-white" />

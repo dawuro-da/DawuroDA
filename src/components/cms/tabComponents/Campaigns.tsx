@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import CampaignEdit from "./CampaignEdit";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 const Campaigns = () => {
   const dispatch = useDispatch();
@@ -69,7 +70,6 @@ const Campaigns = () => {
       formData.append("image", values.image?.[0] ?? "");
       formData.append("youtubeLink", values.youtubeLink ?? "");
       formData.append("goalAmount", values.goalAmount ?? "");
-      formData.append("raisedAmount", values.raisedAmount ?? "");
       formData.append("isFeatured", values.isFeatured ?? false);
       formData.append("isDraft", values.isDraft ?? false);
       formData.append("startDate", values.startDate);
@@ -285,6 +285,7 @@ const Campaigns = () => {
                       {...register("startDate", {
                         required: "Start Date is required",
                       })}
+                      minDate={dayjs()}
                       onChange={(value) => setValue("startDate", value)}
                     />
                   </LocalizationProvider>
@@ -301,6 +302,7 @@ const Campaigns = () => {
                       {...register("endDate", {
                         required: "End Date is required",
                       })}
+                      minDate={dayjs()}
                       onChange={(value) => setValue("endDate", value)}
                     />
                   </LocalizationProvider>
@@ -368,17 +370,12 @@ const Campaigns = () => {
                     inputProps={{ style: { padding: 10 } }}
                   />
                 </div>
-                <div className="flex flex-col gap-1 text-titleColor w-full">
-                  <label>Raised Amount (Birr)</label>
-                  <TextField
-                    {...register("raisedAmount")}
-                    type="number"
-                    variant="outlined"
-                    sx={{ backgroundColor: "white" }}
-                    inputProps={{ style: { padding: 10 } }}
-                  />
-                </div>
               </div>
+              <small className="text-titleColor opacity-70">
+                Raised amount starts at 0 and only moves from real donations
+                (online or recorded from the campaign once created) — not a
+                hand-typed value.
+              </small>
 
               <div className="flex flex-row items-center gap-1">
                 <Checkbox {...register("isFeatured")} />

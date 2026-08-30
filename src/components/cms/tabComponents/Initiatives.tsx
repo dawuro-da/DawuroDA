@@ -89,7 +89,7 @@ const Initiatives = () => {
     formData.append("nameOfInitiative", nameOfInitiative);
     formData.append("nameOfInitiativeAmharic", nameOfInitiativeAmharic);
     formData.append("body", body);
-    formData.append("youtubeLink", youtubeLink);
+    formData.append("youtubeLink", youtubeLink ?? "");
     formData.append("bodyAmharic", bodyAmharic);
     formData.append("isDraft", isDraft);
 

@@ -21,7 +21,6 @@ export async function POST(req: Request) {
   const headlineAmharic = formData.get("headlineAmharic") as string;
   const youtubeLink = formData.get("youtubeLink") as string;
   const goalAmount = formData.get("goalAmount") as string;
-  const raisedAmount = formData.get("raisedAmount") as string;
   const photo = formData.get("image") as File | string | null;
 
   try {
@@ -46,7 +45,10 @@ export async function POST(req: Request) {
       image: imageUrl,
       youtubeLink: youtubeLink || undefined,
       goalAmount: goalAmount ? Number(goalAmount) : undefined,
-      raisedAmount: raisedAmount ? Number(raisedAmount) : undefined,
+      // raisedAmount is never accepted from the client — it always starts
+      // at the schema default (0) and only ever moves via real donation
+      // records (see /api/cms/donation/create and the Chapa webhook).
+      raisedAmount: 0,
       isFeatured: isFeatured === "true",
       isDraft: isDraft === "true",
       startDate,

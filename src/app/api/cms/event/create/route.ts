@@ -14,24 +14,24 @@ export async function POST(req: Request) {
   const isDraft = formData.get("isDraft") as string;
   const startDate = formData.get("startDate") as string;
   const endDate = formData.get("endDate") as string;
-  // const profileImage = formData.get("profileImage") as File;
+  const profileImage = formData.get("profileImage") as File;
   const body = formData.get("body") as string;
   const bodyAmharic = formData.get("bodyAmharic") as string;
   const headline = formData.get("headline") as string;
   const headlineAmharic = formData.get("headlineAmharic") as string;
 
   try {
-    // const imageUrl = profileImage.name
-    //   ? await uploadFile({
-    //       path: "/eventImages",
-    //       fileName: profileImage.name ?? "name",
-    //       file: profileImage,
-    //       mimeType: profileImage.type,
-    //     })
-    //   : (profileImage as unknown as string);
+    const imageUrl = profileImage?.name
+      ? await uploadFile({
+          path: "/eventImages",
+          fileName: profileImage.name ?? "name",
+          file: profileImage,
+          mimeType: profileImage.type,
+        })
+      : (profileImage as unknown as string);
 
     const result = await createEvent({
-      profileImage: "",
+      profileImage: imageUrl,
       body,
       bodyAmharic,
       headline,

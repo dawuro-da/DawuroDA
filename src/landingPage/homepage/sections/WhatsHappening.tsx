@@ -14,6 +14,15 @@ const WhatsHappening = () => {
   const isAmharic = Boolean(i18n.language === "am");
   const [events, setEvents] = useState<Event[]>();
   const [loading, setLoading] = useState(false);
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+
+  const toggleExpanded = (id: string) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
 
   const fetchEvents = async () => {
     setLoading(true);
@@ -88,9 +97,19 @@ const WhatsHappening = () => {
                     />
                     {getFormattedDate(event.startDate)}
                   </span>
-                  <p className="text-titleColor text-sm mb-6 line-clamp-2">
+                  <p
+                    className={`text-titleColor text-sm mb-1 ${
+                      expandedIds.has(event.id) ? "" : "line-clamp-2"
+                    }`}
+                  >
                     {isAmharic ? event.bodyAmharic : event.body}
                   </p>
+                  <button
+                    onClick={() => toggleExpanded(event.id)}
+                    className="text-primaryColor text-xs font-semibold mb-6 w-fit hover:underline"
+                  >
+                    {expandedIds.has(event.id) ? "Show less" : "Show more"}
+                  </button>
                   <CountdownTimer date={event.startDate} />
                 </div>
               </div>

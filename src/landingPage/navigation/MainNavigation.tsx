@@ -38,6 +38,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
   const open = Boolean(anchorEl);
   const { i18n, t } = useTranslation();
   const { language, setLanguage } = useLanguageStore();
+  const isAmharic = Boolean(i18n.language === "am");
 
   useEffect(() => {
     i18n.changeLanguage(language);
@@ -172,7 +173,7 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
             />
             <div className="hidden md:flex flex-col leading-tight">
               <span className="text-primaryColor font-extrabold text-xl">
-                DawuroDA
+                {isAmharic ? "የዳውሮ ልማት ማህበር" : "DawuroDA"}
               </span>
               <span className="text-titleColor text-xs font-normal">
                 {t("footer.motto")}

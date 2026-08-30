@@ -350,6 +350,7 @@ const Jobs = () => {
                     {...register("deadlineDate", {
                       required: "Deadline is required",
                     })}
+                    minDate={dayjs()}
                     onChange={(value) => setValue("deadlineDate", value)}
                   />
                 </LocalizationProvider>
