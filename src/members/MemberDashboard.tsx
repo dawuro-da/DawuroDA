@@ -19,8 +19,8 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
-import { prepareURL } from "@/util/download";
+import { useEffect, useState } from "react";
+import { downloadDawuroDAId as renderAndDownloadId } from "@/util/renderIdCardCanvas";
 import DawuroDAId from "@/components/shared/DawuroDAId";
 import { getMinimumContribution } from "@/util/helper";
 import { InfoOutlined } from "@mui/icons-material";
@@ -37,8 +37,8 @@ const MemberDashboard = ({
 }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const dawurodaIdRef = useRef<HTMLDivElement | null>(null);
   const [payLoading, setPayLoading] = useState(false);
+  const [downloadingId, setDownloadingId] = useState(false);
   const isCompany = Boolean(member?.membershipType === MembershipType.Company);
   const minAmount = getMinimumContribution({
     membershipType: member?.membershipType,
@@ -76,12 +76,16 @@ const MemberDashboard = ({
     setPayLoading(false);
   };
 
-  const downloadDawuroDAId = () => {
-    const currTarget = dawurodaIdRef.current;
-    prepareURL(
-      currTarget,
-      `${member.firstName ? member.firstName : member.institutionName}ID`
-    );
+  const downloadDawuroDAId = async () => {
+    setDownloadingId(true);
+    try {
+      await renderAndDownloadId(
+        member,
+        `${member.firstName ? member.firstName : member.institutionName}ID`
+      );
+    } finally {
+      setDownloadingId(false);
+    }
   };
 
   return (
@@ -183,23 +187,30 @@ const MemberDashboard = ({
                 <div className="bg-white h-[200px] w-full relative">
                   <div className="absolute w-full h-full overflow-auto hiddenscrollbar">
                     {checkMemberThreeMonth({ contributions }) && (
-                      <DawuroDAId dawurodaIdRef={dawurodaIdRef} member={member} />
+                      <DawuroDAId member={member} />
                     )}
                   </div>
                   <Button
                     onClick={() =>
-                      checkMemberThreeMonth({ contributions }) && downloadDawuroDAId()
+                      checkMemberThreeMonth({ contributions }) &&
+                      !downloadingId &&
+                      downloadDawuroDAId()
                     }
+                    disabled={downloadingId}
                     variant="outlined"
-                    className="absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"
+                    className="absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white disabled:opacity-70"
                   >
-                    <Image
-                      src={"/icons/download.svg"}
-                      alt=""
-                      width={20}
-                      height={20}
-                    />
-                    Download
+                    {downloadingId ? (
+                      <CircularProgress size={16} />
+                    ) : (
+                      <Image
+                        src={"/icons/download.svg"}
+                        alt=""
+                        width={20}
+                        height={20}
+                      />
+                    )}
+                    {downloadingId ? "Downloading..." : "Download"}
                   </Button>
                 </div>
               </div>
