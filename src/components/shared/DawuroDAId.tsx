@@ -36,15 +36,15 @@ export const TEMPLATE_BY_LEVEL: Record<MembershipLevel, string> = {
 // which showed up as the exported PNG's text sitting visibly below where
 // it appears on screen.
 const FIELD_BOX = {
-  idNo: { left: "84.7%", top: "5%", width: "11.1%", height: "3.6%" },
-  fullName: { left: "41.9%", top: "30.24%", width: "27.35%", height: "3.6%" },
-  age: { left: "41.9%", top: "38.49%", width: "8.75%", height: "3.6%" },
-  sex: { left: "57%", top: "38.49%", width: "12.3%", height: "3.6%" },
-  occupation: { left: "41.9%", top: "46.66%", width: "27.35%", height: "3.6%" },
-  nationality: { left: "41.9%", top: "54.9%", width: "27.35%", height: "3.6%" },
-  address: { left: "41.9%", top: "63.15%", width: "27.35%", height: "3.6%" },
-  phone: { left: "41.9%", top: "71.4%", width: "27.35%", height: "3.6%" },
-  renewedYear: { left: "5.35%", top: "78.2%", width: "5.55%", height: "3.28%" },
+  idNo: { left: "83.7%", top: "4.8%", width: "11.1%", height: "3.6%" },
+  fullName: { left: "42%", top: "30.11%", width: "27.35%", height: "3.6%" },
+  age: { left: "42%", top: "38.29%", width: "8.75%", height: "3.6%" },
+  sex: { left: "57.1%", top: "38.29%", width: "12.3%", height: "3.6%" },
+  occupation: { left: "42%", top: "46.46%", width: "27.35%", height: "3.6%" },
+  nationality: { left: "42%", top: "54.7%", width: "27.35%", height: "3.6%" },
+  address: { left: "42%", top: "62.95%", width: "27.35%", height: "3.6%" },
+  phone: { left: "42%", top: "71.2%", width: "27.35%", height: "3.6%" },
+  renewedYear: { left: "5.45%", top: "78.0%", width: "5.55%", height: "3.28%" },
 } as const;
 
 // The Silver template's blank value-line boxes sit slightly lower in the
