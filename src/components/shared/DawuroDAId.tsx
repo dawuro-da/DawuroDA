@@ -35,7 +35,7 @@ export const TEMPLATE_BY_LEVEL: Record<MembershipLevel, string> = {
 // historically misplaced elements positioned with a translate transform,
 // which showed up as the exported PNG's text sitting visibly below where
 // it appears on screen.
-const FIELD_BOX = {
+export const FIELD_BOX = {
   idNo: { left: "83.7%", top: "4.8%", width: "11.1%", height: "3.6%" },
   fullName: { left: "42%", top: "30.11%", width: "27.35%", height: "3.6%" },
   age: { left: "42%", top: "38.29%", width: "8.75%", height: "3.6%" },
@@ -52,12 +52,23 @@ const FIELD_BOX = {
 // text sitting in the upper portion of each box with visible empty space
 // below it. TEST_TOP_OFFSET below was tuned by rendering and comparing.
 const SILVER_TOP_OFFSET = 1.15;
-const FIELD_BOX_SILVER = Object.fromEntries(
+export const FIELD_BOX_SILVER = Object.fromEntries(
   Object.entries(FIELD_BOX).map(([key, box]) => [
     key,
     { ...box, top: `${parseFloat(box.top) + SILVER_TOP_OFFSET}%` },
   ])
 ) as typeof FIELD_BOX;
+
+export const FONT_SIZE_PERCENT_OF_HEIGHT = 13 / 500;
+export const PHOTO_BOX = { left: 4, top: 30.8, width: 17.35, height: 35.6 };
+export const STAMP_BOX = {
+  left: 13.85,
+  top: 45,
+  width: 15,
+  aspect: 530 / 505,
+  rotateDeg: -8,
+};
+export const STAMP_SRC = "/images/dawuro-stamp-transparent.png";
 
 const Field = ({
   box,
@@ -82,13 +93,7 @@ const Field = ({
   </div>
 );
 
-const DawuroDAId = ({
-  dawurodaIdRef,
-  member,
-}: {
-  dawurodaIdRef?: any;
-  member: Member;
-}) => {
+const DawuroDAId = ({ member }: { member: Member }) => {
   const fullName = member?.firstName
     ? `${member.firstName} ${member.lastName}`
     : `${member?.institutionName}`;
@@ -105,7 +110,6 @@ const DawuroDAId = ({
 
   return (
     <div
-      ref={dawurodaIdRef}
       className="relative w-[800px] aspect-[12278/7667] bg-cover bg-center bg-no-repeat text-[#1E1E1E]"
       style={{
         backgroundImage: `url("${TEMPLATE_BY_LEVEL[member.membershipLevel]}")`,
@@ -144,16 +148,26 @@ const DawuroDAId = ({
           backgroundImage: `url('${member?.profileImage ?? ""}')`,
           backgroundPosition: "center",
           backgroundSize: "cover",
+          left: `${PHOTO_BOX.left}%`,
+          top: `${PHOTO_BOX.top}%`,
+          width: `${PHOTO_BOX.width}%`,
+          height: `${PHOTO_BOX.height}%`,
         }}
-        className="absolute left-[4%] top-[30.8%] h-[35.6%] w-[17.35%] rounded-xl"
+        className="absolute rounded-xl"
       />
       {/* Straddles the photo's right edge and the field labels beside it,
           like an official stamp partly over a photo on a real ID. */}
       <img
-        src="/images/dawuro-stamp-transparent.png"
+        src={STAMP_SRC}
         alt=""
-        className="absolute w-[15%] aspect-[530/505] opacity-90 pointer-events-none"
-        style={{ left: "13.85%", top: "45%", transform: "rotate(-8deg)" }}
+        className="absolute opacity-90 pointer-events-none"
+        style={{
+          left: `${STAMP_BOX.left}%`,
+          top: `${STAMP_BOX.top}%`,
+          width: `${STAMP_BOX.width}%`,
+          aspectRatio: STAMP_BOX.aspect,
+          transform: `rotate(${STAMP_BOX.rotateDeg}deg)`,
+        }}
       />
     </div>
   );

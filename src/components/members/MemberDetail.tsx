@@ -14,11 +14,11 @@ import { Avatar, Button, CircularProgress, Drawer } from "@mui/material";
 import { Contribution, Member, MembershipLevel } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import AddNewPaymentDrawer from "./AddNewPaymentDrawer";
 import Image from "next/image";
 import DawuroDAId from "../shared/DawuroDAId";
-import { prepareURL } from "@/util/download";
+import { downloadDawuroDAId as renderAndDownloadId } from "@/util/renderIdCardCanvas";
 import { useSession } from "next-auth/react";
 import { showToastAction } from "@/redux/actions";
 import { useDispatch } from "react-redux";
@@ -39,12 +39,12 @@ const MemberDetail = ({
   const dispatch = useDispatch();
   const session = useSession();
   const router = useRouter();
-  const dawurodaIdRef = useRef<HTMLDivElement | null>(null);
   const [contributions, setContributions] = useState<Contribution[]>();
   const [loading, setLoading] = useState<boolean>();
   const [showAddPaymentModal, setShowAddPaymentModal] =
     useState<boolean>(false);
   const [renewingId, setRenewingId] = useState<boolean>(false);
+  const [downloadingId, setDownloadingId] = useState<boolean>(false);
 
   const fetchMemberContributions = async (memberId: string) => {
     setLoading(true);
@@ -64,12 +64,16 @@ const MemberDetail = ({
     }
   }, [member]);
 
-  const downloadDawuroDAId = () => {
-    const currTarget = dawurodaIdRef.current;
-    prepareURL(
-      currTarget,
-      `${member.firstName ? member.firstName : member.institutionName}ID`
-    );
+  const downloadDawuroDAId = async () => {
+    setDownloadingId(true);
+    try {
+      await renderAndDownloadId(
+        member,
+        `${member.firstName ? member.firstName : member.institutionName}ID`
+      );
+    } finally {
+      setDownloadingId(false);
+    }
   };
 
   const handleRenewId = async () => {
@@ -387,21 +391,28 @@ const MemberDetail = ({
           )}
           <div className="relative flex flex-row p-2 h-[200px] w-full bg-[#EBEBEB] rounded-[5px]">
             <div className="absolute w-[97%] h-full overflow-auto hiddenscrollbar">
-              {checkMemberThreeMonth({ contributions }) && <DawuroDAId dawurodaIdRef={dawurodaIdRef} member={member} />}
+              {checkMemberThreeMonth({ contributions }) && <DawuroDAId member={member} />}
             </div>
             <button
               onClick={() =>
-                checkMemberThreeMonth({ contributions }) && downloadDawuroDAId()
+                checkMemberThreeMonth({ contributions }) &&
+                !downloadingId &&
+                downloadDawuroDAId()
               }
-              className="p-2 hover:border-primaryColor hover:border border border-transparent h-[40px] z-10 absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white"
+              disabled={downloadingId}
+              className="p-2 hover:border-primaryColor hover:border border border-transparent h-[40px] z-10 absolute right-[15px] bottom-[15px] border-[#E0E0E0] text-[#7C7C7C] flex flex-row items-center capitalize gap-2 bg-white hover:bg-white disabled:opacity-70"
             >
-              <Image
-                src={"/icons/download.svg"}
-                alt=""
-                width={20}
-                height={20}
-              />
-              Download
+              {downloadingId ? (
+                <CircularProgress size={16} />
+              ) : (
+                <Image
+                  src={"/icons/download.svg"}
+                  alt=""
+                  width={20}
+                  height={20}
+                />
+              )}
+              {downloadingId ? "Downloading..." : "Download"}
             </button>
           </div>
         </div>
