@@ -91,7 +91,7 @@ const CampaignSection = () => {
       <div
         className="relative w-full min-h-[640px] flex items-center"
         style={{
-          backgroundImage: `url(/featured-campaign-bg.jpg)`,
+          backgroundImage: `url(/Featured Campaign section Image.png)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
