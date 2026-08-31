@@ -80,6 +80,18 @@ export async function findMemberById(id: string): Promise<Member | null> {
   });
 }
 
+export async function findMemberWithContributionsById(id: string) {
+  try {
+    return await prisma.member.findUnique({
+      where: { id },
+      include: { contributions: true },
+    });
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
 export interface MemberSharedDataType {
   email?: string;
   phone: string;

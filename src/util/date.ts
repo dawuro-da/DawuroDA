@@ -150,6 +150,56 @@ export const checkMemberThreeMonth = ({
   return totalMonthsPaid >= 3;
 };
 
+// Renewing an ID represents paying for another full year of membership, so
+// unlike the initial 3-month eligibility check, a renewal requires 12
+// months' worth of contributions — counted only from contributions made
+// *after* the member's last renewal (or after they joined, if this would be
+// their first renewal). Without this, a member could renew every month by
+// paying a single monthly contribution each time, or a staff member could
+// renew years in a row off the same initial payments.
+const MONTHS_REQUIRED_PER_RENEWAL = 12;
+
+export const getRenewalEligibility = ({
+  contributions,
+  lastRenewedAt,
+  lastRenewedYear,
+  memberSince,
+  targetEthiopianYear,
+}: {
+  contributions?: { contributionSystem: string; created_at: Date | string }[];
+  lastRenewedAt?: Date | string | null;
+  lastRenewedYear?: number | null;
+  memberSince: Date | string;
+  targetEthiopianYear?: number;
+}): { eligible: boolean; monthsPaid: number; reason?: string } => {
+  const ethiopianYear = targetEthiopianYear ?? getEthiopianYear();
+
+  if (lastRenewedYear != null && ethiopianYear <= lastRenewedYear) {
+    return {
+      eligible: false,
+      monthsPaid: 0,
+      reason: `This member's ID is already renewed for ${lastRenewedYear} E.C.`,
+    };
+  }
+
+  const since = new Date(lastRenewedAt ?? memberSince);
+  const monthsPaid = (contributions ?? [])
+    .filter((c) => new Date(c.created_at) >= since)
+    .reduce((sum, c) => sum + (MONTHS_COVERED_BY_SYSTEM[c.contributionSystem] ?? 1), 0);
+
+  const eligible = monthsPaid >= MONTHS_REQUIRED_PER_RENEWAL;
+
+  return {
+    eligible,
+    monthsPaid,
+    reason: eligible
+      ? undefined
+      : `This member has only paid for ${monthsPaid} month(s) since ${
+          lastRenewedYear != null ? "their last renewal" : "joining"
+        } — ${MONTHS_REQUIRED_PER_RENEWAL} months of contributions are required before the ID can be renewed.`,
+  };
+};
+
 // Converts a Gregorian date to its Ethiopian calendar year. Ethiopian New
 // Year (Meskerem 1) falls on Sept 11 in most years (Sept 12 the year before
 // a Gregorian leap year); before that date the Ethiopian year is 8 behind

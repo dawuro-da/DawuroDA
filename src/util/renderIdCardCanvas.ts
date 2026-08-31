@@ -1,9 +1,8 @@
-import { Member, MembershipLevel } from "@prisma/client";
+import { Member } from "@prisma/client";
 import { calculateAge } from "@/util/date";
 import {
   TEMPLATE_BY_LEVEL,
   FIELD_BOX,
-  FIELD_BOX_SILVER,
   FONT_SIZE_PERCENT_OF_HEIGHT,
   PHOTO_BOX,
   STAMP_BOX,
@@ -66,10 +65,7 @@ const drawRoundedImage = (
 };
 
 export const downloadDawuroDAId = async (member: Member, name: string) => {
-  const isSilver =
-    member.membershipLevel === MembershipLevel.Silver ||
-    member.membershipLevel === MembershipLevel.Standard;
-  const box = isSilver ? FIELD_BOX_SILVER : FIELD_BOX;
+  const box = FIELD_BOX;
 
   const templateSrc = TEMPLATE_BY_LEVEL[member.membershipLevel];
   const template = await loadImage(templateSrc);
