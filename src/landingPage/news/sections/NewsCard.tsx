@@ -65,7 +65,7 @@ const NewsCard = () => {
         ) : news && news?.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 p-4 md:mt-20 mt-8 gap-4">
             <div
-              className="relative lg:col-span-1 lg:block hidden cursor-pointer group"
+              className="relative lg:col-span-1 lg:block hidden cursor-pointer group min-h-[500px]"
               onClick={() => router.push(`/news/${news?.[0].id}`)}
               style={{
                 background: `url('${news?.[0]?.profileImage?.[0]}')`,
