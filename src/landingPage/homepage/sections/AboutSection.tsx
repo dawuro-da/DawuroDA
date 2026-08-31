@@ -16,7 +16,6 @@ const AboutSection = () => {
   const router = useRouter();
   const { i18n, t } = useTranslation();
   const isAmharic = Boolean(i18n.language === "am");
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [openDonateModal, setOpenDonateModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
   const [selectedManager, setSelectedManager] = useState<Management>();
@@ -42,18 +41,18 @@ const AboutSection = () => {
 
   useEffect(() => {
     fetchManagers();
-    if (window.innerWidth < 700) {
-      setIsSmallScreen(true);
-    } else {
-      setIsSmallScreen(false);
-    }
   }, []);
 
+  // A single slide at a time regardless of viewport: this carousel sits in
+  // one half of a 2-column grid, so even on wide desktop screens its own
+  // width is only ~500px — showing 2 cards side by side left too little
+  // room for a manager's name/title and forced ugly mid-word truncation at
+  // every breakpoint, not just mobile.
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: isSmallScreen ? 1 : 2,
+    slidesToShow: 1,
     slidesToScroll: 1,
     nextArrow: <RightArrow />,
     prevArrow: <LeftArrow />,
@@ -131,16 +130,14 @@ const AboutSection = () => {
                           className="object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       </div>
-                      <div className="text-left">
-                        <p className="font-bold text-base">
+                      <div className="text-left min-w-0 flex-1">
+                        <p className="font-bold text-base line-clamp-2">
                           {isAmharic
-                            ? manager.managerNameAmharic.slice(0, 30)
-                            : manager.managerName.slice(0, 30)}
+                            ? manager.managerNameAmharic
+                            : manager.managerName}
                         </p>
-                        <p className="text-primaryColor text-sm font-medium">
-                          {isAmharic
-                            ? manager.jobAmharic.slice(0, 30)
-                            : manager.job.slice(0, 30)}
+                        <p className="text-primaryColor text-sm font-medium line-clamp-1">
+                          {isAmharic ? manager.jobAmharic : manager.job}
                         </p>
                       </div>
                     </div>

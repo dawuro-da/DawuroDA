@@ -33,11 +33,10 @@ const Partners = () => {
 
   useEffect(() => {
     fetchPartnerships();
-    if (window.innerWidth < 700) {
-      setIsSmallScreen(true);
-    } else {
-      setIsSmallScreen(false);
-    }
+    const updateScreenSize = () => setIsSmallScreen(window.innerWidth < 700);
+    updateScreenSize();
+    window.addEventListener("resize", updateScreenSize);
+    return () => window.removeEventListener("resize", updateScreenSize);
   }, []);
 
   const settings = {
