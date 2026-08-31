@@ -28,6 +28,22 @@ body {
   width: 0px;
 }
 
+/* react-slick's own slide wrapper is a block element sized to the tallest
+   slide's natural height, so shorter partner logos ended up sitting at the
+   top of that box instead of centered in it. Forcing the track/slide list
+   into a flex row with centered cross-axis alignment fixes that regardless
+   of each logo's own aspect ratio. */
+.partners-slider .slick-track {
+  display: flex !important;
+  align-items: center !important;
+}
+.partners-slider .slick-slide {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: auto !important;
+}
+
 @keyframes heroFadeUp {
   from {
     opacity: 0;

@@ -105,12 +105,12 @@ const MemberForgotPassword = () => {
         );
       default:
         return (
-          <div className="flex-1 flex flex-col items-center justify-center bg-white h-screen w-screen">
+          <div className="flex-1 flex flex-col items-center justify-center bg-white h-screen w-screen px-6">
             <div>
               <div>
                 <form
                   onSubmit={handleSubmit(handleForgot)}
-                  className=" flex flex-col gap-2 my-2 min-w-[300px]"
+                  className=" flex flex-col gap-2 my-2 w-full max-w-[300px]"
                 >
                   <div className="flex flex-col gap-2 w-full  mb-6">
                     <span className="font-extrabold text-3xl text-primaryColor ">

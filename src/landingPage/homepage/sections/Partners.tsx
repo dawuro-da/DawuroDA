@@ -47,13 +47,13 @@ const Partners = () => {
     autoplay: true,
     autoplaySpeed: 500,
     cssEase: "linear",
-    speed: 2000,
+    speed: 4500,
     slidesToScroll: 1,
     slidesToShow: isSmallScreen
       ? 3
-      : partnerships && partnerships?.length < 6
+      : partnerships && partnerships?.length < 5
       ? partnerships?.length
-      : 6,
+      : 5,
   };
 
   return (
@@ -67,7 +67,7 @@ const Partners = () => {
       </h2>
       <div className="xl:lg:px-40 md:px-20 max-w-full w-screen flex flex-row items-center justify-center">
         <div className="w-full overflow-y-hidden overflow-x-auto hiddenscrollbar">
-          <Slider {...settings} className="">
+          <Slider {...settings} className="partners-slider">
             {loading
               ? [1, 2, 3].map((item) => (
                   <Skeleton key={item} className="w-full" />
@@ -75,14 +75,15 @@ const Partners = () => {
               : partnerships?.map((item, id) => (
                   <div
                     key={id}
-                    className="w-[80px] h-[80px] flex flex-row items-center justify-center"
+                    className="h-[150px] flex flex-row items-center justify-center"
                   >
                     <Image
                       src={`${item.logo}`}
-                      height={80}
-                      width={80}
+                      height={150}
+                      width={150}
                       unoptimized
                       alt=""
+                      className="max-h-[150px] w-auto object-contain"
                       key={id}
                     />
                   </div>

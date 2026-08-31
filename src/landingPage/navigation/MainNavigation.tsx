@@ -309,6 +309,15 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
             >
               {t("navigation.donate")}
             </span>
+            <span
+              onClick={() => {
+                router.push("/contact");
+                setMenuOpen(!menuOpen);
+              }}
+              className={`w-fit cursor-pointer hover:border-b-2 hover:border-primaryColor px-2`}
+            >
+              {t("navigation.contact")}
+            </span>
             {hasValidSession ? (
               <ProfileMenu />
             ) : (
