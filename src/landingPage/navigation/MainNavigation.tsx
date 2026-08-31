@@ -173,7 +173,9 @@ export default function MainNaviagtion({ bg }: { bg?: string }) {
             />
             <div className="hidden md:flex flex-col leading-tight">
               <span className="text-primaryColor font-extrabold text-xl">
-                {isAmharic ? "የዳውሮ ልማት ማህበር" : "DawuroDA"}
+                {isAmharic
+                  ? "የዳውሮ ልማት ማህበር"
+                  : "Dawuro Development Association"}
               </span>
               <span className="text-titleColor text-xs font-normal">
                 {t("footer.motto")}

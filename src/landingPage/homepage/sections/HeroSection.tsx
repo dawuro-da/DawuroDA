@@ -10,23 +10,31 @@ import { useTranslation } from "react-i18next";
 const slides = [
   {
     image: "/images/dawuro-culture-crowd.webp",
-    headingKey: "home.heading_1",
-    headingAccentKey: "home.heading_1_1",
+    subHeadingKey: "home.hero_sub_1",
+    headingKey: "home.hero_title_1",
+    headingAccentKey: "home.hero_title_1_1",
+    subtitleKey: "home.hero_subtitle_1",
   },
   {
     image: "/images/dawuro-farm.webp",
-    headingKey: "home.heading_2",
-    headingAccentKey: "home.heading_2_2",
+    subHeadingKey: "home.hero_sub_2",
+    headingKey: "home.hero_title_2",
+    headingAccentKey: "home.hero_title_2_2",
+    subtitleKey: "home.hero_subtitle_2",
   },
   {
     image: "/images/dawuro-environment.webp",
-    headingKey: "home.heading_4",
-    headingAccentKey: "home.heading_4_4",
+    subHeadingKey: "home.hero_sub_3",
+    headingKey: "home.hero_title_3",
+    headingAccentKey: "home.hero_title_3_3",
+    subtitleKey: "home.hero_subtitle_3",
   },
   {
     image: "/images/dawuro-education.webp",
-    headingKey: "home.heading_3",
-    headingAccentKey: "home.heading_3_3",
+    subHeadingKey: "home.hero_sub_4",
+    headingKey: "home.hero_title_4",
+    headingAccentKey: "home.hero_title_4_4",
+    subtitleKey: "home.hero_subtitle_4",
   },
 ];
 
@@ -113,7 +121,7 @@ const HeroSection = () => {
           className="hero-fade-up uppercase tracking-[3px] text-sm md:text-base font-semibold text-primaryColor"
           style={{ animationDelay: "0s" }}
         >
-          {t("home.institution_name")}
+          {t(slide.subHeadingKey)}
         </span>
         <span className="max-w-4xl tracking-[-1px] xl:text-6xl lg:text-6xl text-4xl font-black mb-2 z-20">
           <AnimatedWords text={t(slide.headingKey)} startDelay={0.15} />{" "}
@@ -125,7 +133,7 @@ const HeroSection = () => {
           className="hero-fade-up max-w-xl text-base md:text-xl mb-2 text-white/90"
           style={{ animationDelay: "0.65s" }}
         >
-          {t("home.slogan")}
+          {t(slide.subtitleKey)}
         </p>
         <div
           className="hero-fade-up flex flex-row justify-center gap-4 items-center"

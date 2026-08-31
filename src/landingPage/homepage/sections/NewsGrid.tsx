@@ -111,7 +111,7 @@ const NewsGrid = () => {
           <div
             key={item.id}
             onClick={() => router.push(`/news/${item.id}`)}
-            className="group flex flex-row gap-4 cursor-pointer"
+            className="group flex flex-row gap-4 items-center cursor-pointer"
           >
             <div className="relative w-28 h-28 shrink-0 rounded-xl overflow-hidden">
               <Image

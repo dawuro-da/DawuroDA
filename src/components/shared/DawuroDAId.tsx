@@ -11,22 +11,15 @@ export const TEMPLATE_BY_LEVEL: Record<MembershipLevel, string> = {
   Standard: "/IDs/dawuroSilverId.jpg",
 };
 
-// Field positions are percentages of the template image's own box. Unlike
-// the previous estimated values, these were measured by sampling the
-// template's actual pixel data (public/IDs/dawuroBronzeId.jpg, 2000x1249)
-// for the light "blank line" boxes baked into the artwork, so they line up
-// exactly with the visible box rather than an eyeballed guess:
-//   idNo:        x 1694-1916, y  68-113
-//   fullName:    x  838-1385, y 384-428
-//   age:         x  838-1012, y 487-531
-//   sex:         x 1140-1385, y 487-531
-//   occupation:  x  838-1385, y 589-635
-//   nationality: x  838-1385, y 692-737
-//   address:     x  838-1385, y 795-840
-//   phone:       x  838-1385, y 898-943
-//   renewedYear: x  107-218,  y 983-1024
-// (identical across all 5 level templates — only the background/colors
-// differ, the field layout does not.)
+// Field positions are percentages of the template image's own box. The
+// templates were re-exported at 1768x1104 (same design, new file), so these
+// were re-measured by sampling each template's actual pixel data for the
+// light "blank line" boxes baked into the artwork — a vertical scan through
+// the value column that alternates cleanly between box (low-variance,
+// bright) and gap (background pattern) runs. All 5 level templates share
+// pixel-identical box positions (verified against Bronze, Silver, and
+// Platinum directly), so a single shared FIELD_BOX applies to every level —
+// there is no longer a per-level offset.
 //
 // Each box is defined by its top-left corner, width and height, and the
 // text is vertically (and for renewedYear, horizontally) centered inside it
@@ -36,35 +29,23 @@ export const TEMPLATE_BY_LEVEL: Record<MembershipLevel, string> = {
 // which showed up as the exported PNG's text sitting visibly below where
 // it appears on screen.
 export const FIELD_BOX = {
-  idNo: { left: "83.7%", top: "4.8%", width: "11.1%", height: "3.6%" },
-  fullName: { left: "42%", top: "30.11%", width: "27.35%", height: "3.6%" },
-  age: { left: "42%", top: "38.29%", width: "8.75%", height: "3.6%" },
-  sex: { left: "57.1%", top: "38.29%", width: "12.3%", height: "3.6%" },
-  occupation: { left: "42%", top: "46.46%", width: "27.35%", height: "3.6%" },
-  nationality: { left: "42%", top: "54.7%", width: "27.35%", height: "3.6%" },
-  address: { left: "42%", top: "62.95%", width: "27.35%", height: "3.6%" },
-  phone: { left: "42%", top: "71.2%", width: "27.35%", height: "3.6%" },
-  renewedYear: { left: "5.45%", top: "78.0%", width: "5.55%", height: "3.28%" },
+  idNo: { left: "84.3%", top: "5.0%", width: "11.2%", height: "4.5%" },
+  fullName: { left: "41.5%", top: "32.2%", width: "27%", height: "4.2%" },
+  age: { left: "41.5%", top: "40.3%", width: "8.9%", height: "4.2%" },
+  sex: { left: "56.3%", top: "40.3%", width: "12.5%", height: "4.2%" },
+  occupation: { left: "41.5%", top: "48.4%", width: "27%", height: "4.2%" },
+  nationality: { left: "41.5%", top: "56.6%", width: "27%", height: "4.2%" },
+  address: { left: "41.5%", top: "64.8%", width: "27%", height: "4.2%" },
+  phone: { left: "41.5%", top: "72.9%", width: "27%", height: "4.2%" },
+  renewedYear: { left: "5.4%", top: "80.0%", width: "6.6%", height: "3.3%" },
 } as const;
 
-// The Silver template's blank value-line boxes sit slightly lower in the
-// artwork than the other 4 levels' — reusing the shared FIELD_BOX left the
-// text sitting in the upper portion of each box with visible empty space
-// below it. TEST_TOP_OFFSET below was tuned by rendering and comparing.
-const SILVER_TOP_OFFSET = 1.15;
-export const FIELD_BOX_SILVER = Object.fromEntries(
-  Object.entries(FIELD_BOX).map(([key, box]) => [
-    key,
-    { ...box, top: `${parseFloat(box.top) + SILVER_TOP_OFFSET}%` },
-  ])
-) as typeof FIELD_BOX;
-
 export const FONT_SIZE_PERCENT_OF_HEIGHT = 13 / 500;
-export const PHOTO_BOX = { left: 4, top: 30.8, width: 17.35, height: 35.6 };
+export const PHOTO_BOX = { left: 4.3, top: 30.9, width: 17.25, height: 35.2 };
 export const STAMP_BOX = {
-  left: 13.85,
-  top: 45,
-  width: 15,
+  left: 13.5,
+  top: 46,
+  width: 15.8,
   aspect: 530 / 505,
   rotateDeg: -8,
 };
@@ -98,10 +79,7 @@ const DawuroDAId = ({ member }: { member: Member }) => {
     ? `${member.firstName} ${member.lastName}`
     : `${member?.institutionName}`;
 
-  const isSilver =
-    member.membershipLevel === MembershipLevel.Silver ||
-    member.membershipLevel === MembershipLevel.Standard;
-  const box = isSilver ? FIELD_BOX_SILVER : FIELD_BOX;
+  const box = FIELD_BOX;
 
   // All fields share one font size (previously fullName was larger and
   // renewedYear noticeably smaller than the rest — now every value reads
@@ -110,7 +88,7 @@ const DawuroDAId = ({ member }: { member: Member }) => {
 
   return (
     <div
-      className="relative w-[800px] aspect-[12278/7667] bg-cover bg-center bg-no-repeat text-[#1E1E1E]"
+      className="relative w-[800px] aspect-[1768/1104] bg-cover bg-center bg-no-repeat text-[#1E1E1E]"
       style={{
         backgroundImage: `url("${TEMPLATE_BY_LEVEL[member.membershipLevel]}")`,
       }}
