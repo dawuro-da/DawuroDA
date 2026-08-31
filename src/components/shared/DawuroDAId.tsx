@@ -43,9 +43,9 @@ export const FIELD_BOX = {
 export const FONT_SIZE_PERCENT_OF_HEIGHT = 13 / 500;
 export const PHOTO_BOX = { left: 4.3, top: 30.9, width: 17.25, height: 35.2 };
 export const STAMP_BOX = {
-  left: 13.5,
-  top: 46,
-  width: 15.8,
+  left: 10,
+  top: 42,
+  width: 24,
   aspect: 530 / 505,
   rotateDeg: -8,
 };

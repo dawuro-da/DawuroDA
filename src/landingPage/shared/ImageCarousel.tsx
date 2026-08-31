@@ -46,7 +46,7 @@ const ImageCarousel = ({
   };
 
   return (
-    <div className="relative min-h-[600px] w-full bg-[#333333] z-10 overflow-hidden">
+    <div className="relative aspect-video md:aspect-auto md:min-h-[600px] w-full bg-[#333333] z-10 overflow-hidden">
       {imagesList.map((image, index) => {
         return hasRealYoutubeLink && index === 0 ? (
           <div
