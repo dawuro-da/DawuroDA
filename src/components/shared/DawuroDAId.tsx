@@ -29,7 +29,7 @@ export const TEMPLATE_BY_LEVEL: Record<MembershipLevel, string> = {
 // which showed up as the exported PNG's text sitting visibly below where
 // it appears on screen.
 export const FIELD_BOX = {
-  idNo: { left: "83%", top: "4.70%", width: "11.2%", height: "4.5%" },
+  idNo: { left: "82%", top: "7%", width: "11.2%", height: "4.5%" },
   fullName: { left: "41.5%", top: "32.2%", width: "27%", height: "4.2%" },
   age: { left: "41.5%", top: "40.3%", width: "8.9%", height: "4.2%" },
   sex: { left: "56.3%", top: "40.3%", width: "12.5%", height: "4.2%" },
@@ -37,7 +37,7 @@ export const FIELD_BOX = {
   nationality: { left: "41.5%", top: "56.6%", width: "27%", height: "4.2%" },
   address: { left: "41.5%", top: "64.8%", width: "27%", height: "4.2%" },
   phone: { left: "41.5%", top: "72.9%", width: "27%", height: "4.2%" },
-  renewedYear: { left: "5.4%", top: "80.0%", width: "6.6%", height: "3.3%" },
+  renewedYear: { left: "5%", top: "80.0%", width: "6.6%", height: "3.3%" },
 } as const;
 
 export const FONT_SIZE_PERCENT_OF_HEIGHT = 13 / 500;
