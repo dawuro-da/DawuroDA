@@ -19,7 +19,7 @@ const slides = [
     headingAccentKey: "home.heading_2_2",
   },
   {
-    image: "/images/forestry.jpg",
+    image: "/images/dawuro-environment.webp",
     headingKey: "home.heading_4",
     headingAccentKey: "home.heading_4_4",
   },

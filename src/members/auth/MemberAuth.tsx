@@ -12,7 +12,7 @@ import i18n from "../../../i18n";
 
 const images = [
   { url: "/images/dawuro-education.webp", alt: "Image 1" },
-  { url: "/images/forestry.jpg", alt: "Image 2" },
+  { url: "/images/dawuro-culture-1.webp", alt: "Image 2" },
   { url: "/images/dawuro-buffalo.webp", alt: "Image 3" },
   { url: "/images/dawuro-water-project.webp", alt: "Image 4" },
 ];
