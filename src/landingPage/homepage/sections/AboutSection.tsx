@@ -43,19 +43,25 @@ const AboutSection = () => {
     fetchManagers();
   }, []);
 
-  // A single slide at a time regardless of viewport: this carousel sits in
-  // one half of a 2-column grid, so even on wide desktop screens its own
-  // width is only ~500px — showing 2 cards side by side left too little
-  // room for a manager's name/title and forced ugly mid-word truncation at
-  // every breakpoint, not just mobile.
+  // Two slides on large screens (this carousel sits in one half of a
+  // 2-column grid, so even at desktop widths its own width is only
+  // ~500-600px — the card's internal spacing below is tuned to still fit a
+  // manager's name/title cleanly at that width) and one slide once the
+  // screen gets too narrow for two cards side by side to be legible.
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 2,
     slidesToScroll: 1,
     nextArrow: <RightArrow />,
     prevArrow: <LeftArrow />,
+    responsive: [
+      {
+        breakpoint: 700,
+        settings: { slidesToShow: 1 },
+      },
+    ],
   };
 
   const handleShowProfile = (manager: Management) => {
@@ -120,9 +126,9 @@ const AboutSection = () => {
                   <div key={manager.id} className="px-2.5">
                     <div
                       onClick={() => handleShowProfile(manager)}
-                      className="group cursor-pointer bg-white rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.06)] p-5 flex flex-row items-center gap-4 hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] transition-shadow"
+                      className="group cursor-pointer bg-white rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.06)] p-4 flex flex-row items-center gap-3 hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] transition-shadow"
                     >
-                      <div className="relative h-20 w-20 shrink-0 rounded-xl overflow-hidden">
+                      <div className="relative h-14 w-14 shrink-0 rounded-xl overflow-hidden">
                         <Image
                           src={manager.photo}
                           alt=""
@@ -131,12 +137,12 @@ const AboutSection = () => {
                         />
                       </div>
                       <div className="text-left min-w-0 flex-1">
-                        <p className="font-bold text-base line-clamp-2">
+                        <p className="font-bold text-sm line-clamp-2">
                           {isAmharic
                             ? manager.managerNameAmharic
                             : manager.managerName}
                         </p>
-                        <p className="text-primaryColor text-sm font-medium line-clamp-1">
+                        <p className="text-primaryColor text-xs font-medium line-clamp-1">
                           {isAmharic ? manager.jobAmharic : manager.job}
                         </p>
                       </div>
