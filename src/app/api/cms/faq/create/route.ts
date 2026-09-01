@@ -6,7 +6,10 @@ import { createFaq } from "@/db/faq";
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id) {
-    return NextResponse.redirect("/daadmin/login", 401)
+    return NextResponse.json(
+      { success: false, error: "Unauthorized" },
+      { status: 401 }
+    );
   }
 
   const { question, questionAmharic, answer, answerAmharic, isDraft } =

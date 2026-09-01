@@ -323,5 +323,23 @@
       "partnership_ideas": "በጋራ የመሥሪያ የሥራ መስኮች",
       "save": "አስቀምጥ"
     }
+  },
+
+  "donation_form": {
+    "title": "የልገሳ ቅጽ",
+    "designation_label": "የልገሳ ዓላማ",
+    "designation_required": "የልገሳ ዓላማ ያስፈልጋል",
+    "campaign_description_label": "የዘመቻ መግለጫ",
+    "full_name_label": "ሙሉ ስም",
+    "full_name_required": "ሙሉ ስም ያስፈልጋል",
+    "phone_label": "ስልክ ቁጥር",
+    "phone_required": "ስልክ ቁጥር ያስፈልጋል",
+    "phone_invalid": "ስልክ ትክክል አይደለም",
+    "branch_label": "የዳልማ ቅርንጫፍ",
+    "amount_label": "የልገሳ መጠን",
+    "amount_placeholder": "ሌላ መጠን",
+    "amount_required": "መጠን ያስፈልጋል",
+    "amount_positive": "መጠኑ ከዜሮ በላይ መሆን አለበት",
+    "donate_button": "ይለግሱ"
   }
 }

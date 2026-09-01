@@ -37,7 +37,10 @@ async function hashPassword(
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id || session?.user.role === UserRole.Member) {
-    return NextResponse.redirect("/daadmin/login", 401);
+    return NextResponse.json(
+      { success: false, error: "Unauthorized" },
+      { status: 401 }
+    );
   }
 
   const formData = await req.formData();

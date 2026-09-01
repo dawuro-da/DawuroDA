@@ -2,8 +2,12 @@ import { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
-import { findUserByEmail } from "@/db/user";
-import { findMemberByPhone, findMemberByEmail } from "@/db/member";
+import { findUserByEmail, findUserById } from "@/db/user";
+import {
+  findMemberByPhone,
+  findMemberByEmail,
+  findMemberById,
+} from "@/db/member";
 import { UserRole } from "@prisma/client";
 
 interface SessionUser {
@@ -137,31 +141,38 @@ export const OPTIONS: NextAuthOptions = {
         token.role = user.role;
         token.phone = user.phone;
         token.profileImage = user.profileImage;
-      } else if (token.email) {
-        const savedUser = await findUserByEmail(token.email);
-        if (savedUser) {
-          token.id = savedUser?.id;
-          token.email = savedUser.email;
-          token.firstName = savedUser.firstName;
-          token.lastName = savedUser.lastName;
-          token.role = savedUser.role;
-          token.phone = savedUser.phone;
-          token.profileImage = savedUser.profilePic;
-        } else {
-          // since we are getting the phone through the email field from frontend we pass token.email
-          const savedMember =
-            (await findMemberByPhone(token.email)) ??
-            (await findMemberByEmail(token.email));
+      } else if (token.id) {
+        // Refresh strictly within the account's own table, keyed by id —
+        // never by email. Members and staff live in two separate tables
+        // with no relation between them, but a member can freely edit
+        // their own email. Refreshing-by-email used to look the token's
+        // email up against the *staff* users table first: if a member's
+        // email happened to match any staff account's email (by accident,
+        // or deliberately, since email isn't a locked field), this
+        // silently swapped their session — role included — for that staff
+        // account's, with no password needed. ids never collide across
+        // the two tables, so keying the refresh on id and staying within
+        // the table implied by the token's own role closes that off.
+        if (token.role === UserRole.Member) {
+          const savedMember = await findMemberById(token.id as string);
           if (savedMember) {
-            token.id = savedMember?.id;
-            token.email = savedMember.email;
+            token.email = savedMember.email ?? "";
             token.firstName = savedMember.firstName
               ? savedMember.firstName
-              : savedMember.institutionName;
-            token.lastName = savedMember.lastName;
-            token.role = UserRole.Member;
+              : savedMember.institutionName ?? "";
+            token.lastName = savedMember.lastName ?? "";
             token.phone = savedMember.phone;
             token.profileImage = savedMember.profileImage;
+          }
+        } else {
+          const savedUser = await findUserById(token.id as string);
+          if (savedUser) {
+            token.email = savedUser.email;
+            token.firstName = savedUser.firstName;
+            token.lastName = savedUser.lastName;
+            token.role = savedUser.role;
+            token.phone = savedUser.phone;
+            token.profileImage = savedUser.profilePic;
           }
         }
       }
