@@ -16,6 +16,31 @@ export const Dawuro_Branches = [
   "Other",
 ];
 
+// Branch names are stored/submitted as the canonical English strings above
+// (DB values, admin filters, etc. all key off them) — this only maps each
+// one to a translation key so the *displayed* label can localize without
+// touching the underlying value.
+export const BRANCH_TRANSLATION_KEYS: Record<string, string> = {
+  "Head Office Branch (Tarcha)": "branches.head_office",
+  "Esera Woreda Branch": "branches.esera_woreda",
+  "Kechi Woreda Branch": "branches.kechi_woreda",
+  "Tocha Woreda Branch": "branches.tocha_woreda",
+  "Mari Mansa Woreda Branch": "branches.mari_mansa_woreda",
+  "Mareka Woreda Branch": "branches.mareka_woreda",
+  "Loma Bosa Woreda Branch": "branches.loma_bosa_woreda",
+  "Disa Woreda Branch": "branches.disa_woreda",
+  "Gena Woreda Branch": "branches.gena_woreda",
+  "Zaba Gazo Woreda Branch": "branches.zaba_gazo_woreda",
+  "Tarcha Zuria Woreda Branch": "branches.tarcha_zuria_woreda",
+  "Addis Ababa Branch": "branches.addis_ababa",
+  "Europe Branch": "branches.europe",
+  "North America Branch": "branches.north_america",
+  Other: "branches.other",
+};
+
+export const getBranchLabel = (branch: string, t: (key: string) => string) =>
+  BRANCH_TRANSLATION_KEYS[branch] ? t(BRANCH_TRANSLATION_KEYS[branch]) : branch;
+
 export interface Country {
   name: string;
   Iso2: string;
