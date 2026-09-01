@@ -8,7 +8,10 @@ import { OPTIONS } from "@/util/authOptions";
 export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS);
   if (!session?.user?.id) {
-    return NextResponse.redirect("/login", 401);
+    return NextResponse.json(
+      { success: false, error: "Unauthorized" },
+      { status: 401 }
+    );
   }
 
   const formData = await req.formData();

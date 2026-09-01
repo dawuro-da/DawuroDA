@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { Dawuro_Branches } from "@/constants/datas";
 import { international_phone_regex } from "@/constants/regex";
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
+import { useTranslation } from "react-i18next";
 
 const DonationForm = ({
   open,
@@ -30,6 +31,7 @@ const DonationForm = ({
   };
 }) => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [loading, setLoading] = useState(false);
   const {
@@ -82,7 +84,9 @@ const DonationForm = ({
     >
       <div className="outline-none bg-white px-6 py-6 rounded-lg xl:lg:w-1/2 md:w-2/3 w-full xl:lg:h-fit md:h-fit h-full max-h-full hiddenscrollbar overflow-y-auto">
         <div className="flex flex-row items-center justify-between text-titleColor">
-          <span className="font-bold text-2xl">Donation Form</span>
+          <span className="font-bold text-2xl">
+            {t("donation_form.title")}
+          </span>
           <IconButton onClick={handleClose}>
             <Close />
           </IconButton>
@@ -93,7 +97,7 @@ const DonationForm = ({
         >
           {designation ? (
             <div className="flex flex-col gap-2 text-titleColor h-full">
-              <label>Donation Designation</label>
+              <label>{t("donation_form.designation_label")}</label>
               <div className="bg-primaryColor/5 border border-primaryColor/20 rounded-lg px-4 py-3 font-semibold text-[#1E1E1E]">
                 {designation.title}
               </div>
@@ -105,10 +109,10 @@ const DonationForm = ({
             </div>
           ) : (
             <div className="flex flex-col gap-2 text-titleColor h-full">
-              <label>Donation Designation</label>
+              <label>{t("donation_form.designation_label")}</label>
               <TextField
                 {...register("donationDesignation", {
-                  required: "Donation designation is required",
+                  required: t("donation_form.designation_required"),
                 })}
                 multiline
                 rows={2}
@@ -122,16 +126,18 @@ const DonationForm = ({
           )}
           {designation?.description && (
             <div className="flex flex-col gap-2 text-titleColor h-full">
-              <label>Campaign Description</label>
+              <label>{t("donation_form.campaign_description_label")}</label>
               <div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-[#1E1E1E]">
                 {designation.description}
               </div>
             </div>
           )}
           <div className="flex flex-col gap-2 text-titleColor h-full">
-            <label>Full Name</label>
+            <label>{t("donation_form.full_name_label")}</label>
             <TextField
-              {...register("fullName", { required: "Full Name is required" })}
+              {...register("fullName", {
+                required: t("donation_form.full_name_required"),
+              })}
               variant="outlined"
               error={Boolean(errors.fullName)}
               helperText={errors.fullName?.message?.toString()}
@@ -139,13 +145,13 @@ const DonationForm = ({
             />
           </div>
           <div className="flex flex-col gap-2 text-titleColor h-full">
-            <label>Phone Number</label>
+            <label>{t("donation_form.phone_label")}</label>
             <PhoneNumberInput
               size="small"
               {...register("phone", {
-                required: "Phone Number is required",
+                required: t("donation_form.phone_required"),
                 pattern: {
-                  message: "Phone is not valid",
+                  message: t("donation_form.phone_invalid"),
                   value: international_phone_regex,
                 },
               })}
@@ -164,7 +170,9 @@ const DonationForm = ({
             />
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-titleColor text-sm">DaDA Branch</span>
+            <span className="text-titleColor text-sm">
+              {t("donation_form.branch_label")}
+            </span>
             <TextField
               size="small"
               {...register("branch")}
@@ -184,7 +192,7 @@ const DonationForm = ({
             </TextField>
           </div>
           <div className="flex flex-col gap-2 text-titleColor h-full col-span-2">
-            <label>Donation Amount</label>
+            <label>{t("donation_form.amount_label")}</label>
             <div className="grid xl:lg:grid-cols-5 md:grid-cols-5 grid-cols-3 gap-4">
               {[100, 200, 500, 1000, 2000].map((amount) => (
                 <Button
@@ -201,13 +209,13 @@ const DonationForm = ({
           <div className="flex flex-col gap-2 text-titleColor h-full">
             <TextField
               {...register("amount", {
-                required: "Amount is required",
+                required: t("donation_form.amount_required"),
                 validate: (value) =>
-                  value > 0 || "Amount must be greater than zero",
+                  value > 0 || t("donation_form.amount_positive"),
               })}
               variant="outlined"
               type="number"
-              placeholder="Other amount"
+              placeholder={t("donation_form.amount_placeholder")}
               error={Boolean(errors.amount)}
               helperText={errors.amount?.message?.toString()}
               inputProps={{ style: { padding: 10 } }}
@@ -221,7 +229,11 @@ const DonationForm = ({
               color="primary"
               className="capitalize"
             >
-              {loading ? <CircularProgress className="text-white" /> : "Donate"}
+              {loading ? (
+                <CircularProgress className="text-white" />
+              ) : (
+                t("donation_form.donate_button")
+              )}
             </Button>
           </div>
         </form>

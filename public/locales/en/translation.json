@@ -325,5 +325,23 @@
       "partnership_ideas": "Partnership ideas",
       "save": "Save"
     }
+  },
+
+  "donation_form": {
+    "title": "Donation Form",
+    "designation_label": "Donation Designation",
+    "designation_required": "Donation designation is required",
+    "campaign_description_label": "Campaign Description",
+    "full_name_label": "Full Name",
+    "full_name_required": "Full Name is required",
+    "phone_label": "Phone Number",
+    "phone_required": "Phone Number is required",
+    "phone_invalid": "Phone is not valid",
+    "branch_label": "DaDA Branch",
+    "amount_label": "Donation Amount",
+    "amount_placeholder": "Other amount",
+    "amount_required": "Amount is required",
+    "amount_positive": "Amount must be greater than zero",
+    "donate_button": "Donate"
   }
 }

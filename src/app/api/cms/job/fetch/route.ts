@@ -5,7 +5,10 @@ import { isStaffSession } from "@/util/session";
 export async function POST(req: Request) {
   const includeDrafts = await isStaffSession();
   if (!includeDrafts) {
-    return NextResponse.redirect("/daadmin/login", 401);
+    return NextResponse.json(
+      { success: false, error: "Unauthorized" },
+      { status: 401 }
+    );
   }
 
   const { page, pageSize, searchText } = await req.json();
