@@ -10,11 +10,35 @@ import { I18nextProvider, useTranslation } from "react-i18next";
 import useLanguageStore from "@/redux/languageStore";
 import i18n from "../../../i18n";
 
+// Text per slide reuses the exact same home.hero_title_* keys as the
+// homepage hero (see HeroSection.tsx), matched to whichever of those 4
+// themes best fits this page's own photo, so the copy shown here always
+// stays in sync with the hero section's content.
 const images = [
-  { url: "/images/dawuro-education.webp", alt: "Image 1" },
-  { url: "/images/dawuro-culture-1.webp", alt: "Image 2" },
-  { url: "/images/dawuro-buffalo.webp", alt: "Image 3" },
-  { url: "/images/dawuro-water-project.webp", alt: "Image 4" },
+  {
+    url: "/images/dawuro-education.webp",
+    alt: "Image 1",
+    headingKey: "home.hero_title_4",
+    headingAccentKey: "home.hero_title_4_4",
+  },
+  {
+    url: "/images/dawuro-culture-1.webp",
+    alt: "Image 2",
+    headingKey: "home.hero_title_1",
+    headingAccentKey: "home.hero_title_1_1",
+  },
+  {
+    url: "/images/dawuro-buffalo.webp",
+    alt: "Image 3",
+    headingKey: "home.hero_title_2",
+    headingAccentKey: "home.hero_title_2_2",
+  },
+  {
+    url: "/images/dawuro-water-project.webp",
+    alt: "Image 4",
+    headingKey: "home.hero_title_3",
+    headingAccentKey: "home.hero_title_3_3",
+  },
 ];
 
 const MemberAuth = () => {
@@ -85,7 +109,7 @@ const MemberAuth = () => {
           <div className="absolute inset-0 bg-black/50 z-10" />
           <div className="absolute text-white h-full w-full flex flex-col items-center justify-end pb-24 xl:lg:gap-6 gap-2 z-20">
             <div className="max-w-[500px] flex flex-row justify-center items-center text-center">
-              {renderText(currentIndex, t)}
+              {renderText(images[currentIndex], t)}
             </div>
           </div>
           <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center space-x-2 z-30">
@@ -107,52 +131,14 @@ const MemberAuth = () => {
 
 export default MemberAuth;
 
-const renderText = (currentIndex: number, t: any) => {
-  switch (currentIndex) {
-    case 0:
-      return (
-        <>
-          <span className=" xl:text-4xl lg:text-4xl text-3xl font-bold mb-4 z-20 ">
-            {t("home.heading_1")} <br />
-            <span className="xl:text-6xl lg:text-6xl text-4xl w-[300px] z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
-              {t("home.heading_1_1")}
-            </span>
-          </span>
-        </>
-      );
-    case 1:
-      return (
-        <>
-          <span className="xl:text-4xl lg:text-4xl text-3xl font-bold mb-4 z-20">
-            {t("home.heading_2")} <br />
-            <span className="xl:text-6xl lg:text-6xl text-4xl w-[300px] z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
-              {t("home.heading_2_2")}
-            </span>
-          </span>
-        </>
-      );
-    case 2:
-      return (
-        <>
-          <span className="xl:text-4xl lg:text-4xl text-3xl font-bold mb-4 z-20">
-            {t("home.heading_3")} <br />
-            <span className="xl:text-6xl lg:text-6xl text-4xl w-[300px] z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
-              {t("home.heading_3_3")}
-            </span>
-          </span>
-        </>
-      );
-    default:
-      return (
-        <>
-          <span className="xl:text-4xl lg:text-4xl text-3xl font-bold mb-4 z-20">
-            {t("home.heading_4")}
-            <br />
-            <span className="xl:text-6xl lg:text-6xl text-4xl w-[300px] z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
-              {t("home.heading_4_4")}
-            </span>
-          </span>
-        </>
-      );
-  }
-};
+const renderText = (
+  image: { headingKey: string; headingAccentKey: string },
+  t: any
+) => (
+  <span className="xl:text-4xl lg:text-4xl text-3xl font-bold mb-4 z-20">
+    {t(image.headingKey)} <br />
+    <span className="xl:text-6xl lg:text-6xl text-4xl w-[300px] z-10 bg-[url('/images/greenCurve.svg')] bg-contain bg-no-repeat">
+      {t(image.headingAccentKey)}
+    </span>
+  </span>
+);

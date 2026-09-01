@@ -343,5 +343,23 @@
     "amount_required": "Amount is required",
     "amount_positive": "Amount must be greater than zero",
     "donate_button": "Donate"
+  },
+
+  "branches": {
+    "head_office": "Head Office Branch (Tarcha)",
+    "esera_woreda": "Esera Woreda Branch",
+    "kechi_woreda": "Kechi Woreda Branch",
+    "tocha_woreda": "Tocha Woreda Branch",
+    "mari_mansa_woreda": "Mari Mansa Woreda Branch",
+    "mareka_woreda": "Mareka Woreda Branch",
+    "loma_bosa_woreda": "Loma Bosa Woreda Branch",
+    "disa_woreda": "Disa Woreda Branch",
+    "gena_woreda": "Gena Woreda Branch",
+    "zaba_gazo_woreda": "Zaba Gazo Woreda Branch",
+    "tarcha_zuria_woreda": "Tarcha Zuria Woreda Branch",
+    "addis_ababa": "Addis Ababa Branch",
+    "europe": "Europe Branch",
+    "north_america": "North America Branch",
+    "other": "Other"
   }
 }

@@ -341,5 +341,23 @@
     "amount_required": "መጠን ያስፈልጋል",
     "amount_positive": "መጠኑ ከዜሮ በላይ መሆን አለበት",
     "donate_button": "ይለግሱ"
+  },
+
+  "branches": {
+    "head_office": "የዋና ጽ/ቤት ቅርንጫፍ (ጣርጫ)",
+    "esera_woreda": "የኤሠራ ወረዳ ቅርንጫፍ",
+    "kechi_woreda": "የኬቺ ወረዳ ቅርንጫፍ",
+    "tocha_woreda": "የቶቻ ወረዳ ቅርንጫፍ",
+    "mari_mansa_woreda": "የማሪ ማንሳ ወረዳ ቅርንጫፍ",
+    "mareka_woreda": "የማረቃ ወረዳ ቅርንጫፍ",
+    "loma_bosa_woreda": "የሎማ ቦሳ ወረዳ ቅርንጫፍ",
+    "disa_woreda": "የዲሳ ወረዳ ቅርንጫፍ",
+    "gena_woreda": "የገና ወረዳ ቅርንጫፍ",
+    "zaba_gazo_woreda": "የዛባ ጋዞ ወረዳ ቅርንጫፍ",
+    "tarcha_zuria_woreda": "የጣርጫ ዙሪያ ወረዳ ቅርንጫፍ",
+    "addis_ababa": "የአዲስ አበባ ቅርንጫፍ",
+    "europe": "የአውሮፓ ቅርንጫፍ",
+    "north_america": "የሰሜን አሜሪካ ቅርንጫፍ",
+    "other": "ሌላ"
   }
 }
