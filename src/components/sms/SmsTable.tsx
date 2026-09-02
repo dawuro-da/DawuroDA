@@ -143,13 +143,13 @@ const SmsTable = ({
           <span>Unpaid</span>
         </div>
       </div>
-      <div className="flex-1 min-h-[400px] max-h-[600px] gap-6 flex flex-col overflow-y-auto hiddenscrollbar">
+      <div className="flex-1 min-h-[400px] max-h-[600px] gap-6 flex flex-col overflow-y-auto overflow-x-hidden hiddenscrollbar">
         {members?.map((member, index) => (
           <div
             key={index}
-            className="flex flex-row items-center min-w-full w-fit bg-white gap-10 p-2 rounded-xl"
+            className="flex flex-row items-center w-full bg-white gap-10 p-2 rounded-xl"
           >
-            <div className="flex flex-row items-center gap-4 flex-1">
+            <div className="flex flex-row items-center gap-4 flex-1 min-w-0">
               <Checkbox
                 checked={checkIfSelected(member.phone)}
                 onChange={() => {
@@ -158,10 +158,10 @@ const SmsTable = ({
                   onSelectOrDeselect(member.phone);
                 }}
               />
-              <span>{member.memberId}</span>
+              <span className="truncate">{member.memberId}</span>
             </div>
-            <span className="flex-1">{member.name}</span>
-            <span className="flex-1">{member.phone}</span>
+            <span className="flex-1 min-w-0 truncate">{member.name}</span>
+            <span className="flex-1 min-w-0 truncate">{member.phone}</span>
           </div>
         ))}
       </div>

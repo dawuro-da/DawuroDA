@@ -3,7 +3,6 @@ import {
   Gender,
   Prisma,
   TempMember,
-  MembershipLevel,
   ContributionSystem,
   MembershipType,
   PaymentMeans,
@@ -51,7 +50,7 @@ export async function findTempMemberByPhone(
 export interface TempMemberSharedDataType {
   email?: string;
   phone: string;
-  membershipLevel: MembershipLevel;
+  membershipLevel: string;
   contributionAmount: number;
   contributionSystem: ContributionSystem;
   hasPaid: boolean;
@@ -127,7 +126,7 @@ export async function createInstitutionTempMember({
 }
 
 type Filters = {
-  membershipLevel?: MembershipLevel;
+  membershipLevel?: string;
   contributionSystem?: ContributionSystem;
   membershipType?: MembershipType;
   paymentStatus?: string;

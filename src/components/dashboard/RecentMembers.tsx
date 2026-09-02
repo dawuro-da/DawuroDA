@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import DashboardDatagrid from "./DashboardDatagrid";
 import { Avatar } from "@mui/material";
 import { getFormattedDateFromTimestamp } from "@/util/date";
-import { Member, MembershipLevel } from "@prisma/client";
+import { Member } from "@prisma/client";
 
 const RecentMembers = () => {
   const router = useRouter();
@@ -96,13 +96,13 @@ const getColumnDefinition = ({
               <div className="flex flex-row items-center gap-2 justify-center h-full">
                 <span
                   className={`flex  flex-row items-center justify-center w-fit ${
-                    params.value === MembershipLevel.Platinum
+                    params.value === "Platinum"
                       ? "bg-[#34A8A8] text-white"
-                      : params.value === MembershipLevel.Diamond
+                      : params.value === "Diamond"
                       ? "bg-[#B0E0E62E] text-titleColor"
-                      : params.value === MembershipLevel.Gold
+                      : params.value === "Gold"
                       ? "bg-[#FFD7002E]"
-                      : params.value === MembershipLevel.Silver
+                      : params.value === "Silver"
                       ? "bg-[#C0C0C02E]"
                       : "bg-transparent"
                   }  rounded-[8px] min-w-20 text-center px-4 h-8 `}

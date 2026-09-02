@@ -1,7 +1,6 @@
 import prisma from "@/lib/prisma";
 import {
   Prisma,
-  MembershipLevel,
   ContributionSystem,
   MembershipType,
   PaymentMeans,
@@ -9,7 +8,7 @@ import {
 } from "@prisma/client";
 
 type Filters = {
-  membershipLevel?: MembershipLevel;
+  membershipLevel?: string;
   contributionSystem?: ContributionSystem;
   membershipType?: MembershipType;
   paymentStatus?: string;
