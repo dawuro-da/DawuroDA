@@ -2,11 +2,11 @@ import { COUNTRIES, Dawuro_Branches, NATIONALITIES } from "@/constants/datas";
 import { international_phone_regex } from "@/constants/regex";
 import { showToastAction } from "@/redux/actions";
 import { getMinimumContribution } from "@/util/helper";
+import { useMembershipLevels } from "@/util/useMembershipLevels";
 import { Button, MenuItem, TextField } from "@mui/material";
 import {
   ContributionSystem,
   EducationLevel,
-  MembershipLevel,
   MembershipType,
   PaymentMeans,
 } from "@prisma/client";
@@ -34,6 +34,7 @@ const IndividualMember = ({
   setValue: UseFormSetValue<FieldValues>;
 }) => {
   const dispatch = useDispatch();
+  const { levels } = useMembershipLevels();
   return (
     <>
       <div className="flex flex-row items-center justify-between gap-6">
@@ -408,26 +409,13 @@ const IndividualMember = ({
                 errors.membershipLevel.message?.toString()
               }
             >
-              <MenuItem value={MembershipLevel?.Platinum}>
-                {MembershipLevel?.Platinum}
-                {" (10,000 ETB/year)"}
-              </MenuItem>
-              <MenuItem value={MembershipLevel?.Diamond}>
-                {MembershipLevel?.Diamond}
-                {" (7,000 ETB/year)"}
-              </MenuItem>
-              <MenuItem value={MembershipLevel?.Gold}>
-                {MembershipLevel?.Gold}
-                {" (5,000 ETB/year)"}
-              </MenuItem>
-              <MenuItem value={MembershipLevel?.Silver}>
-                {MembershipLevel?.Silver}
-                {" (3,000 ETB/year)"}
-              </MenuItem>
-              <MenuItem value={MembershipLevel?.Bronze}>
-                {MembershipLevel?.Bronze}
-                {" (1,000 ETB/year)"}
-              </MenuItem>
+              {levels.map((level) => (
+                <MenuItem key={level.id} value={level.name}>
+                  {level.name}
+                  {level.nameAmharic ? ` (${level.nameAmharic})` : ""}
+                  {` — ${level.individualYearlyMin.toLocaleString()} ETB/year`}
+                </MenuItem>
+              ))}
             </TextField>
           </div>
         </div>
@@ -525,6 +513,7 @@ const IndividualMember = ({
                       membershipLevel: watch("membershipLevel"),
                       membershipType: MembershipType.Individual,
                       contributionSystem: watch("contributionSystem"),
+                      levels,
                     });
                     if (parseFloat(value) >= minAmount) {
                       return true; // Value is valid

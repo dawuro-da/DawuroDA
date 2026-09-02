@@ -1,5 +1,6 @@
 import { showToastAction } from "@/redux/actions";
 import { getMinimumContribution } from "@/util/helper";
+import { useMembershipLevels } from "@/util/useMembershipLevels";
 import { Close } from "@mui/icons-material";
 import { Button, Drawer, MenuItem, Select, TextField } from "@mui/material";
 import { ContributionSystem, Member } from "@prisma/client";
@@ -25,15 +26,17 @@ const AddNewPaymentDrawer = ({
   const [minimumAmount, setMinimumAmount] = useState<Number>();
   const [error, setError] = useState<string>("");
   const dispatch = useDispatch();
+  const { levels } = useMembershipLevels();
 
   useEffect(() => {
-    if (member && contributionSystem) {
+    if (member && contributionSystem && levels.length) {
       const minAmount = getMinimumContribution({
         membershipType: member.membershipType,
         contributionSystem: contributionSystem
           ? contributionSystem
           : member.contributionSystem,
         membershipLevel: member.membershipLevel,
+        levels,
       });
       setMinimumAmount(minAmount);
       if (amount && minAmount > parseFloat(amount)) {
@@ -42,7 +45,7 @@ const AddNewPaymentDrawer = ({
         setError("");
       }
     }
-  }, [member, amount, contributionSystem]);
+  }, [member, amount, contributionSystem, levels]);
 
   const handleAddPayment = async () => {
     if (!contributionSystem && !amount && !member.id) {

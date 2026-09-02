@@ -20,11 +20,11 @@ import { ArrowDropDown, SearchOutlined } from "@mui/icons-material";
 import {
   ContributionSystem,
   Member,
-  MembershipLevel,
   MembershipType,
   PaymentMeans,
   UserRole,
 } from "@prisma/client";
+import { useMembershipLevels } from "@/util/useMembershipLevels";
 import StyledMenu from "../shared/StyledMenu";
 import { useSession } from "next-auth/react";
 import MemberDetail from "./MemberDetail";
@@ -40,6 +40,7 @@ const Members = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const session = useSession();
+  const { levels } = useMembershipLevels();
   const [searchText, setSearchText] = useState<string>("");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [members, setMembers] = useState<any[]>([]);
@@ -326,21 +327,11 @@ const Members = () => {
                     }}
                   >
                     <MenuItem value=" ">Membership Level</MenuItem>
-                    <MenuItem value={MembershipLevel?.Platinum}>
-                      {MembershipLevel?.Platinum}
-                    </MenuItem>
-                    <MenuItem value={MembershipLevel?.Diamond}>
-                      {MembershipLevel?.Diamond}
-                    </MenuItem>
-                    <MenuItem value={MembershipLevel?.Gold}>
-                      {MembershipLevel?.Gold}
-                    </MenuItem>
-                    <MenuItem value={MembershipLevel?.Silver}>
-                      {MembershipLevel?.Silver}
-                    </MenuItem>
-                    <MenuItem value={MembershipLevel?.Bronze}>
-                      {MembershipLevel?.Bronze}
-                    </MenuItem>
+                    {levels.map((level) => (
+                      <MenuItem key={level.id} value={level.name}>
+                        {level.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </div>
                 <div className="w-[190px] bg-white">
@@ -577,13 +568,13 @@ const getColumnDefinition = ({
               <div className="flex flex-row items-center gap-2 justify-center h-full">
                 <span
                   className={`flex  flex-row items-center justify-center w-fit ${
-                    params.value === MembershipLevel.Platinum
+                    params.value === "Platinum"
                       ? "bg-[#34A8A8] text-white"
-                      : params.value === MembershipLevel.Diamond
+                      : params.value === "Diamond"
                       ? "bg-[#B0E0E62E] text-titleColor"
-                      : params.value === MembershipLevel.Gold
+                      : params.value === "Gold"
                       ? "bg-[#FFD7002E]"
-                      : params.value === MembershipLevel.Silver
+                      : params.value === "Silver"
                       ? "bg-[#C0C0C02E]"
                       : "bg-transparent"
                   }  rounded-[8px] min-w-20 text-center px-4 h-8 `}

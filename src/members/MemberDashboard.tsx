@@ -4,12 +4,7 @@ import Naviagtion from "@/landingPage/navigation/Navigation";
 import { Avatar, Button, CircularProgress, Divider } from "@mui/material";
 import Image from "next/image";
 import HistoryAndAuction from "./components/HistoryAndAuction";
-import {
-  Contribution,
-  Member,
-  MembershipLevel,
-  MembershipType,
-} from "@prisma/client";
+import { Contribution, Member, MembershipType } from "@prisma/client";
 import {
   checkMemberThreeMonth,
   getFormattedDate,
@@ -21,8 +16,9 @@ import { showToastAction } from "@/redux/actions";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { downloadDawuroDAId as renderAndDownloadId } from "@/util/renderIdCardCanvas";
-import DawuroDAId from "@/components/shared/DawuroDAId";
+import DawuroDAId, { resolveIdTemplate } from "@/components/shared/DawuroDAId";
 import { getMinimumContribution } from "@/util/helper";
+import { useMembershipLevels } from "@/util/useMembershipLevels";
 import { InfoOutlined } from "@mui/icons-material";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import useLanguageStore from "@/redux/languageStore";
@@ -40,10 +36,12 @@ const MemberDashboard = ({
   const [payLoading, setPayLoading] = useState(false);
   const [downloadingId, setDownloadingId] = useState(false);
   const isCompany = Boolean(member?.membershipType === MembershipType.Company);
+  const { levels } = useMembershipLevels();
   const minAmount = getMinimumContribution({
     membershipType: member?.membershipType,
     contributionSystem: member.contributionSystem,
     membershipLevel: member.membershipLevel,
+    levels,
   });
   const { i18n: i18nn } = useTranslation();
   const { language } = useLanguageStore();
@@ -83,7 +81,8 @@ const MemberDashboard = ({
     try {
       await renderAndDownloadId(
         member,
-        `${member.firstName ? member.firstName : member.institutionName}ID`
+        `${member.firstName ? member.firstName : member.institutionName}ID`,
+        resolveIdTemplate(member.membershipLevel, levels)
       );
     } finally {
       setDownloadingId(false);
@@ -129,13 +128,13 @@ const MemberDashboard = ({
                     <span>Subscription Level</span>
                     <span
                       className={`flex  flex-row items-center justify-center w-fit px-3 py-1 rounded-2xl ${
-                        member?.membershipLevel === MembershipLevel.Platinum
+                        member?.membershipLevel === "Platinum"
                           ? "bg-[#34A8A8] text-white"
-                          : member?.membershipLevel === MembershipLevel.Diamond
+                          : member?.membershipLevel === "Diamond"
                           ? "bg-[#B0E0E62E] text-[#222222]"
-                          : member?.membershipLevel === MembershipLevel.Gold
+                          : member?.membershipLevel === "Gold"
                           ? "bg-[#FFD7002E]"
-                          : member?.membershipLevel === MembershipLevel.Silver
+                          : member?.membershipLevel === "Silver"
                           ? "bg-[#C0C0C02E]"
                           : "bg-transparent"
                       }  rounded-[8px] min-w-20 text-center px-4 h-8 `}

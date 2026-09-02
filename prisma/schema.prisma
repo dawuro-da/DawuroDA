@@ -47,13 +47,33 @@ model User {
   @@map(name: "users")
 }
 
-enum MembershipLevel {
-  Platinum
-  Diamond
-  Gold
-  Silver
-  Bronze
-  Standard
+// Membership levels used to be a fixed enum (Platinum/Diamond/Gold/Silver/
+// Bronze/Standard). They're now admin-configurable — see the
+// MembershipLevelConfig model below — so Member.membershipLevel and
+// TempMember.membershipLevel are plain strings that reference
+// MembershipLevelConfig.name, not a compile-time enum.
+model MembershipLevelConfig {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  nameAmharic String?
+  sortOrder   Int     @default(0)
+  isActive    Boolean @default(true)
+
+  // Minimum yearly contribution (ETB), by membership type. The monthly
+  // minimum is this / 12; quarterly is (this / 12) * 3 — same derivation
+  // getMinimumContribution always used, just no longer hardcoded per level.
+  individualYearlyMin Int @default(0)
+  companyYearlyMin    Int @default(0)
+
+  // Path to the ID card background template this level renders with (one of
+  // the files under public/IDs), picked from existing uploaded templates
+  // rather than a new upload flow. Falls back to a default template if unset.
+  idTemplateImage String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "membership_level")
 }
 
 enum ContributionSystem {
@@ -93,7 +113,7 @@ model Member {
   memberId           String             @unique
   phone              String             @unique
   email              String?
-  membershipLevel    MembershipLevel    @default(Silver)
+  membershipLevel    String             @default("Silver")
   contributionAmount Int
   contributionSystem ContributionSystem @default(Monthly)
   lastPaidAt         DateTime
@@ -147,7 +167,7 @@ model TempMember {
   id                 String             @id @default(uuid())
   phone              String
   email              String?
-  membershipLevel    MembershipLevel    @default(Silver)
+  membershipLevel    String             @default("Silver")
   contributionAmount Int
   contributionSystem ContributionSystem @default(Monthly)
   lastPaidAt         DateTime
@@ -441,6 +461,23 @@ model Auction {
   updated_at DateTime @default(now()) @updatedAt
 
   @@map(name: "auction")
+}
+
+model AuditLog {
+  id              String   @id @default(uuid())
+  entityType      String
+  entityId        String
+  entityLabel     String
+  action          String
+  changes         Json?
+  performedById   String?
+  performedByName String?
+  performedByRole String?
+  created_at      DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([created_at])
+  @@map(name: "audit_log")
 }
 
 model Bidder {

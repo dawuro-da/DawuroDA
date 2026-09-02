@@ -1,11 +1,7 @@
 import { getMinimumContribution } from "@/util/helper";
+import { useMembershipLevels } from "@/util/useMembershipLevels";
 import { MenuItem, TextField } from "@mui/material";
-import {
-  ContributionSystem,
-  EducationLevel,
-  MembershipLevel,
-  MembershipType,
-} from "@prisma/client";
+import { ContributionSystem, EducationLevel, MembershipType } from "@prisma/client";
 import {
   FieldErrors,
   FieldValues,
@@ -28,6 +24,7 @@ const IndividualProfessionalForm = ({
   watch,
 }: IndividualProfessionalFormProps) => {
   const { t } = useTranslation();
+  const { levels } = useMembershipLevels();
   return (
     <div className="grid xl:lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 py-12 px-4">
       <div className="flex flex-col gap-2">
@@ -49,26 +46,13 @@ const IndividualProfessionalForm = ({
               errors.membershipLevel.message?.toString()
             }
           >
-            <MenuItem value={MembershipLevel?.Platinum}>
-              {MembershipLevel?.Platinum}
-              {" (10,000 ETB/year)"}
-            </MenuItem>
-            <MenuItem value={MembershipLevel?.Diamond}>
-              {MembershipLevel?.Diamond}
-              {" (7,000 ETB/year)"}
-            </MenuItem>
-            <MenuItem value={MembershipLevel?.Gold}>
-              {MembershipLevel?.Gold}
-              {" (5,000 ETB/year)"}
-            </MenuItem>
-            <MenuItem value={MembershipLevel?.Silver}>
-              {MembershipLevel?.Silver}
-              {" (3,000 ETB/year)"}
-            </MenuItem>
-            <MenuItem value={MembershipLevel?.Bronze}>
-              {MembershipLevel?.Bronze}
-              {" (1,000 ETB/year)"}
-            </MenuItem>
+            {levels.map((level) => (
+              <MenuItem key={level.id} value={level.name}>
+                {level.name}
+                {level.nameAmharic ? ` (${level.nameAmharic})` : ""}
+                {` — ${level.individualYearlyMin.toLocaleString()} ETB/year`}
+              </MenuItem>
+            ))}
           </TextField>
         </div>
       </div>
@@ -122,6 +106,7 @@ const IndividualProfessionalForm = ({
                     membershipLevel: watch("membershipLevel"),
                     membershipType: MembershipType.Individual,
                     contributionSystem: watch("contributionSystem"),
+                    levels,
                   });
                   if (parseFloat(value) >= minAmount) {
                     return true; // Value is valid

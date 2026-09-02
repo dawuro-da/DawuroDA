@@ -13,17 +13,13 @@ import {
 import PageHeader from "../shared/PageHeader";
 import { SearchOutlined } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import {
-  ContributionSystem,
-  MembershipLevel,
-  MembershipType,
-  SmsMessage,
-} from "@prisma/client";
+import { ContributionSystem, MembershipType, SmsMessage } from "@prisma/client";
 import Image from "next/image";
 import SmsTable from "./SmsTable";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
+import { useMembershipLevels } from "@/util/useMembershipLevels";
 
 export interface SmsMemberData {
   memberId: string;
@@ -33,6 +29,7 @@ export interface SmsMemberData {
 }
 const SMS = () => {
   const dispatch = useDispatch();
+  const { levels } = useMembershipLevels();
   const [searchText, setSearchText] = useState<string>("");
   const [messageToSend, setMessageToSend] = useState<string>("");
   const [refetch, setRefetch] = useState<boolean>(false);
@@ -173,10 +170,6 @@ const SMS = () => {
                 InputProps={{
                   startAdornment: (
                     <IconButton
-                      style={{
-                        borderRadius: "16px",
-                        borderLeft: 20,
-                      }}
                       onClick={() => {
                         setRefetch(!refetch);
                       }}
@@ -193,6 +186,7 @@ const SMS = () => {
                     paddingLeft: 0,
                     paddingRight: 2,
                     maxWidth: "800px",
+                    overflow: "hidden",
                   },
                 }}
               />
@@ -212,21 +206,11 @@ const SMS = () => {
                     }}
                   >
                     <MenuItem value=" ">Membership Level</MenuItem>
-                    <MenuItem value={MembershipLevel?.Platinum}>
-                      {MembershipLevel?.Platinum}
-                    </MenuItem>
-                    <MenuItem value={MembershipLevel?.Diamond}>
-                      {MembershipLevel?.Diamond}
-                    </MenuItem>
-                    <MenuItem value={MembershipLevel?.Gold}>
-                      {MembershipLevel?.Gold}
-                    </MenuItem>
-                    <MenuItem value={MembershipLevel?.Silver}>
-                      {MembershipLevel?.Silver}
-                    </MenuItem>
-                    <MenuItem value={MembershipLevel?.Bronze}>
-                      {MembershipLevel?.Bronze}
-                    </MenuItem>
+                    {levels.map((level) => (
+                      <MenuItem key={level.id} value={level.name}>
+                        {level.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </div>
                 <div className="w-[190px] bg-white">

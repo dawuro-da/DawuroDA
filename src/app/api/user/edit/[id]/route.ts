@@ -1,9 +1,15 @@
 import { NextResponse } from "next/server";
-import { findUserByEmail, findByPhone, updateUser } from "@/db/user";
+import {
+  findUserByEmail,
+  findByPhone,
+  updateUser,
+  findUserById,
+} from "@/db/user";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { Gender, UserRole } from "@prisma/client";
 import { uploadFile } from "@/util/uploadFile";
+import { createAuditLog, diffFields } from "@/db/auditLog";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
@@ -22,6 +28,7 @@ export async function POST(req: Request, context: { params: { id: string } }) {
     const email = formData.get("email") as string;
     const phone = formData.get("phone") as string;
     const profilePic = formData.get("profilePic") as File;
+    const existingUser = await findUserById(userId);
 
     const emailExist = await findUserByEmail(email);
     const phoneExist = await findByPhone(phone);
@@ -69,6 +76,29 @@ export async function POST(req: Request, context: { params: { id: string } }) {
     });
 
     if (result) {
+      if (existingUser) {
+        const changes = diffFields(
+          existingUser,
+          { firstName, lastName, gender, phone, email },
+          ["firstName", "lastName", "gender", "phone", "email"]
+        );
+        await createAuditLog({
+          entityType: "AdminUser",
+          entityId: userId,
+          entityLabel:
+            `${existingUser.firstName ?? ""} ${
+              existingUser.lastName ?? ""
+            }`.trim() || existingUser.email,
+          action: "UPDATE",
+          changes,
+          performedById: session.user.id,
+          performedByName:
+            `${session.user.firstName ?? ""} ${
+              session.user.lastName ?? ""
+            }`.trim() || undefined,
+          performedByRole: session.user.role,
+        });
+      }
       return NextResponse.json(
         { success: true, value: result },
         { status: 200 }

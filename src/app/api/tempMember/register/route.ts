@@ -4,7 +4,6 @@ import {
   ContributionSystem,
   EducationLevel,
   Gender,
-  MembershipLevel,
   MembershipType,
   PaymentMeans,
 } from "@prisma/client";
@@ -33,7 +32,7 @@ export async function POST(req: Request) {
 
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string;
-  const membershipLevel = formData.get("membershipLevel") as MembershipLevel;
+  const membershipLevel = formData.get("membershipLevel") as string;
   const contributionAmount = formData.get("contributionAmount") as string;
   const contributionSystem = formData.get(
     "contributionSystem"

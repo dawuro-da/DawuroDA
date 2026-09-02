@@ -1,7 +1,6 @@
 import { Member } from "@prisma/client";
 import { calculateAge } from "@/util/date";
 import {
-  TEMPLATE_BY_LEVEL,
   FIELD_BOX,
   FONT_SIZE_PERCENT_OF_HEIGHT,
   PHOTO_BOX,
@@ -64,10 +63,16 @@ const drawRoundedImage = (
   ctx.restore();
 };
 
-export const downloadDawuroDAId = async (member: Member, name: string) => {
+// `templateSrc` is resolved by the caller (via useMembershipLevels() +
+// resolveIdTemplate()) since membership levels — and which ID template each
+// one uses — are admin-configurable rather than a fixed lookup this
+// standalone function could do on its own.
+export const downloadDawuroDAId = async (
+  member: Member,
+  name: string,
+  templateSrc: string
+) => {
   const box = FIELD_BOX;
-
-  const templateSrc = TEMPLATE_BY_LEVEL[member.membershipLevel];
   const template = await loadImage(templateSrc);
 
   // Cap the export at a large-but-safe resolution rather than the
