@@ -1,15 +1,19 @@
 import React from "react";
-import { Member, MembershipLevel } from "@prisma/client";
+import { Member, MembershipLevelConfig } from "@prisma/client";
 import { calculateAge } from "@/util/date";
+import { useMembershipLevels } from "@/util/useMembershipLevels";
 
-export const TEMPLATE_BY_LEVEL: Record<MembershipLevel, string> = {
-  Platinum: "/IDs/dawuroPlatinumId.jpg",
-  Diamond: "/IDs/dawuroDiamondId.jpg",
-  Gold: "/IDs/dawuroGoldId.jpg",
-  Silver: "/IDs/dawuroSilverId.jpg",
-  Bronze: "/IDs/dawuroBronzeId.jpg",
-  Standard: "/IDs/dawuroSilverId.jpg",
-};
+// Membership levels are admin-configurable (see /admin/dashboard/membership-levels),
+// each optionally picking one of the existing uploaded ID templates below —
+// this is just the fallback for a level that hasn't had one assigned.
+export const DEFAULT_ID_TEMPLATE = "/IDs/dawuroBronzeId.jpg";
+
+export const resolveIdTemplate = (
+  membershipLevel: string,
+  levels: Pick<MembershipLevelConfig, "name" | "idTemplateImage">[]
+): string =>
+  levels.find((l) => l.name === membershipLevel)?.idTemplateImage ??
+  DEFAULT_ID_TEMPLATE;
 
 // Field positions are percentages of the template image's own box. The
 // templates were re-exported at 1768x1104 (same design, new file), so these
@@ -79,6 +83,9 @@ const DawuroDAId = ({ member }: { member: Member }) => {
     ? `${member.firstName} ${member.lastName}`
     : `${member?.institutionName}`;
 
+  const { levels } = useMembershipLevels();
+  const templateSrc = resolveIdTemplate(member.membershipLevel, levels);
+
   const box = FIELD_BOX;
 
   // All fields share one font size (previously fullName was larger and
@@ -90,7 +97,7 @@ const DawuroDAId = ({ member }: { member: Member }) => {
     <div
       className="relative w-[800px] aspect-[1768/1104] bg-cover bg-center bg-no-repeat text-[#1E1E1E]"
       style={{
-        backgroundImage: `url("${TEMPLATE_BY_LEVEL[member.membershipLevel]}")`,
+        backgroundImage: `url("${templateSrc}")`,
       }}
     >
       <Field box={box.idNo} fontSize={FONT_SIZE}>

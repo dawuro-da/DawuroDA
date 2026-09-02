@@ -4,10 +4,12 @@ import { User, UserRole } from "@prisma/client";
 import { useState } from "react";
 import ProfileManagement from "./ProfileManagement";
 import AdminManagement from "./AdminManagement";
+import ContentHistory from "./ContentHistory";
 
 enum TABS {
   PrfoileManagement,
   AdminManagement,
+  ContentHistory,
 }
 
 const UserSetting = ({ user }: { user: User | null }) => {
@@ -36,12 +38,22 @@ const UserSetting = ({ user }: { user: User | null }) => {
               Admin Management
             </span>
           )}
+          {isOwner && (
+            <span
+              onClick={() => setActiveTab(TABS.ContentHistory)}
+              className={`p-3 px-6 border-b-2 border-b-slate-200 cursor-pointer ${
+                activeTab === TABS.ContentHistory && "bg-slate-200"
+              } rounded-md`}
+            >
+              Content History
+            </span>
+          )}
         </div>
-        {activeTab === TABS.PrfoileManagement ? (
+        {activeTab === TABS.PrfoileManagement && (
           <ProfileManagement user={user} />
-        ) : (
-          <AdminManagement />
         )}
+        {activeTab === TABS.AdminManagement && isOwner && <AdminManagement />}
+        {activeTab === TABS.ContentHistory && isOwner && <ContentHistory />}
       </div>
     </div>
   );

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { deleteMember, findMemberById } from "@/db/member";
+import { createAuditLog } from "@/db/auditLog";
+import { MembershipType } from "@prisma/client";
 
 export async function DELETE(
   req: Request,
@@ -32,6 +34,22 @@ export async function DELETE(
       const result = await deleteMember({ id: memberId });
 
       if (result) {
+        await createAuditLog({
+          entityType: "Member",
+          entityId: memberId,
+          entityLabel:
+            member.membershipType === MembershipType.Company
+              ? member.institutionName ?? "Unknown"
+              : `${member.firstName ?? ""} ${member.lastName ?? ""}`.trim() ||
+                "Unknown",
+          action: "DELETE",
+          performedById: session.user.id,
+          performedByName:
+            `${session.user.firstName ?? ""} ${
+              session.user.lastName ?? ""
+            }`.trim() || undefined,
+          performedByRole: session.user.role,
+        });
         return NextResponse.json(
           { success: true, value: "ok" },
           { status: 200 }

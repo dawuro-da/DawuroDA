@@ -15,14 +15,15 @@ import {
   LocationOnOutlined,
 } from "@mui/icons-material";
 import { Avatar, Button, CircularProgress, Drawer } from "@mui/material";
-import { Contribution, Member, MembershipLevel } from "@prisma/client";
+import { Contribution, Member } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AddNewPaymentDrawer from "./AddNewPaymentDrawer";
 import Image from "next/image";
-import DawuroDAId from "../shared/DawuroDAId";
+import DawuroDAId, { resolveIdTemplate } from "../shared/DawuroDAId";
 import { downloadDawuroDAId as renderAndDownloadId } from "@/util/renderIdCardCanvas";
+import { useMembershipLevels } from "@/util/useMembershipLevels";
 import { useSession } from "next-auth/react";
 import { showToastAction } from "@/redux/actions";
 import { useDispatch } from "react-redux";
@@ -43,6 +44,7 @@ const MemberDetail = ({
   const dispatch = useDispatch();
   const session = useSession();
   const router = useRouter();
+  const { levels } = useMembershipLevels();
   const [contributions, setContributions] = useState<Contribution[]>();
   const [loading, setLoading] = useState<boolean>();
   const [showAddPaymentModal, setShowAddPaymentModal] =
@@ -73,7 +75,8 @@ const MemberDetail = ({
     try {
       await renderAndDownloadId(
         member,
-        `${member.firstName ? member.firstName : member.institutionName}ID`
+        `${member.firstName ? member.firstName : member.institutionName}ID`,
+        resolveIdTemplate(member.membershipLevel, levels)
       );
     } finally {
       setDownloadingId(false);
@@ -175,13 +178,13 @@ const MemberDetail = ({
             <span className="font-bold">Subscription: </span>
             <span
               className={`flex  flex-row items-center justify-center w-fit py-2 ${
-                member.membershipLevel === MembershipLevel.Platinum
+                member.membershipLevel === "Platinum"
                   ? "bg-[#34A8A8] text-white"
-                  : member.membershipLevel === MembershipLevel.Diamond
+                  : member.membershipLevel === "Diamond"
                   ? "bg-[#B0E0E62E] text-[#222222]"
-                  : member.membershipLevel === MembershipLevel.Gold
+                  : member.membershipLevel === "Gold"
                   ? "bg-[#FFD7002E]"
-                  : member.membershipLevel === MembershipLevel.Silver
+                  : member.membershipLevel === "Silver"
                   ? "bg-[#C0C0C02E]"
                   : "bg-transparent"
               }  rounded-[8px] min-w-20 text-center px-4 h-8 `}

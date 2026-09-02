@@ -3,7 +3,6 @@ import {
   Gender,
   Prisma,
   Member,
-  MembershipLevel,
   ContributionSystem,
   MembershipType,
   PaymentMeans,
@@ -95,7 +94,7 @@ export async function findMemberWithContributionsById(id: string) {
 export interface MemberSharedDataType {
   email?: string;
   phone: string;
-  membershipLevel: MembershipLevel;
+  membershipLevel: string;
   contributionAmount: number;
   contributionSystem: ContributionSystem;
   hasPaid: boolean;
@@ -292,7 +291,7 @@ export async function updateInstitutionMember({
 }
 
 type Filters = {
-  membershipLevel?: MembershipLevel;
+  membershipLevel?: string;
   contributionSystem?: ContributionSystem;
   membershipType?: MembershipType;
   paymentStatus?: string;

@@ -6,7 +6,6 @@ import {
   ContributionSystem,
   EducationLevel,
   Gender,
-  MembershipLevel,
   MembershipType,
   PaymentMeans,
   UserRole,
@@ -21,6 +20,7 @@ import { calculateNextDueDate } from "@/util/date";
 import { generateMemberId } from "@/util/helper";
 import { createContribution } from "@/db/contribution";
 import { uploadFile } from "@/util/uploadFile";
+import { createAuditLog } from "@/db/auditLog";
 
 async function hashPassword(
   password: string,
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
 
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string;
-  const membershipLevel = formData.get("membershipLevel") as MembershipLevel;
+  const membershipLevel = formData.get("membershipLevel") as string;
   const contributionAmount = formData.get("contributionAmount") as string;
   const contributionSystem = formData.get(
     "contributionSystem"
@@ -185,6 +185,25 @@ export async function POST(req: Request) {
           contributionSystem: result.contributionSystem,
           contributorId: result.id,
           amount: contributionAmount,
+        });
+        await createAuditLog({
+          entityType: "Member",
+          entityId: result.id,
+          entityLabel:
+            membershipType === MembershipType.Company
+              ? institutionName || "Unknown"
+              : `${firstName ?? ""} ${lastName ?? ""}`.trim() || "Unknown",
+          action: "CREATE",
+          changes: {
+            membershipLevel: { from: null, to: membershipLevel },
+            contributionAmount: { from: null, to: contributionAmount },
+          },
+          performedById: session.user.id,
+          performedByName:
+            `${session.user.firstName ?? ""} ${
+              session.user.lastName ?? ""
+            }`.trim() || undefined,
+          performedByRole: session.user.role,
         });
         return NextResponse.json(
           { success: true, value: result },

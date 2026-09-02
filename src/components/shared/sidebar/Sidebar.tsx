@@ -57,7 +57,13 @@ const Sidebar = (props: any) => {
             const isActive =
               menu.name === props.menuItems[0].name //this check is necessary since the dashboard menu link is in all menu link
                 ? Boolean(path === menu.link)
-                : Boolean(path.includes(menu.link));
+                : // Match the exact link or a "/"-bounded sub-route of it (e.g.
+                  // /members/[id]) — a plain substring check would also light up
+                  // "Members List" while on "Membership Levels", since
+                  // "membership-levels" literally starts with "members".
+                  Boolean(
+                    path === menu.link || path.startsWith(`${menu.link}/`)
+                  );
 
             return (
               menu.isAccessible && (

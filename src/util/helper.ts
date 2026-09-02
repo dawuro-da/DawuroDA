@@ -1,6 +1,6 @@
 import {
   ContributionSystem,
-  MembershipLevel,
+  MembershipLevelConfig,
   MembershipType,
 } from "@prisma/client";
 import * as XLSX from "xlsx";
@@ -22,96 +22,34 @@ export function generateMemberId() {
   return memberId;
 }
 
-interface ContributionLevels {
-  [level: string]: number;
-}
-
-// Levels are set as yearly ETB amounts (the official plan), then divided by
-// 12 to get the monthly base this object actually stores — Yearly/Quarterly
-// are derived from that base via base*12 / base*3 in getMinimumContribution.
-const contributionLevels: Record<MembershipType, ContributionLevels> = {
-  Individual: {
-    Platinum: 10000 / 12,
-    Diamond: 7000 / 12,
-    Gold: 5000 / 12,
-    Silver: 3000 / 12,
-    Bronze: 1000 / 12,
-  },
-  Company: {
-    Platinum: 50000 / 12, // minimum only — no fixed ceiling
-    Diamond: 40000 / 12,
-    Gold: 30000 / 12,
-    Silver: 20000 / 12,
-    Bronze: 15000 / 12,
-  },
-};
-
+// Membership levels (and their pricing) are admin-configurable — see
+// src/db/membershipLevel.ts and /admin/dashboard/membership-levels — rather
+// than a fixed enum, so the caller passes in the current levels list
+// (typically from useMembershipLevels()) and this just does the lookup and
+// the monthly/quarterly/yearly derivation that was previously hardcoded per
+// level.
 export function getMinimumContribution({
   membershipType,
   contributionSystem,
   membershipLevel,
+  levels,
 }: {
   membershipType: MembershipType;
   contributionSystem: ContributionSystem;
-  membershipLevel: MembershipLevel;
+  membershipLevel: string;
+  levels: Pick<
+    MembershipLevelConfig,
+    "name" | "individualYearlyMin" | "companyYearlyMin"
+  >[];
 }): number {
-  let baseContribution: number;
+  const level = levels.find((l) => l.name === membershipLevel);
+  if (!level) return 0;
 
-  // Determine the base contribution using a switch statement
-  switch (membershipType) {
-    case "Individual":
-      switch (membershipLevel) {
-        case "Platinum":
-          baseContribution = contributionLevels.Individual.Platinum;
-          break;
-        case "Diamond":
-          baseContribution = contributionLevels.Individual.Diamond;
-          break;
-        case "Gold":
-          baseContribution = contributionLevels.Individual.Gold;
-          break;
-        case "Silver":
-          baseContribution = contributionLevels.Individual.Silver;
-          break;
-        case "Bronze":
-          baseContribution = contributionLevels.Individual.Bronze;
-          break;
-        case "Standard":
-          baseContribution = contributionLevels.Individual.Standard;
-          break;
-        default:
-          throw new Error(`Invalid membership level: ${membershipLevel}`);
-      }
-      break;
-    case "Company":
-      switch (membershipLevel) {
-        case "Platinum":
-          baseContribution = contributionLevels.Company.Platinum;
-          break;
-        case "Diamond":
-          baseContribution = contributionLevels.Company.Diamond;
-          break;
-        case "Gold":
-          baseContribution = contributionLevels.Company.Gold;
-          break;
-        case "Silver":
-          baseContribution = contributionLevels.Company.Silver;
-          break;
-        case "Bronze":
-          baseContribution = contributionLevels.Company.Bronze;
-          break;
-        case "Standard":
-          baseContribution = contributionLevels.Company.Standard;
-          break;
-        default:
-          throw new Error(`Invalid membership level: ${membershipLevel}`);
-      }
-      break;
-    default:
-      throw new Error(
-        "Invalid membership type. Choose 'Individual' or 'Company'."
-      );
-  }
+  const yearlyMin =
+    membershipType === "Company"
+      ? level.companyYearlyMin
+      : level.individualYearlyMin;
+  const baseContribution = yearlyMin / 12;
 
   switch (contributionSystem) {
     case "Yearly":

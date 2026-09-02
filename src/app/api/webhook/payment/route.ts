@@ -11,6 +11,7 @@ import { Auction, Member, TempMember } from "@prisma/client";
 import { findMemberByPhone, renewMemberID } from "@/db/member";
 import { createDonation } from "@/db/donation";
 import { findAuctionById } from "@/db/auction";
+import { createAuditLog } from "@/db/auditLog";
 
 // Chapa pings this URL to check reachability when the webhook is
 // registered/saved in the dashboard, before it ever sends a real POST
@@ -215,6 +216,20 @@ const registerNewPaidMember = async (tempMember: TempMember) => {
       contributionSystem: member.contributionSystem,
       contributorId: member.id,
       amount: member.contributionAmount.toString(),
+    });
+    await createAuditLog({
+      entityType: "Member",
+      entityId: member.id,
+      entityLabel:
+        member.institutionName ||
+        `${member.firstName ?? ""} ${member.lastName ?? ""}`.trim() ||
+        "Unknown",
+      action: "CREATE",
+      changes: {
+        membershipLevel: { from: null, to: member.membershipLevel },
+      },
+      performedByName: "Self-registration (Chapa payment)",
+      performedByRole: "System",
     });
   } else {
     return null;
