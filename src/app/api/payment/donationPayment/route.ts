@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+import { randomUUID } from "crypto";
+import { sanitizeChapaText } from "@/util/chapa";
 
 export async function POST(req: Request) {
   const {
@@ -12,6 +14,11 @@ export async function POST(req: Request) {
   } = await req.json();
 
   try {
+    // This tx_ref also doubles as the donor's certificate access token (see
+    // /donation-certificate), so it needs to be unguessable — crypto.randomUUID()
+    // instead of the Math.random() pattern the other payment routes use.
+    const txRef = `dawuroda-donation-${randomUUID()}`;
+
     var raw = JSON.stringify({
       amount: paymentAmount,
       currency: "ETB",
@@ -19,19 +26,23 @@ export async function POST(req: Request) {
       first_name: `${fullName}`,
       last_name: ``,
       phone_number: `${phone}`,
-      tx_ref: `dawuroda-donation-${Math.random()}`,
+      tx_ref: txRef,
       callback_url: `${process.env.PAYMENT_WEB_HOOK}/api/webhook/payment`,
-      return_url: ``,
+      return_url: `${process.env.PAYMENT_WEB_HOOK}/donation-certificate?tx_ref=${txRef}`,
       meta: {
         paymentType: "donationPayment",
         donationDesignation: donationDesignation,
         branch: branch ?? "Other",
         phone_number: phone,
         campaignId: campaignId ?? "",
+        txRef,
       },
-      "customization[title]": "DawuroDA Donation Payment",
-      "customization[description]":
-        "donation for Dawuro Development Association for different voluntary works",
+      customization: {
+        title: "Donation Payment",
+        description: donationDesignation
+          ? sanitizeChapaText(`Donation to ${donationDesignation}`, 50)
+          : "Donation to Dawuro Development Association",
+      },
     });
     const res = await axios.post(
       "https://api.chapa.co/v1/transaction/initialize",

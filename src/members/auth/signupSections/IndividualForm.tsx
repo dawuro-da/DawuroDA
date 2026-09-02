@@ -1,4 +1,5 @@
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
+import { EthiopianDateInput } from "@/components/shared/EthiopianDateInput";
 import {
   COUNTRIES,
   Dawuro_Branches,
@@ -127,18 +128,22 @@ const IndividualForm = ({
         <span className="text-titleColor text-sm font-bold">
           {`${t("members_dashboard.profile_overview.date_of_birth")}`}
         </span>
-        <TextField
-          size="small"
+        <input
+          type="hidden"
           {...register("dateOfBirth", {
             required: "Date of birth is required",
           })}
-          type="date"
-          placeholder=""
-          className="border-2 rounded-[16px] py-2"
-          inputProps={{ style: { padding: 10 } }}
+        />
+        <EthiopianDateInput
+          value={watch("dateOfBirth")}
+          onChange={(isoDate) =>
+            setValue("dateOfBirth", isoDate, { shouldValidate: true })
+          }
           error={Boolean(!!errors.dateOfBirth)}
           helperText={
-            !!errors.dateOfBirth && errors.dateOfBirth.message?.toString()
+            !!errors.dateOfBirth
+              ? errors.dateOfBirth.message?.toString()
+              : undefined
           }
         />
       </div>

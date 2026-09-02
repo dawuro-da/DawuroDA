@@ -41,6 +41,7 @@ export async function POST(req: Request, res: any) {
       const branch = metaData?.branch ?? "";
       const phone_number = metaData?.phone_number ?? mobile;
       const campaignId = metaData?.campaignId || undefined;
+      const txRef = metaData?.txRef || undefined;
 
       if (paymentType === "registrationPayment") {
         const tempMember = await findTempMemberByPhone(phone_number);
@@ -66,6 +67,7 @@ export async function POST(req: Request, res: any) {
           fullName: `${first_name ?? "Unknown"}`,
           phone: phone_number,
           campaignId,
+          txRef,
         });
     }
 
@@ -92,6 +94,7 @@ const createANewDonation = async ({
   phone,
   branch,
   campaignId,
+  txRef,
 }: {
   amount: string;
   donationDesignation: string;
@@ -99,6 +102,7 @@ const createANewDonation = async ({
   phone: string;
   branch: string;
   campaignId?: string;
+  txRef?: string;
 }) => {
   return await createDonation({
     amount,
@@ -107,6 +111,7 @@ const createANewDonation = async ({
     phone,
     branch,
     campaignId,
+    txRef,
   });
 };
 

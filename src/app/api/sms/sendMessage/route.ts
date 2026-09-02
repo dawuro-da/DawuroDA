@@ -15,6 +15,21 @@ export async function POST(req: Request) {
   try {
     const { phones, message } = await req.json();
 
+    // Afromessage's bulk_send endpoint rejects anything under 2 recipients
+    // (see the "recipients list is too small" error it returns) — checked
+    // here too as a backstop for any caller that skips the UI's own guard,
+    // with a clear message instead of relaying Afromessage's raw wording.
+    if (!Array.isArray(phones) || phones.length < 2) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "At least 2 recipients are required — the SMS provider doesn't allow sending to a single recipient",
+        },
+        { status: 400 }
+      );
+    }
+
     const response = await axios.post(
       "https://api.afromessage.com/api/bulk_send",
       {
@@ -31,7 +46,23 @@ export async function POST(req: Request) {
       }
     );
 
-    console.error(response.data);
+    // Afromessage responds with HTTP 200 even when it rejects the request
+    // (invalid sender, unapproved identifier, too few recipients, etc.) —
+    // the real result is in the response body, not the status code. Without
+    // checking `acknowledge` here, a rejected send still looked like a
+    // success to the admin who sent it.
+    if (response.data?.acknowledge !== "success") {
+      console.error("Afromessage bulk_send rejected:", response.data);
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            response.data?.response?.errors?.[0] ??
+            "Afromessage rejected the request",
+        },
+        { status: 502 }
+      );
+    }
 
     const result = await creatSmsMessage({
       message,

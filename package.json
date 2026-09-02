@@ -27,6 +27,7 @@
     "html2canvas": "^1.4.1",
     "i18next": "^23.13.0",
     "i18next-browser-languagedetector": "^8.0.0",
+    "jspdf": "^4.2.1",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
     "node-cron": "^3.0.3",

@@ -77,6 +77,15 @@ const SmsTable = ({
         showToastAction({ message: "Please Select Members", type: "error" })
       );
       return;
+    } else if (selectedList.length < 2) {
+      dispatch(
+        showToastAction({
+          message:
+            "Please select at least 2 recipients — the SMS provider doesn't allow sending to a single recipient",
+          type: "error",
+        })
+      );
+      return;
     } else if (!messageToSend) {
       dispatch(
         showToastAction({ message: "Please write message", type: "error" })

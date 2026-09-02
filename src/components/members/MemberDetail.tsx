@@ -4,6 +4,10 @@ import {
   getFormattedDateFromTimestamp,
 } from "@/util/date";
 import {
+  formatEthiopianDate,
+  gregorianToEthiopian,
+} from "@/util/ethiopianCalendar";
+import {
   Call,
   Close,
   EditNoteOutlined,
@@ -233,7 +237,12 @@ const MemberDetail = ({
             {member.dateOfBirth && (
               <div className="flex flex-row items-center gap-2 ">
                 <span className="text-titleColor text-sm">Date of birth: </span>
-                <span className="font-bold text-[#555555] text-sm">{`${member.dateOfBirth}`}</span>
+                <span className="font-bold text-[#555555] text-sm">
+                  {formatEthiopianDate(
+                    gregorianToEthiopian(new Date(member.dateOfBirth))
+                  )}{" "}
+                  E.C.
+                </span>
               </div>
             )}
             <div className="flex flex-row items-center gap-2 ">
