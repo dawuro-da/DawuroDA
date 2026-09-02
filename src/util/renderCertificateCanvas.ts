@@ -199,8 +199,14 @@ export const drawCertificate = async (
   ctx.drawImage(template, 0, 0, width, height);
 
   await document.fonts.ready.catch(() => {});
-  const fontFamily =
-    getComputedStyle(document.body).fontFamily || "Arial, sans-serif";
+  // "Nokia Pure Headline" isn't a font this project ships or loads (it's
+  // Nokia's own proprietary brand font, not a public web font) — naming it
+  // first just means the canvas uses it on any device that happens to have
+  // it installed, and falls back to the site's normal font everywhere else,
+  // same as before.
+  const fontFamily = `"Nokia Pure Headline", ${
+    getComputedStyle(document.body).fontFamily || "Arial, sans-serif"
+  }`;
 
   // --- Donor name (drawn right after the template's fixed "ለ" / "To") ---
   const nameLeft = (NAME_BOX.left / 100) * width;
@@ -249,11 +255,11 @@ export const drawCertificate = async (
 
   const amountText = `${Math.round(data.amount).toLocaleString()}`;
   const segments: { text: string; bold: boolean }[] = [
-    { text: "እርስዎ ለዳውሮ ልማት ካለዎት ተነሳሽነትና ፍላጎት የተነሳ ለ", bold: false },
+    { text: "እርስዎ ለዳውሮ ልማት ካለዎት ተነሳሽነትና ፍላጎት የተነሳ ለ", bold: true },
     { text: data.designation, bold: true },
     {
       text: `ሥራ ላበረከቱት ለገንዘብ መጠን ${amountText} ብር በዳውሮ ሕዝብ ለላቀ ምስጋና በማቅረብ ይህንን የምስክር ወረቀት ስጥተንዎታል፡፡`,
-      bold: false,
+      bold: true,
     },
   ];
 
@@ -279,7 +285,7 @@ export const drawCertificate = async (
     wideBox.height,
     wideBox.height * 0.56,
     wideBox.height * 0.225,
-    1.12,
+    1.22,
     true
   );
 
@@ -300,7 +306,7 @@ export const drawCertificate = async (
       textHeight,
       textHeight * 0.4,
       textHeight * 0.16,
-      1.25
+      1.32
     );
   ctx.fillStyle = INK_BLUE;
   ctx.textAlign = "center";
