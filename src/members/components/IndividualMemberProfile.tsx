@@ -22,6 +22,7 @@ import { getMemberFormData } from "@/util/getMemberFormData";
 import { COUNTRIES, Dawuro_Branches, NATIONALITIES } from "@/constants/datas";
 import { international_phone_regex  } from "@/constants/regex";
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
+import { EthiopianDateInput } from "@/components/shared/EthiopianDateInput";
 
 const IndividualMemberProfile = ({ member }: { member: Member }) => {
   const router = useRouter();
@@ -256,19 +257,24 @@ const IndividualMemberProfile = ({ member }: { member: Member }) => {
                   <span className="text-titleColor text-sm font-bold">
                     Date of birth
                   </span>
-                  <TextField
-                    size="small"
+                  <input
+                    type="hidden"
                     {...register("dateOfBirth", {
                       required: "Date of birth is required",
                     })}
-                    type="date"
-                    placeholder=""
-                    className="border-2 rounded-[16px] py-2"
-                    inputProps={{ style: { padding: 10 } }}
+                  />
+                  <EthiopianDateInput
+                    value={watch("dateOfBirth")}
+                    onChange={(isoDate) =>
+                      setValue("dateOfBirth", isoDate, {
+                        shouldValidate: true,
+                      })
+                    }
                     error={Boolean(!!errors.dateOfBirth)}
                     helperText={
-                      !!errors.dateOfBirth &&
-                      errors.dateOfBirth.message?.toString()
+                      !!errors.dateOfBirth
+                        ? errors.dateOfBirth.message?.toString()
+                        : undefined
                     }
                   />
                 </div>

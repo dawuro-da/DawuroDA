@@ -124,6 +124,7 @@ export async function createDonation({
   phone,
   branch,
   campaignId,
+  txRef,
 }: {
   amount: string;
   donationDesignation: string;
@@ -131,6 +132,7 @@ export async function createDonation({
   phone: string;
   branch: string;
   campaignId?: string | null;
+  txRef?: string | null;
 }) {
   const parsedAmount = parseFloat(amount);
   try {
@@ -147,6 +149,7 @@ export async function createDonation({
           phone,
           branch,
           campaignId: campaignId ?? undefined,
+          txRef: txRef ?? undefined,
         },
       }),
       ...(campaignId
@@ -159,6 +162,17 @@ export async function createDonation({
         : []),
     ]);
     return donation;
+  } catch (err) {
+    console.warn(err);
+    return null;
+  }
+}
+
+export async function findDonationByTxRef(
+  txRef: string
+): Promise<GeneralDonation | null> {
+  try {
+    return await prisma.generalDonation.findUnique({ where: { txRef } });
   } catch (err) {
     console.warn(err);
     return null;

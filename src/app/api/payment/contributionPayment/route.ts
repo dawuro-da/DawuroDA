@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+import { sanitizeChapaText } from "@/util/chapa";
 
 export async function POST(req: Request) {
   const {
@@ -9,6 +10,8 @@ export async function POST(req: Request) {
     lastName,
     phone,
     institutionName,
+    membershipLevel,
+    contributionSystem,
   } = await req.json();
 
   try {
@@ -26,9 +29,15 @@ export async function POST(req: Request) {
         paymentType: "contributionPayment",
         phone_number: phone,
       },
-      "customization[title]": "DawuroDA member's contribution",
-      "customization[description]":
-        "this membership contribution should be paid after compeletion of your registration ",
+      customization: {
+        title: "Contribution",
+        description: sanitizeChapaText(
+          [contributionSystem, membershipLevel, "membership contribution"]
+            .filter(Boolean)
+            .join(" "),
+          50
+        ),
+      },
     });
     const res = await axios.post(
       "https://api.chapa.co/v1/transaction/initialize",

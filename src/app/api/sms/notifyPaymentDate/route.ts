@@ -13,11 +13,19 @@ const initializeCronJob = async () => {
               your payment is due. Please pay soon to avoid service disruption.
               Thank you!`;
 
-    if (members.length) {
+    if (members.length === 1) {
+      // Afromessage's bulk_send endpoint rejects anything under 2
+      // recipients, so a lone member due for payment can't go through this
+      // path at all — log it clearly rather than let it fail silently
+      // every time the cron runs.
+      console.warn(
+        `notifyPaymentDate: skipped — only 1 member (${members[0].id}) is due, but Afromessage requires at least 2 recipients per batch`
+      );
+    } else if (members.length) {
       const memberIds = members.map((member) => member.id);
       const phones = members.map((member) => member.phone);
 
-      await axios.post(
+      const response = await axios.post(
         "https://api.afromessage.com/api/bulk_send",
         {
           to: [...phones],
@@ -32,6 +40,14 @@ const initializeCronJob = async () => {
           },
         }
       );
+
+      // Afromessage responds with HTTP 200 even when it rejects the
+      // request — bail out before recording the message as sent and
+      // marking members as notified if it was actually rejected.
+      if (response.data?.acknowledge !== "success") {
+        console.error("Afromessage bulk_send rejected:", response.data);
+        return;
+      }
 
       await creatSmsMessage({
         message: message,

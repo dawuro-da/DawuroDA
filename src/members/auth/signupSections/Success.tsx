@@ -18,6 +18,7 @@ const Success = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
         lastName: watch("lastName"),
         phone: watch("phone"),
         institutionName: watch("institutionName"),
+        membershipLevel: watch("membershipLevel"),
       });
 
       if (res.data.success) {

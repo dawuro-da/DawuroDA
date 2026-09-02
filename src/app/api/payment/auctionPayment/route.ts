@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+import { findAuctionById } from "@/db/auction";
+import { sanitizeChapaText } from "@/util/chapa";
 
 export async function POST(req: Request) {
   const {
@@ -13,6 +15,8 @@ export async function POST(req: Request) {
   } = await req.json();
 
   try {
+    const auction = auctionId ? await findAuctionById(auctionId) : null;
+
     var raw = JSON.stringify({
       amount: paymentAmount,
       currency: "ETB",
@@ -28,9 +32,15 @@ export async function POST(req: Request) {
         auctionId,
         phone_number: phone,
       },
-      "customization[title]": "DawuroDA Auction Payment",
-      "customization[description]":
-        "a pre payment to participate in an auction. this payment includes both cpo and non refundable payment for the auction ",
+      customization: {
+        title: "Auction Payment",
+        description: auction
+          ? sanitizeChapaText(
+              `CPO payment for ${auction.title} auction`,
+              50
+            )
+          : "CPO and auction participation payment",
+      },
     });
     const res = await axios.post(
       "https://api.chapa.co/v1/transaction/initialize",

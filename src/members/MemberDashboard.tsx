@@ -62,6 +62,8 @@ const MemberDashboard = ({
         lastName: member?.lastName,
         phone: member?.phone,
         institutionName: member?.institutionName,
+        membershipLevel: member?.membershipLevel,
+        contributionSystem: member?.contributionSystem,
       });
       if (res.data.success) {
         console.error();

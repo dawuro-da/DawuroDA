@@ -225,6 +225,7 @@ model GeneralDonation {
   paymentMethod       String?
   amount              Int
   branch              String?
+  txRef               String? @unique
 
   campaignId String?
   campaign   Campaign? @relation(fields: [campaignId], references: [id])
