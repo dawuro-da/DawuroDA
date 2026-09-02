@@ -6,6 +6,7 @@ import { OPTIONS } from "@/util/authOptions";
 import { hashPassword } from "@/util/hash";
 import { RegisteredAsAdmin } from "@/util/emailTemplate";
 import { transporter } from "@/services/nodemailer";
+import { createAuditLog } from "@/db/auditLog";
 
 export async function POST(req: Request) {
   const { firstName, lastName, role, gender, email, phone, branch, password } =
@@ -85,6 +86,19 @@ export async function POST(req: Request) {
       });
 
       if (result) {
+        await createAuditLog({
+          entityType: "AdminUser",
+          entityId: result.id,
+          entityLabel: `${firstName ?? ""} ${lastName ?? ""}`.trim() || email,
+          action: "CREATE",
+          changes: { role: { from: null, to: role } },
+          performedById: session.user.id,
+          performedByName:
+            `${session.user.firstName ?? ""} ${
+              session.user.lastName ?? ""
+            }`.trim() || undefined,
+          performedByRole: session.user.role,
+        });
         return NextResponse.json(
           { success: true, value: result },
           { status: 200 }

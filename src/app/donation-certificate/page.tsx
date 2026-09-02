@@ -4,7 +4,7 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { Button, CircularProgress } from "@mui/material";
-import { Download, PictureAsPdf } from "@mui/icons-material";
+import { Download, PictureAsPdf, Favorite } from "@mui/icons-material";
 import Navigation from "@/landingPage/navigation/Navigation";
 import Footer from "@/landingPage/footer/Footer";
 import { getFormattedDate } from "@/util/date";
@@ -29,6 +29,10 @@ interface Donation {
 // miss.
 const POLL_ATTEMPTS = 6;
 const POLL_DELAY_MS = 2500;
+
+// Certificates are only generated for donations above this amount — smaller
+// donations still get a thank-you page, just no certificate to download.
+const CERTIFICATE_MIN_AMOUNT = 500;
 
 const CertificateContent = () => {
   const searchParams = useSearchParams();
@@ -75,8 +79,17 @@ const CertificateContent = () => {
     };
   }, [txRef]);
 
+  const isEligibleForCertificate =
+    Boolean(donation) && donation!.amount > CERTIFICATE_MIN_AMOUNT;
+
   useEffect(() => {
-    if (status !== "ready" || !donation || !canvasRef.current) return;
+    if (
+      status !== "ready" ||
+      !donation ||
+      !isEligibleForCertificate ||
+      !canvasRef.current
+    )
+      return;
     const data: CertificateData = {
       donorName: donation.fullName,
       amount: donation.amount,
@@ -135,7 +148,7 @@ const CertificateContent = () => {
           </div>
         )}
 
-        {status === "ready" && donation && (
+        {status === "ready" && donation && isEligibleForCertificate && (
           <>
             <div className="w-full max-w-4xl overflow-x-auto">
               <canvas
@@ -172,6 +185,23 @@ const CertificateContent = () => {
               </Button>
             </div>
           </>
+        )}
+
+        {status === "ready" && donation && !isEligibleForCertificate && (
+          <div className="max-w-lg text-center flex flex-col items-center gap-3">
+            <Favorite className="text-primaryColor" style={{ fontSize: 48 }} />
+            <h1 className="text-3xl font-bold text-titleColor">
+              Thank You, {donation.fullName}!
+            </h1>
+            <p className="text-titleColor">
+              Your donation of {donation.amount.toLocaleString()} ETB
+              {donation.donationDesignation
+                ? ` towards ${donation.donationDesignation}`
+                : ""}{" "}
+              means a lot to us and the community we serve. We truly
+              appreciate your generosity.
+            </p>
+          </div>
         )}
       </div>
       <Footer />

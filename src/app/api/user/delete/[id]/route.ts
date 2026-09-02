@@ -3,6 +3,7 @@ import { deleteUser, findUserById } from "@/db/user";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "@/util/authOptions";
 import { UserRole } from "@prisma/client";
+import { createAuditLog } from "@/db/auditLog";
 
 export async function DELETE(
   req: Request,
@@ -33,6 +34,21 @@ export async function DELETE(
       const result = await deleteUser({ id: userId });
 
       if (result) {
+        await createAuditLog({
+          entityType: "AdminUser",
+          entityId: userId,
+          entityLabel:
+            `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim() ||
+            user.email,
+          action: "DELETE",
+          changes: { role: { from: user.role, to: null } },
+          performedById: session.user.id,
+          performedByName:
+            `${session.user.firstName ?? ""} ${
+              session.user.lastName ?? ""
+            }`.trim() || undefined,
+          performedByRole: session.user.role,
+        });
         return NextResponse.json(
           { success: true, value: "ok" },
           { status: 200 }

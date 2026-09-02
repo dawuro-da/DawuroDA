@@ -16,14 +16,10 @@ import { useDispatch } from "react-redux";
 import { showToastAction } from "@/redux/actions";
 import { MembershipType } from "@prisma/client";
 import { MenuItem, Switch, TextField } from "@mui/material";
-import {
-  ContributionSystem,
-  Member,
-  MembershipLevel,
-  PaymentMeans,
-} from "@prisma/client";
+import { ContributionSystem, Member, PaymentMeans } from "@prisma/client";
 import { FieldValues } from "react-hook-form";
 import { getMinimumContribution } from "@/util/helper";
+import { useMembershipLevels } from "@/util/useMembershipLevels";
 import { getMemberFormData } from "@/util/getMemberFormData";
 import { international_phone_regex  } from "@/constants/regex";
 import { PhoneNumberInput } from "@/components/shared/PhoneNumberInput";
@@ -32,6 +28,7 @@ const InstitutionMember = ({ member }: { member: Member }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
+  const { levels } = useMembershipLevels();
 
   const {
     register,
@@ -306,26 +303,13 @@ const InstitutionMember = ({ member }: { member: Member }) => {
                         errors.membershipLevel.message?.toString()
                       }
                     >
-                      <MenuItem value={MembershipLevel?.Platinum}>
-                        {MembershipLevel?.Platinum}
-                        {" (≥50,000 ETB/year)"}
-                      </MenuItem>
-                      <MenuItem value={MembershipLevel?.Diamond}>
-                        {MembershipLevel?.Diamond}
-                        {" (40,000 ETB/year)"}
-                      </MenuItem>
-                      <MenuItem value={MembershipLevel?.Gold}>
-                        {MembershipLevel?.Gold}
-                        {" (30,000 ETB/year)"}
-                      </MenuItem>
-                      <MenuItem value={MembershipLevel?.Silver}>
-                        {MembershipLevel?.Silver}
-                        {" (20,000 ETB/year)"}
-                      </MenuItem>
-                      <MenuItem value={MembershipLevel?.Bronze}>
-                        {MembershipLevel?.Bronze}
-                        {" (15,000 ETB/year)"}
-                      </MenuItem>
+                      {levels.map((level) => (
+                        <MenuItem key={level.id} value={level.name}>
+                          {level.name}
+                          {level.nameAmharic ? ` (${level.nameAmharic})` : ""}
+                          {` — ${level.companyYearlyMin.toLocaleString()} ETB/year`}
+                        </MenuItem>
+                      ))}
                     </TextField>
                   </div>
                 </div>
@@ -379,6 +363,7 @@ const InstitutionMember = ({ member }: { member: Member }) => {
                               membershipLevel: watch("membershipLevel"),
                               membershipType: MembershipType.Company,
                               contributionSystem: watch("contributionSystem"),
+                              levels,
                             });
                             if (parseFloat(value) >= minAmount) {
                               return true; // Value is valid

@@ -4,7 +4,6 @@ import {
   ContributionSystem,
   EducationLevel,
   Gender,
-  MembershipLevel,
   MembershipType,
   PaymentMeans,
   UserRole,
@@ -18,6 +17,7 @@ import {
 } from "@/db/member";
 import { OPTIONS } from "@/util/authOptions";
 import { uploadFile } from "@/util/uploadFile";
+import { createAuditLog, diffFields } from "@/db/auditLog";
 
 export async function POST(req: Request, context: { params: { id: string } }) {
   const session = await getServerSession(OPTIONS);
@@ -48,23 +48,24 @@ export async function POST(req: Request, context: { params: { id: string } }) {
 
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string;
-  let membershipLevel = formData.get("membershipLevel") as MembershipLevel;
+  let membershipLevel = formData.get("membershipLevel") as string;
   const contributionAmount = formData.get("contributionAmount") as string;
   const contributionSystem = formData.get(
     "contributionSystem"
   ) as ContributionSystem;
   let hasPaid = formData.get("hasPaid") === "true" ? true : false;
 
+  // Fetched unconditionally (not just for the self-edit guard below) so it
+  // also serves as the "before" snapshot for the audit log diff further down.
+  const existingMember = await findMemberById(context.params.id);
+
   // Members can edit their own profile, but membership level and payment
   // status must only ever change via a verified payment (staff-recorded
   // contribution or the Chapa webhook), never a self-submitted form value —
   // otherwise a member could grant themselves a paid upgrade for free.
-  if (isSelfEdit) {
-    const existingMember = await findMemberById(context.params.id);
-    if (existingMember) {
-      membershipLevel = existingMember.membershipLevel;
-      hasPaid = existingMember.hasPaid;
-    }
+  if (isSelfEdit && existingMember) {
+    membershipLevel = existingMember.membershipLevel;
+    hasPaid = existingMember.hasPaid;
   }
   const region = formData.get("region") as string;
   const city = formData.get("city") as string;
@@ -180,6 +181,43 @@ export async function POST(req: Request, context: { params: { id: string } }) {
     }
 
     if (result) {
+      if (existingMember) {
+        const changes = diffFields(existingMember, sharedMember, [
+          "email",
+          "phone",
+          "membershipLevel",
+          "contributionSystem",
+          "contributionAmount",
+          "hasPaid",
+          "region",
+          "city",
+          "zone",
+          "kebele",
+          "positionAtWork",
+          "paymentMeans",
+        ]);
+        await createAuditLog({
+          entityType: "Member",
+          entityId: memberId,
+          entityLabel:
+            existingMember.membershipType === MembershipType.Company
+              ? existingMember.institutionName ?? "Unknown"
+              : `${existingMember.firstName ?? ""} ${
+                  existingMember.lastName ?? ""
+                }`.trim() || "Unknown",
+          action: "UPDATE",
+          changes,
+          performedById: session.user.id,
+          performedByName: isSelfEdit
+            ? `${existingMember.firstName ?? ""} ${
+                existingMember.lastName ?? ""
+              }`.trim() || "Member"
+            : `${session.user.firstName ?? ""} ${
+                session.user.lastName ?? ""
+              }`.trim() || undefined,
+          performedByRole: session.user.role,
+        });
+      }
       return NextResponse.json(
         { success: true, value: result },
         { status: 200 }
