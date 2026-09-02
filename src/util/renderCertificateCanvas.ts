@@ -1,16 +1,17 @@
-// Renders the donation certificate onto a <canvas> at a fixed, print-quality
-// resolution (A4 landscape proportions). Used for both the on-screen preview
-// and the PNG/PDF export, so there's exactly one source of truth for what
-// the certificate looks like — no risk of the preview and the download
-// drifting apart the way a separate CSS layout + canvas renderer can.
+// Renders the donation certificate onto a <canvas> using the org's actual
+// certificate artwork (public/DawuroDevelopmentAssociationcertificate.jpg —
+// same "drawImage the real template, overlay text at measured field boxes"
+// approach as the membership ID cards in renderIdCardCanvas.ts) rather than
+// a from-scratch design, so it matches the printed/physical certificate.
+// Used for both the on-screen preview and the PNG/PDF export — one source
+// of truth for what the certificate looks like.
 
-export const CERTIFICATE_WIDTH = 2000;
-export const CERTIFICATE_HEIGHT = 1414;
+const TEMPLATE_SRC = "/DawuroDevelopmentAssociationcertificate.jpg";
 
-const PRIMARY_GREEN = "#1F6B3A";
-const ACCENT_GOLD = "#C9A24B";
-const INK = "#1E1E1E";
-const MUTED = "#5B5B5B";
+const INK_BLUE = "#0A4488";
+// Sampled directly from the template's blank paper — used to blank out the
+// printed placeholder lines before drawing the real values over them.
+const PAPER_COLOR = "#FDFAF5";
 
 const loadImage = (src: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
@@ -21,206 +22,64 @@ const loadImage = (src: string): Promise<HTMLImageElement> =>
     img.src = src;
   });
 
-export interface CertificateData {
-  donorName: string;
-  amount: number;
-  designation: string;
-  date: string;
-  certificateNo: string;
-}
+// All boxes are percentages of the template image's own dimensions
+// (measured against the 1492x1054 source), so they stay correct regardless
+// of what resolution the canvas ends up rendering at.
+// left=540px sits right where the template's printed "ለ" glyph actually ends
+// (its ink runs x524-539 — pixel-scanned, not eyeballed) so the erase covers
+// the original underline (which starts at x542) right from its start, with
+// no gap left showing, and without clipping the glyph itself. right is
+// capped at x~1285, clear of the decorative striped gold border that starts
+// around x~1310 on the right.
+const NAME_BOX = { left: 36.19, top: 57.5, width: 49.93, height: 5.6 };
+// Baseline (not box-centered) y for the donor name, matched to where the
+// template's own "ለ" glyph sits, so the drawn name lines up with it instead
+// of floating above it.
+const NAME_BASELINE_Y = 61.48;
+// The template prints "እርስዎ ለዳውሮ ልማት ... ለ____" / "ሥራ ላበረከቱት ... መጠን___ ብር ..." /
+// "ይህንን የምስክር ወረቀት ስጥተንዎታል።" across 3 fixed lines with the designation and
+// amount as inline blanks. A long designation would overflow that first
+// blank into the fixed word that follows it, so instead of filling in the
+// two inline blanks we blank out the whole paragraph and redraw it as one
+// reflowing block with the values interpolated — it wraps to as many lines
+// as it needs and never collides with the fixed wording around it.
+//
+// Line 1/2's box is centered on the template's true horizontal center
+// (x~746, 50%) rather than just filling the available margin on each side —
+// the right side has less room before the border (x~1310) than the left
+// does (x~100), so centering uses that tighter right-hand distance
+// symmetrically on both sides. Using each side's full unequal margin instead
+// pulled the whole block visibly left of center.
+const PARAGRAPH_ERASE_BOXES = [
+  // Covers the original line 1 + line 2 (both blanks included) at their
+  // full original width.
+  { left: 12.2, top: 64.9, width: 75.6, height: 8.07 },
+  // Line 3 only — kept narrower than line 1/2 and left-aligned (not
+  // centered) so it doesn't erase into the circular seal stamp sitting
+  // just below-right of it — matching the original template, where line 3
+  // also sits in the left portion for the same reason.
+  { left: 6.7, top: 72.96, width: 57.98, height: 5.22 },
+];
+// Two candidate layouts, tried in order. WIDE is centered and spans nearly
+// the template's full inner width — same width the original line 1/2 text
+// used — but is only tall enough to stay entirely above the seal stamp, so
+// a short/medium designation (the common case) reads at full width like the
+// original design instead of wrapping early inside a narrower box. NARROW
+// is the fallback for text too long to fit that way: it trades width for
+// height, staying clear of the seal horizontally (hence left-aligned, not
+// centered, same as the line-3 erase box above) so it can grow to more
+// lines.
+const WIDE_TEXT_BOX = { left: 12.2, top: 65.5, width: 75.6, height: 7.4 };
+const NARROW_TEXT_BOX = { left: 6.7, top: 65.5, width: 57.6, height: 12.3 };
 
-export const drawCertificate = async (
-  canvas: HTMLCanvasElement,
-  data: CertificateData
-) => {
-  canvas.width = CERTIFICATE_WIDTH;
-  canvas.height = CERTIFICATE_HEIGHT;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-
-  const w = CERTIFICATE_WIDTH;
-  const h = CERTIFICATE_HEIGHT;
-
-  // Background
-  ctx.fillStyle = "#FBF9F3";
-  ctx.fillRect(0, 0, w, h);
-
-  // Subtle corner watermark washes
-  const wash = ctx.createRadialGradient(w, 0, 0, w, 0, w * 0.5);
-  wash.addColorStop(0, "rgba(31,107,58,0.06)");
-  wash.addColorStop(1, "rgba(31,107,58,0)");
-  ctx.fillStyle = wash;
-  ctx.fillRect(0, 0, w, h);
-  const wash2 = ctx.createRadialGradient(0, h, 0, 0, h, w * 0.5);
-  wash2.addColorStop(0, "rgba(201,162,75,0.08)");
-  wash2.addColorStop(1, "rgba(201,162,75,0)");
-  ctx.fillStyle = wash2;
-  ctx.fillRect(0, 0, w, h);
-
-  // Outer border
-  const margin = 48;
-  ctx.strokeStyle = PRIMARY_GREEN;
-  ctx.lineWidth = 6;
-  ctx.strokeRect(margin, margin, w - margin * 2, h - margin * 2);
-
-  // Inner gold hairline border
-  const innerMargin = margin + 18;
-  ctx.strokeStyle = ACCENT_GOLD;
-  ctx.lineWidth = 2;
-  ctx.strokeRect(
-    innerMargin,
-    innerMargin,
-    w - innerMargin * 2,
-    h - innerMargin * 2
-  );
-
-  // Corner ornaments (simple quarter-circle flourishes)
-  const drawCorner = (x: number, y: number, rotate: number) => {
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(rotate);
-    ctx.strokeStyle = ACCENT_GOLD;
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(0, 60);
-    ctx.lineTo(0, 10);
-    ctx.lineTo(60, 10);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(10, 10, 8, 0, Math.PI * 2);
-    ctx.fillStyle = ACCENT_GOLD;
-    ctx.fill();
-    ctx.restore();
-  };
-  drawCorner(margin + 10, margin + 10, 0);
-  drawCorner(w - margin - 10, margin + 10, Math.PI / 2);
-  drawCorner(w - margin - 10, h - margin - 10, Math.PI);
-  drawCorner(margin + 10, h - margin - 10, -Math.PI / 2);
-
-  // Logo
-  try {
-    const logo = await loadImage("/images/dawuroda-logo-256.png");
-    const logoSize = 130;
-    ctx.drawImage(logo, w / 2 - logoSize / 2, 90, logoSize, logoSize);
-  } catch {
-    // Non-critical — proceed without the logo if it fails to load.
-  }
-
-  ctx.textAlign = "center";
-
-  // Org name
-  ctx.fillStyle = PRIMARY_GREEN;
-  ctx.font = "bold 34px Georgia, 'Times New Roman', serif";
-  ctx.fillText("DAWURO DEVELOPMENT ASSOCIATION", w / 2, 268);
-
-  // Title
-  ctx.fillStyle = INK;
-  ctx.font = "bold 64px Georgia, 'Times New Roman', serif";
-  ctx.fillText("Certificate of Appreciation", w / 2, 360);
-
-  // Decorative rule under title
-  ctx.strokeStyle = ACCENT_GOLD;
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(w / 2 - 160, 390);
-  ctx.lineTo(w / 2 + 160, 390);
-  ctx.stroke();
-
-  // Presented-to line
-  ctx.fillStyle = MUTED;
-  ctx.font = "28px Georgia, 'Times New Roman', serif";
-  ctx.fillText("This certificate is proudly presented to", w / 2, 470);
-
-  // Donor name
-  ctx.fillStyle = PRIMARY_GREEN;
-  ctx.font = "bold 58px 'Brush Script MT', Georgia, cursive, serif";
-  ctx.fillText(data.donorName, w / 2, 555);
-  ctx.strokeStyle = "rgba(31,107,58,0.35)";
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.moveTo(w / 2 - 280, 580);
-  ctx.lineTo(w / 2 + 280, 580);
-  ctx.stroke();
-
-  // Body text
-  ctx.fillStyle = INK;
-  ctx.font = "26px Georgia, 'Times New Roman', serif";
-  const amountText = `${data.amount.toLocaleString()} ETB`;
-  ctx.fillText(
-    "in generous support of",
-    w / 2,
-    650
-  );
-  ctx.font = "bold 32px Georgia, 'Times New Roman', serif";
-  ctx.fillStyle = PRIMARY_GREEN;
-  wrapCenteredText(ctx, data.designation, w / 2, 700, 1200, 42);
-
-  ctx.fillStyle = INK;
-  ctx.font = "26px Georgia, 'Times New Roman', serif";
-  ctx.fillText(
-    `contributing ${amountText} towards our community development efforts.`,
-    w / 2,
-    800
-  );
-
-  ctx.font = "24px Georgia, 'Times New Roman', serif";
-  ctx.fillStyle = MUTED;
-  ctx.fillText(
-    "We are deeply grateful for your generosity and trust in our mission.",
-    w / 2,
-    845
-  );
-
-  // Footer: date (left), signature (right), certificate number centered below
-  const footerY = h - margin - 140;
-  ctx.textAlign = "left";
-  ctx.strokeStyle = MUTED;
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(innerMargin + 60, footerY);
-  ctx.lineTo(innerMargin + 340, footerY);
-  ctx.stroke();
-  ctx.fillStyle = INK;
-  ctx.font = "22px Georgia, serif";
-  ctx.fillText(data.date, innerMargin + 60, footerY - 12);
-  ctx.fillStyle = MUTED;
-  ctx.font = "18px Georgia, serif";
-  ctx.fillText("Date", innerMargin + 60, footerY + 30);
-
-  ctx.textAlign = "right";
-  ctx.strokeStyle = MUTED;
-  ctx.beginPath();
-  ctx.moveTo(w - innerMargin - 340, footerY);
-  ctx.lineTo(w - innerMargin - 60, footerY);
-  ctx.stroke();
-  ctx.fillStyle = PRIMARY_GREEN;
-  ctx.font = "italic bold 26px Georgia, serif";
-  ctx.fillText("DawuroDA", w - innerMargin - 60, footerY - 12);
-  ctx.fillStyle = MUTED;
-  ctx.font = "18px Georgia, serif";
-  ctx.fillText(
-    "Dawuro Development Association",
-    w - innerMargin - 60,
-    footerY + 30
-  );
-
-  ctx.textAlign = "center";
-  ctx.fillStyle = MUTED;
-  ctx.font = "18px Georgia, serif";
-  ctx.fillText(`Certificate No. ${data.certificateNo}`, w / 2, h - margin - 30);
-};
-
-const wrapCenteredText = (
+const wrapText = (
   ctx: CanvasRenderingContext2D,
   text: string,
-  x: number,
-  y: number,
-  maxWidth: number,
-  lineHeight: number
-) => {
+  maxWidth: number
+): string[] => {
   const words = text.split(" ");
+  const lines: string[] = [];
   let line = "";
-  let lines: string[] = [];
   for (const word of words) {
     const testLine = line ? `${line} ${word}` : word;
     if (ctx.measureText(testLine).width > maxWidth && line) {
@@ -231,8 +90,227 @@ const wrapCenteredText = (
     }
   }
   if (line) lines.push(line);
-  lines = lines.slice(0, 2);
-  lines.forEach((l, i) => ctx.fillText(l, x, y + i * lineHeight));
+  return lines;
+};
+
+type ParagraphLine = { text: string; bold: boolean };
+type ParagraphFit = { lines: ParagraphLine[]; fontSize: number; lineHeight: number };
+
+// The paragraph is built from 3 pieces that each always start on their own
+// line — the intro sentence up to "ለ" ("to"), the designation on its own
+// line so it reads clearly as *the reason* rather than being buried inline,
+// then the rest of the sentence (amount + closing) wrapping across however
+// many lines it needs. Picks the largest font size (stepping down from
+// maxFontSize) whose combined wrapped lines fit within maxHeight. Returns
+// null if `strict` and nothing in range fits (caller falls back to a
+// different box); otherwise falls back to minFontSize and allows overflow
+// rather than losing text.
+function fitParagraph(
+  ctx: CanvasRenderingContext2D,
+  segments: { text: string; bold: boolean }[],
+  fontFamily: string,
+  maxWidth: number,
+  maxHeight: number,
+  maxFontSize: number,
+  minFontSize: number,
+  lineHeightRatio: number | undefined,
+  strict: true
+): ParagraphFit | null;
+function fitParagraph(
+  ctx: CanvasRenderingContext2D,
+  segments: { text: string; bold: boolean }[],
+  fontFamily: string,
+  maxWidth: number,
+  maxHeight: number,
+  maxFontSize: number,
+  minFontSize: number,
+  lineHeightRatio?: number,
+  strict?: false
+): ParagraphFit;
+function fitParagraph(
+  ctx: CanvasRenderingContext2D,
+  segments: { text: string; bold: boolean }[],
+  fontFamily: string,
+  maxWidth: number,
+  maxHeight: number,
+  maxFontSize: number,
+  minFontSize: number,
+  lineHeightRatio = 1.45,
+  strict = false
+): ParagraphFit | null {
+  const wrapAtSize = (fontSize: number): ParagraphLine[] =>
+    segments.flatMap(({ text, bold }) => {
+      ctx.font = `${bold ? "bold " : ""}${fontSize}px ${fontFamily}`;
+      return wrapText(ctx, text, maxWidth).map((line) => ({ text: line, bold }));
+    });
+
+  for (let fontSize = maxFontSize; fontSize >= minFontSize; fontSize -= 1) {
+    const lines = wrapAtSize(fontSize);
+    const lineHeight = fontSize * lineHeightRatio;
+    if (lines.length * lineHeight <= maxHeight) {
+      return { lines, fontSize, lineHeight };
+    }
+  }
+  if (strict) return null;
+  const lines = wrapAtSize(minFontSize);
+  return { lines, fontSize: minFontSize, lineHeight: minFontSize * lineHeightRatio };
+};
+
+const fitSingleLine = (
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  fontFamily: string,
+  maxWidth: number,
+  maxFontSize: number,
+  minFontSize: number
+) => {
+  for (let fontSize = maxFontSize; fontSize >= minFontSize; fontSize -= 1) {
+    ctx.font = `bold ${fontSize}px ${fontFamily}`;
+    if (ctx.measureText(text).width <= maxWidth) return fontSize;
+  }
+  return minFontSize;
+};
+
+export interface CertificateData {
+  donorName: string;
+  amount: number;
+  designation: string;
+}
+
+export const drawCertificate = async (
+  canvas: HTMLCanvasElement,
+  data: CertificateData
+) => {
+  const template = await loadImage(TEMPLATE_SRC);
+
+  // Same cap-but-don't-upscale pattern as the ID cards — the template is
+  // already print-quality (1492x1054), so this just guards against a future
+  // higher-res replacement blowing past a sane canvas size.
+  const MAX_WIDTH = 3000;
+  const scale = Math.min(1, MAX_WIDTH / template.width);
+  const width = Math.round(template.width * scale);
+  const height = Math.round(template.height * scale);
+
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  ctx.drawImage(template, 0, 0, width, height);
+
+  await document.fonts.ready.catch(() => {});
+  const fontFamily =
+    getComputedStyle(document.body).fontFamily || "Arial, sans-serif";
+
+  // --- Donor name (drawn right after the template's fixed "ለ" / "To") ---
+  const nameLeft = (NAME_BOX.left / 100) * width;
+  const nameTop = (NAME_BOX.top / 100) * height;
+  const nameWidth = (NAME_BOX.width / 100) * width;
+  const nameHeight = (NAME_BOX.height / 100) * height;
+  const nameBaselineY = (NAME_BASELINE_Y / 100) * height;
+  ctx.fillStyle = PAPER_COLOR;
+  ctx.fillRect(nameLeft, nameTop, nameWidth, nameHeight);
+
+  // A small gap after "ለ" before the name starts — erasing right from
+  // nameLeft (needed to fully clear the original underline) but also
+  // drawing the name starting exactly there left it butted right up
+  // against the glyph with no breathing room.
+  const nameTextLeft = nameLeft + 0.012 * width;
+
+  // Targets the template's own "ለ" glyph size (its ink stands about 40px
+  // tall in the source image) rather than maximizing to fill the box — a
+  // short name maximized to the box read noticeably larger than "ለ" right
+  // next to it. fitSingleLine still shrinks below that target for a name
+  // too long to fit at it.
+  const nameFontSize = fitSingleLine(
+    ctx,
+    data.donorName,
+    fontFamily,
+    nameWidth - (nameTextLeft - nameLeft),
+    Math.min(nameHeight * 0.68, 40),
+    nameHeight * 0.4
+  );
+  ctx.font = `bold ${nameFontSize}px ${fontFamily}`;
+  ctx.fillStyle = INK_BLUE;
+  ctx.textAlign = "left";
+  ctx.textBaseline = "alphabetic";
+  ctx.fillText(data.donorName, nameTextLeft, nameBaselineY);
+
+  // --- Paragraph (designation + amount reflowed into the template's wording) ---
+  PARAGRAPH_ERASE_BOXES.forEach((box) => {
+    ctx.fillStyle = PAPER_COLOR;
+    ctx.fillRect(
+      (box.left / 100) * width,
+      (box.top / 100) * height,
+      (box.width / 100) * width,
+      (box.height / 100) * height
+    );
+  });
+
+  const amountText = `${Math.round(data.amount).toLocaleString()}`;
+  const segments: { text: string; bold: boolean }[] = [
+    { text: "እርስዎ ለዳውሮ ልማት ካለዎት ተነሳሽነትና ፍላጎት የተነሳ ለ", bold: false },
+    { text: data.designation, bold: true },
+    {
+      text: `ሥራ ላበረከቱት ለገንዘብ መጠን ${amountText} ብር በዳውሮ ሕዝብ ለላቀ ምስጋና በማቅረብ ይህንን የምስክር ወረቀት ስጥተንዎታል፡፡`,
+      bold: false,
+    },
+  ];
+
+  const boxPx = (box: typeof WIDE_TEXT_BOX) => ({
+    left: (box.left / 100) * width,
+    top: (box.top / 100) * height,
+    width: (box.width / 100) * width,
+    height: (box.height / 100) * height,
+  });
+
+  const wideBox = boxPx(WIDE_TEXT_BOX);
+  // Every paragraph now has at least 3 lines minimum — intro, designation,
+  // and tail are forced onto separate lines — so the minimum font size here
+  // has to be small enough that 3 lines actually fit in the wide box's
+  // fixed height, or every paragraph fails this attempt and falls back to
+  // the narrower, left-aligned box below (which looks visibly off-center
+  // under the centered title above it) even for short designations.
+  const wideFit = fitParagraph(
+    ctx,
+    segments,
+    fontFamily,
+    wideBox.width,
+    wideBox.height,
+    wideBox.height * 0.56,
+    wideBox.height * 0.225,
+    1.12,
+    true
+  );
+
+  const textBox = wideFit ? wideBox : boxPx(NARROW_TEXT_BOX);
+  const textLeft = textBox.left;
+  const textTop = textBox.top;
+  const textWidth = textBox.width;
+  const textHeight = textBox.height;
+  const textCenterX = textLeft + textWidth / 2;
+
+  const { lines, fontSize, lineHeight } =
+    wideFit ??
+    fitParagraph(
+      ctx,
+      segments,
+      fontFamily,
+      textWidth,
+      textHeight,
+      textHeight * 0.4,
+      textHeight * 0.16,
+      1.25
+    );
+  ctx.fillStyle = INK_BLUE;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "alphabetic";
+  const blockHeight = lines.length * lineHeight;
+  const startY = textTop + (textHeight - blockHeight) / 2 + fontSize;
+  lines.forEach((line, i) => {
+    ctx.font = `${line.bold ? "bold " : ""}${fontSize}px ${fontFamily}`;
+    ctx.fillText(line.text, textCenterX, startY + i * lineHeight);
+  });
 };
 
 export const downloadCertificatePng = (
@@ -256,15 +334,12 @@ export const downloadCertificatePdf = async (
   fileName: string
 ) => {
   const { jsPDF } = await import("jspdf");
-  // The certificate is a flat design (no photos), so JPEG at high quality
-  // is visually lossless here while keeping the PDF a reasonable size
-  // instead of embedding an 8MB+ uncompressed PNG.
   const imgData = canvas.toDataURL("image/jpeg", 0.92);
   const pdf = new jsPDF({
     orientation: "landscape",
     unit: "pt",
-    format: [CERTIFICATE_WIDTH, CERTIFICATE_HEIGHT],
+    format: [canvas.width, canvas.height],
   });
-  pdf.addImage(imgData, "JPEG", 0, 0, CERTIFICATE_WIDTH, CERTIFICATE_HEIGHT);
+  pdf.addImage(imgData, "JPEG", 0, 0, canvas.width, canvas.height);
   pdf.save(`${fileName}.pdf`);
 };
