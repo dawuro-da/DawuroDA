@@ -167,11 +167,16 @@ export async function createDonation({
   }
 }
 
-export async function findDonationByTxRef(
-  txRef: string
-): Promise<GeneralDonation | null> {
+export async function findDonationByTxRef(txRef: string) {
   try {
-    return await prisma.generalDonation.findUnique({ where: { txRef } });
+    // Includes the linked campaign (when the donation was made against one)
+    // so callers — the certificate page — can prefer its Amharic headline
+    // over the raw designation text, which is only ever in whatever
+    // language the donor typed for a free-text designation.
+    return await prisma.generalDonation.findUnique({
+      where: { txRef },
+      include: { campaign: true },
+    });
   } catch (err) {
     console.warn(err);
     return null;

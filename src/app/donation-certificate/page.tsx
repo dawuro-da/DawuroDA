@@ -7,7 +7,6 @@ import { Button, CircularProgress } from "@mui/material";
 import { Download, PictureAsPdf, Favorite } from "@mui/icons-material";
 import Navigation from "@/landingPage/navigation/Navigation";
 import Footer from "@/landingPage/footer/Footer";
-import { getFormattedDate } from "@/util/date";
 import {
   CertificateData,
   drawCertificate,
@@ -21,6 +20,7 @@ interface Donation {
   amount: number;
   donationDesignation: string;
   created_at: string;
+  campaign?: { headlineAmharic: string } | null;
 }
 
 // The webhook that records the donation and the browser redirect back here
@@ -82,6 +82,13 @@ const CertificateContent = () => {
   const isEligibleForCertificate =
     Boolean(donation) && donation!.amount > CERTIFICATE_MIN_AMOUNT;
 
+  // Prefer the linked campaign's Amharic headline over the raw designation —
+  // the certificate's wording is otherwise entirely in Amharic, and a
+  // free-text designation (no campaign) is only ever in whatever language
+  // the donor typed, so there's no Amharic version to fall back to there.
+  const displayDesignation =
+    donation?.campaign?.headlineAmharic || donation?.donationDesignation || "";
+
   useEffect(() => {
     if (
       status !== "ready" ||
@@ -93,9 +100,7 @@ const CertificateContent = () => {
     const data: CertificateData = {
       donorName: donation.fullName,
       amount: donation.amount,
-      designation: donation.donationDesignation,
-      date: getFormattedDate(new Date(donation.created_at)),
-      certificateNo: donation.id.slice(0, 8).toUpperCase(),
+      designation: displayDesignation,
     };
     drawCertificate(canvasRef.current, data);
   }, [status, donation]);
@@ -195,9 +200,7 @@ const CertificateContent = () => {
             </h1>
             <p className="text-titleColor">
               Your donation of {donation.amount.toLocaleString()} ETB
-              {donation.donationDesignation
-                ? ` towards ${donation.donationDesignation}`
-                : ""}{" "}
+              {displayDesignation ? ` towards ${displayDesignation}` : ""}{" "}
               means a lot to us and the community we serve. We truly
               appreciate your generosity.
             </p>
