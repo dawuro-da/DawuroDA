@@ -25,10 +25,7 @@ const loadImage = (src: string): Promise<HTMLImageElement> =>
 // regardless of what resolution the canvas ends up rendering at.
 const NAME_BOX = { left: 37.53, width: 28.82, baselineY: 58.73 };
 const DESIGNATION_BOX = { left: 23.12, width: 54.69, baselineY: 72.49 };
-// Deliberately narrow — the template's own amount blank is short, sized for
-// an abbreviated number rather than a full comma-separated one, which is
-// why the amount is formatted with K/M/B below instead of shown in full.
-const AMOUNT_BOX = { left: 39.54, width: 9.25, baselineY: 77.51 };
+const AMOUNT_BOX = { left: 39.41, width: 15.88, baselineY: 77.61 };
 
 // Shrinks from maxFontSize down to minFontSize until the text fits
 // maxWidth, so a short value renders at full size and a long one (a long
@@ -48,27 +45,10 @@ const fitSingleLine = (
   return minFontSize;
 };
 
-// Abbreviates the amount once it reaches 10,000 — below that it's shown in
-// full (e.g. "1,500"); at/above it, K/M/B (e.g. "15K", "2.5M", "1.2B"),
-// matching the template's amount blank, which is sized for a short value
-// rather than a long comma-separated one.
-export const formatCertificateAmount = (amount: number): string => {
-  const value = Math.round(amount);
-  if (value < 10_000) return value.toLocaleString();
-  const tiers: [number, string][] = [
-    [1_000_000_000, "B"],
-    [1_000_000, "M"],
-    [1_000, "K"],
-  ];
-  for (const [threshold, suffix] of tiers) {
-    if (value >= threshold) {
-      const scaled = value / threshold;
-      const rounded = Math.round(scaled * 10) / 10;
-      return `${rounded % 1 === 0 ? rounded : rounded.toFixed(1)}${suffix}`;
-    }
-  }
-  return value.toLocaleString();
-};
+// The template's amount blank is wide enough now to just show the number in
+// full (comma-separated) rather than abbreviating it.
+export const formatCertificateAmount = (amount: number): string =>
+  Math.round(amount).toLocaleString();
 
 export interface CertificateData {
   donorName: string;
