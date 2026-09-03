@@ -113,13 +113,13 @@ export const drawCertificate = async (
     ctx.fillText(text, x, baselineY);
   };
 
-  drawField(NAME_BOX, data.donorName, "left", 30, 16);
-  drawField(DESIGNATION_BOX, data.designation, "center", 28, 14);
+  drawField(NAME_BOX, data.donorName, "left", 42, 16);
+  drawField(DESIGNATION_BOX, data.designation, "center", 38, 14);
   drawField(
     AMOUNT_BOX,
     formatCertificateAmount(data.amount),
     "center",
-    26,
+    36,
     14
   );
 };
