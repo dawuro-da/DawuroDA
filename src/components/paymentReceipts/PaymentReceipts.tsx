@@ -268,8 +268,9 @@ const PaymentReceipts = () => {
         <DialogTitle>Reject Receipt</DialogTitle>
         <DialogContent className="flex flex-col gap-4">
           <span className="text-sm text-[#7C7C7C]">
-            Rejecting {rejectingReceipt?.fullName}'s receipt won't affect
-            their membership or contribution — they can submit a new one.
+            Rejecting {rejectingReceipt?.fullName}&apos;s receipt
+            won&apos;t affect their membership or contribution — they can
+            submit a new one.
           </span>
           <TextField
             label="Reason (optional)"
