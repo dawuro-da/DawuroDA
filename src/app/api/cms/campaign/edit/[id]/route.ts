@@ -52,8 +52,12 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       description,
       descriptionAmharic: descriptionAmharic || "",
       image: imageUrl,
-      youtubeLink: youtubeLink || undefined,
-      goalAmount: goalAmount ? Number(goalAmount) : undefined,
+      // `|| undefined` here would skip the field entirely on update (Prisma
+      // treats `undefined` as "leave it alone"), so clearing a
+      // previously-set value from the form would silently never reach the
+      // database. `null` is what actually clears a nullable field.
+      youtubeLink: youtubeLink || null,
+      goalAmount: goalAmount ? Number(goalAmount) : null,
       // raisedAmount is intentionally never accepted here — it only moves
       // via real donation records (see /api/cms/donation/create and the
       // Chapa webhook), never a hand-typed edit.

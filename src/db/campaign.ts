@@ -82,8 +82,8 @@ export async function updateCampaign({
   description: string;
   descriptionAmharic: string;
   image?: string;
-  youtubeLink?: string;
-  goalAmount?: number;
+  youtubeLink?: string | null;
+  goalAmount?: number | null;
   raisedAmount?: number;
   isFeatured?: boolean;
   isDraft: boolean;
