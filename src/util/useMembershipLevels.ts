@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { MembershipLevelConfig } from "@prisma/client";
 
-// Membership levels are admin-configurable (see /admin/dashboard/membership-levels)
+// Membership levels are admin-configurable (see /admin/dashboard/configuration)
 // rather than a fixed set, so every form that offers a level dropdown or
 // needs to resolve a level's pricing/ID template fetches the current list
 // through this one hook instead of hardcoding options.

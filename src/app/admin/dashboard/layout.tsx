@@ -60,10 +60,17 @@ export default async function AdminLayout({
       isAccessible: Boolean(session?.user?.role !== UserRole.Admin),
     },
     {
-      name: "Membership Levels",
-      link: "/admin/dashboard/membership-levels",
-      activeIcon: "/icons/membershiplevelsactive.svg",
-      icon: "/icons/membershiplevels.svg",
+      name: "Configuration",
+      link: "/admin/dashboard/configuration",
+      activeIcon: "/icons/configurationactive.svg",
+      icon: "/icons/configuration.svg",
+      isAccessible: Boolean(session?.user?.role !== UserRole.Admin),
+    },
+    {
+      name: "Payment Receipts",
+      link: "/admin/dashboard/payment-receipts",
+      activeIcon: "/icons/paymentreceiptsactive.svg",
+      icon: "/icons/paymentreceipts.svg",
       isAccessible: Boolean(session?.user?.role !== UserRole.Admin),
     },
   ];

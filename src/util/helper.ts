@@ -23,7 +23,7 @@ export function generateMemberId() {
 }
 
 // Membership levels (and their pricing) are admin-configurable — see
-// src/db/membershipLevel.ts and /admin/dashboard/membership-levels — rather
+// src/db/membershipLevel.ts and /admin/dashboard/configuration — rather
 // than a fixed enum, so the caller passes in the current levels list
 // (typically from useMembershipLevels()) and this just does the lookup and
 // the monthly/quarterly/yearly derivation that was previously hardcoded per
