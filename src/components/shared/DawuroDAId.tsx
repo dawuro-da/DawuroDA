@@ -3,7 +3,7 @@ import { Member, MembershipLevelConfig } from "@prisma/client";
 import { calculateAge } from "@/util/date";
 import { useMembershipLevels } from "@/util/useMembershipLevels";
 
-// Membership levels are admin-configurable (see /admin/dashboard/membership-levels),
+// Membership levels are admin-configurable (see /admin/dashboard/configuration),
 // each optionally picking one of the existing uploaded ID templates below —
 // this is just the fallback for a level that hasn't had one assigned.
 export const DEFAULT_ID_TEMPLATE = "/IDs/dawuroBronzeId.jpg";

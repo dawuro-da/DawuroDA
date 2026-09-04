@@ -18,7 +18,6 @@ import {
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Close, Edit } from "@mui/icons-material";
-import PageHeader from "../shared/PageHeader";
 
 // Add/delete are disabled for now (see openCreateForm/handleDelete below,
 // commented out rather than removed) — only editing the contribution amount
@@ -193,8 +192,7 @@ const MembershipLevels = () => {
   ];
 
   return (
-    <div className="h-full w-full overflow-y-auto">
-      <PageHeader />
+    <div className="h-full w-full">
       <div className="p-10 flex flex-col gap-6">
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-col gap-1">

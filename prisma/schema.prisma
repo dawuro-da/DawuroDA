@@ -156,9 +156,10 @@ model Member {
   idRenewedYear Int? // Ethiopian calendar year the membership ID was last renewed for
   idRenewedAt   DateTime? // Gregorian timestamp of that renewal, for audit purposes
 
-  created_at    DateTime       @default(now())
-  updated_at    DateTime       @default(now()) @updatedAt
-  contributions Contribution[]
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @default(now()) @updatedAt
+  contributions   Contribution[]
+  paymentReceipts PaymentReceipt[]
 
   @@map(name: "members")
 }
@@ -478,6 +479,66 @@ model AuditLog {
   @@index([entityType, entityId])
   @@index([created_at])
   @@map(name: "audit_log")
+}
+
+// Admin-managed list of bank accounts shown to members who choose to pay by
+// bank transfer instead of Chapa. PaymentReceipt stores the bank name as a
+// plain string snapshot rather than a foreign key here, so deleting a bank
+// later never orphans historical receipts.
+model BankAccount {
+  id                String  @id @default(uuid())
+  bankName          String
+  accountNumber     String
+  accountHolderName String?
+  logo              String?
+  isActive          Boolean @default(true)
+  sortOrder         Int     @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "bank_account")
+}
+
+enum PaymentReceiptType {
+  Registration
+  Contribution
+}
+
+enum PaymentReceiptStatus {
+  Pending
+  Approved
+  Rejected
+}
+
+// A member's claim of having paid by bank transfer rather than Chapa —
+// phone/fullName are captured at submission time (not just read off `member`)
+// because a Registration receipt is submitted before any Member row exists
+// yet (the person is still a TempMember at that point). Approving a receipt
+// runs the exact same payment-effects code the Chapa webhook runs (see
+// src/db/payment.ts) so the two paths can never apply a payment differently.
+model PaymentReceipt {
+  id                     String               @id @default(uuid())
+  phone                  String
+  fullName               String
+  paymentType            PaymentReceiptType
+  bankName               String
+  amount                 Int
+  receiptReferenceNumber String
+  status                 PaymentReceiptStatus @default(Pending)
+  rejectionReason        String?
+
+  memberId String?
+  member   Member? @relation(fields: [memberId], references: [id])
+
+  reviewedById   String?
+  reviewedByName String?
+  reviewedAt     DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map(name: "payment_receipt")
 }
 
 model Bidder {

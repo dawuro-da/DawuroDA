@@ -1,17 +1,15 @@
 import { NextResponse } from "next/server";
-import {
-  deleteTempMemberByPhone,
-  findTempMemberByPhone,
-} from "@/db/tempMember";
-import { generateMemberId } from "@/util/helper";
-import { calculateNextDueDate, getEthiopianYear } from "@/util/date";
+import { findTempMemberByPhone } from "@/db/tempMember";
 import prisma from "@/lib/prisma";
-import { createContribution } from "@/db/contribution";
-import { Auction, Member, TempMember } from "@prisma/client";
-import { findMemberByPhone, renewMemberID } from "@/db/member";
+import { Auction, Member } from "@prisma/client";
+import { findMemberByPhone } from "@/db/member";
 import { createDonation } from "@/db/donation";
 import { findAuctionById } from "@/db/auction";
 import { createAuditLog } from "@/db/auditLog";
+import {
+  applyContributionPayment,
+  applyRegistrationPayment,
+} from "@/db/payment";
 
 // Chapa pings this URL to check reachability when the webhook is
 // registered/saved in the dashboard, before it ever sends a real POST
@@ -47,12 +45,28 @@ export async function POST(req: Request, res: any) {
       if (paymentType === "registrationPayment") {
         const tempMember = await findTempMemberByPhone(phone_number);
         if (tempMember) {
-          await registerNewPaidMember(tempMember);
+          const member = await applyRegistrationPayment(tempMember);
+          if (member) {
+            await createAuditLog({
+              entityType: "Member",
+              entityId: member.id,
+              entityLabel:
+                member.institutionName ||
+                `${member.firstName ?? ""} ${member.lastName ?? ""}`.trim() ||
+                "Unknown",
+              action: "CREATE",
+              changes: {
+                membershipLevel: { from: null, to: member.membershipLevel },
+              },
+              performedByName: "Self-registration (Chapa payment)",
+              performedByRole: "System",
+            });
+          }
         }
       } else if (paymentType === "contributionPayment") {
         const member = await findMemberByPhone(phone_number);
         if (member) {
-          await addNewContribution(member, amount);
+          await applyContributionPayment(member, amount);
         }
       } else if (paymentType === "auctionPayment") {
         const member = await findMemberByPhone(phone_number);
@@ -116,29 +130,6 @@ const createANewDonation = async ({
   });
 };
 
-const addNewContribution = async (member: Member, amount: string) => {
-  const contribution = await createContribution({
-    contributionSystem: member.contributionSystem,
-    contributorId: member.id,
-    amount: amount.toString(),
-  });
-
-  const nextDueDate = calculateNextDueDate({
-    fromDate: member.nextDueDate,
-    contributionSystem: member.contributionSystem,
-  });
-
-  await prisma.member.update({
-    where: {
-      id: member.id,
-    },
-    data: { nextDueDate },
-  });
-  await renewMemberID({ memberId: member.id, ethiopianYear: getEthiopianYear() });
-
-  return contribution;
-};
-
 const addNewBidder = async ({
   member,
   auction,
@@ -160,79 +151,4 @@ const addNewBidder = async ({
   });
 
   return bidder;
-};
-
-const registerNewPaidMember = async (tempMember: TempMember) => {
-  const date = new Date(Date.now());
-  const sharedData = {
-    email: tempMember.email,
-    phone: tempMember.phone,
-    membershipLevel: tempMember.membershipLevel,
-    contributionSystem: tempMember.contributionSystem,
-    hasPaid: true,
-    membershipType: tempMember.membershipType,
-    region: tempMember.region,
-    city: tempMember.city,
-    zone: tempMember.zone,
-    kebele: tempMember.kebele,
-    positionAtWork: tempMember.positionAtWork,
-    paymentMeans: tempMember.paymentMeans,
-    contributionAmount: tempMember.contributionAmount,
-    lastPaidAt: date.toISOString(),
-    nextDueDate: calculateNextDueDate({
-      fromDate: date,
-      contributionSystem: tempMember.contributionSystem,
-    })?.toISOString(),
-    password_hash: tempMember.password_hash,
-    password_salt: tempMember.password_salt,
-  };
-
-  const member = await prisma.member.create({
-    data: {
-      ...sharedData,
-      memberId: generateMemberId(),
-      firstName: tempMember.firstName,
-      lastName: tempMember.lastName,
-      country: tempMember.country,
-      nationality: tempMember.nationality,
-      gender: tempMember.gender,
-      educationLevel: tempMember.educationLevel,
-      expertise: tempMember.expertise,
-      dateOfBirth: tempMember.dateOfBirth,
-      workPlace: tempMember.workPlace,
-      profileImage: tempMember.profileImage,
-      idNumber: tempMember.idNumber,
-      branch: tempMember.branch,
-      institutionName: tempMember.institutionName,
-      headOrRepresentative: tempMember.headOrRepresentative,
-      fieldOfWork: tempMember.fieldOfWork,
-      partnershipIdea: tempMember.partnershipIdea,
-    },
-  });
-
-  if (member) {
-    await deleteTempMemberByPhone({ phone: tempMember.phone });
-    await createContribution({
-      contributionSystem: member.contributionSystem,
-      contributorId: member.id,
-      amount: member.contributionAmount.toString(),
-    });
-    await createAuditLog({
-      entityType: "Member",
-      entityId: member.id,
-      entityLabel:
-        member.institutionName ||
-        `${member.firstName ?? ""} ${member.lastName ?? ""}`.trim() ||
-        "Unknown",
-      action: "CREATE",
-      changes: {
-        membershipLevel: { from: null, to: member.membershipLevel },
-      },
-      performedByName: "Self-registration (Chapa payment)",
-      performedByRole: "System",
-    });
-  } else {
-    return null;
-  }
-  return member;
 };

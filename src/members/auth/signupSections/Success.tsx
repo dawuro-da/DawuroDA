@@ -3,9 +3,11 @@ import axios from "axios";
 import { useState } from "react";
 import { FieldValues, UseFormWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import PaymentMethodModal from "@/components/shared/PaymentMethodModal";
 
 const Success = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
   const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const { t } = useTranslation();
 
   const handleGeneratePaymentLink = async () => {
@@ -30,6 +32,10 @@ const Success = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
     setLoading(false);
   };
 
+  const fullName = watch("firstName")
+    ? `${watch("firstName")} ${watch("lastName") ?? ""}`.trim()
+    : watch("institutionName") ?? "";
+
   return (
     <div className="min-h-[400px] flex flex-col items-center w-full justify-center">
       <div className="flex flex-col gap-1">
@@ -52,7 +58,7 @@ const Success = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
           <br />
         </span>
         <Button
-          onClick={handleGeneratePaymentLink}
+          onClick={() => setModalOpen(true)}
           variant="contained"
           size="small"
           className="min-w-[200px] mt-6"
@@ -64,6 +70,16 @@ const Success = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
           )}
         </Button>
       </div>
+      <PaymentMethodModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        paymentType="Registration"
+        phone={watch("phone") ?? ""}
+        fullName={fullName}
+        amount={Number(watch("contributionAmount")) || 0}
+        onPayWithChapa={handleGeneratePaymentLink}
+        chapaLoading={loading}
+      />
     </div>
   );
 };

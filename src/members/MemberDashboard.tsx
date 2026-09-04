@@ -23,6 +23,7 @@ import { InfoOutlined } from "@mui/icons-material";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import useLanguageStore from "@/redux/languageStore";
 import i18n from "../../i18n";
+import PaymentMethodModal from "@/components/shared/PaymentMethodModal";
 
 const MemberDashboard = ({
   contributions,
@@ -34,6 +35,7 @@ const MemberDashboard = ({
   const dispatch = useDispatch();
   const router = useRouter();
   const [payLoading, setPayLoading] = useState(false);
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [downloadingId, setDownloadingId] = useState(false);
   const isCompany = Boolean(member?.membershipType === MembershipType.Company);
   const { levels } = useMembershipLevels();
@@ -165,12 +167,26 @@ const MemberDashboard = ({
                 </div>
               </div>
               <Button
-                onClick={handleContributionPayment}
+                onClick={() => setPaymentModalOpen(true)}
                 variant="outlined"
                 className="mt-6 border-2 capitalize text-[14px] border-primaryColor hover:border-2 hover:border-primaryColor text-white hover:text-primaryColor bg-primaryColor"
               >
                 {payLoading ? <CircularProgress /> : "Pay"}
               </Button>
+              <PaymentMethodModal
+                open={paymentModalOpen}
+                onClose={() => setPaymentModalOpen(false)}
+                paymentType="Contribution"
+                phone={member?.phone ?? ""}
+                fullName={
+                  member?.firstName
+                    ? `${member.firstName} ${member.lastName ?? ""}`.trim()
+                    : member?.institutionName ?? ""
+                }
+                amount={minAmount}
+                onPayWithChapa={handleContributionPayment}
+                chapaLoading={payLoading}
+              />
               <Divider textAlign="left">
                 <span className="text-titleColor text-[14px]">Your Id</span>
               </Divider>
