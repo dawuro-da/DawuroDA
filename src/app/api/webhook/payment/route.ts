@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { findTempMemberByPhone } from "@/db/tempMember";
 import prisma from "@/lib/prisma";
 import { Auction, Member } from "@prisma/client";
 import { findMemberByPhone } from "@/db/member";
@@ -43,9 +42,9 @@ export async function POST(req: Request, res: any) {
       const txRef = metaData?.txRef || undefined;
 
       if (paymentType === "registrationPayment") {
-        const tempMember = await findTempMemberByPhone(phone_number);
-        if (tempMember) {
-          const member = await applyRegistrationPayment(tempMember);
+        const existingMember = await findMemberByPhone(phone_number);
+        if (existingMember && !existingMember.hasPaid) {
+          const member = await applyRegistrationPayment(existingMember);
           if (member) {
             await createAuditLog({
               entityType: "Member",
@@ -54,11 +53,11 @@ export async function POST(req: Request, res: any) {
                 member.institutionName ||
                 `${member.firstName ?? ""} ${member.lastName ?? ""}`.trim() ||
                 "Unknown",
-              action: "CREATE",
+              action: "UPDATE",
               changes: {
-                membershipLevel: { from: null, to: member.membershipLevel },
+                hasPaid: { from: false, to: true },
               },
-              performedByName: "Self-registration (Chapa payment)",
+              performedByName: "Chapa payment",
               performedByRole: "System",
             });
           }

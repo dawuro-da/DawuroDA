@@ -25,6 +25,7 @@ interface MemberRegistrationProps {
   setValue: UseFormSetValue<FieldValues>;
   loading: boolean;
   isSuccessfull: boolean;
+  setIsSignUp: (value: boolean) => void;
 }
 
 const MemberRegistration = ({
@@ -35,6 +36,7 @@ const MemberRegistration = ({
   setValue,
   loading,
   isSuccessfull,
+  setIsSignUp,
 }: MemberRegistrationProps) => {
   const { t } = useTranslation();
   const btnRef = useRef<HTMLButtonElement | null>(null);
@@ -118,7 +120,12 @@ const MemberRegistration = ({
         );
 
       default:
-        return <Success watch={watch} />;
+        return (
+          <Success
+            watch={watch}
+            onPaymentInitiated={() => setIsSignUp(false)}
+          />
+        );
     }
   };
 

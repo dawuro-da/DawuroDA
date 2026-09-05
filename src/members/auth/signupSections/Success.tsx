@@ -5,7 +5,13 @@ import { FieldValues, UseFormWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import PaymentMethodModal from "@/components/shared/PaymentMethodModal";
 
-const Success = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
+const Success = ({
+  watch,
+  onPaymentInitiated,
+}: {
+  watch: UseFormWatch<FieldValues>;
+  onPaymentInitiated?: () => void;
+}) => {
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const { t } = useTranslation();
@@ -79,6 +85,7 @@ const Success = ({ watch }: { watch: UseFormWatch<FieldValues> }) => {
         amount={Number(watch("contributionAmount")) || 0}
         onPayWithChapa={handleGeneratePaymentLink}
         chapaLoading={loading}
+        onPaymentInitiated={onPaymentInitiated}
       />
     </div>
   );

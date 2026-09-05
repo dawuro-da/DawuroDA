@@ -35,6 +35,11 @@ interface PaymentMethodModalProps {
   amount: number;
   onPayWithChapa: () => void | Promise<void>;
   chapaLoading?: boolean;
+  // Fired once the member has genuinely started/submitted a payment — a
+  // successful Chapa redirect, or a bank-transfer receipt that was accepted
+  // — as opposed to just opening or cancelling out of the modal. Callers use
+  // this to move the user on (e.g. back to the login screen after signup).
+  onPaymentInitiated?: () => void;
 }
 
 // Lets a member choose between the existing Chapa checkout and paying by
@@ -50,19 +55,18 @@ const PaymentMethodModal = ({
   amount,
   onPayWithChapa,
   chapaLoading,
+  onPaymentInitiated,
 }: PaymentMethodModalProps) => {
   const dispatch = useDispatch();
   const { accounts, loading: accountsLoading } = useBankAccounts();
   const [step, setStep] = useState<Step>("choose");
   const [selectedBank, setSelectedBank] = useState<BankAccount | null>(null);
-  const [manualAmount, setManualAmount] = useState<string>(String(amount || ""));
   const [referenceNumber, setReferenceNumber] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const reset = () => {
     setStep("choose");
     setSelectedBank(null);
-    setManualAmount(String(amount || ""));
     setReferenceNumber("");
   };
 
@@ -86,13 +90,6 @@ const PaymentMethodModal = ({
 
   const handleSubmitReceipt = async () => {
     if (!selectedBank) return;
-    const amountNumber = Number(manualAmount);
-    if (!amountNumber || amountNumber <= 0) {
-      dispatch(
-        showToastAction({ message: "Please enter a valid amount", type: "error" })
-      );
-      return;
-    }
     if (!referenceNumber.trim()) {
       dispatch(
         showToastAction({
@@ -110,11 +107,11 @@ const PaymentMethodModal = ({
         fullName,
         paymentType,
         bankName: selectedBank.bankName,
-        amount: amountNumber,
         receiptReferenceNumber: referenceNumber.trim(),
       });
       if (res.data.success) {
         setStep("submitted");
+        onPaymentInitiated?.();
       } else {
         dispatch(
           showToastAction({
@@ -150,7 +147,10 @@ const PaymentMethodModal = ({
           <div className="flex flex-col gap-4">
             <button
               type="button"
-              onClick={onPayWithChapa}
+              onClick={async () => {
+                await onPayWithChapa();
+                onPaymentInitiated?.();
+              }}
               disabled={chapaLoading}
               className="flex flex-row items-center gap-4 border-2 border-primaryColor rounded-xl p-4 hover:bg-primaryColor/5 text-left disabled:opacity-60"
             >
@@ -265,23 +265,52 @@ const PaymentMethodModal = ({
         {step === "form" && selectedBank && (
           <div className="flex flex-col gap-4">
             <span className="text-sm text-[#7C7C7C]">
-              After transferring to <strong>{selectedBank.bankName}</strong>{" "}
-              ({selectedBank.accountNumber}), enter the amount you sent and
-              the receipt/transaction reference number so we can verify it.
+              Transfer the exact amount below to {selectedBank.bankName}, then
+              enter the receipt/transaction reference number so we can verify
+              it. The amount is fixed to your membership level and can&apos;t
+              be changed.
             </span>
-            <TextField
-              label="Amount (ETB)"
-              type="number"
-              value={manualAmount}
-              onChange={(e) => setManualAmount(e.target.value)}
-              fullWidth
-            />
+            <div className="flex flex-col gap-2 bg-[#f5f5f5] rounded-lg p-3">
+              <div className="flex flex-row items-center justify-between">
+                <span className="text-xs text-[#7C7C7C]">Account Number</span>
+                <div className="flex flex-row items-center gap-1">
+                  <span className="font-mono tracking-wide font-semibold">
+                    {selectedBank.accountNumber}
+                  </span>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleCopy(selectedBank.accountNumber)}
+                    title="Copy account number"
+                  >
+                    <ContentCopy fontSize="small" />
+                  </IconButton>
+                </div>
+              </div>
+              <div className="flex flex-row items-center justify-between">
+                <span className="text-xs text-[#7C7C7C]">
+                  Amount to Pay (ETB)
+                </span>
+                <div className="flex flex-row items-center gap-1">
+                  <span className="font-mono tracking-wide font-semibold">
+                    {amount.toLocaleString()}
+                  </span>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleCopy(String(amount))}
+                    title="Copy amount"
+                  >
+                    <ContentCopy fontSize="small" />
+                  </IconButton>
+                </div>
+              </div>
+            </div>
             <TextField
               label="Receipt Reference Number"
               value={referenceNumber}
               onChange={(e) => setReferenceNumber(e.target.value)}
               placeholder="e.g. FT24XXXXXXXX"
               fullWidth
+              autoFocus
             />
             <div className="flex flex-row items-center justify-between mt-2">
               <Button

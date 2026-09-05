@@ -6,7 +6,6 @@ import {
   findPaymentReceiptById,
   markPaymentReceiptApproved,
 } from "@/db/paymentReceipt";
-import { findTempMemberByPhone } from "@/db/tempMember";
 import { findMemberById, findMemberByPhone } from "@/db/member";
 import { applyContributionPayment, applyRegistrationPayment } from "@/db/payment";
 import { createAuditLog } from "@/db/auditLog";
@@ -44,30 +43,19 @@ export async function POST(
       );
     }
 
-    let member;
+    let member = receipt.memberId
+      ? await findMemberById(receipt.memberId)
+      : await findMemberByPhone(receipt.phone);
+    if (!member) {
+      return NextResponse.json(
+        { success: false, error: "Member not found for this phone number" },
+        { status: 404 }
+      );
+    }
+
     if (receipt.paymentType === "Registration") {
-      const tempMember = await findTempMemberByPhone(receipt.phone);
-      if (!tempMember) {
-        return NextResponse.json(
-          {
-            success: false,
-            error:
-              "No pending registration found for this phone number — it may have already been completed or the signup was never finished",
-          },
-          { status: 404 }
-        );
-      }
-      member = await applyRegistrationPayment(tempMember);
+      member = await applyRegistrationPayment(member);
     } else {
-      member = receipt.memberId
-        ? await findMemberById(receipt.memberId)
-        : await findMemberByPhone(receipt.phone);
-      if (!member) {
-        return NextResponse.json(
-          { success: false, error: "Member not found for this phone number" },
-          { status: 404 }
-        );
-      }
       await applyContributionPayment(member, receipt.amount);
     }
 
