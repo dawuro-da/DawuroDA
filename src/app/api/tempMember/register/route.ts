@@ -10,10 +10,14 @@ import {
 import { calculateNextDueDate } from "@/util/date";
 import { uploadFile } from "@/util/uploadFile";
 import {
-  createIndividualTempMember,
-  createInstitutionTempMember,
-} from "@/db/tempMember";
-import axios from "axios";
+  createIndividualMember,
+  createInstitutionMember,
+  findMemberByPhone,
+  updateIndividualMember,
+  updateInstitutionMember,
+} from "@/db/member";
+import { generateMemberId } from "@/util/helper";
+import { createAuditLog } from "@/db/auditLog";
 
 async function hashPassword(
   password: string,
@@ -27,6 +31,17 @@ async function hashPassword(
   }
 }
 
+// A Member row is created here immediately, as unpaid — not after a Chapa
+// webhook fires. Waiting for the webhook meant a slow/failed callback (a
+// misconfigured env var, a network blip, Chapa never calling back) left the
+// signup with no record at all: "I paid but nothing happened." Now every
+// completed signup form produces a real, listable Member (hasPaid: false)
+// synchronously; the Chapa webhook or an approved bank-transfer receipt (see
+// src/db/payment.ts, applyRegistrationPayment) just flips hasPaid to true on
+// this same row afterward. This endpoint no longer initiates a Chapa
+// transaction itself — that choice belongs to the signup success screen's
+// PaymentMethodModal (src/components/shared/PaymentMethodModal.tsx), which
+// calls /api/payment/registrationPayment for the Chapa path.
 export async function POST(req: Request) {
   const formData = await req.formData();
 
@@ -37,7 +52,6 @@ export async function POST(req: Request) {
   const contributionSystem = formData.get(
     "contributionSystem"
   ) as ContributionSystem;
-  const hasPaid = formData.get("hasPaid") === "true" ? false : false;
   const region = formData.get("region") as string;
   const city = formData.get("city") as string;
   const zone = formData.get("zone") as string;
@@ -63,20 +77,32 @@ export async function POST(req: Request) {
   const country = formData.get("country") as string;
   const nationality = formData.get("nationality") as string;
 
-  const saltRounds = 10;
-  const salt = await bcrypt.genSalt(saltRounds);
-  const hashedPassword = await hashPassword(password, salt);
-
-  if (!hashedPassword)
-    return NextResponse.json(
-      {
-        success: false,
-        error: "Unable to create member ( password issue)",
-      },
-      { status: 500 }
-    );
-
   try {
+    const existing = await findMemberByPhone(phone);
+    if (existing?.hasPaid) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "This phone number is already a registered member. Please log in instead.",
+        },
+        { status: 409 }
+      );
+    }
+
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await hashPassword(password, salt);
+
+    if (!hashedPassword)
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Unable to create member ( password issue)",
+        },
+        { status: 500 }
+      );
+
     const date = new Date(Date.now());
 
     const sharedMember = {
@@ -84,7 +110,7 @@ export async function POST(req: Request) {
       phone,
       membershipLevel,
       contributionSystem,
-      hasPaid,
+      hasPaid: false,
       region,
       city,
       zone,
@@ -102,8 +128,8 @@ export async function POST(req: Request) {
       password_salt: salt,
     };
 
-    let imageUrl = "/icons/avatar.svg";
-    if (profileImage) {
+    let imageUrl = existing?.profileImage || "/icons/avatar.svg";
+    if (profileImage && profileImage.size > 0) {
       imageUrl =
         (await uploadFile({
           path: "/profileImages",
@@ -114,76 +140,107 @@ export async function POST(req: Request) {
     }
 
     let result;
-    if (membershipType === MembershipType.Individual) {
-      result = await createIndividualTempMember({
-        individualData: {
-          ...sharedMember,
-          firstName,
-          lastName,
-          gender,
-          country,
-          nationality,
-          educationLevel,
-          expertise,
-          dateOfBirth,
-          workPlace,
-          profileImage: imageUrl,
-          idNumber,
-          branch,
+    if (existing) {
+      // An unpaid member re-submitting the form (e.g. they abandoned payment
+      // last time and came back) — update the same row instead of hitting
+      // the unique phone constraint or creating a duplicate.
+      if (membershipType === MembershipType.Individual) {
+        result = await updateIndividualMember({
+          id: existing.id,
+          memberData: {
+            ...sharedMember,
+            firstName,
+            lastName,
+            gender,
+            country,
+            nationality,
+            educationLevel,
+            expertise,
+            dateOfBirth,
+            workPlace,
+            profileImage: imageUrl,
+            idNumber,
+            branch,
+          },
+        });
+      } else {
+        result = await updateInstitutionMember({
+          id: existing.id,
+          memberData: {
+            ...sharedMember,
+            institutionName,
+            headOrRepresentative,
+            fieldOfWork,
+            partnershipIdea,
+          },
+        });
+      }
+    } else {
+      const memberId = generateMemberId();
+      if (membershipType === MembershipType.Individual) {
+        result = await createIndividualMember({
+          individualData: {
+            ...sharedMember,
+            memberId,
+            firstName,
+            lastName,
+            gender,
+            country,
+            nationality,
+            educationLevel,
+            expertise,
+            dateOfBirth,
+            workPlace,
+            profileImage: imageUrl,
+            idNumber,
+            branch,
+          },
+        });
+      } else if (membershipType === MembershipType.Company) {
+        result = await createInstitutionMember({
+          institutionData: {
+            ...sharedMember,
+            memberId,
+            institutionName,
+            headOrRepresentative,
+            fieldOfWork,
+            partnershipIdea,
+          },
+        });
+      }
+    }
+
+    if (!result) {
+      return NextResponse.json(
+        { success: false, error: "Unable to create member" },
+        { status: 500 }
+      );
+    }
+
+    if (!existing) {
+      await createAuditLog({
+        entityType: "Member",
+        entityId: result.id,
+        entityLabel:
+          result.institutionName ||
+          `${result.firstName ?? ""} ${result.lastName ?? ""}`.trim() ||
+          "Unknown",
+        action: "CREATE",
+        changes: {
+          membershipLevel: { from: null, to: result.membershipLevel },
+          hasPaid: { from: null, to: false },
         },
-      });
-    } else if (membershipType === MembershipType.Company) {
-      result = await createInstitutionTempMember({
-        institutionData: {
-          ...sharedMember,
-          institutionName,
-          headOrRepresentative,
-          fieldOfWork,
-          partnershipIdea,
-        },
+        performedByName: "Self-registration",
+        performedByRole: "System",
       });
     }
 
-    var raw = JSON.stringify({
-      amount: contributionAmount,
-      currency: "ETB",
-      email: email,
-      first_name: `${firstName}`,
-      last_name: `${lastName}`,
-      phone_number: `${phone}`,
-      tx_ref: `dawuroda-reg-${Math.random()}`,
-      callback_url: `${process.env.PAYMENT_WEB_HOOK}/api/webhook/payment`,
-      return_url: `${process.env.PAYMENT_WEB_HOOK}/login`,
-      meta: {
-        paymentType: "registrationPayment",
-        phone_number: phone,
-      },
-      "customization[title]": "DawuroDA member's registration",
-      "customization[description]":
-        "this membership registration should be paid after compeletion of your registration ",
-    });
-    const res = await axios.post(
-      "https://api.chapa.co/v1/transaction/initialize",
-      raw,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.CHAPA_SECRET_KEY}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    if (res) {
-      return NextResponse.json(
-        { success: true, value: res.data },
-        { status: 200 }
-      );
-    }
     return NextResponse.json(
-      { success: false, error: "Unable to create member" },
-      { status: 500 }
+      { success: true, value: result },
+      { status: 200 }
     );
-  } catch (err: any) {
-    console.warn(err.response.data);
+  } catch (err) {
+    console.warn(err);
     return NextResponse.json(
       {
         success: false,

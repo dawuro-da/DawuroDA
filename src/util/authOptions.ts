@@ -81,6 +81,16 @@ export const OPTIONS: NextAuthOptions = {
             );
 
             if (result) {
+              // A Member row exists as soon as the signup form is submitted
+              // (see /api/tempMember/register) but stays hasPaid: false
+              // until Chapa's webhook confirms payment or an admin approves
+              // a submitted bank-transfer receipt — don't let them into the
+              // dashboard before that.
+              if (!member.hasPaid) {
+                throw new Error(
+                  "Your registration payment hasn't been confirmed yet. Please complete your payment, or wait for an admin to approve your submitted receipt, before logging in."
+                );
+              }
               return {
                 id: member.id,
                 firstName: member.firstName ?? "",

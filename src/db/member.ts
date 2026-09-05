@@ -123,7 +123,7 @@ export async function createIndividualMember({
     branch: string;
     lastPaidAt: string;
     nextDueDate: string;
-    registeredBy: string;
+    registeredBy?: string;
     password_hash: string;
     password_salt: string;
     memberId: string;
@@ -174,7 +174,7 @@ export async function createInstitutionMember({
     partnershipIdea: string;
     lastPaidAt: string;
     nextDueDate: string;
-    registeredBy: string;
+    registeredBy?: string;
     password_hash: string;
     password_salt: string;
     memberId: string;

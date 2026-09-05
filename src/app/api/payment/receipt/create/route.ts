@@ -1,16 +1,18 @@
 import { NextResponse } from "next/server";
 import { createPaymentReceipt } from "@/db/paymentReceipt";
 import { findMemberByPhone } from "@/db/member";
+import { fetchMembershipLevels } from "@/db/membershipLevel";
+import { getMinimumContribution } from "@/util/helper";
 import { PaymentReceiptType } from "@prisma/client";
 
-// Intentionally unauthenticated — a brand-new signee submitting a
-// registration receipt isn't a Member yet (no session exists for them at
-// that point, same reason Chapa's registrationPayment route has no auth
-// check either). phone is the identifier throughout, same as the Chapa
-// webhook uses.
+// Unauthenticated by design: a signee submitting their *first* registration
+// receipt has no session yet (the Member row exists right after they
+// finished the signup form — see /api/tempMember/register — but they can't
+// log in until it's approved). phone is the identifier throughout, same as
+// the Chapa webhook uses.
 export async function POST(req: Request) {
   try {
-    const { phone, fullName, paymentType, bankName, amount, receiptReferenceNumber } =
+    const { phone, fullName, paymentType, bankName, receiptReferenceNumber } =
       await req.json();
 
     if (!phone || !fullName) {
@@ -40,31 +42,50 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-    const amountNumber = Number(amount);
-    if (!amountNumber || amountNumber <= 0) {
+
+    const member = await findMemberByPhone(phone);
+    if (!member) {
       return NextResponse.json(
-        { success: false, error: "A valid amount is required" },
-        { status: 400 }
+        {
+          success: false,
+          error:
+            "No registration found for this phone number. Please complete the signup form first.",
+        },
+        { status: 404 }
       );
     }
 
-    // For a contribution receipt the member already exists — link it now so
-    // the admin queue can show/act on it without a phone lookup later. A
-    // registration receipt has no Member yet (still a TempMember), so this
-    // stays unset until the receipt is approved.
-    const member =
-      paymentType === PaymentReceiptType.Contribution
-        ? await findMemberByPhone(phone)
-        : null;
+    // The amount is never taken from the client — it's derived server-side
+    // from the member's own membership level/contribution system, the same
+    // way the amount shown in the modal is computed, so a member can't
+    // submit a receipt claiming to have paid less than their level requires.
+    const levels = await fetchMembershipLevels({ activeOnly: true });
+    const amount = Math.round(
+      getMinimumContribution({
+        membershipType: member.membershipType,
+        contributionSystem: member.contributionSystem,
+        membershipLevel: member.membershipLevel,
+        levels,
+      })
+    );
+    if (!amount || amount <= 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Unable to determine the required amount for this membership level",
+        },
+        { status: 500 }
+      );
+    }
 
     const receipt = await createPaymentReceipt({
       phone,
       fullName,
       paymentType,
       bankName: String(bankName).trim(),
-      amount: Math.round(amountNumber),
+      amount,
       receiptReferenceNumber: String(receiptReferenceNumber).trim(),
-      memberId: member?.id,
+      memberId: member.id,
     });
 
     return NextResponse.json(

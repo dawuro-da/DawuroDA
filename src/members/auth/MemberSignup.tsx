@@ -6,6 +6,8 @@ import OtpConfirmation from "./signupSections/OtpConfirmation";
 import PhoneAndPassword from "./signupSections/PhoneAndPassword";
 import MemberRegistration from "./signupSections/MemberRegistration";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { showToastAction } from "@/redux/actions";
 import { getMemberFormData } from "@/util/getMemberFormData";
 import { PaymentMeans } from "@prisma/client";
 
@@ -14,6 +16,7 @@ const MemberSignup = ({
 }: {
   setIsSignUp: (value: boolean) => void;
 }) => {
+  const dispatch = useDispatch();
   const [signUpStep, setSignUpStep] = useState(0);
   const [loginError, setLoginError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -55,6 +58,7 @@ const MemberSignup = ({
             setValue={setValue}
             loading={loading}
             isSuccessfull={isSuccessFull}
+            setIsSignUp={setIsSignUp}
           />
         );
     }
@@ -69,10 +73,22 @@ const MemberSignup = ({
       });
       const res = await axios.post("/api/tempMember/register", formData);
       if (res.data.success) {
+        setLoginError("");
         setIsSuccessfull(true);
-        window.open(res.data.value.data.checkout_url, "_blank");
+      } else {
+        setLoginError(res.data.error ?? "Unable to complete registration");
+        dispatch(
+          showToastAction({
+            message: res.data.error ?? "Unable to complete registration",
+            type: "error",
+          })
+        );
       }
-    } catch (err) {
+    } catch (err: any) {
+      const message =
+        err?.response?.data?.error ?? "Unable to complete registration";
+      setLoginError(message);
+      dispatch(showToastAction({ message, type: "error" }));
       console.error({ err });
     }
     setLoading(false);
