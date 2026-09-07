@@ -1,10 +1,17 @@
 import { NextResponse } from "next/server";
-import { isStaffSession } from "@/util/session";
+import { getServerSession } from "next-auth";
+import { UserRole } from "@prisma/client";
+import { OPTIONS } from "@/util/authOptions";
 import { createBankAccount } from "@/db/bankAccount";
 import { uploadFile } from "@/util/uploadFile";
+import { createAuditLog } from "@/db/auditLog";
 
 export async function POST(req: Request) {
-  if (!(await isStaffSession())) {
+  const session = await getServerSession(OPTIONS);
+  const isStaff = Boolean(
+    session?.user?.role && session.user.role !== UserRole.Member
+  );
+  if (!isStaff || !session?.user) {
     return NextResponse.json(
       { success: false, error: "Unauthorized" },
       { status: 401 }
@@ -47,6 +54,23 @@ export async function POST(req: Request) {
       accountHolderName: accountHolderName?.trim() || undefined,
       logo: logoUrl,
       sortOrder: Number(sortOrder) || 0,
+    });
+
+    await createAuditLog({
+      entityType: "BankAccount",
+      entityId: result.id,
+      entityLabel: `${result.bankName} — ${result.accountNumber}`,
+      action: "CREATE",
+      changes: {
+        bankName: { from: null, to: result.bankName },
+        accountNumber: { from: null, to: result.accountNumber },
+      },
+      performedById: session.user.id,
+      performedByName:
+        `${session.user.firstName ?? ""} ${
+          session.user.lastName ?? ""
+        }`.trim() || undefined,
+      performedByRole: session.user.role,
     });
 
     return NextResponse.json(

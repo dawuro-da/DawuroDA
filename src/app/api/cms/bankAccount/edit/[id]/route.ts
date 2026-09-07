@@ -1,13 +1,20 @@
 import { NextResponse } from "next/server";
-import { isStaffSession } from "@/util/session";
+import { getServerSession } from "next-auth";
+import { UserRole } from "@prisma/client";
+import { OPTIONS } from "@/util/authOptions";
 import { findBankAccountById, updateBankAccount } from "@/db/bankAccount";
 import { deleteOldFile, uploadFile } from "@/util/uploadFile";
+import { createAuditLog, diffFields } from "@/db/auditLog";
 
 export async function POST(
   req: Request,
   context: { params: { id: string } }
 ) {
-  if (!(await isStaffSession())) {
+  const session = await getServerSession(OPTIONS);
+  const isStaff = Boolean(
+    session?.user?.role && session.user.role !== UserRole.Member
+  );
+  if (!isStaff || !session?.user) {
     return NextResponse.json(
       { success: false, error: "Unauthorized" },
       { status: 401 }
@@ -23,9 +30,10 @@ export async function POST(
     const sortOrder = formData.get("sortOrder") as string;
     const logo = formData.get("logo") as File;
 
+    const existing = await findBankAccountById(context.params.id);
+
     let logoUrl: string | undefined;
     if (logo?.name) {
-      const existing = await findBankAccountById(context.params.id);
       logoUrl = await uploadFile({
         path: "/bankLogos",
         fileName: logo.name,
@@ -50,6 +58,43 @@ export async function POST(
         ...(sortOrder !== undefined && { sortOrder: Number(sortOrder) }),
       },
     });
+
+    if (existing) {
+      const changes = diffFields(
+        existing,
+        {
+          bankName: bankName !== undefined ? bankName.trim() : undefined,
+          accountNumber:
+            accountNumber !== undefined ? accountNumber.trim() : undefined,
+          accountHolderName:
+            accountHolderName !== undefined
+              ? accountHolderName?.trim() || undefined
+              : undefined,
+          isActive: isActive !== undefined ? isActive === "true" : undefined,
+          sortOrder: sortOrder !== undefined ? Number(sortOrder) : undefined,
+        },
+        [
+          "bankName",
+          "accountNumber",
+          "accountHolderName",
+          "isActive",
+          "sortOrder",
+        ]
+      );
+      await createAuditLog({
+        entityType: "BankAccount",
+        entityId: context.params.id,
+        entityLabel: `${existing.bankName} — ${existing.accountNumber}`,
+        action: "UPDATE",
+        changes,
+        performedById: session.user.id,
+        performedByName:
+          `${session.user.firstName ?? ""} ${
+            session.user.lastName ?? ""
+          }`.trim() || undefined,
+        performedByRole: session.user.role,
+      });
+    }
 
     return NextResponse.json(
       { success: true, value: result },
