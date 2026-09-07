@@ -77,6 +77,24 @@ export async function POST(
       reviewedByName: performedByName ?? "Unknown",
     });
 
+    // Two entries: one filed under the receipt itself (so "who approved
+    // this receipt" is discoverable the same way a rejection already is —
+    // by entityType "PaymentReceipt" — instead of only under the member),
+    // and one under the member (since their hasPaid/contribution data
+    // actually changed as a result).
+    await createAuditLog({
+      entityType: "PaymentReceipt",
+      entityId: receipt.id,
+      entityLabel: `${receipt.fullName} — ${receipt.phone}`,
+      action: "UPDATE",
+      changes: {
+        status: { from: "Pending", to: "Approved" },
+      },
+      performedById: session.user.id,
+      performedByName,
+      performedByRole: session.user.role,
+    });
+
     await createAuditLog({
       entityType: "Member",
       entityId: member.id,

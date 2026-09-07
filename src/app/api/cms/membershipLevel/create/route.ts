@@ -1,9 +1,16 @@
 import { NextResponse } from "next/server";
-import { isStaffSession } from "@/util/session";
+import { getServerSession } from "next-auth";
+import { UserRole } from "@prisma/client";
+import { OPTIONS } from "@/util/authOptions";
 import { createMembershipLevel } from "@/db/membershipLevel";
+import { createAuditLog } from "@/db/auditLog";
 
 export async function POST(req: Request) {
-  if (!(await isStaffSession())) {
+  const session = await getServerSession(OPTIONS);
+  const isStaff = Boolean(
+    session?.user?.role && session.user.role !== UserRole.Member
+  );
+  if (!isStaff || !session?.user) {
     return NextResponse.json(
       { success: false, error: "Unauthorized" },
       { status: 401 }
@@ -34,6 +41,23 @@ export async function POST(req: Request) {
       individualYearlyMin: Number(individualYearlyMin) || 0,
       companyYearlyMin: Number(companyYearlyMin) || 0,
       idTemplateImage,
+    });
+
+    await createAuditLog({
+      entityType: "MembershipLevel",
+      entityId: result.id,
+      entityLabel: result.name,
+      action: "CREATE",
+      changes: {
+        individualYearlyMin: { from: null, to: result.individualYearlyMin },
+        companyYearlyMin: { from: null, to: result.companyYearlyMin },
+      },
+      performedById: session.user.id,
+      performedByName:
+        `${session.user.firstName ?? ""} ${
+          session.user.lastName ?? ""
+        }`.trim() || undefined,
+      performedByRole: session.user.role,
     });
 
     return NextResponse.json(

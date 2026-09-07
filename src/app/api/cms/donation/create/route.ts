@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { OPTIONS } from "@/util/authOptions";
 import { createDonation } from "@/db/donation";
+import { createAuditLog } from "@/db/auditLog";
 
 // Staff-only manual donation entry (e.g. cash/offline gifts) — the single
 // other path (besides the Chapa webhook) allowed to move a campaign's
@@ -37,6 +38,24 @@ export async function POST(req: Request) {
     });
 
     if (result) {
+      await createAuditLog({
+        entityType: "Donation",
+        entityId: result.id,
+        entityLabel: `${fullName ?? "Unknown"} — ${amount} ETB`,
+        action: "CREATE",
+        changes: {
+          amount: { from: null, to: Number(amount) },
+          donationDesignation: { from: null, to: result.donationDesignation },
+          branch: { from: null, to: result.branch },
+        },
+        performedById: session.user.id,
+        performedByName:
+          `${session.user.firstName ?? ""} ${
+            session.user.lastName ?? ""
+          }`.trim() || undefined,
+        performedByRole: session.user.role,
+      });
+
       return NextResponse.json(
         { success: true, value: result },
         { status: 200 }
