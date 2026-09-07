@@ -36,67 +36,75 @@ const Sidebar = (props: any) => {
           menuOpen ? "translate-x-[0]" : "translate-x-[-100%]"
         } bg-primaryColor w-[300px] h-screen xl:lg:md:relative absolute z-20 xl:lg:md:translate-x-[0]`}
       >
-        <div className="w-full h-full flex flex-col items-center p-6 pl-0 pt-0 relative">
-          <div
-            onClick={() => router.push("/admin/dashboard")}
-            className="pl-6 flex flex-col items-center justify-center gap-2 w-full mb-2 select-none cursor-pointer"
-          >
-            <Image
-              src={"/images/dawuroda-logo-256.png"}
-              priority
-              alt="DawuroDA logo"
-              height={100}
-              width={160}
-              style={{ width: "100%" }}
-              draggable={false}
-            />
-            <div className="border-b-[1px] border-b-[#A7DEB8] w-full" />
-          </div>
+        <div className="w-full h-full flex flex-col items-center p-6 pl-0 pt-0">
+          {/* Scrollable so the growing menu list can never run into (or get
+              hidden under) the pinned Settings item below it — it used to be
+              position:absolute at a fixed bottom offset, which overlapped
+              the last one or two menu items on shorter screens once enough
+              items were added. flex-1 + min-h-0 lets this section shrink and
+              scroll instead of overflowing. */}
+          <div className="w-full flex-1 min-h-0 overflow-y-auto hiddenscrollbar flex flex-col items-center">
+            <div
+              onClick={() => router.push("/admin/dashboard")}
+              className="pl-6 flex flex-col items-center justify-center gap-2 w-full mb-2 select-none cursor-pointer shrink-0"
+            >
+              <Image
+                src={"/images/dawuroda-logo-256.png"}
+                priority
+                alt="DawuroDA logo"
+                height={100}
+                width={160}
+                style={{ width: "100%" }}
+                draggable={false}
+              />
+              <div className="border-b-[1px] border-b-[#A7DEB8] w-full" />
+            </div>
 
-          {props.menuItems.map((menu: MenuItemProps) => {
-            const isActive =
-              menu.name === props.menuItems[0].name //this check is necessary since the dashboard menu link is in all menu link
-                ? Boolean(path === menu.link)
-                : // Match the exact link or a "/"-bounded sub-route of it (e.g.
-                  // /members/[id]) — a plain substring check would also light up
-                  // "Members List" while on "Membership Levels", since
-                  // "membership-levels" literally starts with "members".
-                  Boolean(
-                    path === menu.link || path.startsWith(`${menu.link}/`)
-                  );
+            {props.menuItems.map((menu: MenuItemProps) => {
+              const isActive =
+                menu.name === props.menuItems[0].name //this check is necessary since the dashboard menu link is in all menu link
+                  ? Boolean(path === menu.link)
+                  : // Match the exact link or a "/"-bounded sub-route of it (e.g.
+                    // /members/[id]) — a plain substring check would also light up
+                    // "Members List" while on "Membership Levels", since
+                    // "membership-levels" literally starts with "members".
+                    Boolean(
+                      path === menu.link || path.startsWith(`${menu.link}/`)
+                    );
 
-            return (
-              menu.isAccessible && (
-                <div
-                  key={menu.name}
-                  onClick={() => {
-                    router.push(menu.link);
-                    setMenuOpen(false);
-                  }}
-                  className={`flex flex-row items-center gap-6 w-full cursor-pointer text-[#A7DEB8]
-                         py-3 px-6 mt-2 hover:text-white 
+              return (
+                menu.isAccessible && (
+                  <div
+                    key={menu.name}
+                    onClick={() => {
+                      router.push(menu.link);
+                      setMenuOpen(false);
+                    }}
+                    className={`flex flex-row items-center gap-6 w-full shrink-0 cursor-pointer text-[#A7DEB8]
+                         py-3 px-6 mt-2 hover:text-white
                         hover:bg-[rgb(255,255,255,0.2)]
                           ${
                             isActive
                               ? "bg-[rgb(255,255,255,0.2)] text-[white] border-l-8 border-l-[#fff]"
                               : "text-[#A7DEB8] border-l-8 border-l-primaryColor"
                           }`}
-                >
-                  <Image
-                    src={isActive ? menu.activeIcon : menu.icon}
-                    height={22}
-                    width={22}
-                    alt="logo"
-                  />
-                  <span className={`font-normal text-[16px] capitalize`}>
-                    {menu.name}
-                  </span>
-                </div>
-              )
-            );
-          })}
+                  >
+                    <Image
+                      src={isActive ? menu.activeIcon : menu.icon}
+                      height={22}
+                      width={22}
+                      alt="logo"
+                    />
+                    <span className={`font-normal text-[16px] capitalize`}>
+                      {menu.name}
+                    </span>
+                  </div>
+                )
+              );
+            })}
+          </div>
 
-          <div className="absolute bottom-6 w-full left-0">
+          <div className="w-full shrink-0 pt-2">
             <div
               onClick={() => {
                 router.push("/admin/setting");
