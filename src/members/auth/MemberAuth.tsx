@@ -102,6 +102,7 @@ const MemberAuth = () => {
                 src={image.url}
                 alt={image.alt}
                 fill
+                sizes="80vw"
                 className="w-[100%] h-[100%] object-cover"
               />
             </div>

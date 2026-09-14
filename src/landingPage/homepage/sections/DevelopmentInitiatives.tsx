@@ -90,6 +90,7 @@ const DevelopmentInitiatives = () => {
                       src={initiative.featuredImages?.[0] ?? "/images/tourism.webp"}
                       alt=""
                       fill
+                      sizes="(max-width: 768px) 100vw, 45vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>

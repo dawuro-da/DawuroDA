@@ -83,6 +83,7 @@ const WhatsHappening = () => {
                     src={event.profileImage || "/images/tourism.webp"}
                     alt=""
                     fill
+                    sizes="(max-width: 768px) 100vw, 38vw"
                     className="object-cover"
                   />
                 </div>

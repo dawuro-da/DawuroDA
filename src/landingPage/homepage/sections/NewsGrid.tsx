@@ -75,6 +75,7 @@ const NewsGrid = () => {
         src={item.profileImage?.[0] ?? "/images/news1.webp"}
         alt=""
         fill
+        sizes="(max-width: 768px) 100vw, 50vw"
         className="object-cover transition-transform duration-500 group-hover:scale-105"
       />
       <div className="absolute bottom-0 left-0 right-0 text-white pt-16 pb-6 px-6 bg-gradient-to-t from-black to-transparent">
@@ -118,6 +119,7 @@ const NewsGrid = () => {
                 src={item.profileImage?.[0] ?? "/images/news2.webp"}
                 alt=""
                 fill
+                sizes="112px"
                 className="object-cover"
               />
             </div>

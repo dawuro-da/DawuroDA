@@ -46,15 +46,25 @@ const Sidebar = (props: any) => {
           <div className="w-full flex-1 min-h-0 overflow-y-auto hiddenscrollbar flex flex-col items-center">
             <div
               onClick={() => router.push("/admin/dashboard")}
-              className="pl-6 flex flex-col items-center justify-center gap-2 w-full mb-2 select-none cursor-pointer shrink-0"
+              className="pl-6 flex flex-col items-center justify-center gap-1 w-full mb-1 select-none cursor-pointer shrink-0"
             >
+              {/* The source file is a square 256x256 seal — it used to be
+                  given a mismatched 160x100 box with style width:100% and
+                  no fixed height, so the browser fell back to the image's
+                  real 1:1 ratio and rendered it ~252px tall regardless of
+                  the declared size. That alone was eating enough sidebar
+                  height to push Configuration/Payment Receipts below the
+                  fold on shorter screens. Sizing it explicitly and smaller
+                  here (matching its actual square aspect) fixes both the
+                  layout bug and makes room for the full menu to fit without
+                  scrolling. */}
               <Image
                 src={"/images/dawuroda-logo-256.png"}
                 priority
                 alt="DawuroDA logo"
-                height={100}
-                width={160}
-                style={{ width: "100%" }}
+                height={64}
+                width={64}
+                style={{ width: 64, height: 64 }}
                 draggable={false}
               />
               <div className="border-b-[1px] border-b-[#A7DEB8] w-full" />
@@ -81,7 +91,7 @@ const Sidebar = (props: any) => {
                       setMenuOpen(false);
                     }}
                     className={`flex flex-row items-center gap-6 w-full shrink-0 cursor-pointer text-[#A7DEB8]
-                         py-3 px-6 mt-2 hover:text-white
+                         py-3 px-6 mt-1 hover:text-white
                         hover:bg-[rgb(255,255,255,0.2)]
                           ${
                             isActive

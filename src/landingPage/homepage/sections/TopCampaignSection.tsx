@@ -108,6 +108,7 @@ const TopCampaignSection = () => {
             src={campaign.image ?? "/images/donationBG.webp"}
             alt=""
             fill
+            sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover"
           />
           <button
@@ -220,6 +221,7 @@ const TopCampaignSection = () => {
                   src={detailsCampaign.image ?? "/images/donationBG.webp"}
                   alt=""
                   fill
+                  sizes="(max-width: 672px) 100vw, 672px"
                   className="object-cover rounded-t-2xl"
                 />
                 <button

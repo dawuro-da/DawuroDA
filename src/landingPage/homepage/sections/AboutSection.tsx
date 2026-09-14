@@ -133,6 +133,7 @@ const AboutSection = () => {
                           src={manager.photo}
                           alt=""
                           fill
+                          sizes="56px"
                           className="object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       </div>
