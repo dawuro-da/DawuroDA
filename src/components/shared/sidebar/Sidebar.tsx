@@ -62,8 +62,8 @@ const Sidebar = (props: any) => {
                 src={"/images/dawuroda-logo-256.png"}
                 priority
                 alt="DawuroDA logo"
-                height={80}
-                width={80}
+                height={50}
+                width={50}
                 style={{ width: "100%" }}
                 draggable={false}
               />
