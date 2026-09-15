@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
-import { sanitizeChapaText } from "@/util/chapa";
+import {
+  chapaErrorMessage,
+  initializeChapaTransaction,
+  sanitizeChapaText,
+} from "@/util/chapa";
 
 export async function POST(req: Request) {
   const {
@@ -14,14 +17,14 @@ export async function POST(req: Request) {
   } = await req.json();
 
   try {
-    var raw = JSON.stringify({
+    const res = await initializeChapaTransaction("reg", (txRef) => ({
       amount: contributionAmount,
       currency: "ETB",
       email: email,
       first_name: `${firstName ? firstName : institutionName}`,
       last_name: `${lastName ? lastName : ""}`,
       phone_number: `${phone}`,
-      tx_ref: `dawuroda-reg-${Math.random()}`,
+      tx_ref: txRef,
       callback_url: `${process.env.PAYMENT_WEB_HOOK}/api/webhook/payment`,
       return_url: `${process.env.PAYMENT_WEB_HOOK}/login`,
       meta: {
@@ -37,17 +40,7 @@ export async function POST(req: Request) {
             )
           : "Membership registration payment",
       },
-    });
-    const res = await axios.post(
-      "https://api.chapa.co/v1/transaction/initialize",
-      raw,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.CHAPA_SECRET_KEY}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    }));
     if (res) {
       return NextResponse.json(
         { success: true, value: res.data },
@@ -58,12 +51,15 @@ export async function POST(req: Request) {
       { success: false, error: "Unable to create registration payment link" },
       { status: 500 }
     );
-  } catch (err) {
-    console.warn(err);
+  } catch (err: any) {
+    console.warn(err?.response?.data ?? err);
     return NextResponse.json(
       {
         success: false,
-        error: "Unable to create registration payment link",
+        error: chapaErrorMessage(
+          err,
+          "Unable to create registration payment link"
+        ),
       },
       { status: 500 }
     );

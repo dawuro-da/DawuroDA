@@ -228,6 +228,7 @@ const DonationForm = ({
               variant="contained"
               color="primary"
               className="capitalize"
+              disabled={loading}
             >
               {loading ? (
                 <CircularProgress className="text-white" />

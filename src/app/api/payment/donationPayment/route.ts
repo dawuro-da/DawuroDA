@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
-import { randomUUID } from "crypto";
-import { sanitizeChapaText } from "@/util/chapa";
+import {
+  chapaErrorMessage,
+  initializeChapaTransaction,
+  sanitizeChapaText,
+} from "@/util/chapa";
 
 export async function POST(req: Request) {
   const {
@@ -17,9 +19,7 @@ export async function POST(req: Request) {
     // This tx_ref also doubles as the donor's certificate access token (see
     // /donation-certificate), so it needs to be unguessable — crypto.randomUUID()
     // instead of the Math.random() pattern the other payment routes use.
-    const txRef = `dawuroda-donation-${randomUUID()}`;
-
-    var raw = JSON.stringify({
+    const res = await initializeChapaTransaction("donation", (txRef) => ({
       amount: paymentAmount,
       currency: "ETB",
       email: "",
@@ -43,17 +43,7 @@ export async function POST(req: Request) {
           ? sanitizeChapaText(`Donation to ${donationDesignation}`, 50)
           : "Donation to Dawuro Development Association",
       },
-    });
-    const res = await axios.post(
-      "https://api.chapa.co/v1/transaction/initialize",
-      raw,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.CHAPA_SECRET_KEY}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    }));
     if (res) {
       return NextResponse.json(
         { success: true, value: res.data },
@@ -64,12 +54,12 @@ export async function POST(req: Request) {
       { success: false, error: "Unable to create donation payment link" },
       { status: 500 }
     );
-  } catch (err) {
-    console.warn(err);
+  } catch (err: any) {
+    console.warn(err?.response?.data ?? err);
     return NextResponse.json(
       {
         success: false,
-        error: "Unable to create donation payment link",
+        error: chapaErrorMessage(err, "Unable to create donation payment link"),
       },
       { status: 500 }
     );

@@ -392,6 +392,7 @@ const AuctionDetail = ({ auction, bidder, member }: AuctionDetailProps) => {
                     <Button
                       type="submit"
                       variant="outlined"
+                      disabled={loading}
                       className="text-white mt-2 capitalize w-full flex flex-row py-3 rounded-md bg-primaryColor hover:text-primaryColor justify-center items-center gap-2"
                     >
                       {loading ? (
