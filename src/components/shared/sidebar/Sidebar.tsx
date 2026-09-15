@@ -65,7 +65,7 @@ const Sidebar = (props: any) => {
                 alt="DawuroDA logo"
                 height={100}
                 width={100}
-                style={{ width: 100, height:100 }}
+                style={{ width: 100, height:100, marginTop:10 }}
                 draggable={false}
               />
               <div className="border-b-[1px] border-b-[#A7DEB8] w-full" />
