@@ -63,8 +63,8 @@ const Sidebar = (props: any) => {
                 priority
                 unoptimized
                 alt="DawuroDA logo"
-                height={20}
-                width={20}
+                height={10}
+                width={10}
                 style={{ width: "100%" }}
                 draggable={false}
               />
